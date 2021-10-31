@@ -1,13 +1,5 @@
 const mongoose = require('mongoose');
-const { ACCOUNT_TYPES, ROLE_TYPES } = require('../constants');
-
-const accountTypeEnum = (function () {
-  let list = [];
-  for (let k in ACCOUNT_TYPES) {
-    list.push(ACCOUNT_TYPES[k]);
-  }
-  return list;
-})();
+const { ROLE_TYPES } = require('../constants');
 
 const roleTypeEnum = (function () {
   let list = [];
@@ -36,12 +28,13 @@ const userSchema = new mongoose.Schema({
   },
   avatar: {
     type: String,
+    required: true,
     default: 'https://res.cloudinary.com/phongvn2611/image/upload/v1634179173/avatar/avatar-default_tx5lsb.png'
   },
-  authType: {
-    type: String,
-    enum: accountTypeEnum,
-    default: ACCOUNT_TYPES.LOCAL,
+  coin: {
+    type: Number,
+    required: true,
+    default: 0,
   },
   roleType: {
     type: String,
