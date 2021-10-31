@@ -45,12 +45,19 @@ const {
       const questionId = req.params.questionId;
       const QuestionExist = await getQuestionById(questionId);
       if(!QuestionExist)
+      {
+        return res.status(400).json({message: 'Error, Not found this question.' });
+      }
+        // delete question
+      const {content, answers} = req.body;
+      const isDeleted = await deleteQuestionById({ questionId});
+      if (!isDeleted) {
+        return res.status(400).json({message: 'Error, can not update question.' });
+      }
 
-        // update question
-      const { content, answers} = req.body;
-      const Question = await deleteQuestionById({ questionId, content, answers});
-  
-      if (Question !=null) {
+      const quizId = QuestionExist.quizId;
+      const Question = await createQuestion({content, answers, quizId});
+      if (Question != null) {
         return res.status(200).json({Question });
       }
       return res.status(503).json({ message: 'Error, can not update question.' });
