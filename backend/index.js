@@ -18,6 +18,14 @@ const wordApi = require('./routers/word.router');
 const listenApi = require('./routers/listening.router');
 const quizApi = require('./routers/quiz.router');
 const questionApi = require('./routers/question.router');
+<<<<<<< Updated upstream
+=======
+const grammarApi = require('./routers/grammar.router');
+const ipaApi = require('./routers/ipa.router');
+
+//const accountApi = require('./routers/account.router');
+
+>>>>>>> Stashed changes
 //===================== Set up =======================
 app.use(express.static(path.join(__dirname, '/build')));
 
@@ -47,7 +55,13 @@ app.use(`${BASE_URL}/word`, wordApi);
 app.use(`${BASE_URL}/listen`, listenApi);
 app.use(`${BASE_URL}/quiz`, quizApi);
 app.use(`${BASE_URL}/question`, questionApi);
+<<<<<<< Updated upstream
 
+=======
+app.use(`${BASE_URL}/grammar`, grammarApi);
+app.use(`${BASE_URL}/ipa`, ipaApi);
+//app.use(`${BASE_URL}/user`, accountApi);
+>>>>>>> Stashed changes
 
 
 app.listen(PORT, () => {

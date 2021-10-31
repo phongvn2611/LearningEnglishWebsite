@@ -56,6 +56,18 @@ exports.getListenByTopic = async (topic) => {
     }
   };
 
+  exports.getListenByIPA = async (ipaId) => {
+    try {
+        const listen = await ListeningModel.findOne({ipaId: ipaId});  
+        if(listen){
+            return listen;
+        }
+        return null;
+    } catch (error) {
+      throw error;
+    }
+  };
+
 
   exports.getListenTopics = async () => {
     try {
@@ -83,6 +95,17 @@ exports.deleteListen = async (_id = '') => {
       return true;
     }
     return false;
+  } catch (error) {
+    throw error;
+  }
+};
+
+exports.searchListen = async (name = '') => {
+  try {
+    var query = new RegExp( `^${word}.*`,'gi');
+    const list = await ListeningModel.where({name: query})
+                  .select('-_id type word mean phonetic picture');   
+    return list;
   } catch (error) {
     throw error;
   }

@@ -31,6 +31,12 @@ const ListeningModel = new Schema({
     default: null,
   },
 
+  ipaId: {
+    type: Schema.Types.ObjectId,
+    ref: 'ipa',
+    default: null,
+  },
+
   video: {
     type: String,
     trim: true,

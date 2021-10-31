@@ -1,6 +1,8 @@
 const { cloudinary } = require('../configs/cloudinary.config');
 const { MAX } = require('../constant');
 const { convertPackInfoToQueryStr } = require('../helpers/word-pack.helper');
+//const VerifyCodeModel = require('../models/account.model/verifyCode.model');
+const SentenceModel = require('../models/sentence.model');
 const WordModel = require('../models/word.model');
 
 exports.uploadImage = async (imgSrc, folderName = '', config = {}) => {
@@ -71,50 +73,50 @@ exports.countWordPack = async (packInfo = {}) => {
   }
 };
 
-exports.saveVerifyCode = async (code = '', email = '') => {
-  try {
-    // delete old code
-    await VerifyCodeModel.deleteOne({ email });
+// exports.saveVerifyCode = async (code = '', email = '') => {
+//   try {
+//     // delete old code
+//     await VerifyCodeModel.deleteOne({ email });
 
-    const newItem = await VerifyCodeModel.create({
-      code,
-      email,
-      createdDate: new Date(),
-    });
-    return newItem;
-  } catch (error) {
-    throw error;
-  }
-};
+//     const newItem = await VerifyCodeModel.create({
+//       code,
+//       email,
+//       createdDate: new Date(),
+//     });
+//     return newItem;
+//   } catch (error) {
+//     throw error;
+//   }
+// };
 
-exports.checkVerifyCode = async (code = '', email = '') => {
-  try {
-    const item = await VerifyCodeModel.findOne({ email, code });
+// exports.checkVerifyCode = async (code = '', email = '') => {
+//   try {
+//     const item = await VerifyCodeModel.findOne({ email, code });
 
-    if (!item) {
-      return { status: false, message: 'Hãy gửi mã để nhận mã xác thực.' };
-    }
+//     if (!item) {
+//       return { status: false, message: 'Hãy gửi mã để nhận mã xác thực.' };
+//     }
 
-    if (item.code !== code) {
-      return { status: false, message: 'Mã xác thực không đúng.' };
-    }
+//     if (item.code !== code) {
+//       return { status: false, message: 'Mã xác thực không đúng.' };
+//     }
 
-    const d = new Date().getTime(),
-      createdDate = new Date(item.createdDate).getTime();
+//     const d = new Date().getTime(),
+//       createdDate = new Date(item.createdDate).getTime();
 
-    if (d - createdDate > MAX.VERIFY_TIME) {
-      return {
-        status: false,
-        message: 'Mã xác thực đã hết hiệu lực. Hãy lấy một mã khác',
-      };
-    }
+//     if (d - createdDate > MAX.VERIFY_TIME) {
+//       return {
+//         status: false,
+//         message: 'Mã xác thực đã hết hiệu lực. Hãy lấy một mã khác',
+//       };
+//     }
 
-    return { status: true, message: 'valid' };
-  } catch (error) {
-    throw error;
-  }
-};
+//     return { status: true, message: 'valid' };
+//   } catch (error) {
+//     throw error;
+//   }
+// };
 
-exports.removeVerifyCode = async (email = '') => {
-  await VerifyCodeModel.deleteOne({ email });
-};
+// exports.removeVerifyCode = async (email = '') => {
+//   await VerifyCodeModel.deleteOne({ email });
+// };

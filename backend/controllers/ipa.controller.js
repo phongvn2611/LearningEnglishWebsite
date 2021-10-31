@@ -1,0 +1,112 @@
+const {
+    createIPA,
+    updateIPA,
+    getIPAByListeningId,
+    getIPAById,
+    deleteIPAById,
+    deleteIPAByListenId,
+  } = require('../services/ipa.service');
+  const {
+    getListenById,
+    updateListen,
+  } = require('../services/listening.service');
+
+  
+  //create ipa
+  exports.postIPA = async (req, res) => {
+    try {
+
+      const {audioSrc, mouthShape, desc, examples, phonetic, listeningId} = req.body;
+      // create IPA
+      const newIPA = await createIPA({audioSrc, mouthShape, desc, examples, phonetic, listeningId});
+  
+      if (newIPA != null) {
+        return res.status(201).json({data: newIPA });
+      }
+      return res.status(503).json({ message: 'Error, can not create IPA.' });
+    } catch (error) {
+      console.error('POST ERROR: ', error);
+      return res.status(503).json({ message: 'Error, can not create IPA.' });
+    }
+  };
+
+  //update IPA
+  exports.putIPA = async (req, res) => {
+    try {
+
+        //check if IPA existed
+      const ipaId = req.params.ipaId;
+      const IPAExist = await getIPAById(ipaId);
+
+      if(!IPAExist) {
+        return res.status(400).json({ message: 'Error, Not found IPA.' });
+      }
+      const {audioSrc, mouthShape, desc, examples, phonetic} = req.body;
+      const listeningId = IPAExist.listeningId;
+      const IPA = await updateIPA({audioSrc, mouthShape, desc, examples, phonetic, listeningId})
+      if (IPA) {
+        return res.status(202).json({data: IPA });
+      }
+      return res.status(503).json({ message: 'Error, can not update IPA.' });return res.status(503).json({ message: 'Error, can not update question.' });
+    } catch (error) {
+      console.error('PUT ERROR: ', error);
+      return res.status(503).json({ message: 'Error, can not update IPA.' });
+    }
+  };
+
+
+  //get IPA by id
+  exports.getById = async (req, res) => {
+    try {
+      const ipaDetail = await getIPAById(req.params.id);
+      if (ipaDetail) {
+        return res.status(200).json(ipaDetail);
+      }
+    } catch (error) {
+      console.error('GET DETAILS ERROR: ', error);
+      return res.status(503).json({ message: error });
+    }
+  };
+
+
+  //get IPA by listeningId
+  exports.getByLiteningId = async (req, res) => {
+    try {
+      const listenId = req.params.listenId;  
+      const IPA = await getIPAByListeningId(listenId);
+      return res.status(200).json({data: IPA });
+    } catch (error) {
+      console.error('ERROR: ', error);
+      return res.status(503).json({ message: 'ERROR, Can not get data.' });
+    }
+  };
+
+  //delete by id
+  exports.deleteById = async (req, res) => {
+    try {
+      const { id } = req.params.id;
+      const isDelete = await deleteIPAById(id);
+      if (isDelete) {
+        return res.status(200).json({ message: 'Delete successfully.' });
+      }
+    } catch (error) {
+      console.error('ERROR: ', error);
+      return res.status(503).json({ message: 'Eror, can not delete this IPA' });
+    }
+  };
+
+  //delete by listenid
+  exports.deleteByListenId = async (req, res, next) => {
+    try {
+      const { listenId } = req.params.listenId;
+      const isDelete = await deleteIPAByListenId(listenId);
+      if (isDelete) {
+        return res.status(200).json({ message: 'Delete successfully.' });
+      }
+    } catch (error) {
+      console.error('ERROR: ', error);
+      return res.status(503).json({ message: 'Eror, can not delete this IPA' });
+    }
+  };
+  
+  

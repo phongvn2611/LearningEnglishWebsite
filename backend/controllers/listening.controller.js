@@ -5,6 +5,7 @@ const {
     deleteListen,
     getDetailListen,
     getListenByTopic,
+    getListenByIPA,
     getListenTopics
   } = require('../services/listening.service');
 
@@ -71,7 +72,7 @@ const {
         return res.status(200).json(listenDetail);
       }
     } catch (error) {
-      console.error('GET WORD DETAILS ERROR: ', error);
+      console.error('ERROR: ', error);
       return res.status(503).json({ message: error });
     }
   };
@@ -85,7 +86,24 @@ const {
       return res.status(200).json({list });
     } catch (error) {
       console.error('ERROR: ', error);
-      return res.status(503).json({ message: 'Lỗi dịch vụ, thử lại sau' });
+      return res.status(503).json({ message: 'ERROR, can not get listening' });
+    }
+  };
+
+  //get by IPA Id
+  exports.getByIPA = async (req, res) => {
+    try {
+      const ipaId = req.params.ipaId;  
+      const Listen = await getListenByIPA(ipaId);
+      
+      if(Listen != null){
+      return res.status(200).json({Listen });
+      }
+      return res.status(204).json({ message: 'No content.' });
+
+    } catch (error) {
+      console.error('ERROR: ', error);
+      return res.status(503).json({ message: 'ERROR, can not get listening' });
     }
   };
 
@@ -122,6 +140,17 @@ const {
     } catch (error) {
       console.error('GET WORD DETAILS ERROR: ', error);
       return res.status(503).json({ message: 'Eror, can not delete this listening' });
+    }
+  };
+  
+   //search
+   exports.getSearchListen = async (req, res) => {
+    try {
+      const list = await searchWord(req.query.name);
+      return res.status(200).json({ list });
+    } catch (error) {
+      console.error('ERROR: ', error);
+      return res.status(503).json({ message: 'No result.' });
     }
   };
   
