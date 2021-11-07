@@ -4,7 +4,8 @@ export const ROUTES = {
   LOGIN: '/login',
   REGISTER: '/register',
   ADMIN: '/admin',
-  GRAMMAR_ADMIN: '/admin/grammar'
+  GRAMMAR_ADMIN: '/admin/grammar',
+  LISTENING: '/listening'
 }
 
 export const UX = {

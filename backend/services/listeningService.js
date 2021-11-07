@@ -2,7 +2,8 @@ const ListeningModel = require('../models/listeningModel');
 
 exports.createListen = async (listeningInfo) => {
   try {
-    const newListen = await ListeningModel.create({ ...listeningInfo });
+   
+    const newListen = await ListeningModel.create({...listeningInfo });
 
     if (newListen) {
       return newListen;

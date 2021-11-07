@@ -31,6 +31,24 @@ const ListeningModel = new Schema({
     default: null,
   },
 
+  Youtube: {
+    type: String,
+    trim: true,
+    default: null,
+  },
+
+  Audio: {
+    type: String,
+    trim: true,
+    default: null,
+  },
+
+  Image: {
+    type: String,
+    trim: true,
+    default: null,
+  },
+
   Script: {
     type: String,
     default: null,

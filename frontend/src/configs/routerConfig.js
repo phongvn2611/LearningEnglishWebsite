@@ -7,7 +7,7 @@ const RegisterPage = React.lazy(() => import("../pages/Register"));
 const LoginPage = React.lazy(() => import("../pages/Login"));
 const AdminPage = React.lazy(() => import("../pages/Admin"));
 const GrammarAdminPage = React.lazy(() => import("../pages/GrammarAdmin"))
-
+const ListeningPage = React.lazy(() => import("../pages/Listening"))
 const routes = [
   {
     path: ROUTES.WELCOME,
@@ -44,6 +44,12 @@ const routes = [
     exact: true,
     isProtect: true,
     component: () => <GrammarAdminPage />
+  },
+  {
+    path: ROUTES.LISTENING,
+    exact: true,
+    isProtect: true,
+    component: () => <ListeningPage />
   }
 ];
 const renderRoutes = (routes, isAuth = false) => {

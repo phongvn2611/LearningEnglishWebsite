@@ -5,7 +5,7 @@ import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import useTitle from "../hooks/useTitle";
-import { VideoCard } from "material-ui-player";
+import { AudioCard } from "material-ui-player";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
@@ -65,6 +65,28 @@ export default function ListeningPage() {
           }
           width={"640px"}
         />
+
+        {/* phuonglinh */}
+        {/* video youtube */}
+
+        <div class="container-fluid mb-4" >
+        <div class="row">
+
+            <div class="col-12 col-lg-6 mb-4">
+              
+                <div class="card w-100">
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <iframe id="player" class="embed-responsive-item" src="https://www.youtube.com/embed/jcOwNAgNq5s?enablejsapi=1" frameborder="0"></iframe>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-6">
+                <ul class="list-unstyled" id="videoList"></ul>
+            </div>
+          </div>
+      </div>
+    {/* phuonglinh */}
+
         <Box sx={{ width: "100%" }}>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
             <Tabs

@@ -4,9 +4,14 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const fileUpload = require('express-fileupload');
+const path = require('path');
+const https = require('https');
+const bodyParser = require('body-parser');
 
 const app = express();
+const { MAX } = require('./constants');
 app.use(express.json());
+app.use(express.urlencoded({ limit: MAX.SIZE_JSON_REQUEST }));
 app.use(cors());
 app.use(cookieParser());
 app.use(fileUpload({

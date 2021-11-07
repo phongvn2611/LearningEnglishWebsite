@@ -17,7 +17,7 @@ const {
 //create Listening
 exports.postListening = async (req, res) => {
   try {
-    const {Name, Topic, Description, Script, Video } = req.body;
+    const {Name, Topic, Description, Script, Video, Youtube, Audio, Image } = req.body;
     const CreatDate= new Date(new Date().toUTCString()); 
 
     // upload video
@@ -26,8 +26,16 @@ exports.postListening = async (req, res) => {
       videoUrl = await uploadVideo(Video, 'dynonary/words');
     }
 
+    //Link youtube
+    let ytubeUrl = null;
+    if(Youtube)
+    {
+        const videoId = Youtube.split("=");
+         ytubeUrl= `https://www.youtube.com/embed/${videoId}?enablejsapi=1`;
+    }
+
     // create the new listen
-    const newListen = await createListen({Name, Topic, Description, Script, Video: videoUrl, CreatDate });
+    const newListen = await createListen({Name, Topic, Description, Script, Video: videoUrl, Youtube: ytubeUrl, Audio, Image, CreatDate });
 
     if (newListen !=null) {
       return res.status(200).json({data: newListen });
@@ -42,7 +50,7 @@ exports.postListening = async (req, res) => {
 //update 
 exports.putListen = async (req, res, next) => {
   try {
-      const {Name, Topic, Description, Script, Video }= req.body;
+      const {Name, Topic, Description, Script, Video, Youtube, Audio, Image }= req.body;
 
       // upload video
       let videoUrl = null;
@@ -52,7 +60,7 @@ exports.putListen = async (req, res, next) => {
 
     // update
     const Listen = await updateListen(req.params.listenId, 
-      {Name, Topic, Description, Script, Video: videoUrl });
+      {Name, Topic, Description, Script, Video: videoUrl, Youtube, Audio, Image });
 
       if (Listen !=null) {
           return res.status(200).json({updateListen });
