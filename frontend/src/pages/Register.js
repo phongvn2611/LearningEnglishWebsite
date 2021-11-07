@@ -8,7 +8,7 @@ import './style/login-signup.scss';
 
 function RegisterPage() {
   useTitle('Register');
-  // useCloseNavigation();
+  useCloseNavigation();
 
   return (
     <div className="pos-rel w-100vw h-100vh">
@@ -17,9 +17,9 @@ function RegisterPage() {
 
         <div className="has-account">
           Bạn đã có tài khoản?&nbsp;
-          {/* <Link to={ROUTES.LOGIN} className="account-link">
+          <Link to={ROUTES.LOGIN} className="account-link">
             Đăng nhập
-          </Link> */}
+          </Link>
         </div>
       </div>
     </div>

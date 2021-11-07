@@ -1,5 +1,5 @@
 import axios from "axios";
-const URL = '/user';
+const URL = '/api/user';
 const userApi = {
   loginApi: (email, password) => {
     return axios.post(`${URL}/login`, { email, password });
@@ -9,6 +9,11 @@ const userApi = {
   },
   getTokenApi: () => {
     return axios.get(`${URL}/get-token`);
+  },
+  getProfile: (token) => {
+    return axios.get(`${URL}/get-profile`, {
+      headers: {Authorization: token}
+    });
   }
 }
 

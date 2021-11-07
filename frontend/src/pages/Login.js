@@ -4,10 +4,12 @@ import "./style/login-signup.scss";
 import { ROUTES } from "../constants";
 import LoginData from './../components/Login/data';
 import useTitle from './../hooks/useTitle';
+import useCloseNavigation from './../hooks/useCloseNavigation';
 
 function LoginPage() {
   useTitle("Login");
-
+  useCloseNavigation();
+  
   return (
     <div className="pos-rel w-100vw h-100vh">
       <div className="transform-center">
@@ -15,9 +17,9 @@ function LoginPage() {
 
         <div className="has-account">
           Bạn chưa có tài khoản?&nbsp;
-          {/* <Link to={ROUTES.REGISTER} className="account-link">
+          <Link to={ROUTES.REGISTER} className="account-link">
             Đăng ký
-          </Link> */}
+          </Link>
         </div>
       </div>
     </div>

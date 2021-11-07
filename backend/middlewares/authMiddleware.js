@@ -1,4 +1,4 @@
-exports.auth = (req, res, next) => {
+exports.authentication = (req, res, next) => {
   try {
     const token = req.header("Authorization");
     if (!token)
@@ -16,11 +16,11 @@ exports.auth = (req, res, next) => {
   }
 };
 
-exports.authAdmin = (req, res, next) => {
+exports.authAdmin = async (req, res, next) => {
   try {
     const user = await Users.findOne({ _id: req.user.id });
 
-    if (user.role !== 1)
+    if (user.role !== "admin")
       return res
         .status(500)
         .json({ message: "Admin resources access denied." });
@@ -30,15 +30,26 @@ exports.authAdmin = (req, res, next) => {
     return res.status(500).json({ message: err.message });
   }
 };
-exports.authInstructor = (req, res, next) => {
+exports.authInstructor = async (req, res, next) => {
   try {
     const user = await Users.findOne({ _id: req.user.id });
 
-    if (user.role !== -1)
+    if (user.role !== "instructor")
       return res
         .status(500)
         .json({ message: "Instructor resources access denied." });
 
+    next();
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
+};
+
+exports.authRole = async (req, res, next) => {
+  try {
+    const user = await Users.findOne({ _id: req.user.id });
+    if (user.role === "user")
+      return res.status(500).json({ message: "Access denied" });
     next();
   } catch (err) {
     return res.status(500).json({ message: err.message });

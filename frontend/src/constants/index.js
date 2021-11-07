@@ -2,7 +2,9 @@ export const ROUTES = {
   WELCOME: '/',
   HOME: '/home',
   LOGIN: '/login',
-  REGISTER: '/register'
+  REGISTER: '/register',
+  ADMIN: '/admin',
+  GRAMMAR_ADMIN: '/admin/grammar'
 }
 
 export const UX = {

@@ -12,8 +12,9 @@ app.use(cookieParser());
 app.use(fileUpload({
   useTempFiles: true
 }));
-
-app.use('/user', require('./routes/userRouter'));
+const BASE_URL = '/api'
+app.use(`${BASE_URL}/user`, require('./routes/userRouter'));
+// app.use('/grammar', require('./routes/grammarRouter'));
 
 const URI = process.env.MONGODB_URL;
 mongoose.connect(URI, {

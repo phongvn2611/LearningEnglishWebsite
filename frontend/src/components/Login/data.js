@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import Login from "./index";
 import authAction from "./../../redux/actions/authAction";
+import { useSelector } from 'react-redux';
+import { loginReducer } from './../../redux/reducers/authReducer';
 
 function LoginData() {
   const [loading, setLoading] = useState(false);
@@ -12,7 +14,6 @@ function LoginData() {
     try {
       setLoading(true);
       const { email, password } = account;
-
       dispatch(authAction.login(email, password));
     } catch (error) {
       setLoading(false);

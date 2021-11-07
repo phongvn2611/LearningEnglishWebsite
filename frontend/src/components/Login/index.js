@@ -21,7 +21,7 @@ const schema = yup.object().shape({
   password: yup
     .string()
     .required('Mật khẩu đang trống')
-    .max(6, `Mật khẩu tối đa 6 ký tự`),
+    .min(6, `Mật khẩu tối thiểu 6 ký tự`),
 });
 
 function LoginLocalForm(props) {
@@ -103,8 +103,6 @@ function LoginLocalForm(props) {
         type="submit"
         variant="contained"
         color="primary"
-        disabled={loading}
-        endIcon={loading && <LoopIcon className="ani-spin" />}
         size="large">
         Đăng nhập
       </Button>

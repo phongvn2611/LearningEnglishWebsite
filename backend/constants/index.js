@@ -9,3 +9,7 @@ exports.ROLE_TYPES = {
   INSTRUCTOR: "instructor",
   USER: "user",
 }
+
+exports.NUM_OF_TOPICS = 30;
+
+exports.NUM_OF_SPECIALTY = 30;

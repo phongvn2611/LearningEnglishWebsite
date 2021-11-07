@@ -19,18 +19,25 @@ const schema = yup.object().shape({
     .string()
     .trim()
     .required("Nhập họ tên")
-    .matches(nameRegex, "Họ tên không chứ số và ký tự đặc biệt"),
+    .matches(nameRegex, "Họ tên không chứa số và ký tự đặc biệt"),
   password: yup
     .string()
     .trim()
     .required("Nhập mật khẩu")
     .min(6, `Mật khẩu ít nhất 6 ký tự`),
+  confirmPassword: yup
+    .string()
+    .trim()
+    .required("Nhập xác nhận mật khẩu")
+    .min(6, `Xác nhận mật khẩu ít nhất 6 ký tự`)
+    .oneOf([yup.ref("password")], "Nhập xác nhận mật khẩu không khớp"),
 });
 
 function Register({ onRegister, loading }) {
   const classes = makeStyles(formStyle)();
 
   const [visiblePw, setVisiblePw] = useState(false);
+  const [visibleConfirmPw, setVisibleConfirmPw] = useState(false);
   const {
     register,
     handleSubmit,
@@ -114,13 +121,41 @@ function Register({ onRegister, loading }) {
           )}
         </div>
 
+        <div className="flex-col">
+          <InputCustom
+            label="Xác nhận mật khẩu"
+            size="small"
+            placeholder="Nhập lại mật khẩu"
+            error={Boolean(errors.confirmPassword)}
+            inputProps={{
+              name: "confirmPassword",
+              type: visibleConfirmPw ? "text" : "password",
+              ...register("confirmPassword"),
+            }}
+            endAdornment={
+              visibleConfirmPw ? (
+                <VisibilityIcon
+                  className={`${classes.icon} ${classes.visibleConfirmPw}`}
+                  onClick={() => setVisibleConfirmPw(false)}
+                />
+              ) : (
+                <VisibilityOffIcon
+                  className={classes.icon}
+                  onClick={() => setVisibleConfirmPw(true)}
+                />
+              )
+            }
+          />
+          {errors.confirmPassword && (
+            <p className="text-error">{errors.confirmPassword?.message}</p>
+          )}
+        </div>
+
         <Button
           className="_btn _btn-primary"
           type="submit"
           variant="contained"
           color="primary"
-          disabled={loading}
-          endIcon={loading && <LoopIcon className="ani-spin" />}
           size="large"
         >
           Đăng ký

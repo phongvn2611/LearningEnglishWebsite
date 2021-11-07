@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 import Register from './index';
 import authAction from './../../redux/actions/authAction';
+import userApi from './../../apis/userApi';
+import messageAction from './../../redux/actions/messageAction';
+import { useHistory } from 'react-router-dom';
 
 function RegisterData() {
   const dispatch = useDispatch();
@@ -13,8 +15,11 @@ function RegisterData() {
     try {
       setLoading(true);
       const { email, password, name } = account;
-      dispatch(authAction.register(name, email, password));
+      const res = await userApi.registerApi(name, email, password);
+      dispatch(messageAction.setMessage(res.data.message, 'success'));
+      history.replace('/login');
     } catch (error) {
+      dispatchEvent(messageAction.setMessage(error.response.data.message, 'success'));
       setLoading(false);
     }
   };

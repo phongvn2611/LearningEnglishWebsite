@@ -2,6 +2,10 @@ import React from "react";
 import { Button, Container, Typography } from "@material-ui/core";
 import background from "../assets/background-welcome.jpg";
 import { makeStyles } from "@material-ui/styles";
+import { useHistory } from 'react-router-dom';
+import { ROUTES } from '../constants';
+import useTitle from './../hooks/useTitle';
+import useCloseNavigation from './../hooks/useCloseNavigation';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -46,9 +50,14 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export default function Welcome() {
+export default function WelcomePage() {
+  useTitle('Welcome');
+  useCloseNavigation();
   const classes = useStyles();
-
+  const history = useHistory();
+  const handleClick = (e) => {
+    history.push(ROUTES.HOME)
+  }
   return (
     <div className={classes.root}>
       <Container className={classes.container}>
@@ -63,7 +72,7 @@ export default function Welcome() {
         <Typography className={classes.desc} variant="body2">
           Nơi bắt đầu học Tiếng Anh từ con số 0
         </Typography>
-        <Button className={classes.button}>Bắt đầu</Button>
+        <Button className={classes.button} onClick={handleClick}>Bắt đầu</Button>
       </Container>
     </div>
   );

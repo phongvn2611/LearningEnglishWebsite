@@ -62,7 +62,12 @@ exports.activateEmail = async (req, res) => {
 
     await newUser.save();
 
-    res.status(200).json({ message: "Account has been activated!" });
+    res.status(200).json({
+      message: "Account has been activated!",
+      user: {
+        ...newUser._doc,
+        password: ''
+  }  });
   } catch (err) {
     return res.status(500).json({ message: err.message });
   }
@@ -131,6 +136,16 @@ exports.forgotPassword = async (req, res) => {
     res.json({ message: "Re-send the password, please check your email." });
   } catch (err) {
     return res.status(500).json({ message: err.message });
+  }
+}
+
+exports.getProfile = async (req, res) => {
+  try {
+    const users = await Users.findById(req.user.id).select('-password');
+    res.status(200).json(users)
+  }
+  catch (err) {
+    res.status(500).json({ message: err.message });
   }
 }
 
