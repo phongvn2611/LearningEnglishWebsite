@@ -3,50 +3,38 @@ const Schema = mongoose.Schema;
 
 
 const ListeningModel = new Schema({
-  createDate: {
+  CreateDate: {
     type: Date,
     required: true,
     default: new Date(),
   },
 
-  name: {
+  Name: {
     type: String,
     required: true,
     maxlength:100,
   },
 
-  topic: {
+  Topic: {
     type: String,
     required: true,
   },
 
-  description: {
+  Description: {
     type: String,
     required: true,
   },
 
-  quizId: {
-    type: Schema.Types.ObjectId,
-    ref: 'quizs',
-    default: null,
-  },
-
-  ipaId: {
-    type: Schema.Types.ObjectId,
-    ref: 'ipa',
-    default: null,
-  },
-
-  video: {
+  Video: {
     type: String,
     trim: true,
     default: null,
   },
 
-  script: {
+  Script: {
     type: String,
     default: null,
   },
 });
 
-module.exports = mongoose.model('listening', ListeningModel);
+module.exports = mongoose.model('Listening', ListeningModel);

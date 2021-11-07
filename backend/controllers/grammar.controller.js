@@ -14,18 +14,18 @@ const {
   //create grammar by listeningId
   exports.postGrammarByListen = async (req, res) => {
     try {
-      const listeningId= req.params.listenId;
+      const ListeningId= req.params.listenId;
   
        //check if listening existed
-       const listen = await getListenById(listeningId);
+       const listen = await getListenById(ListeningId);
        if(!listen) {
        return res.status(400).json({ message: 'Error, Not found listening.' });
        }
 
-       const {title, content,level, items}= req.body;
+       const {Title, Content,Level, Items}= req.body;
    
       // create grammar
-      const newGrammar = await createGrammar({title, listeningId, content,level, items});
+      const newGrammar = await createGrammar({Title, ListeningId, Content,Level, Items});
   
       if (newGrammar != null) {
         return res.status(201).json({data: newGrammar });
@@ -40,7 +40,9 @@ const {
   //create grammar
   exports.postGrammar = async (req, res) => {
     try {
-      const newGrammar = await createGrammar({title, listeningId, content,level, items});
+
+      const {Title, ListeningId, Content,Level, Items}= req.body;
+      const newGrammar = await createGrammar({Title, ListeningId, Content,Level, Items});
       if (newGrammar) {
         return res.status(201).json({data: newGrammar });
       }
@@ -69,9 +71,9 @@ const {
       }
 
       // create grammar
-      const {title, content, items} = req.body;
-      const listenId = GrammarExist.listeningId;
-      const newGrammar = await createGrammar({listenId, title, content, items });
+      const {Title, Content,Level, Items} = req.body;
+      const ListeningId = GrammarExist.ListeningId;
+      const newGrammar = await createGrammar({Title, ListeningId, Content,Level, Items});
   
       if (newGrammar) {
         return res.status(201).json({data: newGrammar });

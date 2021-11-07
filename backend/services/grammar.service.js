@@ -1,6 +1,6 @@
 const GrammarModel = require('../models/Grammar/grammar.model');
 
-exports.createGrammar = async (grammaInfo ) => {
+exports.createGrammar = async (grammarInfo ) => {
   try {
     const newGrammar = await GrammarModel.create({ ...grammarInfo});
 
@@ -26,7 +26,7 @@ exports.getGrammarById = async (id = '') => {
 
   exports.getGrammarByListenId = async (listenId = '') => {
     try {
-      const res = await GrammarModel.find({listeningId: listenId}).populate('items');  
+      const res = await GrammarModel.find({ListeningId: listenId}).populate('items');  
       return res;
     } catch (error) {
       throw error;
@@ -49,7 +49,7 @@ exports.getGrammarById = async (id = '') => {
    //delete by listenid
    exports.deleteGrammarByListenId = async (listenId = '') => {
       try {
-        const res = await GrammarModel.deleteOne({listeningId: listenId});
+        const res = await GrammarModel.deleteOne({ListeningId: listenId});
         if (res) {
           return true;
         }

@@ -15,17 +15,17 @@ const {
   //create question
   exports.postQuestion = async (req, res) => {
     try {
-      const quizId= req.params.quizId;
+      const QuizId= req.params.quizId;
       
       //check if quiz existed
-      const quiz = await getQuizById(quizId);
+      const quiz = await getQuizById(QuizId);
       if(!quiz) {
       return res.status(400).json({ message: 'Error, Not found quiz.' });
       }
   
       // create question
-      const {content, answers} = req.body;
-      const newQuestion = await createQuestion({quizId, content, answers });
+      const {Content, Answers} = req.body;
+      const newQuestion = await createQuestion({QuizId, Content, Answers });
   
       if (newQuestion !=null) {
         return res.status(200).json({data: newQuestion });
@@ -49,14 +49,14 @@ const {
         return res.status(400).json({message: 'Error, Not found this question.' });
       }
         // delete question
-      const {content, answers} = req.body;
+      const {Content, Answers} = req.body;
       const isDeleted = await deleteQuestionById({ questionId});
       if (!isDeleted) {
         return res.status(400).json({message: 'Error, can not update question.' });
       }
 
-      const quizId = QuestionExist.quizId;
-      const Question = await createQuestion({content, answers, quizId});
+      const QuizId = QuestionExist.QuizId;
+      const Question = await createQuestion({Content, Answers, QuizId});
       if (Question != null) {
         return res.status(200).json({Question });
       }
@@ -68,11 +68,13 @@ const {
   };
 
   //get by Id
-  exports.getById = async (req, res) => {
+  exports.getById = async (req, res, next) => {
     try {
-      const question = await getQuestionById(req.params.questionId);
-      return res.status(200).json({question });
+      const id = req.params.questionId;
+      const Question = await getQuestionById(id);
+      return res.status(200).json({Question });
     } catch (error) {
+      console.log(id);
       console.error('ERROR: ', error);
       return res.status(503).json({ message: 'Lỗi dịch vụ, thử lại sau' });
     }

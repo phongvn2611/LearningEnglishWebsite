@@ -3,29 +3,29 @@ const Schema = mongoose.Schema;
 
 
 const GrammarModel = new Schema({
-  title: {
+  Title: {
     type: String,
     required: true,
   },
 
-  content: {
+  Content: {
     type: String,
     required: true,
   },
 
-  listeningId: {
+  ListeningId: {
     type: Schema.Types.ObjectId,
-    ref: 'listening',
+    ref: 'Listening',
     default: null,
   },
 
-  level: {
+  Level: {
     type: String,
-    enum: ['1','2', '3'],
+    enum: ['0','1','2', '3'],
     default: '0',
   },
 
-  items:[{ type: Schema.Types.Map, ref: 'grammar_item' }]
+  Items:[{ type: Schema.Types.Map}]
 });
 
-module.exports = mongoose.model('grammar', GrammarModel);
+module.exports = mongoose.model('Grammar', GrammarModel);

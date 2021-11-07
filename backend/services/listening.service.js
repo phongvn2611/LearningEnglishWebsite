@@ -103,7 +103,7 @@ exports.deleteListen = async (_id = '') => {
 exports.searchListen = async (name = '') => {
   try {
     var query = new RegExp( `^${word}.*`,'gi');
-    const list = await ListeningModel.where({name: query})
+    const list = await ListeningModel.where({Name: query})
                   .select('-_id type word mean phonetic picture');   
     return list;
   } catch (error) {

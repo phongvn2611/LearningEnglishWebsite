@@ -16,9 +16,9 @@ const {
   exports.postIPA = async (req, res) => {
     try {
 
-      const {audioSrc, mouthShape, desc, examples, phonetic, listeningId} = req.body;
+      const {AudioSrc, MouthShape, Desc, Examples, Phonetic, ListeningId} = req.body;
       // create IPA
-      const newIPA = await createIPA({audioSrc, mouthShape, desc, examples, phonetic, listeningId});
+      const newIPA = await createIPA({AudioSrc, MouthShape, Desc, Examples, Phonetic, ListeningId});
   
       if (newIPA != null) {
         return res.status(201).json({data: newIPA });
@@ -41,9 +41,9 @@ const {
       if(!IPAExist) {
         return res.status(400).json({ message: 'Error, Not found IPA.' });
       }
-      const {audioSrc, mouthShape, desc, examples, phonetic} = req.body;
-      const listeningId = IPAExist.listeningId;
-      const IPA = await updateIPA({audioSrc, mouthShape, desc, examples, phonetic, listeningId})
+      const {AudioSrc, MouthShape, Desc, Examples, Phonetic} = req.body;
+      const ListeningId = IPAExist.ListeningId;
+      const IPA = await updateIPA({AudioSrc, MouthShape, Desc, Examples, Phonetic, ListeningId});
       if (IPA) {
         return res.status(202).json({data: IPA });
       }

@@ -3,12 +3,12 @@ const Schema = mongoose.Schema;
 
 
 const QuizModel = new Schema({
-  listeningId: {
+  ListeningId: {
     type: Schema.Types.ObjectId,
     ref: 'listening',
   },
 
-  questions:  [{ type: Schema.Types.ObjectId, ref: 'question' }]
+  //questions:  [{ type: Schema.Types.ObjectId, ref: 'question' }]
 });
 
-module.exports = mongoose.model('quiz', QuizModel);
+module.exports = mongoose.model('Quiz', QuizModel);

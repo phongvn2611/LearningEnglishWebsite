@@ -25,9 +25,9 @@ exports.updateQuestion = async (_id='', questionInfo ) => {
     );
 };
 
-exports.getQuestionById = async (questionId = '') => {
+exports.getQuestionById = async (_id = '') => {
     try {
-      const res = await QuestionModel.findOne({questionId: questionId}).populate('answers');   
+      const res = await QuestionModel.findById(_id);   
       return res;
     } catch (error) {
       throw error;
@@ -37,7 +37,7 @@ exports.getQuestionById = async (questionId = '') => {
 
   exports.getQuestionByQuizId = async (quizId = '') => {
     try {
-      const res = await QuestionModel.find({quizId: quizId}).populate('answers');  
+      const res = await QuestionModel.find({QuizId: quizId}).populate('quizId');  
       return res;
     } catch (error) {
       throw error;
@@ -60,7 +60,7 @@ exports.getQuestionById = async (questionId = '') => {
    //delete by listenid
    exports.deleteQuestionByQuizId = async (quizId = '') => {
       try {
-        const res = await QuestionModel.deleteMany({quiId: quizId});
+        const res = await QuestionModel.deleteMany({QuiId: quizId});
         if (res) {
           return true;
         }

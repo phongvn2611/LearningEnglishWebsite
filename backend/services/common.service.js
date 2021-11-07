@@ -18,22 +18,22 @@ exports.uploadImage = async (imgSrc, folderName = '', config = {}) => {
   }
 };
 
-exports.isExistWord = async (word = '', type = '') => {
+exports.isExistWord = async (Word = '', Type = '') => {
   try {
-    if (word === '' || type === '') {
+    if (Word === '' || Type === '') {
       return false;
     }
 
-    return await WordModel.exists({ word, type });
+    return await WordModel.exists({ Word, Type });
   } catch (error) {
     throw error;
   }
 };
 
-exports.isExistSentence = async (sentence = '') => {
-  if (sentence === '') return false;
-  const newRegex = new RegExp(sentence, 'i');
-  return await SentenceModel.exists({ sentence: newRegex });
+exports.isExistSentence = async (Sentence = '') => {
+  if (Sentence === '') return false;
+  const newRegex = new RegExp(Sentence, 'i');
+  return await SentenceModel.exists({ Sentence: newRegex });
 };
 
 exports.getWordPack = async (

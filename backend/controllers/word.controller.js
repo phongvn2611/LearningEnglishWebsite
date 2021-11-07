@@ -21,28 +21,27 @@ const {
   //create word
   exports.postContributeWord = async (req, res, next) => {
     try {
-      const { picture, word, type, ...rest } = req.body;
+      const { Picture, Word, Type, ...rest } = req.body;
   
       // check existence of word
-      const isExist = await isExistWord(word, type);
+      const isExist = await isExistWord(Word, Type);
       if (isExist) {
         return res
           .status(409)
-          .json({ message: `"${word} (${type})" has been existed.` });
+          .json({ message: `"${Word} (${Type})" has been existed.` });
       }
   
       // upload description picture if available
       let pictureUrl = null;
-      if (picture) {
-        pictureUrl = await uploadImage(picture, 'dynonary/words');
+      if (Picture) {
+        pictureUrl = await uploadImage(Picture, 'dynonary/words');
       }
   
       // create the new word
       const newWord = await createNewWord({
-        word,
-        type,
-        picture: pictureUrl,
-        isChecked: false,
+        Word,
+        Type,
+        Picture: pictureUrl,
         ...rest,
       });
   
@@ -59,18 +58,17 @@ const {
   //update word
   exports.putContributeWord = async (req, res, next) => {
     try {
-      const { picture, ...rest } = req.body;
+      const { Picture, ...rest } = req.body;
        
       // upload description picture if available
       let pictureUrl = null;
-      if (picture) {
-        pictureUrl = await uploadImage(picture, 'dynonary/words');
+      if (Picture) {
+        pictureUrl = await uploadImage(Picture, 'dynonary/words');
       }
   
       // update the new word
       const updateWord = await updateWord(req.params.wordId, {       
-        picture: pictureUrl,
-        isChecked: false,
+        Picture: pictureUrl,
         ...rest,
       });
   
@@ -87,11 +85,11 @@ const {
   //check word exist
   exports.getCheckWordExistence = async (req, res) => {
     try {
-      const { word, type } = req.query;
-      const isExist = await isExistWord(word, type);
+      const { Word, Type } = req.query;
+      const isExist = await isExistWord(Word, Type);
       return res.status(200).json({ isExist });
     } catch (error) {
-      console.error('GET CHECK WORD EXIST ERROR: ', error);
+      console.error('ERROR: ', error);
       return res.status(200).json({ isExist: false });
     }
   };
@@ -109,7 +107,7 @@ const {
         JSON.parse(packInfo),
         skip,
         perPageInt,
-        '-_id type word mean phonetic picture',
+        '-_id Type Word Mean Phonetic Picture',
         sortType === 'asc' ? '1' : sortType === 'desc' ? '-1' : null,
         null,
       );
@@ -149,12 +147,12 @@ const {
   exports.getUserFavoriteList = async (req, res, next) => {
     try {
       const { user } = req;
-      if (!user || !user.favoriteList) {
+      if (!user || !user.FavoriteList) {
         return res.status(400).json({ message: 'failed' });
       }
   
-      const { favoriteList } = user;
-      if (!Array.isArray(favoriteList) || favoriteList.length === 0) {
+      const { FavoriteList } = user;
+      if (!Array.isArray(FavoriteList) || FavoriteList.length === 0) {
         return res.status(200).json({ list: [] });
       }
   
@@ -162,7 +160,7 @@ const {
       page = parseInt(page);
       perPage = parseInt(perPage);
   
-      let favoriteSorted = [...favoriteList];
+      let favoriteSorted = [...FavoriteList];
       if (sortType === 'asc') {
         favoriteSorted.sort((a, b) => (a > b ? 1 : a < b ? -1 : 0));
       } else if (sortType === 'desc') {

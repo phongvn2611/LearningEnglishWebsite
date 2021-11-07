@@ -17,17 +17,17 @@ const {
   //create Listening
   exports.postListening = async (req, res) => {
     try {
-      const {name, topic, description, script, video } = req.body;
-      const creatDate= new Date(new Date().toUTCString()); 
+      const {Name, Topic, Description, Script, Video } = req.body;
+      const CreatDate= new Date(new Date().toUTCString()); 
 
       // upload video
       let videoUrl = null;
-      if (video) {
-        videoUrl = await uploadVideo(video, 'dynonary/words');
+      if (Video) {
+        videoUrl = await uploadVideo(Video, 'dynonary/words');
       }
   
       // create the new listen
-      const newListen = await createListen({name, topic, description, script, video: videoUrl, creatDate });
+      const newListen = await createListen({Name, Topic, Description, Script, Video: videoUrl, CreatDate });
   
       if (newListen !=null) {
         return res.status(200).json({data: newListen });
@@ -42,17 +42,17 @@ const {
   //update 
   exports.putListen = async (req, res, next) => {
     try {
-        const {name, topic, description, video, script } = req.body;
+        const {Name, Topic, Description, Script, Video }= req.body;
   
         // upload video
         let videoUrl = null;
-        if (video) {
-          videoUrl = await uploadVideo(video, 'dynonary/words');
+        if (Video) {
+          videoUrl = await uploadVideo(Video, 'dynonary/words');
         }
   
       // update
       const Listen = await updateListen(req.params.listenId, 
-        {name, topic, description, script, video: videoUrl });
+        {Name, Topic, Description, Script, Video: videoUrl });
   
         if (Listen !=null) {
             return res.status(200).json({updateListen });
@@ -82,7 +82,7 @@ const {
   exports.getByTopic = async (req, res) => {
     try {
       const topic = req.params.topic;  
-      const list = await getListenByTopic(topic);
+      const list = await getListenByTopic(Topic);
       return res.status(200).json({list });
     } catch (error) {
       console.error('ERROR: ', error);

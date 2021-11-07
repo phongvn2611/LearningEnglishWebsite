@@ -26,7 +26,7 @@ exports.getIPAById = async (id = '') => {
 
   exports.getIPAByListenId = async (listenId = '') => {
     try {
-      const res = await IPAModel.find({listeningId: listenId}).populate('listeningId');  
+      const res = await IPAModel.find({ListeningId: listenId}).populate('listeningId');  
       return res;
     } catch (error) {
       throw error;
@@ -49,7 +49,7 @@ exports.getIPAById = async (id = '') => {
    //delete by listenid
    exports.deleteIPAByListenId = async (listenId = '') => {
       try {
-        const res = await IPAModel.deleteOne({listeningId: listenId});
+        const res = await IPAModel.deleteOne({ListeningId: listenId});
         if (res) {
           return true;
         }

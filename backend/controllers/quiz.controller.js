@@ -14,23 +14,23 @@ const {
   //create quiz
   exports.postQuiz = async (req, res) => {
     try {
-      const listeningId= req.params.listenId;
+      const ListeningId= req.params.listenId;
   
        //check if quiz existed
-       const listen = await getListenById(listeningId);
+       const listen = await getListenById(ListeningId);
        if(!listen) {
        return res.status(400).json({ message: 'Error, Not found quiz.' });
        }
    
       // create quiz
-      const newQuiz = await createQuiz({listeningId });
+      const newQuiz = await createQuiz({ListeningId });
   
       if (newQuiz) {
 
           //update listen
-        const { name, topic, video, script, description, createDate} = listen;
-        const quizId = newQuiz._id;
-        await updateListen(listeningId, {quizId});
+       // const { Name, Topic, Video, Script, Description, CreateDate} = listen;
+       // const quizId = newQuiz._id;
+      //  await updateListen(listeningId, {quizId});
             //return quiz
         return res.status(200).json({data: newQuiz });
       }

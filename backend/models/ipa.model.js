@@ -2,38 +2,38 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const IPAModel = new Schema({
-    audioSrc: {
+    AudioSrc: {
     type: String,
     default: null,
   },
 
-  mouthShape: {
+  MouthShape: {
     type: String,
     default: null,
   },
 
-  desc: {
+  Desc: {
     type: String,
     required: true,
     enum: ['Unvoiced sound', 'Voiced sound'],
   },
 
-  examples:
+  Examples:
     [{ type: Schema.Types.Map, ref: 'word' }],
 
-  phonetic: {
+  Phonetic: {
     type: String,
     trim: true,
     maxLength: 50,
     default: '',
   },
 
-  listeningId: {
+  ListeningId: {
     type: Schema.Types.ObjectId,
-    ref: 'listening',
+    ref: 'Listening',
     default: null,
   },
 
 });
 
-module.exports = mongoose.model('ipa', IPAModel);
+module.exports = mongoose.model('IPA', IPAModel);

@@ -3,20 +3,20 @@ const Schema = mongoose.Schema;
 
 
 const GrammarItemsModel = new Schema({
-  content: {
+  Content: {
     type: String,
     required: true,
   },
 
-  example: {
+  Example: {
     type: String,
   },
 
-  grammarId: {
+  GrammarId: {
     type: Schema.Types.ObjectId,
-    ref: 'grammar',
+    ref: 'Grammar',
     default: null,
   },
 });
 
-module.exports = mongoose.model('grammar_item', GrammarItemsModel);
+module.exports = mongoose.model('Grammar_item', GrammarItemsModel);

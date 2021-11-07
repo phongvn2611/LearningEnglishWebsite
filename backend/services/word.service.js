@@ -28,7 +28,7 @@ exports.updateWord = async (_id='',wordInfo) => {
 exports.getIdByWord = async (word = '') => {
   try {
     var query = new RegExp( `^${word}.*`,'gi');
-    const id = await WordModel.findOne({word: query})
+    const id = await WordModel.findOne({Word: query})
                   .select('-_id');   
     return id;
   } catch (error) {
@@ -40,7 +40,7 @@ exports.searchWord = async (word = '') => {
   try {
     var query = new RegExp( `^${word}.*`,'gi');
     const list = await WordModel.find({word: query})
-                  .select('-_id type word mean phonetic picture');   
+                  .select('-_id Type Word Mean Phonetic Picture');   
     return list;
   } catch (error) {
     throw error;
@@ -50,7 +50,7 @@ exports.searchWord = async (word = '') => {
 exports.getAllWords = async () => {
   try {
     const list = await WordModel.find({})
-                  .select('-_id type word mean phonetic picture');   
+                  .select('-_id Type Word Mean Phonetic Picture');   
     return list;
   } catch (error) {
     throw error;
@@ -89,7 +89,7 @@ exports.getFavoriteList = async (rawFavorites = []) => {
     let list = [];
     for (let word of rawFavorites) {
       const regex = new RegExp(`^${word}.*`, 'gi');
-      const wordDetails = await WordModel.findOne({ word: regex })
+      const wordDetails = await WordModel.findOne({ Word: regex })
       .select('-_id type word mean phonetic picture',
       );
       if (wordDetails) {
