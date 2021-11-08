@@ -2,6 +2,7 @@ const router = require('express').Router();
 const grammarController = require('../controllers/grammarController');
 const { authentication, authRole } = require('../middlewares/authMiddleware');
 
+router.get('/get-grammar-all', grammarController.getAllGrammars);
 router.get('/get-grammar-by-id/:id', grammarController.getById);
 router.get('/get-grammar-by-level/:level', grammarController.getByLevel);
 router.get('/get-grammar-levels', grammarController.getLevels);

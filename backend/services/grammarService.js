@@ -85,5 +85,15 @@ exports.getGrammarById = async (id = '') => {
         throw error;
       }
     };
+
+    //get all
+    exports.getAllGrammars = async () => {
+      try {
+        const list = await GrammarModel.find({});                   
+        return list;
+      } catch (error) {
+        throw error;
+      }
+    };
   
   

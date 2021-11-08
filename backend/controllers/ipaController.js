@@ -1,7 +1,7 @@
 const {
     createIPA,
     updateIPA,
-    getIPAByListeningId,
+    getAllIPAs,
     getIPAById,
     deleteIPAById,
     deleteIPAByListenId,
@@ -82,6 +82,17 @@ const {
       return res.status(503).json({ message: 'Eror, can not delete this IPA' });
     }
   };
+
+  //get all
+ exports.getAllIPAs = async (req, res) => {
+  try {
+    const list = await getAllIPAs();
+    return res.status(200).json({list });
+  } catch (error) {
+    console.error('ERROR: ', error);
+    return res.status(503).json({ message: 'Lỗi dịch vụ, thử lại sau' });
+  }
+};
 
   
   

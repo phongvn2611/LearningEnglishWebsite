@@ -58,3 +58,14 @@ exports.getIPAById = async (id = '') => {
         throw error;
       }
     };
+
+    //get all
+    exports.getAllIPAs = async () => {
+      try {
+        const list = await IPAModel.find({});                   
+        return list;
+      } catch (error) {
+        throw error;
+      }
+    };
+  

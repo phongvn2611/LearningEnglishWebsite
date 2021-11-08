@@ -1,6 +1,6 @@
 const {
   createGrammar,
-  getGrammarByListeningId,
+  getAllGrammars,
   getGrammarById,
   deleteGrammarById,
   deleteGrammarByListenId,
@@ -115,6 +115,17 @@ exports.deleteById = async (req, res) => {
   } catch (error) {
     console.error('ERROR: ', error);
     return res.status(503).json({ message: 'Eror, can not delete this grammar' });
+  }
+};
+
+//get all 
+exports.getAllGrammars = async (req, res) => {
+  try {
+    const list = await getAllGrammars();
+    return res.status(200).json({list });
+  } catch (error) {
+    console.error('ERROR: ', error);
+    return res.status(503).json({ message: 'Lỗi dịch vụ, thử lại sau' });
   }
 };
 
