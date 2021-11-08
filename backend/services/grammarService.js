@@ -58,3 +58,32 @@ exports.getGrammarById = async (id = '') => {
         throw error;
       }
     };
+
+    //get grammar by level
+    exports.getGrammarByLevel = async (level) => {
+      try {
+         // var query = new RegExp( `^${topic}.*`,'gi');
+          const list = await GrammarModel.find({Level: level});
+          if(list.length == 0){
+            return null;
+          }
+        return list;
+      } catch (error) {
+        throw error;
+      }
+    };
+
+    //get levels
+    exports.getGrammarLevels = async () => {
+      try {
+          const list = await GrammarModel.distinct('Level');
+          if(list.length == 0){
+            return null;
+          }
+        return list;
+      } catch (error) {
+        throw error;
+      }
+    };
+  
+  

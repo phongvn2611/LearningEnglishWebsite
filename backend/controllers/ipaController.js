@@ -83,18 +83,5 @@ const {
     }
   };
 
-  //delete by listenid
-  exports.deleteByListenId = async (req, res, next) => {
-    try {
-      const { listenId } = req.params.listenId;
-      const isDelete = await deleteIPAByListenId(listenId);
-      if (isDelete) {
-        return res.status(200).json({ message: 'Delete successfully.' });
-      }
-    } catch (error) {
-      console.error('ERROR: ', error);
-      return res.status(503).json({ message: 'Eror, can not delete this IPA' });
-    }
-  };
   
   

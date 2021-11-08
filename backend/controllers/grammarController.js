@@ -4,6 +4,8 @@ const {
   getGrammarById,
   deleteGrammarById,
   deleteGrammarByListenId,
+  getGrammarLevels,
+  getGrammarByLevel
 } = require('../services/grammarService');
 const {
   getListenById,
@@ -99,6 +101,35 @@ exports.getById = async (req, res) => {
   }
 };
 
+//get levels
+exports.getLevels = async (req, res) => {
+  try {
+    const list = await getGrammarLevels();
+    if(list == null ){
+      return res.status(204).json({ message: 'No result.'});
+      }
+    return res.status(200).json({list });
+  } catch (error) {
+    console.error('ERROR: ', error);
+    return res.status(503).json({ message: 'Lỗi dịch vụ, thử lại sau' });
+  }
+};
+
+//get by level
+exports.getByLevel = async (req, res) => {
+  try {
+    const Level = req.params.level;  
+    const list = await getGrammarByLevel(Level);
+    if(list == null ){
+      return res.status(204).json({ message: 'No result.'});
+      }
+    return res.status(200).json({list });
+  } catch (error) {
+    console.error('ERROR: ', error);
+    return res.status(503).json({ message: 'ERROR, can not get grammar' });
+  }
+};
+
 
 //delete by id
 exports.deleteById = async (req, res) => {
@@ -114,17 +145,4 @@ exports.deleteById = async (req, res) => {
   }
 };
 
-//delete by listenid
-exports.deleteByListenId = async (req, res, next) => {
-  try {
-    const { listenId } = req.params.listenId;
-    const isDelete = await deleteGrammarByListenId(listenId);
-    if (isDelete) {
-      return res.status(200).json({ message: 'Delete successfully.' });
-    }
-  } catch (error) {
-    console.error('ERROR: ', error);
-    return res.status(503).json({ message: 'Eror, can not delete this grammar' });
-  }
-};
 
