@@ -17,7 +17,7 @@ const {
 //create Listening
 exports.postListening = async (req, res) => {
   try {
-    const {Name, Topic, Description, Script, Video, Youtube, Audio, Image } = req.body;
+    const {Name, Topic, Description, Script, Level, Video, Youtube, Audio, Image } = req.body;
     const CreatDate= new Date(new Date().toUTCString()); 
 
     // upload video
@@ -35,7 +35,7 @@ exports.postListening = async (req, res) => {
     }
 
     // create the new listen
-    const newListen = await createListen({Name, Topic, Description, Script, Video: videoUrl, Youtube: ytubeUrl, Audio, Image, CreatDate });
+    const newListen = await createListen({Name, Topic, Description, Script, Level, Video: videoUrl, Youtube: ytubeUrl, Audio, Image, CreatDate });
 
     if (newListen !=null) {
       return res.status(200).json({data: newListen });
@@ -50,7 +50,7 @@ exports.postListening = async (req, res) => {
 //update 
 exports.putListen = async (req, res, next) => {
   try {
-      const {Name, Topic, Description, Script, Video, Youtube, Audio, Image }= req.body;
+      const {Name, Topic, Description, Script, Level, Video, Youtube, Audio, Image }= req.body;
 
       // upload video
       let videoUrl = null;
@@ -60,7 +60,7 @@ exports.putListen = async (req, res, next) => {
 
     // update
     const Listen = await updateListen(req.params.listenId, 
-      {Name, Topic, Description, Script, Video: videoUrl, Youtube, Audio, Image });
+      {Name, Topic, Description, Script, Level, Video: videoUrl, Youtube, Audio, Image });
 
       if (Listen !=null) {
           return res.status(200).json({updateListen });
@@ -90,6 +90,24 @@ exports.getByTopic = async (req, res) => {
   try {
     const Topic = req.params.topic;  
     const list = await getListenByTopic(Topic);
+    if(list == null ){
+      return res.status(204).json({ message: 'No result.'});
+      }
+    return res.status(200).json({list });
+  } catch (error) {
+    console.error('ERROR: ', error);
+    return res.status(503).json({ message: 'ERROR, can not get listening' });
+  }
+};
+
+//get by level
+exports.getByLevel = async (req, res) => {
+  try {
+    const Level = req.params.level;  
+    const list = await getListenByLevel(Level);
+    if(list == null ){
+      return res.status(204).json({ message: 'No result.'});
+      }
     return res.status(200).json({list });
   } catch (error) {
     console.error('ERROR: ', error);
@@ -137,7 +155,9 @@ exports.deleteListen = async (req, res) => {
  //search
  exports.getSearchListen = async (req, res) => {
   try {
-    const list = await searchListen(req.query.name);
+    const name =req.query.name;
+    const level =req.params.level;
+    const list = await searchListen(name, level );
     if(list == null ){
     return res.status(204).json({ message: 'No result.'});
     }

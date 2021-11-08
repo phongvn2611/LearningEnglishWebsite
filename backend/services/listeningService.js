@@ -48,9 +48,24 @@ exports.getAllListen = async () => {
 
 exports.getListenByTopic = async (topic) => {
     try {
-        var query = new RegExp( `^${topic}.*`,'gi');
-        const list = await WordModel.find({topic: query})
-                  .select('-_id type word mean phonetic picture');  
+       // var query = new RegExp( `^${topic}.*`,'gi');
+        const list = await ListeningModel.find({Topic: topic}); 
+        if(list.length == 0){
+          return null;
+        } 
+      return list;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  exports.getListenByLevel = async (level) => {
+    try {
+       // var query = new RegExp( `^${topic}.*`,'gi');
+        const list = await ListeningModel.find({Level: level});
+        if(list.length == 0){
+          return null;
+        }
       return list;
     } catch (error) {
       throw error;
@@ -59,7 +74,10 @@ exports.getListenByTopic = async (topic) => {
 
   exports.getListenTopics = async () => {
     try {
-        const list = await WordModel.distinct('topic');
+        const list = await ListeningModel.distinct('Topic');
+        if(list.length == 0){
+          return null;
+        }
       return list;
     } catch (error) {
       throw error;
@@ -88,11 +106,12 @@ exports.deleteListen = async (_id = '') => {
   }
 };
 
-exports.searchListen = async (param = '') => {
+exports.searchListen = async (name = '', level='') => {
   try {
-    const list = await ListeningModel.find( { $or:[{'Name':param}, {'Topic':param} ]}); 
-    if(list.length == 0)
-    return null;
+    const list = await ListeningModel.find( { $or:[{'Name':name}, {'Topic':name}, {'Level':level} ]}); 
+    if(list.length == 0){
+      return null;
+    }
     return list;
   } catch (error) {
     throw error;
