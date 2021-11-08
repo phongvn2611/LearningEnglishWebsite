@@ -12,33 +12,6 @@ const {
   updateListen,
 } = require('../services/listeningService');
 
-
-//create grammar by listeningId
-exports.postGrammarByListen = async (req, res) => {
-  try {
-    const ListeningId= req.params.listenId;
-
-     //check if listening existed
-     const listen = await getListenById(ListeningId);
-     if(!listen) {
-     return res.status(400).json({ message: 'Error, Not found listening.' });
-     }
-
-     const {Title, Content,Level, Items}= req.body;
- 
-    // create grammar
-    const newGrammar = await createGrammar({Title, ListeningId, Content,Level, Items});
-
-    if (newGrammar != null) {
-      return res.status(201).json({data: newGrammar });
-    }
-    return res.status(503).json({ message: 'Error, can not create gramma.' });
-  } catch (error) {
-    console.error('POST ERROR: ', error);
-    return res.status(503).json({ message: 'Error, can not create gramma.' });
-  }
-};
-
 //create grammar
 exports.postGrammar = async (req, res) => {
   try {
