@@ -1,16 +1,19 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import useTitle from "../hooks/useTitle";
-import { AudioCard } from "material-ui-player";
+import {VideoCard, AudioCard } from "material-ui-player";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Container from "@material-ui/core/Container";
 import Button from '@material-ui/core/Button'
+import { useDispatch, useSelector } from 'react-redux';
+import listeningAction from '../redux/actions/listeningAction';
+import { useParams } from 'react-router-dom';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -45,9 +48,30 @@ function a11yProps(index) {
   };
 }
 
-export default function ListeningPage() {
+ const ListeningPage = () => {
   useTitle("Listening");
   const [value, setValue] = React.useState(0);
+
+  // const [loading, setLoading] = useState(false);
+  // const dispatch = useDispatch();
+
+  // const listenId = useParams().id;
+  // const listenDetails = React.useState(1);
+  // const {listen} = listenDetails;
+
+  // const dispatch = useDispatch();
+  
+  // // const listen  = dispatch(listeningAction.getListenById(listenId));
+ 
+  // useEffect(() => {    
+  //   dispatch(listeningAction.getListenById(listenId));
+  // }, [dispatch, listen, listenId]);
+
+ // console.log(listen);
+
+//  dispatch(listeningAction.getListenById(listenId));
+//   console.log(listenId);
+//   //console.log(listen);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -60,9 +84,7 @@ export default function ListeningPage() {
           What subjects did you dislike studying?
         </Typography>
         <VideoCard
-          src={
-            "https://res.cloudinary.com/phongvn2611/video/upload/v1635815820/video/listening-video-1_quiljv.mp4"
-          }
+          src=""
           width={"640px"}
         />
 
@@ -76,7 +98,7 @@ export default function ListeningPage() {
               
                 <div class="card w-100">
                     <div class="embed-responsive embed-responsive-16by9">
-                        <iframe id="player" class="embed-responsive-item" src="https://www.youtube.com/embed/jcOwNAgNq5s?enablejsapi=1" frameborder="0"></iframe>
+                        <iframe id="player" class="embed-responsive-item" src="https://www.youtube.com/embed/${videoId}?enablejsapi=1" frameborder="0"></iframe>
                     </div>
                 </div>
             </div>
@@ -162,4 +184,6 @@ export default function ListeningPage() {
       </Container>
     </>
   );
-}
+};
+
+export default ListeningPage;

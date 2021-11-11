@@ -13,9 +13,20 @@ const GrammarModel = new Schema({
     required: true,
   },
 
-  ListeningId: {
-    type: Schema.Types.ObjectId,
-    ref: 'Listening',
+  Video: {
+    type: String,
+    trim: true,
+    default: null,
+  },
+
+  Image: {
+    type: String,
+    trim: true,
+    default: null,
+  },
+
+  Script: {
+    type: String,
     default: null,
   },
 

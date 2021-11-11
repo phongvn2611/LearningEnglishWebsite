@@ -48,7 +48,7 @@ const routes = [
   {
     path: ROUTES.LISTENING,
     exact: true,
-    isProtect: true,
+    isProtect: true,    
     component: () => <ListeningPage />
   }
 ];

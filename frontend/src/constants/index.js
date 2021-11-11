@@ -5,7 +5,7 @@ export const ROUTES = {
   REGISTER: '/register',
   ADMIN: '/admin',
   GRAMMAR_ADMIN: '/admin/grammar',
-  LISTENING: '/listening'
+  LISTENING: '/listening/:id',
 }
 
 export const UX = {

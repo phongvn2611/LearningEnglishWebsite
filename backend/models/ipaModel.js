@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const IPAModel = new Schema({
-    AudioSrc: {
+    Audio: {
     type: String,
     default: null,
   },
@@ -28,12 +28,19 @@ const IPAModel = new Schema({
     default: '',
   },
 
-  ListeningId: {
-    type: Schema.Types.ObjectId,
-    ref: 'Listening',
+  Video: {
+    type: String,
+    trim: true,
+    default: null,
+  },
+
+  Image: {
+    type: String,
+    trim: true,
     default: null,
   },
 
 });
+
 
 module.exports = mongoose.model('IPA', IPAModel);

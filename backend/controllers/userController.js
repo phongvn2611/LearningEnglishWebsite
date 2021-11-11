@@ -89,7 +89,7 @@ exports.login = async (req, res) => {
     const refresh_token = createRefreshToken({ id: user._id });
     res.cookie("refreshtoken", refresh_token, {
       httpOnly: true,
-      path: "/user/refresh_token",
+      path: "/user/refresh-token",
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
 
@@ -132,7 +132,7 @@ exports.forgotPassword = async (req, res) => {
     const access_token = createAccessToken({ id: user._id });
     const url = `${CLIENT_URL}/user/reset/${access_token}`;
 
-    sendMail(email, url, "Reset your password");
+    sendEmail(email, url, "Reset your password");
     res.json({ message: "Re-send the password, please check your email." });
   } catch (err) {
     return res.status(500).json({ message: err.message });

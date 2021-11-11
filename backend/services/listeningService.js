@@ -87,7 +87,7 @@ exports.getListenByTopic = async (topic) => {
 exports.getDetailListen = async (_id = '') => {
   try {
     const res = await ListeningModel.findById(_id );
-
+    
     return res;
   } catch (error) {
     throw error;

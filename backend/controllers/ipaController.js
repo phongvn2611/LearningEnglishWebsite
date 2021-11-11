@@ -10,17 +10,49 @@ const {
     getListenById,
     updateListen,
   } = require('../services/listeningService');
-
+  const {
+    uploadVideo,
+    uploadImage,
+  } = require('../services/commonService');
+  
   
   //create ipa
   exports.postIPA = async (req, res) => {
     try {
 
-      const {AudioSrc, MouthShape, Desc, Examples, Phonetic, ListeningId} = req.body;
-      // create IPA
-      const newIPA = await createIPA({AudioSrc, MouthShape, Desc, Examples, Phonetic, ListeningId});
+      const {Audio, MouthShape, Desc, Examples, Phonetic, Video, Image} = req.body;
+
+    //video
+     let videoUrl = null;
+     if (Video) {
+       if(typeof Video === 'string') {
+         let vid = Video.trim();
+         if(vid){
+           const videoId = vid.split("=");
+           videoUrl= `https://www.youtube.com/embed/${videoId}?enablejsapi=1`;
+         }
+       }
+       else{
+         videoUrl = await uploadVideo(Video, 'dynonary/ipas');
+       }
+     }
+
+    //upload Image
+    let imgUrl = null;
+    if (Image) {      
+        imgUrl = await uploadImage(Image, 'dynonary/ipas');
+    }
+
+    //upload Audio
+    let audUrl = null;
+    if (Audio) {      
+        audUrl = await uploadVideo(Audio, 'dynonary/ipas');
+    }
+
+    // create IPA
+    const newIPA = await createIPA({Audio: audUrl, MouthShape, Desc, Examples, Phonetic, Video: videoUrl, Image: imgUrl});
   
-      if (newIPA != null) {
+    if (newIPA != null) {
         return res.status(201).json({data: newIPA });
       }
       return res.status(503).json({ message: 'Error, can not create IPA.' });
@@ -41,10 +73,37 @@ const {
       if(!IPAExist) {
         return res.status(400).json({ message: 'Error, Not found IPA.' });
       }
-      const {AudioSrc, MouthShape, Desc, Examples, Phonetic} = req.body;
-      const ListeningId = IPAExist.ListeningId;
-      const IPA = await updateIPA({AudioSrc, MouthShape, Desc, Examples, Phonetic, ListeningId});
-      if (IPA) {
+
+      const {Audio, MouthShape, Desc, Examples, Phonetic, Video, Image} = req.body;
+     //video
+     let videoUrl = null;
+     if (Video) {
+       if(typeof Video === 'string') {
+         let vid = Video.trim();
+         if(vid){
+           const videoId = vid.split("=");
+           videoUrl= `https://www.youtube.com/embed/${videoId}?enablejsapi=1`;
+         }
+       }
+       else{
+         videoUrl = await uploadVideo(Video, 'dynonary/ipas');
+       }
+     }
+
+    //upload Image
+    let imgUrl = null;
+    if (Image) {      
+        imgUrl = await uploadImage(Image, 'dynonary/ipas');
+    }
+
+    //upload Audio
+    let audUrl = null;
+    if (Audio) {      
+        audUrl = await uploadVideo(Audio, 'dynonary/ipas');
+    }
+
+    const IPA = await updateIPA({Audio: audUrl, MouthShape, Desc, Examples, Phonetic, Video: videoUrl, Image: imgUrl});
+    if (IPA) {
         return res.status(202).json({data: IPA });
       }
       return res.status(503).json({ message: 'Error, can not update IPA.' });return res.status(503).json({ message: 'Error, can not update question.' });

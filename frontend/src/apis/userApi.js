@@ -8,7 +8,7 @@ const userApi = {
     return axios.post(`${URL}/register`, { name, email, password });
   },
   getTokenApi: () => {
-    return axios.get(`${URL}/get-token`);
+    return axios.get(`${URL}/refresh-token`);
   },
   getProfile: (token) => {
     return axios.get(`${URL}/get-profile`, {

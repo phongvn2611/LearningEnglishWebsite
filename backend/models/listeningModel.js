@@ -25,25 +25,7 @@ const ListeningModel = new Schema({
     required: true,
   },
 
-  Level: {
-    type: String,
-    enum: ['', '1', '2', '3', '4'],
-    default: '',
-  },
-
   Video: {
-    type: String,
-    trim: true,
-    default: null,
-  },
-
-  Youtube: {
-    type: String,
-    trim: true,
-    default: null,
-  },
-
-  Audio: {
     type: String,
     trim: true,
     default: null,

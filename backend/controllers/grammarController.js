@@ -11,19 +11,45 @@ const {
   getListenById,
   updateListen,
 } = require('../services/listeningService');
+const {
+  uploadVideo,
+  uploadImage,
+} = require('../services/commonService');
+
 
 //create grammar
 exports.postGrammar = async (req, res) => {
   try {
+    const {Title, Video, Image, Script, Content, Level, Items}= req.body;
 
-    const {Title, ListeningId, Content,Level, Items}= req.body;
-    const newGrammar = await createGrammar({Title, ListeningId, Content,Level, Items});
+     //video
+     let videoUrl = null;
+     if (Video) {
+       if(typeof Video === 'string') {
+         let vid = Video.trim();
+         if(vid){
+           const videoId = vid.split("=");
+           videoUrl= `https://www.youtube.com/embed/${videoId}?enablejsapi=1`;
+         }
+       }
+       else{
+         videoUrl = await uploadVideo(Video, 'dynonary/grammars');
+       }
+     }
+
+    //upload Image
+    let imgUrl = null;
+    if (Image) {      
+        imgUrl = await uploadImage(Image, 'dynonary/grammars');
+    }
+
+    const newGrammar = await createGrammar({Title, Video: videoUrl, Image: imgUrl, Script, Content,Level, Items});
     if (newGrammar) {
       return res.status(201).json({data: newGrammar });
     }
     return res.status(503).json({ message: 'Error, can not create gramma.' });
   } catch (error) {
-    console.error('POST ERROR: ', error);
+    console.error('ERROR: ', error);
     return res.status(503).json({ message: 'Error, can not create gramma.' });
   }
 };
@@ -40,15 +66,35 @@ exports.putGrammar = async (req, res) => {
       return res.status(400).json({ message: 'Error, Not found grammar.' });
     }
       // delete grammar
-    const isDeleted = await deleteGrammarById(grammaId);
+    const isDeleted = await deleteGrammarById(grammarId);
     if(!isDeleted){
       return res.status(400).json({ message: 'Error, can not update grammar.' });
     }
 
     // create grammar
-    const {Title, Content,Level, Items} = req.body;
-    const ListeningId = GrammarExist.ListeningId;
-    const newGrammar = await createGrammar({Title, ListeningId, Content,Level, Items});
+    const {Title, Video, Image, Script, Content,Level, Items} = req.body;
+    //video
+    let videoUrl = null;
+    if (Video) {
+      if(typeof Video === 'string') {
+        let vid = Video.trim();
+        if(vid){
+          const videoId = vid.split("=");
+          videoUrl= `https://www.youtube.com/embed/${videoId}?enablejsapi=1`;
+        }
+      }
+      else{
+        videoUrl = await uploadVideo(Video, 'dynonary/grammars');
+      }
+    }
+
+    //upload Image
+    let imgUrl = null;
+    if (Image) {      
+        imgUrl = await uploadImage(Image, 'dynonary/grammars');
+    }
+
+    const newGrammar = await createGrammar({Title, Video: videoUrl, Image: imgUrl, Script, Content,Level, Items});
 
     if (newGrammar) {
       return res.status(201).json({data: newGrammar });

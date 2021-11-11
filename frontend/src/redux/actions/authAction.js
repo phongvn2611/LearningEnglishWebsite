@@ -1,7 +1,8 @@
 import USER_CONSTANT from "../constants/userConstant";
 import userApi from "./../../apis/userApi";
 import messageAction from './messageAction';
-import { loginReducer } from './../reducers/authReducer';
+import { loginReducer } from '../reducers/authReducer';
+
 const authAction = {
   login: (email, password) => async (dispatch) => {
     try {
