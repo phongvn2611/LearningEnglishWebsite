@@ -30,12 +30,6 @@ const listeningModel = new Schema({
     default: null,
   },
 
-  grammarId: {
-    type: Schema.Types.ObjectId,
-    ref: 'grammar',
-    default: null,
-  },
-
   video: {
     type: String,
     trim: true,

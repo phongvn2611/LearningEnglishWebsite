@@ -2,6 +2,7 @@ const Users = require("../models/userModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const sendEmail = require("../configs/mailConfig");
+const jwtConfig = require('../configs/jwtConfig');
 
 const { CLIENT_URL } = process.env;
 
@@ -32,13 +33,13 @@ exports.register = async (req, res) => {
     const activation_token = createActivationToken(newUser);
     const url = `${CLIENT_URL}/user/activate/${activation_token}`;
     sendEmail(email, url, "Verify your email address");
-    res.status(200).json({
+    return res.status(200).json({
       message: "Register successfully! Please activate your email to start",
     });
   } catch (err) {
     return res.status(500).json({ message: err.message });
   }
-}
+};
 
 exports.activateEmail = async (req, res) => {
   try {
@@ -62,17 +63,17 @@ exports.activateEmail = async (req, res) => {
 
     await newUser.save();
 
-    res.status(200).json({
+    return res.status(200).json({
       message: "Account has been activated!",
       user: {
         ...newUser._doc,
-        password: ''
-  }  });
+        password: "",
+      },
+    });
   } catch (err) {
     return res.status(500).json({ message: err.message });
   }
-}
-
+};
 
 exports.login = async (req, res) => {
   try {
@@ -85,31 +86,26 @@ exports.login = async (req, res) => {
     if (!isMatch)
       return res.status(400).json({ message: "Password is incorrect" });
 
-    const access_token = createAccessToken({ id: user._id });
-    const refresh_token = createRefreshToken({ id: user._id });
-    res.cookie("refreshtoken", refresh_token, {
+    const refresh_token = createRefreshToken({id: user._id});
+    res.cookie("token", refresh_token, {
       httpOnly: true,
-      path: "/user/refresh_token",
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      expires: new Date(Date.now() + 7 * 24 * 3600 * 1000),
     });
 
-    res.json({
-      message: 'Login Successfully!',
-      access_token,
-      user: {
-          ...user._doc,
-          password: ''
-      }
-  })
+    return res.json({
+      user,
+      message: "Login Successfully!",
+    });
   } catch (err) {
     return res.status(500).json({ message: err.message });
   }
-}
+};
 
 exports.getAccessToken = async (req, res) => {
   try {
-    const rf_token = req.cookies.refreshtoken;
-    if (!rf_token) return res.status(400).json({ message: "Please login now!" });
+    const rf_token = req.cookies.token;
+    if (!rf_token)
+      return res.status(400).json({ message: "Please login now!" });
 
     jwt.verify(rf_token, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
       if (err) return res.status(400).json({ message: "Please login now!" });
@@ -120,7 +116,7 @@ exports.getAccessToken = async (req, res) => {
   } catch (err) {
     return res.status(500).json({ message: err.message });
   }
-}
+};
 
 exports.forgotPassword = async (req, res) => {
   try {
@@ -137,15 +133,28 @@ exports.forgotPassword = async (req, res) => {
   } catch (err) {
     return res.status(500).json({ message: err.message });
   }
-}
+};
 
-exports.getProfile = async (req, res) => {
+exports.getUserInfo = async (req, res) => {
   try {
-    const users = await Users.findById(req.user.id).select('-password');
-    res.status(200).json(users)
+    const { isAuth } = res.locals;
+    if (!isAuth) {
+      return res.status(400).json({ message: 'Get user info failed' });
+    }
+    const user = await Users.findById(req.user.id);
+    return res.status(200).json({ user });
+  } catch (err) {
+    return res.status(401).json({ message: err.message });
+  }
+};
+
+exports.logout = async (req, res) => {
+  try {
+    res.clearCookie('token');
+    return res.status(200).json({ message: 'Logout successfully' });
   }
   catch (err) {
-    res.status(500).json({ message: err.message });
+     return res.status(503).json({ message: 'Logout failed' });
   }
 }
 
@@ -172,4 +181,3 @@ const createRefreshToken = (payload) => {
     expiresIn: "7d",
   });
 };
-
