@@ -1,7 +1,7 @@
 const wordApi = require('express').Router();
 const { Router } = require('express');
 const wordController = require('../controllers/wordController');
-const { authentication, authRole } = require('../middlewares/authMiddleware');
+const { authentication, authRole } = require('../middlewares/authenticationMiddleware');
 
 wordApi.get('/get-all', wordController.getAllWords);
 wordApi.post('/post', wordController.postContributeWord);

@@ -9,7 +9,12 @@ const {
   searchListen,
   getListenByLevel
 } = require('../services/listeningService');
-
+const {
+  getQuestionByQuizId,
+} = require('../services/questionService');
+const {
+  getQuizByListenId,
+} = require('../services/quizService');
 const {
   uploadVideo,
   uploadImage,
@@ -29,7 +34,8 @@ exports.postListening = async (req, res) => {
           let vid = Video.trim();
           if(vid){
             const videoId = vid.split("=");
-            videoUrl= `https://www.youtube.com/embed/${videoId}?enablejsapi=1`;
+            console.log(videoId);
+            videoUrl= `https://www.youtube.com/embed/${videoId[1]}?enablejsapi=1`;
           }
         }
         else{
@@ -68,6 +74,7 @@ exports.putListen = async (req, res, next) => {
         let vid = Video.trim();
         if(vid){
           const videoId = vid.split("=");
+          console.log(videoId);
           videoUrl= `https://www.youtube.com/embed/${videoId}?enablejsapi=1`;
         }
       }
@@ -98,11 +105,26 @@ exports.putListen = async (req, res, next) => {
 
 //get the details
 exports.getDetails = async (req, res, next) => {
-  try {
-    console.log(req.params.listenId);
-    const listenDetail = await getDetailListen(req.params.listenId);
-    if (listenDetail) {
-      return res.status(200).json({listenDetail});
+  try {    
+    const listen = await getDetailListen(req.params.id);
+    const questions = await getQuestionByListenId(req.params.id);
+    if (listen && questions) {
+      return res.status(200).json({listen, questions});
+    }
+  } catch (error) {
+    console.error('ERROR: ', error);
+    return res.status(503).json({ message: error });
+  }
+};
+
+//get listen and quiz
+exports.getListening = async (req, res, next) => {
+  try {    
+    const listen = await getDetailListen(req.params.id);
+    const quiz = await getQuizByListenId(req.params.id);
+    const questions = await getQuestionByQuizId(quiz._id);
+    if (listen && questions) {
+      return res.status(200).json({listen, questions});
     }
   } catch (error) {
     console.error('ERROR: ', error);

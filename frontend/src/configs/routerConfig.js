@@ -1,20 +1,16 @@
-import WelcomePage from "../pages/Welcome";
+// import WelcomePage from "../pages/Welcome";
 import React from "react";
 import { ROUTES } from "../constants";
 import { Route } from "react-router";
-const HomePage = React.lazy(() => import("../pages/Home"));
+import HomePage from "../pages/Home";
 const RegisterPage = React.lazy(() => import("../pages/Register"));
 const LoginPage = React.lazy(() => import("../pages/Login"));
 const AdminPage = React.lazy(() => import("../pages/Admin"));
-const GrammarAdminPage = React.lazy(() => import("../pages/GrammarAdmin"))
+const GrammarAdminPage = React.lazy(() => import("../pages/GrammarAdmin"));
 const ListeningPage = React.lazy(() => import("../pages/Listening"))
+
 const routes = [
-  {
-    path: ROUTES.WELCOME,
-    exact: true,
-    isProtect: false,
-    component: () => <WelcomePage />,
-  },
+
   {
     path: ROUTES.HOME,
     exact: true,

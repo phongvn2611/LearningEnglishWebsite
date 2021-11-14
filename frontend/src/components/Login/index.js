@@ -10,8 +10,12 @@ import LockIcon from '@material-ui/icons/Lock';
 import LoopIcon from '@material-ui/icons/Loop';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
+import userApi from './../../apis/userApi';
+import messageAction from './../../redux/actions/messageAction';
+import { login } from './../../redux/actions/authAction';
 
 const schema = yup.object().shape({
   email: yup
@@ -25,7 +29,9 @@ const schema = yup.object().shape({
 });
 
 function LoginLocalForm(props) {
-  const { onLogin, loading } = props;
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  const history = useHistory();
   const classes = makeStyles(formStyle)();
   const [visiblePw, setVisiblePw] = useState(false);
   const {
@@ -35,11 +41,34 @@ function LoginLocalForm(props) {
   } = useForm({
     resolver: yupResolver(schema),
   });
+  const [user, setUser] = useState({
+    email: '',
+    password: ''
+  })
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setUser({ ...user, [name]: value });
+  }
+
+  const handleLogin = async (e) => {
+    try {
+      setLoading(true);
+      const res = await userApi.loginApi(user.email, user.password);
+      dispatch(messageAction.setMessage(res.data.message, 'success'));
+      localStorage.setItem('firstLogin', true);
+      dispatch(login());
+    }
+    catch (err) {
+      dispatch(messageAction.setMessage(err.response.data.message))
+      setLoading(false);
+    }
+  }
 
   return (
     <form
       className={`${classes.root} flex-col`}
-      onSubmit={handleSubmit(onLogin)}
+      onSubmit={handleSubmit(handleLogin)}
       autoComplete="off">
       <div className="flex-col">
         <h1 className={`${classes.title} t-center`}>Đăng nhập</h1>
@@ -53,6 +82,7 @@ function LoginLocalForm(props) {
           label="Email"
           size="small"
           placeholder="Nhập email"
+          onChange={handleChange}
           error={Boolean(errors.email)}
           inputProps={{
             name: 'email',
@@ -68,10 +98,10 @@ function LoginLocalForm(props) {
           label="Mật khẩu"
           size="small"
           placeholder="Nhập mật khẩu"
+          onChange={handleChange}
           error={Boolean(errors.password)}
           inputProps={{
             name: 'password',
-            minLength: 6,
             type: visiblePw ? 'text' : 'password',
             ...register('password'),
           }}
@@ -124,12 +154,12 @@ function Login(props) {
 
 Login.propTypes = {
   loading: PropTypes.bool,
-  onLogin: PropTypes.func,
+  handleLogin: PropTypes.func,
 };
 
 Login.defaultProps = {
   loading: false,
-  onLogin: function () {},
+  handleLogin: function () {},
 };
 
 export default Login;

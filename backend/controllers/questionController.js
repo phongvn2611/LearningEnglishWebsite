@@ -20,7 +20,7 @@ exports.postQuestion = async (req, res) => {
     //check if quiz existed
     const quiz = await getQuizById(QuizId);
     if(!quiz) {
-    return res.status(400).json({ message: 'Error, Not found quiz.' });
+    return res.status(400).json({ message: 'Error, Not found listen.' });
     }
 
     // create question
@@ -71,8 +71,8 @@ exports.putQuestion = async (req, res) => {
 exports.getById = async (req, res, next) => {
   try {
     const id = req.params.questionId;
-    const Question = await getQuestionById(id);
-    return res.status(200).json({Question });
+    const question = await getQuestionById(id);
+    return res.status(200).json({question });
   } catch (error) {
     console.log(id);
     console.error('ERROR: ', error);
@@ -80,20 +80,21 @@ exports.getById = async (req, res, next) => {
   }
 };
 
-//get by QuizId
-exports.getByQuizId = async (req, res) => {
+//get by ListenId
+exports.getByListenId = async (req, res) => {
   try {
-      const quizId= req.params.quizId;
+      const listenId= req.params.listenId;
     
     //check if quiz existed
-    const quiz = await getQuizById(quizId);
-    if(!quiz) {
-    return res.status(400).json({ message: 'Error, Not found quiz.' });
+    const listen = await getListenById(listenId);
+    if(!listen) {
+    return res.status(400).json({ message: 'Error, Not found listen.' });
     }
 
     //get question of
-    const questions = await getQuestionByQuizId(quizId);
-    return res.status(200).json({questions });
+    const question = await getQuestionByListenId(listenId);
+   // console.log(question)
+    return res.status(200).json({question });
   } catch (error) {
     console.error('ERROR: ', error);
     return res.status(503).json({ message: 'Lỗi dịch vụ, thử lại sau' });
@@ -114,11 +115,11 @@ exports.deleteById = async (req, res) => {
   }
 };
 
-//delete by quizid
-exports.deleteByQuizId = async (req, res) => {
+//delete by listenid
+exports.deleteByListenId = async (req, res) => {
   try {
-    const { quizId } = req.params.quizId;
-    const isDelete = await deleteQuestionByQuizId(quizId);
+    const { listenId } = req.params.listenId;
+    const isDelete = await deleteQuestionByListenId(listenId);
     if (isDelete) {
       return res.status(200).json({ message: 'Delete successfully.' });
     }

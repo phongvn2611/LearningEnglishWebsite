@@ -14,14 +14,14 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import SettingMenu from './SettingMenu';
 import useStyle from './style';
-import { loginReducer } from './../../redux/reducers/authReducer';
 
 function Navigation() {
   const classes = useStyle();
   const theme = useTheme();
   const isXsDevice = useMediaQuery(theme.breakpoints.up('xs'));
 
-  const { isAuth } = useSelector((state) => state.loginReducer);
+  const { isAuth } = useSelector((state) => state.authReducer);
+ 
   // const avtSrc = Boolean(avt)
   //   ? cloudinaryImgOptimize(avt, 48, 48)
   //   : defaultUserImg;
@@ -70,13 +70,13 @@ function Navigation() {
             </div> */}
 
             {isAuth ? (
-              {/* <Avatar
-                onClick={onOpenMenu}
-                onMouseEnter={onOpenMenu}
-                className={`${classes.imgSize} ${classes.avt} cur-pointer`}
-                alt="Username"
-                src={avtSrc}
-              /> */}
+              <Avatar
+                // onClick={onOpenMenu}
+                // onMouseEnter={onOpenMenu}
+                 className={`${classes.imgSize} ${classes.avt} cur-pointer`}
+                // alt="Username"
+                // src={avtSrc}
+              />
             ) : (
               <Link to={ROUTES.LOGIN}>
                 <Button

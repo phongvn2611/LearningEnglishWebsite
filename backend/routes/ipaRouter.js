@@ -1,6 +1,6 @@
 const ipaApi = require('express').Router();
 const ipaController = require('../controllers/ipaController');
-const { authentication, authRole } = require('../middlewares/authMiddleware');
+const { authentication, authRole } = require('../middlewares/authenticationMiddleware');
 
 ipaApi.get('/get-ipa-all', ipaController.getAllIPAs);
 ipaApi.get('/get-by-id/:id',ipaController.getById);

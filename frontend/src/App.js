@@ -1,32 +1,36 @@
-import { ThemeProvider } from '@material-ui/core/styles';
-import Navigation from './components/Navigation';
+import { ThemeProvider } from "@material-ui/core/styles";
+import Navigation from "./components/Navigation";
 // import SpeedDials from 'components/SpeedDial';
-import GlobalLoading from './components/UI/GlobalLoading';
-import Message from './components/UI/Message';
-import routerConfig from './configs/routerConfig';
-import theme from './configs/theme';
+import GlobalLoading from "./components/UI/GlobalLoading";
+import Message from "./components/UI/Message";
+import routerConfig from "./configs/routerConfig";
+import theme from "./configs/theme";
 // import useTheme from './hooks/useTheme';
 // import useVoice from 'hooks/useVoice';
 // import NotFoundPage from 'pages/NotFound';
-import React, { Suspense, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { Element } from 'react-scroll';
-import userApi from './apis/userApi';
-import { tokenAction } from './redux/actions/tokenAction';
-import { loginReducer } from './redux/reducers/authReducer';
+import React, { Suspense, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Element } from "react-scroll";
 
+import userApi from './apis/userApi';
+import { getUserInfo } from "./redux/actions/authAction";
 const { routes, renderRoutes } = routerConfig;
 
 function App() {
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
-  const isAuth = sessionStorage.getItem('firstLogin') ? true : false;
+  const { isAuth } = useSelector((state) => state.authReducer);
   // get user info
   useEffect(() => {
+    const getUser = async () => {
+      const res =await userApi.getUserInfoApi();
+      dispatch(getUserInfo(res));
+    }
+    getUser();
     setLoading(false);
     return () => {};
-  }, []);
+  }, [dispatch]);
 
   return (
     <>
@@ -37,15 +41,13 @@ function App() {
           <Router>
             <div className="dynonary-app">
               <Element name="scrollTop" />
-              <Navigation />
+              {<Navigation />}
 
               {/* routes */}
               <Suspense fallback={<GlobalLoading />}>
                 <Switch>
-                  {renderRoutes(routes, isAuth)}
-                  <Route>
-                    {/* <NotFoundPage /> */}
-                  </Route>
+                {renderRoutes(routes, isAuth)}
+                  <Route>{/* <NotFoundPage /> */}</Route>
                 </Switch>
               </Suspense>
 

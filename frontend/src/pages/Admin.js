@@ -74,7 +74,7 @@ function AdminPage() {
             />
           </Grid>
         ))}
-      </Grid>
+      </Grid>/
     </div>
   );
 }

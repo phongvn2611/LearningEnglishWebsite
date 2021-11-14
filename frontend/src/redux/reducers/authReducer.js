@@ -1,28 +1,23 @@
-import USER_CONSTANT from '../constants/userConstant';
+import USER_CONSTANT from "../constants/userConstant";
 
-
-export const loginReducer = (state = {}, action) => {
-  switch (action.type) {
-    case USER_CONSTANT.LOGIN_REQUEST:
-      return { loading: true }
-    case USER_CONSTANT.LOGIN_SUCCESS:
-      return { loading: false, data: action.payload}
-    case USER_CONSTANT.LOGIN_FAILURE:
-      return { loading: false, error: action.payload}
-    default:
-      return state
-  }
+const initialState = {
+  user: [],
+  isAuth: false,
+  role: ''
 }
 
-export const registerReducer = (state = {}, action) => {
+const authReducer = (state = initialState, action) => {
   switch (action.type) {
-    case USER_CONSTANT.REGISTER_REQUEST:
-      return { loading: true }
-    case USER_CONSTANT.REGISTER_SUCCESS:
-      return { loading: false, user: action.payload }
-    case USER_CONSTANT.REGISTER_FAILURE:
-      return { loading: false, error: action.payload }
+    case USER_CONSTANT.GET_USER_INFO:
+      return {
+        ...state,
+        user: action.payload,
+        isAuth: true,
+        role: action.payload.roleType
+      }
     default:
-      return state
+      return state;
   }
-}
+};
+
+export default authReducer;

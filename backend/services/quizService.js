@@ -14,7 +14,7 @@ exports.createQuiz = async (quiz) => {
 };
 
 
-exports.getQuizByListeningId = async (listenId = '') => {
+exports.getQuizByListenId = async (listenId = '') => {
     try {
       const res = await QuizModel.findOne({ListeningId: listenId});
                          

@@ -1,7 +1,7 @@
 const quizApi = require('express').Router();
 const { Router } = require('express');
 const quizController = require('../controllers/quizController');
-const { authentication, authRole } = require('../middlewares/authMiddleware');
+const { authentication, authRole } = require('../middlewares/authenticationMiddleware');
 
 quizApi.get('/get-by-id/:id', quizController.getById);
 quizApi.get('/get-by-listenid/:listenId', quizController.getByLiteningId);

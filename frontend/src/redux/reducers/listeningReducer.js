@@ -1,18 +1,33 @@
-import LISTEN_CONSTANT from '../constants/listeningConstant';
+import LISTEN_CONSTANT from "../constants/listeningConstant";
 
+const initialState = {
+  questions: [],
+  listen: [],
+  isListenLoading: false,
+}
+const listeningReducer = (state = initialState, action) => {
+  const { type, payload } = action
+  switch (type) {
+    case LISTEN_CONSTANT.SET_LISTEN_LOADING:
+      return {
+        ...state,
+        isListenLoading: payload,
+      }
+    case LISTEN_CONSTANT.SET_LISTEN_ERROR:
+      return {
+        ...state,
+        isListenLoading: true,
+      }
 
-export const listenDetailsReducer = (
-    state = { data},
-    action
-  ) => {
-    switch (action.type) {
-      case LISTEN_CONSTANT.GET_LISTEN_BY_ID_REQUEST:
-        return { loading: true, ...state };
-      case LISTEN_CONSTANT.GET_LISTEN_BY_ID_SUCCESS:
-        return { loading: false, data: action.payload };
-      case LISTEN_CONSTANT.GET_LISTEN_BY_ID_FAILURE:
-        return { loading: false, error: action.payload };
-      default:
-        return state;
-    }
-  };
+    case LISTEN_CONSTANT.GET_LISTEN:
+      return {
+        ...state,
+        listen: payload.listen,
+        questions: payload.questions,
+      }
+    default:
+      return state
+  }
+}
+
+export default listeningReducer

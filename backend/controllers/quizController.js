@@ -52,7 +52,7 @@ exports.getById = async (req, res) => {
 exports.getByLiteningId = async (req, res) => {
   try {
     const listenId = req.params.listenId;  
-    const quiz = await getQuizByListeningId(listenId);
+    const quiz = await getQuizByListenId(listenId);
     return res.status(200).json({quiz });
   } catch (error) {
     console.error('ERROR: ', error);

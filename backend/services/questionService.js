@@ -37,7 +37,7 @@ exports.getQuestionById = async (_id = '') => {
 
   exports.getQuestionByQuizId = async (quizId = '') => {
     try {
-      const res = await QuestionModel.find({QuizId: quizId}).populate('quizId');  
+      const res = await QuestionModel.find({QuizId: quizId});  
       return res;
     } catch (error) {
       throw error;
@@ -57,7 +57,7 @@ exports.getQuestionById = async (_id = '') => {
     }
   };
   
-   //delete by listenid
+   //delete by quizid
    exports.deleteQuestionByQuizId = async (quizId = '') => {
       try {
         const res = await QuestionModel.deleteMany({QuiId: quizId});

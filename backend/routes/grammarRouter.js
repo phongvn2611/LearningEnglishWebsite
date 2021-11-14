@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const grammarController = require('../controllers/grammarController');
-const { authentication, authRole } = require('../middlewares/authMiddleware');
+const { authentication, authRole } = require('../middlewares/authenticationMiddleware');
 
 router.get('/get-grammar-all', grammarController.getAllGrammars);
 router.get('/get-grammar-by-id/:id', grammarController.getById);
