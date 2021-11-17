@@ -2,41 +2,41 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const SubmitQuizModel = new Schema({
-  core: {
+  Core: {
     type: Number,
     default: 0,
   },
 
-  comment: {
+  Comment: {
     type: String,
     maxlength: 200,
   },
 
-  startTime: {
+  StartTime: {
     type: Date,
   },
 
-  finishTime: {
+  FinishTime: {
     type: Date,
   },
 
-  isFinish: {
+  IsFinish: {
     type: Date,
   },
 
-  quizId: {
+  QuizId: {
     type: Schema.Types.ObjectId,
     ref: 'quiz',
     required: true,
   },
 
-  userId: {
+  UserId: {
     type: Schema.Types.ObjectId,
     ref: 'user',
     required: true,
   },
 
- answer: [{ type: Schema.Types.ObjectId, ref: 'answer' }]
+ Answer: [{ type: Schema.Types.Map}]
 });
 
 module.exports = mongoose.model('submitquiz', SubmitQuizModel);

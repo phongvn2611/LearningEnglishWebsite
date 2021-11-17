@@ -19,6 +19,17 @@ export default makeStyles((theme) => ({
     zIndex: 999,
   },
 
+  auth: {
+    display: 'flex',
+    alignItems: 'center',
+    cursor: 'pointer'
+  },
+
+  name: {
+    fontSize: '1.6rem',
+    marginLeft: '0.5rem'
+  },
+
   logo: {
     marginRight: '0.8rem',
     width: 'auto !important',
@@ -56,6 +67,16 @@ export default makeStyles((theme) => ({
   },
 
   loginLabel: {
+    fontSize: '1.4rem',
+  },
+
+  registerBtn: {
+    height: '3.7rem',
+    minWidth: '12rem',
+    marginRight: '1.4rem'
+  },
+
+  registerLabel: {
     fontSize: '1.4rem',
   },
 }));

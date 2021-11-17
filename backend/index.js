@@ -12,7 +12,7 @@ const app = express();
 app.use(express.urlencoded({extended: true})); 
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors(corsConfig));
+app.use(cors());
 app.use(fileUpload({
   useTempFiles: true
 }));

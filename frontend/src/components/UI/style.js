@@ -151,4 +151,7 @@ export const formStyle = () => ({
   visiblePw: {
     color: 'var(--primary-color)',
   },
+  visibleConfirmPw: {
+    color: 'var(--primary-color)'
+  }
 });

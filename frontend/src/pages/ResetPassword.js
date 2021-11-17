@@ -18,15 +18,9 @@ import { formStyle } from "../components/UI/style";
 import { useDispatch } from "react-redux";
 import userApi from "./../apis/userApi";
 import { setMessage } from "./../redux/actions/messageAction";
+import { useParams } from "react-router";
 
-const nameRegex = /^[^\d~`!@#$%^&*\(\)\\\|\.,\?\/\-\+\=\_]+$/gi;
 const schema = yup.object().shape({
-  email: yup.string().trim().required("Nhập email").email("Email không hợp lệ"),
-  name: yup
-    .string()
-    .trim()
-    .required("Nhập họ tên")
-    .matches(nameRegex, "Họ tên không chứa số và ký tự đặc biệt"),
   password: yup
     .string()
     .trim()
@@ -40,12 +34,12 @@ const schema = yup.object().shape({
     .oneOf([yup.ref("password")], "Nhập xác nhận mật khẩu không khớp"),
 });
 
-function RegisterPage() {
-  useTitle("Register");
+function ResetPasswordPage() {
+  useTitle("Reset password");
   useCloseNavigation();
 
   const classes = makeStyles(formStyle)();
-
+  const { access_token } = useParams();
   const [visiblePw, setVisiblePw] = useState(false);
   const [visibleConfirmPw, setVisibleConfirmPw] = useState(false);
   const {
@@ -59,8 +53,6 @@ function RegisterPage() {
   const history = useHistory();
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState({
-    name: "",
-    email: "",
     password: "",
     confirmPassword: "",
   });
@@ -70,14 +62,10 @@ function RegisterPage() {
     setUser({ ...user, [name]: value });
   };
 
-  const handleRegister = async () => {
+  const handleResetPassword = async () => {
     try {
       setLoading(true);
-      const res = await userApi.register(
-        user.name,
-        user.email,
-        user.password
-      );
+      const res = await userApi.resetPassword(user.password, access_token);
       if (res) {
         dispatch(setMessage(res.data.message, "success"));
         history.replace("/login");
@@ -93,49 +81,14 @@ function RegisterPage() {
       <div className="transform-center">
         <form
           className={`${classes.root} flex-col`}
-          onSubmit={handleSubmit(handleRegister)}
+          onSubmit={handleSubmit(handleResetPassword)}
           autoComplete="off"
         >
           <div className="flex-col">
-            <h1 className={`${classes.title} t-center`}>Tạo tài khoản</h1>
+            <h1 className={`${classes.title} t-center`}>Đặt lại mật khẩu</h1>
             <div className="t-center mt-5">
               <AccountCircleIcon className={classes.labelIcon} />
             </div>
-          </div>
-
-          <div className="flex-col">
-            <InputCustom
-              label="Email"
-              size="small"
-              placeholder="Nhập email"
-              error={Boolean(errors.email)}
-              inputProps={{
-                name: "email",
-                autoFocus: true,
-                ...register("email"),
-              }}
-              onChange={handleChange}
-            />
-            {errors.email && (
-              <p className="text-error">{errors.email?.message}</p>
-            )}
-          </div>
-
-          <div className="flex-col">
-            <InputCustom
-              label="Họ tên"
-              size="small"
-              placeholder="Nhập họ tên"
-              error={Boolean(errors.name)}
-              inputProps={{
-                name: "name",
-                ...register("name"),
-              }}
-              onChange={handleChange}
-            />
-            {errors.name && (
-              <p className="text-error">{errors.name?.message}</p>
-            )}
           </div>
 
           <div className="flex-col">
@@ -209,14 +162,14 @@ function RegisterPage() {
             disabled={loading}
             endIcon={loading && <LoopIcon className="ani-spin" />}
           >
-            Đăng ký
+            Đổi mật khẩu
           </Button>
 
           <div className="or-option w-100 t-center">HOẶC</div>
         </form>
 
         <div className="has-account">
-          Bạn đã có tài khoản?&nbsp;
+          Quay lại trang&nbsp;
           <Link to={ROUTES.LOGIN} className="account-link">
             Đăng nhập
           </Link>
@@ -226,4 +179,4 @@ function RegisterPage() {
   );
 }
 
-export default RegisterPage;
+export default ResetPasswordPage;

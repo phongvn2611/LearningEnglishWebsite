@@ -11,3 +11,9 @@ export const getUserInfo = (res) => {
     payload: res.data.user
   }
 }
+
+export const logout = (res) => {
+  return {
+    type: USER_CONSTANT.LOGOUT
+  }
+}

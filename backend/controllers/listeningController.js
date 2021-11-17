@@ -5,35 +5,59 @@ const {
   deleteListen,
   getDetailListen,
   getListenByTopic,
-  getListenTopics
+  getListenTopics,
+  searchListen,
+  getListenByLevel
 } = require('../services/listeningService');
-
+const {
+  getQuestionByQuizId,
+} = require('../services/questionService');
+const {
+  getQuizByListenId,
+} = require('../services/quizService');
 const {
   uploadVideo,
+  uploadImage,
 } = require('../services/commonService');
 
 
 //create Listening
 exports.postListening = async (req, res) => {
   try {
-    const {name, topic, description, script, video } = req.body;
-    const creatDate= new Date(new Date().toUTCString()); 
+    const {Name, Topic, Description, Script, Video, Image } = req.body;
+    const CreatDate= new Date(new Date().toUTCString()); 
 
-    // // upload video
-    // let videoUrl = null;
-    // if (video) {
-    //   videoUrl = await uploadVideo(video, 'dynonary/words');
-    // }
+    //upload Video
+    let videoUrl = null;
+      if (Video) {
+        if(typeof Video === 'string') {
+          let vid = Video.trim();
+          if(vid){
+            const videoId = vid.split("=");
+            console.log(videoId);
+            videoUrl= `https://www.youtube.com/embed/${videoId[1]}?enablejsapi=1`;
+          }
+        }
+        else{
+          videoUrl = await uploadVideo(Video, 'dynonary/litenings');
+        }
+      }
+
+      //upload Image
+      let imgUrl = null;
+      if (Image) {      
+          imgUrl = await uploadImage(Image, 'dynonary/listenings');
+      }
 
     // create the new listen
-    const newListen = await createListen({name, topic, description, script, video: videoUrl, creatDate });
+    const newListen = await createListen({Name, Topic, Description, Script, Video: videoUrl, Image: imgUrl, CreatDate });
 
     if (newListen !=null) {
       return res.status(200).json({data: newListen });
     }
     return res.status(503).json({ message: 'Error, can not create listening.' });
   } catch (error) {
-    console.error('POST CONTRIBUTE WORD ERROR: ', error);
+    console.error('ERROR: ', error);
     return res.status(503).json({ message: 'Error, can not create litening.' });
   }
 };
@@ -41,53 +65,103 @@ exports.postListening = async (req, res) => {
 //update 
 exports.putListen = async (req, res, next) => {
   try {
-      const {name, topic, description, video, script } = req.body;
+      const {Name, Topic, Description, Script, Video, Image }= req.body;
 
-      // upload video
-      let videoUrl = null;
-      if (video) {
-        videoUrl = await uploadVideo(video, 'dynonary/words');
+       //video
+    let videoUrl = null;
+    if (Video) {
+      if(typeof Video === 'string') {
+        let vid = Video.trim();
+        if(vid){
+          const videoId = vid.split("=");
+          console.log(videoId);
+          videoUrl= `https://www.youtube.com/embed/${videoId}?enablejsapi=1`;
+        }
       }
+      else{
+        videoUrl = await uploadVideo(Video, 'dynonary/listenings');
+      }
+    }
+
+     //upload Image
+     let imgUrl = null;
+     if (Image) {      
+         imgUrl = await uploadImage(Image, 'dynonary/listenings');
+     }
 
     // update
     const Listen = await updateListen(req.params.listenId, 
-      {name, topic, description, script, video: videoUrl });
+      {Name, Topic, Description, Script, Video: videoUrl, Image: imgUrl });
 
       if (Listen !=null) {
-          return res.status(200).json({data: Listen });
+          return res.status(200).json({updateListen });
         }
-    return res.status(400).json({ message: 'Error, can not update word.' });
+    return res.status(400).json({ message: 'Error, can not update listening.' });
   } catch (error) {
-    console.error('POST CONTRIBUTE WORD ERROR: ', error);
-    return res.status(503).json({ message: 'Error, can not update word.' });
+    console.error('ERROR: ', error);
+    return res.status(503).json({ message: 'Error, can not update listening.' });
   }
 };
 
 //get the details
 exports.getDetails = async (req, res, next) => {
-  try {
-    const listenDetail = await getDetailListen(req.params.listenId);
-    if (listenDetail!= null) {
-      return res.status(200).json(listenDetail);
+  try {    
+    const listen = await getDetailListen(req.params.id);
+    const questions = await getQuestionByListenId(req.params.id);
+    if (listen && questions) {
+      return res.status(200).json({listen, questions});
     }
   } catch (error) {
-    console.error('GET WORD DETAILS ERROR: ', error);
+    console.error('ERROR: ', error);
     return res.status(503).json({ message: error });
   }
 };
 
+//get listen and quiz
+exports.getListening = async (req, res, next) => {
+  try {    
+    const listen = await getDetailListen(req.params.id);
+    const quiz = await getQuizByListenId(req.params.id);
+    const questions = await getQuestionByQuizId(quiz._id);
+    if (listen && questions) {
+      return res.status(200).json({listen, questions});
+    }
+  } catch (error) {
+    console.error('ERROR: ', error);
+    return res.status(503).json({ message: error });
+  }
+};
 
 //get by topic
 exports.getByTopic = async (req, res) => {
   try {
-    const topic = req.params.topic;  
-    const list = await getListenByTopic(topic);
+    const Topic = req.params.topic;  
+    const list = await getListenByTopic(Topic);
+    if(list == null ){
+      return res.status(204).json({ message: 'No result.'});
+      }
     return res.status(200).json({list });
   } catch (error) {
     console.error('ERROR: ', error);
-    return res.status(503).json({ message: 'Lỗi dịch vụ, thử lại sau' });
+    return res.status(503).json({ message: 'ERROR, can not get listening' });
   }
 };
+
+// //get by level
+// exports.getByLevel = async (req, res) => {
+//   try {
+//     const Level = req.params.level;  
+//     const list = await getListenByLevel(Level);
+//     if(list == null ){
+//       return res.status(204).json({ message: 'No result.'});
+//       }
+//     return res.status(200).json({list });
+//   } catch (error) {
+//     console.error('ERROR: ', error);
+//     return res.status(503).json({ message: 'ERROR, can not get listening' });
+//   }
+// };
+
 
 //get all
 exports.getAll = async (req, res) => {
@@ -115,35 +189,29 @@ exports.getTopics = async (req, res) => {
 exports.deleteListen = async (req, res) => {
   try {
     const { listenId } = req.params.listenId;
-
-    //get listening
-    const Listening = await getListenById(listenId);
-    if (Listening == null) {
-      return res.status(400).json({ message: 'Not found listening.' });
-    }
-
-    //delete questions
-    const isDeleteQuestion = await deleteQuestionByQuizId(Listening.quizId);
-    if (!isDeleteQuestion) {
-      return res.status(400).json({ message: 'Can not delete the listening.' });
-    }
-
-    //delete quiz
-    const isDeleteQuiz = await deleteQuizById(Listening.quizId);
-    if (isDeleteQuiz) {
-      return res.status(400).json({ message: 'Can not delete the listening.'});
-    }
-
-    //delete listening
-    const isDelete = await deleteListen(listenId);
-    if (isDelete) {
+    const isDeleteWord = await deleteListen(listenId);
+    if (isDeleteWord) {
       return res.status(200).json({ message: 'Delete successfully.' });
     }
-    return res.status(400).json({ message: 'Can not delete the listening.'});
-    
   } catch (error) {
     console.error('GET WORD DETAILS ERROR: ', error);
     return res.status(503).json({ message: 'Eror, can not delete this listening' });
+  }
+};
+
+ //search
+ exports.getSearchListen = async (req, res) => {
+  try {
+    const name =req.query.name;
+    const level =req.params.level;
+    const list = await searchListen(name, level );
+    if(list == null ){
+    return res.status(204).json({ message: 'No result.'});
+    }
+    return res.status(200).json({ list });
+  } catch (error) {
+    console.error('ERROR: ', error);
+    return res.status(503).json({ message: 'ERROR.' });
   }
 };
 

@@ -3,36 +3,37 @@ const Schema = mongoose.Schema;
 const Question = require('./question.model');
 
 const TestModel = new Schema({
-  name: {
+  Name: {
     type: String,
+    maxlength:100,
     required: true,
   },
 
-  description: {
+  Description: {
     type: String,
   },
 
-  createDate: {
+  CreateDate: {
     type: Date,
     required: true,
     default: new Date(),
   },
 
-  startDate: {
+  StartDate: {
     type: Date,
     required: true,
   },
 
-  duration: {
+  Duration: {
     type: Number,
     required: true,
   },
 
- questions: {
+ Questions: {
     type: [Question],
   },
 
-  video: {
+  Video: {
     type: String,
     trim: true,
     default: null,
@@ -40,4 +41,4 @@ const TestModel = new Schema({
 
 });
 
-module.exports = mongoose.model('test', TestModel);
+module.exports = mongoose.model('Test', TestModel);

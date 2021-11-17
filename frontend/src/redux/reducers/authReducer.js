@@ -15,6 +15,13 @@ const authReducer = (state = initialState, action) => {
         isAuth: true,
         role: action.payload.roleType
       }
+    case USER_CONSTANT.LOGOUT:
+      return {
+        ...state,
+        user: [],
+        isAuth: false,
+        role: ''
+      }
     default:
       return state;
   }

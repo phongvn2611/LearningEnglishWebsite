@@ -3,17 +3,17 @@ const Schema = mongoose.Schema;
 
 
 const QuestionModel = new Schema({
-  content: {
+  Content: {
     type: String,
     required: true,
   },
 
-  quizId: {
+  QuizId: {
     type: Schema.Types.ObjectId,
     ref: 'quiz',
   },
 
-  answers:[{ type: Schema.Types.Map, ref: 'answer' }]
+  Answers:[{ type: Schema.Types.Map }]
 });
 
-module.exports = mongoose.model('question', QuestionModel);
+module.exports = mongoose.model('Question', QuestionModel);

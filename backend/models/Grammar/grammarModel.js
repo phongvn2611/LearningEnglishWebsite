@@ -2,24 +2,41 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 
-const grammarModel = new Schema({
-  title: {
+const GrammarModel = new Schema({
+  Title: {
     type: String,
     required: true,
   },
 
-  content: {
+  Content: {
     type: String,
     required: true,
   },
 
-  listeningId: {
-    type: Schema.Types.ObjectId,
-    ref: 'listening',
+  Video: {
+    type: String,
+    trim: true,
     default: null,
   },
 
-  items:[{ type: Schema.Types.Map, ref: 'grammar_item' }]
+  Image: {
+    type: String,
+    trim: true,
+    default: null,
+  },
+
+  Script: {
+    type: String,
+    default: null,
+  },
+
+  Level: {
+    type: String,
+    enum: ['0','1','2', '3'],
+    default: '0',
+  },
+
+  Items:[{ type: Schema.Types.Map}]
 });
 
-module.exports = mongoose.model('grammar', grammarModel);
+module.exports = mongoose.model('Grammar', GrammarModel);

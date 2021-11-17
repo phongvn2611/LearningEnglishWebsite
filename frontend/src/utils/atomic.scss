@@ -11,7 +11,7 @@
   color: #fff !important;
   padding: 0.8rem 2.4rem !important;
   transition: all 0.25s !important;
-  text-transform: capitalize !important;
+  text-transform: capitalize;
 
   &:hover {
     -webkit-filter: brightness(0.85);

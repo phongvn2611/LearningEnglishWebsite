@@ -2,44 +2,45 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 
-const listeningModel = new Schema({
-  createDate: {
+const ListeningModel = new Schema({
+  CreateDate: {
     type: Date,
     required: true,
     default: new Date(),
   },
 
-  name: {
+  Name: {
+    type: String,
+    required: true,
+    maxlength:100,
+  },
+
+  Topic: {
     type: String,
     required: true,
   },
 
-  topic: {
+  Description: {
     type: String,
     required: true,
   },
 
-  description: {
-    type: String,
-    required: true,
-  },
-
-  quizId: {
-    type: Schema.Types.ObjectId,
-    ref: 'quiz',
-    default: null,
-  },
-
-  video: {
+  Video: {
     type: String,
     trim: true,
     default: null,
   },
 
-  script: {
+  Image: {
+    type: String,
+    trim: true,
+    default: null,
+  },
+
+  Script: {
     type: String,
     default: null,
   },
 });
 
-module.exports = mongoose.model('listening', listeningModel);
+module.exports = mongoose.model('Listening', ListeningModel);

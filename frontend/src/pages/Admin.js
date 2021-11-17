@@ -23,25 +23,19 @@ const FEATURE_LIST = [
     subTitle:
       'Quản lý tất cả từ vựng có trong hệ thống',
     imgUrl: flashcardIcon,
-    to: "",
+    to: ROUTES.WORD_ADMIN,
   },
   {
     title: "Quản lý bài nghe",
     subTitle: 'Quản lý tất cả các bài nghe có trong hệ thống',
     imgUrl: communicateIcon,
-    to: "",
+    to: ROUTES.LISTENING_ADMIN,
   },
   {
     title: 'Quản lý quiz',
     subTitle: 'Quản lý các bài quiz trong phần luyện nghe',
     imgUrl: toeicIcon,
-    to: "",
-  },
-  {
-    title: 'Quản lý động từ bất quy tắc',
-    imgUrl: verbIcon,
-    subTitle: 'Quản lý tất cả động từ bất quy tắc có trong hệ thống',
-    to: "",
+    to: ROUTES.QUIZ_ADMIN,
   },
   {
     title: 'Quản lý ngữ pháp',
@@ -53,7 +47,7 @@ const FEATURE_LIST = [
     title: 'Quản lý người dùng',
     imgUrl: friendsIcon,
     subTitle: 'Quản lý tất cả tài khoản người dùng có trong hệ thống',
-    to: ""
+    to: ROUTES.USER_ADMIN
   }
 ];
 

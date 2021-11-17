@@ -1,63 +1,56 @@
 const {
   createGrammar,
-  updateGrammar,
-  getGrammarByListeningId,
+  getAllGrammars,
   getGrammarById,
   deleteGrammarById,
   deleteGrammarByListenId,
-} = require('../services/quizService');
+  getGrammarLevels,
+  getGrammarByLevel
+} = require('../services/grammarService');
 const {
   getListenById,
   updateListen,
 } = require('../services/listeningService');
+const {
+  uploadVideo,
+  uploadImage,
+} = require('../services/commonService');
 
-//create grammar by listeningId
-exports.postGrammarByListen = async (req, res) => {
-  try {
-    const listeningId= req.params.listenId;
-
-     //check if listening existed
-     const listen = await getListenById(listeningId);
-     if(!listen) {
-     return res.status(400).json({ message: 'Error, Not found listening.' });
-     }
-
-     const {title, content,level, items}= req.body;
- 
-    // create grammar
-    const newGrammar = await createGrammar({title, listeningId, content,level, items});
-
-    if (newGrammar != null) {
-      return res.status(201).json({data: newGrammar });
-    }
-    return res.status(503).json({ message: 'Error, can not create grammar.' });
-  } catch (error) {
-    console.error('POST ERROR: ', error);
-    return res.status(503).json({ message: 'Error, can not create grammar.' });
-  }
-};
 
 //create grammar
 exports.postGrammar = async (req, res) => {
   try {
-    const listeningId= req.params.listenId;
+    const {Title, Video, Image, Script, Content, Level, Items}= req.body;
 
-     //check if listening existed
-     const listen = await getListenById(listeningId);
-     if(!listen) {
-     return res.status(400).json({ message: 'Error, Not found listening.' });
+     //video
+     let videoUrl = null;
+     if (Video) {
+       if(typeof Video === 'string') {
+         let vid = Video.trim();
+         if(vid){
+           const videoId = vid.split("=");
+           videoUrl= `https://www.youtube.com/embed/${videoId}?enablejsapi=1`;
+         }
+       }
+       else{
+         videoUrl = await uploadVideo(Video, 'dynonary/grammars');
+       }
      }
- 
-    // create grammar
-    const newGrammar = await createGrammar({listeningId });
 
+    //upload Image
+    let imgUrl = null;
+    if (Image) {      
+        imgUrl = await uploadImage(Image, 'dynonary/grammars');
+    }
+
+    const newGrammar = await createGrammar({Title, Video: videoUrl, Image: imgUrl, Script, Content,Level, Items});
     if (newGrammar) {
       return res.status(201).json({data: newGrammar });
     }
-    return res.status(503).json({ message: 'Error, can not create grammar.' });
+    return res.status(503).json({ message: 'Error, can not create gramma.' });
   } catch (error) {
-    console.error('POST ERROR: ', error);
-    return res.status(503).json({ message: 'Error, can not create grammar.' });
+    console.error('ERROR: ', error);
+    return res.status(503).json({ message: 'Error, can not create gramma.' });
   }
 };
 
@@ -79,12 +72,32 @@ exports.putGrammar = async (req, res) => {
     }
 
     // create grammar
-    const {title, content, items} = req.body;
-    const listenId = GrammarExist.listeningId;
-    const newGrammar = await createGrammar({listenId, title, content, items });
+    const {Title, Video, Image, Script, Content,Level, Items} = req.body;
+    //video
+    let videoUrl = null;
+    if (Video) {
+      if(typeof Video === 'string') {
+        let vid = Video.trim();
+        if(vid){
+          const videoId = vid.split("=");
+          videoUrl= `https://www.youtube.com/embed/${videoId}?enablejsapi=1`;
+        }
+      }
+      else{
+        videoUrl = await uploadVideo(Video, 'dynonary/grammars');
+      }
+    }
+
+    //upload Image
+    let imgUrl = null;
+    if (Image) {      
+        imgUrl = await uploadImage(Image, 'dynonary/grammars');
+    }
+
+    const newGrammar = await createGrammar({Title, Video: videoUrl, Image: imgUrl, Script, Content,Level, Items});
 
     if (newGrammar) {
-      return res.status(200).json({newGrammar });
+      return res.status(201).json({data: newGrammar });
     }
     return res.status(503).json({ message: 'Error, can not update grammar.' });return res.status(503).json({ message: 'Error, can not update question.' });
   } catch (error) {
@@ -107,18 +120,35 @@ exports.getById = async (req, res) => {
   }
 };
 
-
-//get grammar by listeningId
-exports.getByListeningId = async (req, res) => {
+//get levels
+exports.getLevels = async (req, res) => {
   try {
-    const listenId = req.params.listenId;  
-    const grammar = await getGrammarByListeningId(listenId);
-    return res.status(200).json({grammar });
+    const list = await getGrammarLevels();
+    if(list == null ){
+      return res.status(204).json({ message: 'No result.'});
+      }
+    return res.status(200).json({list });
   } catch (error) {
     console.error('ERROR: ', error);
     return res.status(503).json({ message: 'Lỗi dịch vụ, thử lại sau' });
   }
 };
+
+//get by level
+exports.getByLevel = async (req, res) => {
+  try {
+    const Level = req.params.level;  
+    const list = await getGrammarByLevel(Level);
+    if(list == null ){
+      return res.status(204).json({ message: 'No result.'});
+      }
+    return res.status(200).json({list });
+  } catch (error) {
+    console.error('ERROR: ', error);
+    return res.status(503).json({ message: 'ERROR, can not get grammar' });
+  }
+};
+
 
 //delete by id
 exports.deleteById = async (req, res) => {
@@ -134,17 +164,15 @@ exports.deleteById = async (req, res) => {
   }
 };
 
-//delete by listenid
-exports.deleteByListenId = async (req, res, next) => {
+//get all 
+exports.getAllGrammars = async (req, res) => {
   try {
-    const { listenId } = req.params.listenId;
-    const isDelete = await deleteGrammarByListenId(listenId);
-    if (isDelete) {
-      return res.status(200).json({ message: 'Delete successfully.' });
-    }
+    const list = await getAllGrammars();
+    return res.status(200).json({list });
   } catch (error) {
     console.error('ERROR: ', error);
-    return res.status(503).json({ message: 'Eror, can not delete this grammar' });
+    return res.status(503).json({ message: 'Lỗi dịch vụ, thử lại sau' });
   }
 };
+
 

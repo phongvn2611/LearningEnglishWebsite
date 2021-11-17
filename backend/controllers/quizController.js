@@ -7,25 +7,24 @@ const {
 } = require('../services/quizService');
 const {
   getListenById,
-  updateListen,
 } = require('../services/listeningService');
 
 
 //create quiz
 exports.postQuiz = async (req, res) => {
   try {
-    const listeningId= req.params.listenId;
+    const ListeningId= req.params.listenId;
 
-     //check if lisning existed
-     const listen = await getListenById(listeningId);
+     //check if quiz existed
+     const listen = await getListenById(ListeningId);
      if(!listen) {
-     return res.status(400).json({ message: 'Error, Not found listening.' });
+     return res.status(400).json({ message: 'Error, Not found quiz.' });
      }
  
-    // create gramma
-    const newQuiz = await createQuiz({listeningId });
+    // create quiz
+    const newQuiz = await createQuiz({ListeningId });
 
-    if (newQuiz) {
+    if (newQuiz != null) {
       return res.status(200).json({data: newQuiz });
     }
     return res.status(503).json({ message: 'Error, can not create quiz.' });
@@ -53,7 +52,7 @@ exports.getById = async (req, res) => {
 exports.getByLiteningId = async (req, res) => {
   try {
     const listenId = req.params.listenId;  
-    const quiz = await getQuizByListeningId(listenId);
+    const quiz = await getQuizByListenId(listenId);
     return res.status(200).json({quiz });
   } catch (error) {
     console.error('ERROR: ', error);
@@ -76,7 +75,7 @@ exports.deleteById = async (req, res) => {
 };
 
 //delete by listenid
-exports.deleteByListenId = async (req, res, next) => {
+exports.deleteByListenId = async (req, res) => {
   try {
     const { listenId } = req.params.listenId;
     const isDelete = await deleteQuizByListenId(listenId);

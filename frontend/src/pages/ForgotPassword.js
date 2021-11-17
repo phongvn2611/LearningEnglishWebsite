@@ -22,21 +22,16 @@ import { setMessage } from './../redux/actions/messageAction';
 
 const schema = yup.object().shape({
   email: yup.string().required("Email đang trống").email("Email không hợp lệ"),
-  password: yup
-    .string()
-    .required("Mật khẩu đang trống")
-    .min(6, `Mật khẩu tối thiểu 6 ký tự`),
 });
 
-function LoginPage() {
-  useTitle("Login");
+function ForgotPasswordPage() {
+  useTitle("Forgot password");
   useCloseNavigation();
 
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const history = useHistory();
   const classes = makeStyles(formStyle)();
-  const [visiblePw, setVisiblePw] = useState(false);
   const {
     register,
     handleSubmit,
@@ -46,7 +41,6 @@ function LoginPage() {
   });
   const [user, setUser] = useState({
     email: "",
-    password: "",
   });
 
   const handleChange = (e) => {
@@ -54,15 +48,12 @@ function LoginPage() {
     setUser({ ...user, [name]: value });
   };
 
-  const handleLogin = async (e) => {
+  const handleForgotPassword = async (e) => {
     try {
       setLoading(true);
-      const res = await userApi.login(user.email, user.password);
+      const res = await userApi.forgotPassword(user.email);
       dispatch(setMessage(res.data.message, 'success'));
-      setTimeout(() => {
-        window.location.href='/home';
-      }, UX.DELAY_TIME);
-
+      setLoading(false);
     } catch (error) {
       dispatch(setMessage(error.response?.data?.message, 'error'));
       setLoading(false);
@@ -74,11 +65,11 @@ function LoginPage() {
       <div className="transform-center">
         <form
           className={`${classes.root} flex-col`}
-          onSubmit={handleSubmit(handleLogin)}
+          onSubmit={handleSubmit(handleForgotPassword)}
           autoComplete="off"
         >
           <div className="flex-col">
-            <h1 className={`${classes.title} t-center`}>Đăng nhập</h1>
+            <h1 className={`${classes.title} t-center`}>Quên mật khẩu</h1>
             <div className="t-center mt-5">
               <LockIcon className={classes.labelIcon} />
             </div>
@@ -102,41 +93,6 @@ function LoginPage() {
             )}
           </div>
 
-          <div className="flex-col">
-            <InputCustom
-              label="Mật khẩu"
-              size="small"
-              placeholder="Nhập mật khẩu"
-              onChange={handleChange}
-              error={Boolean(errors.password)}
-              inputProps={{
-                name: "password",
-                type: visiblePw ? "text" : "password",
-                ...register("password"),
-              }}
-              endAdornment={
-                visiblePw ? (
-                  <VisibilityIcon
-                    className={`${classes.icon} ${classes.visiblePw}`}
-                    onClick={() => setVisiblePw(false)}
-                  />
-                ) : (
-                  <VisibilityOffIcon
-                    className={classes.icon}
-                    onClick={() => setVisiblePw(true)}
-                  />
-                )
-              }
-            />
-            {errors.password && (
-              <p className="text-error">{errors.password?.message}</p>
-            )}
-          </div>
-
-          <Link className={classes.forgotPw} to={ROUTES.FORGOT_PASSWORD}>
-            Quên mật khẩu ?
-          </Link>
-
           <Button
             className="_btn _btn-primary"
             type="submit"
@@ -146,16 +102,15 @@ function LoginPage() {
             endIcon={loading && <LoopIcon className="ani-spin" />}
             size="large"
           >
-            Đăng nhập
+            Gửi email
           </Button>
 
-          <div className="or-option w-100 t-center">HOẶC</div>
         </form>
 
         <div className="has-account">
-          Bạn chưa có tài khoản?&nbsp;
-          <Link to={ROUTES.REGISTER} className="account-link">
-            Đăng ký
+          Quay lại trang&nbsp;
+          <Link to={ROUTES.LOGIN} className="account-link">
+            Đăng nhập
           </Link>
         </div>
       </div>
@@ -163,4 +118,4 @@ function LoginPage() {
   );
 }
 
-export default LoginPage;
+export default ForgotPasswordPage;

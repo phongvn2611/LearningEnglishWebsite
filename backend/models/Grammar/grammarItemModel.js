@@ -2,21 +2,21 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 
-const grammarItemsModel = new Schema({
-  content: {
+const GrammarItemsModel = new Schema({
+  Content: {
     type: String,
     required: true,
   },
 
-  example: {
+  Example: {
     type: String,
   },
 
-  grammarId: {
+  GrammarId: {
     type: Schema.Types.ObjectId,
-    ref: 'grammar',
+    ref: 'Grammar',
     default: null,
   },
 });
 
-module.exports = mongoose.model('grammar_item', grammarItemsModel);
+module.exports = mongoose.model('Grammar_Item', GrammarItemsModel);
