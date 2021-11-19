@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {getListening}  from "../redux/actions/listeningAction";
 import { useParams } from 'react-router-dom';
 
+
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -54,6 +55,8 @@ export default function ListeningPage() {
 
   const listenId = useParams().id;
   const {listen, questions} = useSelector((state) => state.listeningReducer);
+ 
+  console.log(listen);
   const dispatch = useDispatch();
   useEffect(() => 
   dispatch(getListening(listenId)), [dispatch])
@@ -72,16 +75,16 @@ export default function ListeningPage() {
 
         {/* phuonglinh */}
         {/* video youtube */}      
-            <div class="col-12 col-lg-6 mb-4">
-                <div class="card w-100">
-                    <div class="embed-responsive embed-responsive-16by9">
-                        <iframe id="player" class="embed-responsive-item" src={listen.Video} frameborder="1px"></iframe>
+            <div className="col-12 col-lg-6 mb-4">
+                <div className="card w-100">
+                    <div className="embed-responsive embed-responsive-16by9">
+                        <iframe id="player" className="embed-responsive-item" src={listen.Video} frameBorder="0px"></iframe>
                     </div>
                    
                 </div>
             </div>
-            <div class="col-12 col-lg-6">
-                <ul class="list-unstyled" id="videoList"></ul>
+            <div className="col-12 col-lg-6">
+                <ul className="list-unstyled" id="videoList"></ul>
             </div>
 
     {/* phuonglinh */}

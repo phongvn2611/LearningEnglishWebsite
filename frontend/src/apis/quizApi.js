@@ -1,12 +1,41 @@
 import axios from "axios";
-const URL = '/api/question';
+const URL = '/api/quiz';
 
 const quizApi = {
-  getQuizByListen: (listenId) => {
-    return axios.get(`${URL}/get-by-listenId/${listenId}`)
-    },
+  getQuiz: (id, token) => {
+    return axios.get(`${URL}/get-quiz-by-id/${id}`, {
+      headers: {Authorization: token}
+    })
+  },
+
+  getQuizByListen: (id, token) => {
+    return axios.get(`${URL}/get-quiz-by-listen/${id}`, {
+      headers: {Authorization: token}
+    })
+  },
+  getAllQuiz: (token) => {
+    return axios.get(`${URL}/get-all-quiz`, {
+      headers: {Authorization: token}
+    })
+  },
+
+  postQuizByListen: (id, formData, token) => {
+    return axios.post(`${URL}/post-quiz-by-listen/${id}`, formData, {
+      headers: {Authorization: token}
+    })
+  },
+
+  deleteQuizByListen: (id, token) => {
+    return axios.delete(`${URL}/delete-quiz-by-listen/${id}`,{
+      headers: {Authorization: token}
+    })
+  },
+
+  deleteQuiz: (id, token) => {
+    return axios.delete(`${URL}/delete-quiz-by-id/${id}`,{
+      headers: {Authorization: token}
+    })
+  },
 }
-
-
 
 export default quizApi;

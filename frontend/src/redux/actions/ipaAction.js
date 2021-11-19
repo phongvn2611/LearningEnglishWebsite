@@ -1,31 +1,31 @@
-import quizApi from "./../../apis/quizApi";
+import IPA_CONSTANT from "../constants/ipaConstant";
+import ipaApi from "./../../apis/ipaApi";
 import authReducer from "../reducers/authReducer";
-import QUIZ_CONSTANT from "../constants/quizConstant";
-import { TonalitySharp } from "@material-ui/icons";
+import IPA_CONSTANT from "../constants/ipaConstant";
 
-export const getQuiz = (id) => {
+export const getIPA = (id) => {
     return async (dispatch, getState) => {
         try { 
           const {
             authReducer: { user },
           } = getState();
 
-          const response = await quizApi.getQuiz(id, user.access_token);
+          const response = await ipaApi.getIPA(id, user.access_token);
           if(response.status===200){
             dispatch({
-              type: QUIZ_CONSTANT.GET_QUIZ,
-              payload: response.data.quiz,
+              type: IPA_CONSTANT.GET_IPA,
+              payload: response.data.ipa,
             })
           }
           else
           {
             dispatch({
-              type: QUIZ_CONSTANT.SET_QUIZ_ERROR,
+              type: IPA_CONSTANT.SET_IPA_ERROR,
               payload: response.data.message,
             })
           }
         } catch (error) {
-          dispatch({ type: QUIZ_CONSTANT.SET_QUIZ_ERROR })
+          dispatch({ type: IPA_CONSTANT.SET_IPA_ERROR })
           error.response && error.response.data.message
           ? error.response.data.message
           : error.message
@@ -33,29 +33,34 @@ export const getQuiz = (id) => {
       }
 };
 
-export const getQuizByListen = (id) => {
+export const getAllIPA = () => {
     return async (dispatch, getState) => {
         try { 
+          dispatch({
+            type: IPA_CONSTANT.SET_IPA_LOADING,
+            payload:true,
+          });
+
           const {
             authReducer: { user },
           } = getState();
 
-          const response = await quizApi.getQuizByListen(id, user.access_token);
+          const response = await ipaApi.getAllIPA(user.access_token);
           if(response.status===200){
             dispatch({
-              type: QUIZ_CONSTANT.GET_QUIZ,
-              payload: response.data.quiz,
+              type: IPA_CONSTANT.GET_ALL_IPA,
+              payload: response.data.ipas,
             })
           }
           else
           {
             dispatch({
-              type: QUIZ_CONSTANT.SET_QUIZ_ERROR,
+              type: IPA_CONSTANT.SET_IPA_ERROR,
               payload: response.data.message,
             })
           }
         } catch (error) {
-          dispatch({ type: QUIZ_CONSTANT.SET_QUIZ_ERROR })
+          dispatch({ type: IPA_CONSTANT.SET_IPA_ERROR })
           error.response && error.response.data.message
           ? error.response.data.message
           : error.message
@@ -63,29 +68,30 @@ export const getQuizByListen = (id) => {
       }
 };
 
-export const getAllQuiz = () => {
+export const postIPA = (formData) => {
     return async (dispatch, getState) => {
         try { 
           const {
             authReducer: { user },
           } = getState();
 
-          const response = await quizApi.getAllQuiz(user.access_token);
+          const response = await ipaApi.postIPA(formData, user.access_token);
           if(response.status===200){
             dispatch({
-              type: QUIZ_CONSTANT.GET_QUIZ,
-              payload: response.data.quizzes,
+              type: IPA_CONSTANT.CREATE_IPA,
+              payload: response.data.ipa,
             })
+            toast.success("Add successfully")
           }
           else
           {
             dispatch({
-              type: QUIZ_CONSTANT.SET_QUIZ_ERROR,
+              type: IPA_CONSTANT.SET_IPA_ERROR,
               payload: response.data.message,
             })
           }
         } catch (error) {
-          dispatch({ type: QUIZ_CONSTANT.SET_QUIZ_ERROR })
+          dispatch({ type: IPA_CONSTANT.SET_IPA_ERROR })
           error.response && error.response.data.message
           ? error.response.data.message
           : error.message
@@ -93,30 +99,30 @@ export const getAllQuiz = () => {
       }
 };
 
-export const postQuizByListen = (id, formData) => {
+export const putIPA = (id, formData) => {
     return async (dispatch, getState) => {
         try { 
           const {
             authReducer: { user },
           } = getState();
 
-          const response = await quizApi.postQuizByListen(id, formData, user.access_token);
+          const response = await ipaApi.putIPA(id, formData, user.access_token);
           if(response.status===200){
             dispatch({
-              type: QUIZ_CONSTANT.CREATE_QUIZ,
-              payload: response.data.quiz,
+              type: IPA_CONSTANT.EDIT_IPA,
+              payload: response.data.ipa,
             })
-            toast.success("Add successfully.")
+            toast.success("Edit successfully")
           }
           else
           {
             dispatch({
-              type: QUIZ_CONSTANT.SET_QUIZ_ERROR,
+              type: IPA_CONSTANT.SET_IPA_ERROR,
               payload: response.data.message,
             })
           }
         } catch (error) {
-          dispatch({ type: QUIZ_CONSTANT.SET_QUIZ_ERROR })
+          dispatch({ type: IPA_CONSTANT.SET_IPA_ERROR })
           error.response && error.response.data.message
           ? error.response.data.message
           : error.message
@@ -124,17 +130,17 @@ export const postQuizByListen = (id, formData) => {
       }
 };
 
-export const deleteQuiz = (id) => {
+export const deleteIPA = (id) => {
     return async (dispatch, getState) => {
         try { 
           const {
             authReducer: { user },
           } = getState();
 
-          const response = await quizApi.deleteQuiz(id, user.access_token);
+          const response = await ipaApi.deleteIPA(id, user.access_token);
           if(response.status===200){
             dispatch({
-              type: QUIZ_CONSTANT.DELETE_QUIZ,
+              type: IPA_CONSTANT.DELETE_IPA,
               payload: id,
             })
             toast.success(response.data.message)
@@ -142,43 +148,12 @@ export const deleteQuiz = (id) => {
           else
           {
             dispatch({
-              type: QUIZ_CONSTANT.SET_QUIZ_ERROR,
+              type: IPA_CONSTANT.SET_IPA_ERROR,
               payload: response.data.message,
             })
           }
         } catch (error) {
-          dispatch({ type: QUIZ_CONSTANT.SET_QUIZ_ERROR })
-          error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message
-        }
-      }
-};
-
-export const deleteQuizByListen = (id) => {
-    return async (dispatch, getState) => {
-        try { 
-          const {
-            authReducer: { user },
-          } = getState();
-
-          const response = await quizApi.deleteQuizByListen(id, user.access_token);
-          if(response.status===200){
-            dispatch({
-              type: QUIZ_CONSTANT.DELETE_QUIZ_BY_LISTEN,
-              payload: id,
-            })
-            toast.success(response.data.message)
-          }
-          else
-          {
-            dispatch({
-              type: QUIZ_CONSTANT.SET_QUIZ_ERROR,
-              payload: response.data.message,
-            })
-          }
-        } catch (error) {
-          dispatch({ type: QUIZ_CONSTANT.SET_QUIZ_ERROR })
+          dispatch({ type: IPA_CONSTANT.SET_IPA_ERROR })
           error.response && error.response.data.message
           ? error.response.data.message
           : error.message
