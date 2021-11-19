@@ -29,15 +29,21 @@ exports.postListening = async (req, res) => {
 
     //upload Video
     let videoUrl = null;
-      if (Video) {
-        if(typeof Video === 'string') {
-          let vid = Video.trim();
-          if(vid){
-            const videoId = vid.split("=");
-            console.log(videoId);
-            videoUrl= `https://www.youtube.com/embed/${videoId[1]}?enablejsapi=1`;
+    if (Video) {
+      if(typeof Video === 'string') {
+        let vid = Video.trim();
+        if(vid){
+          let videoId = null;
+          if(Video.includes("=")){
+            videoId = vid.split("=");
           }
+          else
+          {
+            videoId = vid.split("youtu.be/");
+          }
+          videoUrl= `https://www.youtube.com/embed/${videoId[1]}?enablejsapi=1`;
         }
+      }
         else{
           videoUrl = await uploadVideo(Video, 'dynonary/litenings');
         }
@@ -50,10 +56,10 @@ exports.postListening = async (req, res) => {
       }
 
     // create the new listen
-    const newListen = await createListen({Name, Topic, Description, Script, Video: videoUrl, Image: imgUrl, CreatDate });
+    const listen = await createListen({Name, Topic, Description, Script, Video: videoUrl, Image: imgUrl, CreatDate });
 
-    if (newListen !=null) {
-      return res.status(200).json({data: newListen });
+    if (listen !=null) {
+      return res.status(200).json({listen });
     }
     return res.status(503).json({ message: 'Error, can not create listening.' });
   } catch (error) {
@@ -73,9 +79,15 @@ exports.putListen = async (req, res, next) => {
       if(typeof Video === 'string') {
         let vid = Video.trim();
         if(vid){
-          const videoId = vid.split("=");
-          console.log(videoId);
-          videoUrl= `https://www.youtube.com/embed/${videoId}?enablejsapi=1`;
+          let videoId = null;
+          if(Video.includes("=")){
+            videoId = vid.split("=");
+          }
+          else
+          {
+            videoId = vid.split("youtu.be/");
+          }
+          videoUrl= `https://www.youtube.com/embed/${videoId[1]}?enablejsapi=1`;
         }
       }
       else{
@@ -90,11 +102,11 @@ exports.putListen = async (req, res, next) => {
      }
 
     // update
-    const Listen = await updateListen(req.params.listenId, 
+    const listen = await updateListen(req.params.id, 
       {Name, Topic, Description, Script, Video: videoUrl, Image: imgUrl });
 
-      if (Listen !=null) {
-          return res.status(200).json({updateListen });
+      if (listen !=null) {
+          return res.status(200).json({listen });
         }
     return res.status(400).json({ message: 'Error, can not update listening.' });
   } catch (error) {
@@ -107,9 +119,8 @@ exports.putListen = async (req, res, next) => {
 exports.getDetails = async (req, res, next) => {
   try {    
     const listen = await getDetailListen(req.params.id);
-    const questions = await getQuestionByListenId(req.params.id);
-    if (listen && questions) {
-      return res.status(200).json({listen, questions});
+    if (listen ) {
+      return res.status(200).json({listen});
     }
   } catch (error) {
     console.error('ERROR: ', error);
@@ -136,11 +147,11 @@ exports.getListening = async (req, res, next) => {
 exports.getByTopic = async (req, res) => {
   try {
     const Topic = req.params.topic;  
-    const list = await getListenByTopic(Topic);
-    if(list == null ){
+    const listens = await getListenByTopic(Topic);
+    if(listens == null ){
       return res.status(204).json({ message: 'No result.'});
       }
-    return res.status(200).json({list });
+    return res.status(200).json({listens });
   } catch (error) {
     console.error('ERROR: ', error);
     return res.status(503).json({ message: 'ERROR, can not get listening' });
@@ -166,8 +177,8 @@ exports.getByTopic = async (req, res) => {
 //get all
 exports.getAll = async (req, res) => {
   try { 
-    const list = await getAllListen();
-    return res.status(200).json({list });
+    const listens = await getAllListen();
+    return res.status(200).json({listens });
   } catch (error) {
     console.error('ERROR: ', error);
     return res.status(503).json({ message: 'Lỗi dịch vụ, thử lại sau' });
@@ -177,8 +188,8 @@ exports.getAll = async (req, res) => {
 //get topics
 exports.getTopics = async (req, res) => {
   try {
-    const list = await getListenTopics();
-    return res.status(200).json({list });
+    const topics = await getListenTopics();
+    return res.status(200).json({topics });
   } catch (error) {
     console.error('ERROR: ', error);
     return res.status(503).json({ message: 'Lỗi dịch vụ, thử lại sau' });
@@ -188,7 +199,7 @@ exports.getTopics = async (req, res) => {
 //delete
 exports.deleteListen = async (req, res) => {
   try {
-    const { listenId } = req.params.listenId;
+    const { listenId } = req.params.id;
     const isDeleteWord = await deleteListen(listenId);
     if (isDeleteWord) {
       return res.status(200).json({ message: 'Delete successfully.' });
@@ -204,11 +215,11 @@ exports.deleteListen = async (req, res) => {
   try {
     const name =req.query.name;
     const level =req.params.level;
-    const list = await searchListen(name, level );
-    if(list == null ){
+    const listens = await searchListen(name, level );
+    if(listens == null ){
     return res.status(204).json({ message: 'No result.'});
     }
-    return res.status(200).json({ list });
+    return res.status(200).json({ listens });
   } catch (error) {
     console.error('ERROR: ', error);
     return res.status(503).json({ message: 'ERROR.' });

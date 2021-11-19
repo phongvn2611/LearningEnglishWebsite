@@ -2,13 +2,13 @@ const router = require('express').Router();
 const grammarController = require('../controllers/grammarController');
 const { authentication, authRole } = require('../middlewares/authenticationMiddleware');
 
-router.get('/get-grammar-all', grammarController.getAllGrammars);
-router.get('/get-grammar-by-id/:id', grammarController.getById);
-router.get('/get-grammar-by-level/:level', grammarController.getByLevel);
-router.get('/get-grammar-levels', grammarController.getLevels);
-router.post('/post-grammar', grammarController.postGrammar);
-router.put('/put-grammar/:grammarId', grammarController.putGrammar);
-router.delete('/delete-grammar-by-id/:id', grammarController.deleteById);
+router.get('/get-all-grammar', authentication, grammarController.getAllGrammars);
+router.get('/get-grammar-by-id/:id',authentication, grammarController.getById);
+router.get('/get-grammar-by-level/:level',authentication, grammarController.getByLevel);
+router.get('/get-grammar-levels',authentication, grammarController.getLevels);
+router.post('/post-grammar',authentication, grammarController.postGrammar);
+router.put('/put-grammar/:id',authentication, grammarController.putGrammar);
+router.delete('/delete-grammar/:id',authentication, grammarController.deleteById);
 
 
 module.exports = router;

@@ -58,4 +58,14 @@ exports.deleteQuizById = async (_id = '') => {
       throw error;
     }
   };
+
+   //get all
+   exports.getAllQuizzes = async () => {
+    try {
+      const list = await QuizModel.find({});                   
+      return list;
+    } catch (error) {
+      throw error;
+    }
+  };
   

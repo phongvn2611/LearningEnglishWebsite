@@ -102,3 +102,29 @@ exports.getFavoriteList = async (rawFavorites = []) => {
     throw error;
   }
 };
+
+exports.getWordByTopic = async (topic) => {
+  try {
+     // var query = new RegExp( `^${topic}.*`,'gi');
+      const list = await WordModel.find({Topics: topic}); 
+      if(list.length == 0){
+        return null;
+      } 
+    return list;
+  } catch (error) {
+    throw error;
+  }
+};
+
+exports.getWordTopics = async () => {
+  try {
+      const list = await WordModel.distinct('Topics');
+      if(list.length == 0){
+        return null;
+      }
+    return list;
+  } catch (error) {
+    throw error;
+  }
+};
+

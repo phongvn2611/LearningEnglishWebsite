@@ -9,17 +9,17 @@ const https = require('https');
 const bodyParser = require('body-parser');
 
 const app = express();
-const { MAX } = require('./constants');
+app.use(express.urlencoded({extended: true})); 
 app.use(express.json());
-app.use(express.urlencoded({ limit: MAX.SIZE_JSON_REQUEST }));
-app.use(cors());
 app.use(cookieParser());
+app.use(cors());
 app.use(fileUpload({
   useTempFiles: true
 }));
+
 const BASE_URL = '/api'
 app.use(`${BASE_URL}/user`, require('./routes/userRouter'));
-//app.use('/grammar', require('./routes/grammarRouter'));
+app.use(`${BASE_URL}/grammar`, require('./routes/grammarRouter'));
 app.use(`${BASE_URL}/ipa`, require('./routes/ipaRouter'));
 app.use(`${BASE_URL}/listening`, require('./routes/listeningRouter'));
 app.use(`${BASE_URL}/question`, require('./routes/questionRouter'));

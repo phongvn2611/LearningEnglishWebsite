@@ -3,13 +3,15 @@ const { Router } = require('express');
 const wordController = require('../controllers/wordController');
 const { authentication, authRole } = require('../middlewares/authenticationMiddleware');
 
-wordApi.get('/get-all', wordController.getAllWords);
-wordApi.post('/post', wordController.postContributeWord);
-wordApi.put('/put/:wordId',wordController.putContributeWord);
-wordApi.delete('/delete/:wordId', wordController.deleteWord);
-wordApi.get('/exist', wordController.getCheckWordExistence);
-wordApi.get('/pack', wordController.getWordPack);
-wordApi.get('/search', wordController.getSearchWord);
-wordApi.get('/details/:wordId', wordController.getWordDetails);
+wordApi.get('/get-all-word', authentication, wordController.getAllWords);
+wordApi.post('/post-word',authentication, wordController.postContributeWord);
+wordApi.put('/put-word/:id',authentication, wordController.putContributeWord);
+wordApi.delete('/delete-word/:id',authentication, wordController.deleteWord);
+wordApi.get('/exist-word',authentication, wordController.getCheckWordExistence);
+wordApi.get('/get-wordpack',authentication, wordController.getWordPack);
+wordApi.get('/search-word',authentication, wordController.getSearchWord);
+wordApi.get('/get-word-by-id/:id',authentication, wordController.getWordDetails);
+wordApi.get('/get-word-by-topic/:topic',authentication, wordController.getByTopic);
+wordApi.get('/get-word-topics/:topic',authentication, wordController.getTopics);
 
 module.exports = wordApi;

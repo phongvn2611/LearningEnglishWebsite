@@ -3,10 +3,11 @@ const { Router } = require('express');
 const quizController = require('../controllers/quizController');
 const { authentication, authRole } = require('../middlewares/authenticationMiddleware');
 
-quizApi.get('/get-by-id/:id', quizController.getById);
-quizApi.get('/get-by-listenid/:listenId', quizController.getByLiteningId);
-quizApi.post('/post/:listenId', quizController.postQuiz);
-quizApi.delete('/delete-by-listenid/:listenId', quizController.deleteByListenId);
-quizApi.delete('/delete-by-id/:id', quizController.deleteById);
+quizApi.get('/get-all-quiz',authentication, quizController.getAllQuizzes);
+quizApi.get('/get-quiz-by-id/:id',authentication, quizController.getById);
+quizApi.get('/get-quiz-by-listen/:id',authentication, quizController.getByLiteningId);
+quizApi.post('/post-quiz-by-listen/:id',authentication, quizController.postQuiz);
+quizApi.delete('/delete-quiz-by-listen/:id',authentication, quizController.deleteByListenId);
+quizApi.delete('/delete-quiz-by-id/:id',authentication, authentication, quizController.deleteById);
 
 module.exports = quizApi;
