@@ -12,6 +12,8 @@ const {
   searchWord,
   getWordDetail,
   getFavoriteList,
+  getWordByTopic,
+  getWordTopics,
 } = require('../services/wordService');
 
 // const {
@@ -38,15 +40,15 @@ exports.postContributeWord = async (req, res, next) => {
     }
 
     // create the new word
-    const newWord = await createNewWord({
+    const word = await createNewWord({
       Word,
       Type,
       Picture: pictureUrl,
       ...rest,
     });
 
-    if (newWord !=null) {
-      return res.status(200).json({data: newWord });
+    if (word !=null) {
+      return res.status(200).json({word });
     }
     return res.status(503).json({ message: 'Error, can not create word.' });
   } catch (error) {
@@ -58,8 +60,16 @@ exports.postContributeWord = async (req, res, next) => {
 //update word
 exports.putContributeWord = async (req, res, next) => {
   try {
-    const { Picture, ...rest } = req.body;
+    const { Picture, Word, Type, ...rest } = req.body;
      
+    // check existence of word
+    const isExist = await isExistWord(Word, Type);
+    if (isExist) {
+      return res
+        .status(409)
+        .json({ message: `"${Word} (${Type})" has been existed.` });
+    }
+
     // upload description picture if available
     let pictureUrl = null;
     if (Picture) {
@@ -67,13 +77,13 @@ exports.putContributeWord = async (req, res, next) => {
     }
 
     // update the new word
-    const updateWord = await updateWord(req.params.wordId, {       
+    const word = await updateWord(req.params.id, {       
       Picture: pictureUrl,
       ...rest,
     });
 
-    if (updateWord !=null) {
-      return res.status(200).json({data: updateWord });
+    if (word !=null) {
+      return res.status(200).json({word });
     }
     return res.status(503).json({ message: 'Error, can not update word.' });
   } catch (error) {
@@ -86,11 +96,11 @@ exports.putContributeWord = async (req, res, next) => {
 exports.getCheckWordExistence = async (req, res) => {
   try {
     const { Word, Type } = req.query;
-    const isExist = await isExistWord(Word, Type);
-    return res.status(200).json({ isExist });
+    const word = await isExistWord(Word, Type);
+    return res.status(200).json({ word });
   } catch (error) {
     console.error('ERROR: ', error);
-    return res.status(200).json({ isExist: false });
+    return res.status(204).json({ isExist: false });
   }
 };
 
@@ -107,7 +117,7 @@ exports.getWordPack = async (req, res) => {
       JSON.parse(packInfo),
       skip,
       perPageInt,
-      '-_id Type Word Mean Phonetic Picture',
+      '-_id type word mean phonetic picture',
       sortType === 'asc' ? '1' : sortType === 'desc' ? '-1' : null,
       null,
     );
@@ -122,8 +132,15 @@ exports.getWordPack = async (req, res) => {
 //search word
 exports.getSearchWord = async (req, res) => {
   try {
-    const list = await searchWord(req.query.word);
-    return res.status(200).json({ list });
+    const { word, isCompact = false } = req.query;
+    const list = await searchWord(
+      word,
+      20,
+      isCompact == 'true'
+        ? '-_id word'
+        : '-_id type word mean phonetic picture',
+    );
+    return res.status(200).json({ packList: list });
   } catch (error) {
     console.error('GET SEARCH WORD ERROR: ', error);
     return res.status(503).json({ message: 'Lỗi dịch vụ, thử lại sau' });
@@ -133,13 +150,14 @@ exports.getSearchWord = async (req, res) => {
 //get the details of word
 exports.getWordDetails = async (req, res, next) => {
   try {
-    const wordDetail = await getWordDetail(req.params.wordId);
+    const { word } = req.query;
+    const wordDetail = await getWordDetail(word);
     if (wordDetail) {
       return res.status(200).json(wordDetail);
     }
   } catch (error) {
     console.error('GET WORD DETAILS ERROR: ', error);
-    return res.status(503).json({ message: error });
+    return res.status(503).json({ message: 'Lỗi dịch vụ, thử lại sau' });
   }
 };
 
@@ -180,8 +198,8 @@ exports.getUserFavoriteList = async (req, res, next) => {
  //get all of words
  exports.getAllWords = async (req, res) => {
   try {
-    const list = await getAllWords();
-    return res.status(200).json({list });
+    const words = await getAllWords();
+    return res.status(200).json({words });
   } catch (error) {
     console.error('GET SEARCH WORD ERROR: ', error);
     return res.status(503).json({ message: 'Lỗi dịch vụ, thử lại sau' });
@@ -191,10 +209,10 @@ exports.getUserFavoriteList = async (req, res, next) => {
 //delete word
 exports.deleteWord = async (req, res) => {
   try {
-    const { wordId } = req.params.wordId;
+    const { wordId } = req.params.id;
 
     //get word
-    const word = await getWordById(wordId);
+   // const word = await getWordById(wordId);
 
     //remove word from user' favorite list
     // const isDeleteFavoriteWordOfUser= await deleteFavoriteListOfUsers(word);
@@ -212,6 +230,32 @@ exports.deleteWord = async (req, res) => {
   } catch (error) {
     console.error('GET WORD DETAILS ERROR: ', error);
     return res.status(503).json({ message: 'Eror, can not delete this word' });
+  }
+};
+
+//get by topic
+exports.getByTopic = async (req, res) => {
+  try {
+    const Topic = req.params.topic;  
+    const words = await getWordByTopic(Topic);
+    if(words == null ){
+      return res.status(204).json({ message: 'No result.'});
+      }
+    return res.status(200).json({words });
+  } catch (error) {
+    console.error('ERROR: ', error);
+    return res.status(503).json({ message: 'ERROR, can not get listening' });
+  }
+};
+
+//get topics
+exports.getTopics = async (req, res) => {
+  try {
+    const topics = await getWordTopics();
+    return res.status(200).json({topics });
+  } catch (error) {
+    console.error('ERROR: ', error);
+    return res.status(503).json({ message: 'Lỗi dịch vụ, thử lại sau' });
   }
 };
 

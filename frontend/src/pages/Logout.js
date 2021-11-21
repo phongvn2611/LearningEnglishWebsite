@@ -12,10 +12,6 @@ function LogoutPage() {
   const { isAuth } = useSelector((state) => state.authReducer);
 
   useEffect(() => {
-    if (!isAuth) {
-      history.goBack();
-      return;
-    }
 
     (async function () {
       try {
@@ -23,12 +19,10 @@ function LogoutPage() {
         if (apiRes) {
           dispatch(logout(apiRes));
           dispatch(setMessage(apiRes.data.message, 'success'))
-          // window.location.href = history.location.pathname;
           history.replace('/home');
         }
       } catch (error) {
         dispatch(setMessage(error.response.data.message, 'error'));
-        history.goBack();
       }
     })();
 

@@ -29,7 +29,7 @@ const userSchema = new mongoose.Schema({
   avatar: {
     type: String,
     required: true,
-    default: 'https://res.cloudinary.com/phongvn2611/image/upload/v1634179173/avatar/avatar-default_tx5lsb.png'
+    default: 'https://res.cloudinary.com/phongvn2611/image/upload/v1634179173/english/avatar/avatar-default_tx5lsb.png'
   },
   coin: {
     type: Number,

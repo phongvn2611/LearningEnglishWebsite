@@ -1,13 +1,14 @@
 const router = require('express').Router();
 const grammarController = require('../controllers/grammarController');
-const { authentication, authRole } = require('../middlewares/authMiddleware');
+const { authentication, authRole } = require('../middlewares/authenticationMiddleware');
 
-router.get('/get-grammar-by-id/:id', authentication, grammarController.getById);
-router.get('/get-grammar-by-listenid/:listenId', authentication, grammarController.getByListeningId);
-router.post('/post-grammar-by-listen/:listenId', authentication, authRole, grammarController.postGrammarByListen);
-router.post('/post-grammar', authentication, authRole, grammarController.postGrammar);
-router.put('/put-grammar/:grammarId', authentication, authRole, grammarController.putGrammar);
-router.delete('/delete-grammar-by-id/:id', authentication, authRole, grammarController.deleteById);
-router.delete('/delete-grammar-by-listenid/:listenId', authentication, authRole, grammarController.deleteByListenId);
+router.get('/get-all-grammar', authentication, grammarController.getAllGrammars);
+router.get('/get-grammar-by-id/:id',authentication, grammarController.getById);
+router.get('/get-grammar-by-level/:level',authentication, grammarController.getByLevel);
+router.get('/get-grammar-levels',authentication, grammarController.getLevels);
+router.post('/post-grammar',authentication, grammarController.postGrammar);
+router.put('/put-grammar/:id',authentication, grammarController.putGrammar);
+router.delete('/delete-grammar/:id',authentication, grammarController.deleteById);
+
 
 module.exports = router;

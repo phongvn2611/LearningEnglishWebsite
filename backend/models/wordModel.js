@@ -3,42 +3,42 @@ const { NUM_OF_SPECIALTY, NUM_OF_TOPICS } = require('../constants');
 const Schema = mongoose.Schema;
 
 const WordModel = new Schema({
-  Word: {
+  word: {
     type: String,
     required: true,
     trim: true,
     maxLength: 50,
   },
 
-  Mean: {
+  mean: {
     type: String,
     required: true,
     trim: true,
     maxLength: 100,
   },
 
-  Type: {
+  type: {
     type: String,
     required: true,
     enum: ['', 'n', 'adj', 'adv', 'v', 'con', 'pre', 'pro', 'det'],
     default: '',
   },
 
-  Level: {
+  level: {
     type: String,
     required: true,
     enum: ['0', 'A1', 'A2', 'B1', 'B2', 'C1', 'C2'],
     default: '0',
   },
 
-  Phonetic: {
+  phonetic: {
     type: String,
     trim: true,
     maxLength: 50,
     default: '',
   },
 
-  Examples: [
+  examples: [
     {
       type: String,
       maxLength: 200,
@@ -46,41 +46,41 @@ const WordModel = new Schema({
   ],
 
   // link picture source
-  Picture: {
+  picture: {
     type: String,
     trim: true,
     default: null,
   },
 
-  Specialty: {
+  specialty: {
     type: String,
     enum: Array.from({ length: NUM_OF_SPECIALTY }, (_, key) => key.toString()),
     default: '0',
   },
 
-  Topics: [
+  topics: [
     {
       type: String,
       enum: Array.from({ length: NUM_OF_TOPICS }, (_, key) => key.toString()),
     },
   ],
 
-  Synonyms: [{ type: String, maxLength: 50 }],
+  synonyms: [{ type: String, maxLength: 50 }],
 
-  Antonyms: [{ type: String, maxLength: 50 }],
+  antonyms: [{ type: String, maxLength: 50 }],
 
-  Note: {
+  note: {
     type: String,
     trim: true,
     maxLength: 150,
   },
 
-  AudioSrc: {
-    type: String,
-    default: null,
-  },
+  // audioSrc: {
+  //   type: String,
+  //   default: null,
+  // },
 
-  IsChecked: {
+  isChecked: {
     type: Boolean,
     default: false,
   },

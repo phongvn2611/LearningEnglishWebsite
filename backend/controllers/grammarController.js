@@ -25,13 +25,20 @@ exports.postGrammar = async (req, res) => {
      //video
      let videoUrl = null;
      if (Video) {
-       if(typeof Video === 'string') {
-         let vid = Video.trim();
-         if(vid){
-           const videoId = vid.split("=");
-           videoUrl= `https://www.youtube.com/embed/${videoId}?enablejsapi=1`;
-         }
-       }
+      if(typeof Video === 'string') {
+        let vid = Video.trim();
+        if(vid){
+          let videoId = null;
+          if(Video.includes("=")){
+            videoId = vid.split("=");
+          }
+          else
+          {
+            videoId = vid.split("youtu.be/");
+          }
+          videoUrl= `https://www.youtube.com/embed/${videoId[1]}?enablejsapi=1`;
+        }
+      }
        else{
          videoUrl = await uploadVideo(Video, 'dynonary/grammars');
        }
@@ -43,9 +50,9 @@ exports.postGrammar = async (req, res) => {
         imgUrl = await uploadImage(Image, 'dynonary/grammars');
     }
 
-    const newGrammar = await createGrammar({Title, Video: videoUrl, Image: imgUrl, Script, Content,Level, Items});
-    if (newGrammar) {
-      return res.status(201).json({data: newGrammar });
+    const grammar = await createGrammar({Title, Video: videoUrl, Image: imgUrl, Script, Content,Level, Items});
+    if (grammar) {
+      return res.status(201).json({grammar });
     }
     return res.status(503).json({ message: 'Error, can not create gramma.' });
   } catch (error) {
@@ -59,7 +66,7 @@ exports.putGrammar = async (req, res) => {
   try {
 
       //check if grammar existed
-    const grammarId = req.params.grammarId;
+    const grammarId = req.params.id;
     const GrammarExist = await getGrammarById(grammarId);
 
     if(!GrammarExist) {
@@ -79,8 +86,15 @@ exports.putGrammar = async (req, res) => {
       if(typeof Video === 'string') {
         let vid = Video.trim();
         if(vid){
-          const videoId = vid.split("=");
-          videoUrl= `https://www.youtube.com/embed/${videoId}?enablejsapi=1`;
+          let videoId = null;
+          if(Video.includes("=")){
+            videoId = vid.split("=");
+          }
+          else
+          {
+            videoId = vid.split("youtu.be/");
+          }
+          videoUrl= `https://www.youtube.com/embed/${videoId[1]}?enablejsapi=1`;
         }
       }
       else{
@@ -94,10 +108,10 @@ exports.putGrammar = async (req, res) => {
         imgUrl = await uploadImage(Image, 'dynonary/grammars');
     }
 
-    const newGrammar = await createGrammar({Title, Video: videoUrl, Image: imgUrl, Script, Content,Level, Items});
+    const grammar = await createGrammar({Title, Video: videoUrl, Image: imgUrl, Script, Content,Level, Items});
 
-    if (newGrammar) {
-      return res.status(201).json({data: newGrammar });
+    if (grammar) {
+      return res.status(201).json({grammar });
     }
     return res.status(503).json({ message: 'Error, can not update grammar.' });return res.status(503).json({ message: 'Error, can not update question.' });
   } catch (error) {
@@ -110,9 +124,9 @@ exports.putGrammar = async (req, res) => {
 //get grammar by id
 exports.getById = async (req, res) => {
   try {
-    const grammarDetail = await getGrammarById(req.params.id);
-    if (grammarDetail) {
-      return res.status(200).json(grammarDetail);
+    const grammar = await getGrammarById(req.params.id);
+    if (grammar) {
+      return res.status(200).json(grammar);
     }
   } catch (error) {
     console.error('GET DETAILS ERROR: ', error);
@@ -123,11 +137,11 @@ exports.getById = async (req, res) => {
 //get levels
 exports.getLevels = async (req, res) => {
   try {
-    const list = await getGrammarLevels();
-    if(list == null ){
+    const levels = await getGrammarLevels();
+    if(levels == null ){
       return res.status(204).json({ message: 'No result.'});
       }
-    return res.status(200).json({list });
+    return res.status(200).json({levels });
   } catch (error) {
     console.error('ERROR: ', error);
     return res.status(503).json({ message: 'Lỗi dịch vụ, thử lại sau' });
@@ -138,11 +152,11 @@ exports.getLevels = async (req, res) => {
 exports.getByLevel = async (req, res) => {
   try {
     const Level = req.params.level;  
-    const list = await getGrammarByLevel(Level);
-    if(list == null ){
+    const grammars = await getGrammarByLevel(Level);
+    if(grammars == null ){
       return res.status(204).json({ message: 'No result.'});
       }
-    return res.status(200).json({list });
+    return res.status(200).json({grammars });
   } catch (error) {
     console.error('ERROR: ', error);
     return res.status(503).json({ message: 'ERROR, can not get grammar' });
@@ -158,6 +172,7 @@ exports.deleteById = async (req, res) => {
     if (isDelete) {
       return res.status(200).json({ message: 'Delete successfully.' });
     }
+    return res.status(400).json({ message: 'Eror, can not delete this grammar' });
   } catch (error) {
     console.error('ERROR: ', error);
     return res.status(503).json({ message: 'Eror, can not delete this grammar' });
@@ -167,8 +182,8 @@ exports.deleteById = async (req, res) => {
 //get all 
 exports.getAllGrammars = async (req, res) => {
   try {
-    const list = await getAllGrammars();
-    return res.status(200).json({list });
+    const grammars = await getAllGrammars();
+    return res.status(200).json({grammars });
   } catch (error) {
     console.error('ERROR: ', error);
     return res.status(503).json({ message: 'Lỗi dịch vụ, thử lại sau' });

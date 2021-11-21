@@ -2,7 +2,8 @@ const ListeningModel = require('../models/listeningModel');
 
 exports.createListen = async (listeningInfo) => {
   try {
-    const newListen = await ListeningModel.create({ ...listeningInfo });
+   
+    const newListen = await ListeningModel.create({...listeningInfo });
 
     if (newListen) {
       return newListen;
@@ -28,14 +29,12 @@ exports.updateListen = async (_id='',listeningInfo) => {
 exports.getListenById = async (_id) => {
     try {
         const res = await ListeningModel.findById(_id );
-        if(res){
+    
         return res;
-        }
-        return null;
       } catch (error) {
         throw error;
       }
-    };
+  };
 
 
 exports.getAllListen = async () => {
@@ -49,18 +48,36 @@ exports.getAllListen = async () => {
 
 exports.getListenByTopic = async (topic) => {
     try {
-        const list = await ListeningModel.find({topic: topic})
-                  .select('-_id name video');  
+       // var query = new RegExp( `^${topic}.*`,'gi');
+        const list = await ListeningModel.find({Topic: topic}); 
+        if(list.length == 0){
+          return null;
+        } 
       return list;
     } catch (error) {
       throw error;
     }
   };
 
+  exports.getListenByLevel = async (level) => {
+    try {
+       // var query = new RegExp( `^${topic}.*`,'gi');
+        const list = await ListeningModel.find({Level: level});
+        if(list.length == 0){
+          return null;
+        }
+      return list;
+    } catch (error) {
+      throw error;
+    }
+  };
 
   exports.getListenTopics = async () => {
     try {
-        const list = await ListeningModel.distinct('topic');
+        const list = await ListeningModel.distinct('Topic');
+        if(list.length == 0){
+          return null;
+        }
       return list;
     } catch (error) {
       throw error;
@@ -69,11 +86,8 @@ exports.getListenByTopic = async (topic) => {
 
 exports.getDetailListen = async (_id = '') => {
   try {
-    const res = await ListeningModel.findById(_id );
-    if(res){
+    const res = await ListeningModel.findById(_id );    
     return res;
-    }
-    return null;
   } catch (error) {
     throw error;
   }
@@ -86,6 +100,18 @@ exports.deleteListen = async (_id = '') => {
       return true;
     }
     return false;
+  } catch (error) {
+    throw error;
+  }
+};
+
+exports.searchListen = async (name = '', level='') => {
+  try {
+    const list = await ListeningModel.find( { $or:[{'Name':name}, {'Topic':name}, {'Level':level} ]}); 
+    if(list.length == 0){
+      return null;
+    }
+    return list;
   } catch (error) {
     throw error;
   }

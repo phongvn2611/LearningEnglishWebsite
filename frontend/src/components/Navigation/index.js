@@ -9,7 +9,6 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import SettingMenu from "./SettingMenu";
 import useStyle from "./style";
-import { Typography } from "@material-ui/core";
 
 function Navigation() {
   const classes = useStyle();
@@ -32,7 +31,7 @@ function Navigation() {
               <img
                 className={`${classes.imgSize} ${classes.logo}`}
                 src={
-                  "https://res.cloudinary.com/phongvn2611/image/upload/v1637079637/avatar/logo-tiny_seqkri.png"
+                  "https://res.cloudinary.com/phongvn2611/image/upload/v1637319049/english/avatar/logo-horizon_vmirgt.png"
                 }
                 alt="Logo"
               />
@@ -53,9 +52,9 @@ function Navigation() {
                   alt="Username"
                   src={user.avatar}
                 />
-                <Typography variant="body2" className={classes.name}>
+                <p className={classes.name}>
                   {user.name}
-                </Typography>
+                </p>
               </div>
             ) : (
               <div>

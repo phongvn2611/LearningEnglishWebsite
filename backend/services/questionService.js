@@ -13,10 +13,21 @@ exports.createQuestion = async (questionInfo ) => {
   }
 };
 
+exports.updateQuestion = async (_id='', questionInfo ) => {
+    await QuestionModel.findByIdAndUpdate(_id, { ...questionInfo},
+        function(err, result) {
+        if (err) {
+          return null;
+        } else {
+          return result;
+        }
+      }
+    );
+};
 
-exports.getQuestionById = async (id = '') => {
+exports.getQuestionById = async (_id = '') => {
     try {
-      const res = await QuestionModel.findById(id).populate('answers');   
+      const res = await QuestionModel.findById(_id);   
       return res;
     } catch (error) {
       throw error;
@@ -26,19 +37,17 @@ exports.getQuestionById = async (id = '') => {
 
   exports.getQuestionByQuizId = async (quizId = '') => {
     try {
-      const res = await QuestionModel.find({quizId: quizId}).populate('answers');  
+      const res = await QuestionModel.find({QuizId: quizId});  
       return res;
     } catch (error) {
       throw error;
     }
   };
 
- //delete by id
- exports.deleteQuestionById = async (id = '') => {
+ //delete by quizid
+ exports.deleteQuestionById = async (_id = '') => {
     try {
-        // var hex = /[0-9A-Fa-f]{6}/g;
-        // id = (hex.test(id))? ObjectId(id) : id;
-      const res = await QuestionModel.findByIdAndDelete(id );
+      const res = await QuestionModel.findByIdAndDelete(_id );
       if (res) {
         return true;
       }
@@ -51,7 +60,7 @@ exports.getQuestionById = async (id = '') => {
    //delete by quizid
    exports.deleteQuestionByQuizId = async (quizId = '') => {
       try {
-        const res = await QuestionModel.deleteMany({quizId: quizId});
+        const res = await QuestionModel.deleteMany({QuiId: quizId});
         if (res) {
           return true;
         }

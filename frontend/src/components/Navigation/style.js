@@ -24,9 +24,10 @@ export default makeStyles((theme) => ({
     alignItems: 'center',
     cursor: 'pointer'
   },
-
+  
   name: {
     fontSize: '1.6rem',
+    fontWeight: 600,
     marginLeft: '0.5rem'
   },
 

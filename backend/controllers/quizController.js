@@ -4,6 +4,7 @@ const {
   getQuizById,
   deleteQuizById,
   deleteQuizByListenId,
+  getAllQuizzes,
 } = require('../services/quizService');
 const {
   getListenById,
@@ -13,7 +14,7 @@ const {
 //create quiz
 exports.postQuiz = async (req, res) => {
   try {
-    const ListeningId= req.params.listenId;
+    const ListeningId= req.params.id;
 
      //check if quiz existed
      const listen = await getListenById(ListeningId);
@@ -22,10 +23,10 @@ exports.postQuiz = async (req, res) => {
      }
  
     // create quiz
-    const newQuiz = await createQuiz({ListeningId });
+    const quiz = await createQuiz({ListeningId });
 
-    if (newQuiz != null) {
-      return res.status(200).json({data: newQuiz });
+    if (quiz != null) {
+      return res.status(200).json({quiz });
     }
     return res.status(503).json({ message: 'Error, can not create quiz.' });
   } catch (error) {
@@ -37,9 +38,9 @@ exports.postQuiz = async (req, res) => {
 //get quiz by quizId
 exports.getById = async (req, res) => {
   try {
-    const quizDetail = await getQuizById(req.params.id);
-    if (quizDetail) {
-      return res.status(200).json(quizDetail);
+    const quiz = await getQuizById(req.params.id);
+    if (quiz) {
+      return res.status(200).json(quiz);
     }
   } catch (error) {
     console.error('GETDETAILS ERROR: ', error);
@@ -51,7 +52,7 @@ exports.getById = async (req, res) => {
 //get quiz by listeningId
 exports.getByLiteningId = async (req, res) => {
   try {
-    const listenId = req.params.listenId;  
+    const listenId = req.params.id;  
     const quiz = await getQuizByListenId(listenId);
     return res.status(200).json({quiz });
   } catch (error) {
@@ -77,7 +78,7 @@ exports.deleteById = async (req, res) => {
 //delete by listenid
 exports.deleteByListenId = async (req, res) => {
   try {
-    const { listenId } = req.params.listenId;
+    const { listenId } = req.params.id;
     const isDelete = await deleteQuizByListenId(listenId);
     if (isDelete) {
       return res.status(200).json({ message: 'Delete successfully.' });
@@ -85,6 +86,17 @@ exports.deleteByListenId = async (req, res) => {
   } catch (error) {
     console.error('GET WORD DETAILS ERROR: ', error);
     return res.status(503).json({ message: 'Eror, can not delete this listening' });
+  }
+};
+
+   //get all
+ exports.getAllQuizzes = async (req, res) => {
+  try {
+    const quizzes = await getAllQuizzess();
+    return res.status(200).json({quizzes });
+  } catch (error) {
+    console.error('ERROR: ', error);
+    return res.status(503).json({ message: 'Lỗi dịch vụ, thử lại sau' });
   }
 };
 

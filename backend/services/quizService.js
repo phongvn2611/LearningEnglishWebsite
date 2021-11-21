@@ -14,10 +14,10 @@ exports.createQuiz = async (quiz) => {
 };
 
 
-exports.getQuizByListeningId = async (listenId = '') => {
+exports.getQuizByListenId = async (listenId = '') => {
     try {
-      const res = await QuizModel.findOne({listenId: listenId})
-                                .populate('questions');
+      const res = await QuizModel.findOne({ListeningId: listenId});
+                         
       return res;
     } catch (error) {
       throw error;
@@ -26,8 +26,7 @@ exports.getQuizByListeningId = async (listenId = '') => {
 
   exports.getQuizById = async (_id = '') => {
     try {
-      const res = await QuizModel.findById(_id)
-                                .populate('questions');
+      const res = await QuizModel.findById(_id);
       return res;
     } catch (error) {
       throw error;
@@ -50,11 +49,21 @@ exports.deleteQuizById = async (_id = '') => {
  //delete by listenid
  exports.deleteQuizByListenId = async (listenId = '') => {
     try {
-      const res = await QuizModel.deleteOne({listenId:listenId} );
+      const res = await QuizModel.deleteOne({ListeningId:listenId} );
       if (res) {
         return true;
       }
       return false;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+   //get all
+   exports.getAllQuizzes = async () => {
+    try {
+      const list = await QuizModel.find({});                   
+      return list;
     } catch (error) {
       throw error;
     }

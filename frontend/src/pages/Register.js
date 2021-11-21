@@ -6,7 +6,6 @@ import { Link, useHistory } from "react-router-dom";
 import "./style/login-signup.scss";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Button from "@material-ui/core/Button";
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import LoopIcon from "@material-ui/icons/Loop";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
@@ -73,11 +72,7 @@ function RegisterPage() {
   const handleRegister = async () => {
     try {
       setLoading(true);
-      const res = await userApi.register(
-        user.name,
-        user.email,
-        user.password
-      );
+      const res = await userApi.register(user.name, user.email, user.password);
       if (res) {
         dispatch(setMessage(res.data.message, "success"));
         history.replace("/login");
@@ -97,10 +92,14 @@ function RegisterPage() {
           autoComplete="off"
         >
           <div className="flex-col">
-            <h1 className={`${classes.title} t-center`}>Tạo tài khoản</h1>
             <div className="t-center mt-5">
-              <AccountCircleIcon className={classes.labelIcon} />
+              <img
+                className={classes.labelIcon}
+                src="https://res.cloudinary.com/phongvn2611/image/upload/v1637079637/english/avatar/logo-tiny_seqkri.png"
+                alt="logo"
+              />
             </div>
+            <h1 className={`${classes.title} t-center`}>Đăng ký</h1>
           </div>
 
           <div className="flex-col">

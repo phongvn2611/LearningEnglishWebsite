@@ -1,16 +1,14 @@
 import React from "react";
 import { Button, Container, Typography } from "@material-ui/core";
-import background from "../assets/background-welcome.jpg";
 import { makeStyles } from "@material-ui/styles";
 import { useHistory } from 'react-router-dom';
 import { ROUTES } from '../constants';
-import useTitle from './../hooks/useTitle';
 import useCloseNavigation from './../hooks/useCloseNavigation';
+import useTitle from 'hooks/useTitle';
 
 const useStyles = makeStyles(() => ({
   root: {
     minHeight: "100vh",
-    background: `url(${background}) no-repeat center center / cover`,
     color: "white",
     position: "relative",
   },
@@ -30,17 +28,18 @@ const useStyles = makeStyles(() => ({
   },
   title: {
     fontSize: "40px",
-    color: "#fff",
+    color: "#dd9226",
     marginBottom: "10px",
     fontWeight: "600",
   },
   desc: {
     fontSize: "25px",
-    color: "#fff",
+    color: "#bcbdbc",
     marginBottom: "30px",
   },
   button: {
     padding: "10px 35px",
+    fontWeight: "600",
     backgroundColor: "#68c2e8",
     color: "#fff",
     "&:hover": {
@@ -51,7 +50,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 export default function WelcomePage() {
-  useTitle('Welcome');
+  useTitle("Welcome")
   useCloseNavigation();
   const classes = useStyles();
   const history = useHistory();
@@ -62,7 +61,7 @@ export default function WelcomePage() {
     <div className={classes.root}>
       <Container className={classes.container}>
         <img
-          src="https://res.cloudinary.com/phongvn2611/image/upload/v1634738823/avatar/website-logo-small_uqfxjx.png"
+          src="https://res.cloudinary.com/phongvn2611/image/upload/v1634738823/english/avatar/website-logo-small_uqfxjx.png"
           alt="Logo"
           className={classes.logo}
         />

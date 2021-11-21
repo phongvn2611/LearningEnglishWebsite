@@ -14,9 +14,8 @@ import { ROUTES } from '../constants';
 import useScrollTop from '../hooks/useScrollTop';
 import useTitle from '../hooks/useTitle';
 import React from 'react';
-import { useSelector } from 'react-redux';
 
-const FEATURE_LIST_USER = [
+const FEATURE_LIST = [
   {
     title: 'Bảng phiên âm (IPA)',
     subTitle:
@@ -43,12 +42,6 @@ const FEATURE_LIST_USER = [
     imgUrl: dictionaryIcon,
     to: ROUTES.HOME,
   },
-  // {
-  //   title: 'Động từ bất quy tắc',
-  //   imgUrl: verbIcon,
-  //   subTitle: 'Tất cả những động từ bất quy tắc trong tiếng Anh',
-  //   to: ROUTES.HOME,
-  // },
   {
     title: 'Ngữ pháp',
     imgUrl: grammarIcon,
@@ -70,47 +63,14 @@ const FEATURE_LIST_USER = [
   },
 ];
 
-const FEATURE_LIST_ADMIN = [
-  {
-    title: 'Quản lý từ vựng',
-    subTitle:
-      'Quản lý tất cả từ vựng có trong hệ thống',
-    imgUrl: flashcardIcon,
-    to: ROUTES.WORD_ADMIN,
-  },
-  {
-    title: "Quản lý bài nghe",
-    subTitle: 'Quản lý tất cả các bài nghe có trong hệ thống',
-    imgUrl: communicateIcon,
-    to: ROUTES.LISTENING_ADMIN,
-  },
-  {
-    title: 'Quản lý quiz',
-    subTitle: 'Quản lý các bài quiz trong phần luyện nghe',
-    imgUrl: toeicIcon,
-    to: ROUTES.QUIZ_ADMIN,
-  },
-  {
-    title: 'Quản lý ngữ pháp',
-    imgUrl: grammarIcon,
-    subTitle: 'Quản lý tất cả ngữ pháp có trong hệ thống',
-    to: ROUTES.GRAMMAR_ADMIN,
-  },
-  {
-    title: 'Quản lý người dùng',
-    imgUrl: friendsIcon,
-    subTitle: 'Quản lý tất cả tài khoản người dùng có trong hệ thống',
-    to: ROUTES.USER_ADMIN
-  }
-]
 
 function HomePage() {
   useTitle('Study');
-  const { user } = useSelector(state => state.authReducer);
-  const renderFeatureList = () => {
-    if (user.roleType === 'admin') {
-      return (
-        FEATURE_LIST_ADMIN.map((box, index) => (
+
+  return (
+    <div className="container my-10">
+      <Grid container spacing={3}>
+        {FEATURE_LIST.map((box, index) => (
           <Grid item xs={12} md={6} lg={4} key={index}>
             <FeatureBox
               imgUrl={box.imgUrl}
@@ -119,26 +79,7 @@ function HomePage() {
               subTitle={box.subTitle}
             />
           </Grid>
-        ))
-      )
-    }
-    return (
-      FEATURE_LIST_USER.map((box, index) => (
-        <Grid item xs={12} md={6} lg={4} key={index}>
-          <FeatureBox
-            imgUrl={box.imgUrl}
-            title={box.title}
-            to={box.to}
-            subTitle={box.subTitle}
-          />
-        </Grid>
-      ))
-    )
-  }
-  return (
-    <div className="container my-10">
-      <Grid container spacing={3}>
-        {renderFeatureList()}
+        ))}
       </Grid>
     </div>
   );

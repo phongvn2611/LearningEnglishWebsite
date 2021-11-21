@@ -1,6 +1,6 @@
 const { cloudinary } = require('../configs/cloudinaryConfig');
-const { convertPackInfoToQueryStr } = require('../helpers/word-pack.helper');
-const WordModel = require('../models/word.model');
+const { convertPackInfoToQueryStr } = require('../helpers/wordpackHelper');
+const WordModel = require('../models/wordModel');
 
 exports.uploadImage = async (imgSrc, folderName = '', config = {}) => {
   try {
@@ -19,6 +19,7 @@ exports.uploadImage = async (imgSrc, folderName = '', config = {}) => {
 exports.uploadVideo = async (vidSrc, publicid ='', config = {}) => {
   try {
     const result = await cloudinary.uploader.upload(vidSrc, {
+      folder: folderName,
       resource_type: "video",
       public_id: publicid,
       ...config,

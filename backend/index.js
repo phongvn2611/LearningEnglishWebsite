@@ -18,7 +18,13 @@ app.use(fileUpload({
 }));
 const BASE_URL = '/api'
 app.use(`${BASE_URL}/user`, require('./routes/userRouter'));
-// app.use('/grammar', require('./routes/grammarRouter'));
+app.use(`${BASE_URL}/grammar`, require('./routes/grammarRouter'));
+app.use(`${BASE_URL}/ipa`, require('./routes/ipaRouter'));
+app.use(`${BASE_URL}/listening`, require('./routes/listeningRouter'));
+app.use(`${BASE_URL}/question`, require('./routes/questionRouter'));
+app.use(`${BASE_URL}/quiz`, require('./routes/quizRouter'));
+app.use(`${BASE_URL}/word`, require('./routes/wordRouter'));
+app.use(`${BASE_URL}/common`, require('./routes/commonRouter'));
 
 const URI = process.env.MONGODB_URL;
 mongoose.connect(URI, {

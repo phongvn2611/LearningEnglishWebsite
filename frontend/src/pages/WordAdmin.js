@@ -1,21 +1,12 @@
 import React from 'react'
-import { dictionaryRoot } from '../components/UI/style'
-import { makeStyles } from '@material-ui/styles';
-import useTitle from './../hooks/useTitle';
-
-const useStyle = makeStyles((theme) => ({
-  ...dictionaryRoot(theme)
-}))
+import useTitle from 'hooks/useTitle';
+import WordAdminData from 'components/WordAdmin/data';
 
 export default function WordAdminPage() {
-  useTitle('Word Admin')
-  const classes = useStyle();
+  useTitle('Word Admin');
   return (
-    <div className={`${classes.root} dyno-container`}>
-      <div className="flex-center-between">
-        <h1 className="dyno-title">Quản lý từ vựng</h1>
-      </div>
-      <div className="dyno-break"></div>
+    <div className="container">
+      <WordAdminData/>
     </div>
   )
 }

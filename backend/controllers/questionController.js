@@ -15,7 +15,7 @@ const {
 //create question
 exports.postQuestion = async (req, res) => {
   try {
-    const QuizId= req.params.quizId;
+    const QuizId= req.params.id;
     
     //check if quiz existed
     const quiz = await getQuizById(QuizId);
@@ -25,10 +25,10 @@ exports.postQuestion = async (req, res) => {
 
     // create question
     const {Content, Answers} = req.body;
-    const newQuestion = await createQuestion({QuizId, Content, Answers });
+    const question = await createQuestion({QuizId, Content, Answers });
 
-    if (newQuestion != null) {
-      return res.status(200).json({data: newQuestion });
+    if (question != null) {
+      return res.status(200).json({data: question });
     }
     return res.status(503).json({ message: 'Error, can not create question.' });
   } catch (error) {
@@ -42,7 +42,7 @@ exports.putQuestion = async (req, res) => {
   try {
 
       //check if question
-    const questionId = req.params.questionId;
+    const questionId = req.params.id;
     const QuestionExist = await getQuestionById(questionId);
     if(!QuestionExist)
     {
@@ -56,9 +56,9 @@ exports.putQuestion = async (req, res) => {
     }
 
     const QuizId = QuestionExist.QuizId;
-    const Question = await createQuestion({Content, Answers, QuizId});
-    if (Question != null) {
-      return res.status(200).json({Question });
+    const question = await createQuestion({Content, Answers, QuizId});
+    if (question != null) {
+      return res.status(200).json({question });
     }
     return res.status(503).json({ message: 'Error, can not update question.' });
   } catch (error) {
@@ -70,7 +70,7 @@ exports.putQuestion = async (req, res) => {
 //get by Id
 exports.getById = async (req, res, next) => {
   try {
-    const id = req.params.questionId;
+    const id = req.params.id;
     const question = await getQuestionById(id);
     return res.status(200).json({question });
   } catch (error) {
@@ -80,21 +80,21 @@ exports.getById = async (req, res, next) => {
   }
 };
 
-//get by ListenId
-exports.getByListenId = async (req, res) => {
+//get by QuizId
+exports.getByQuizId = async (req, res) => {
   try {
-      const listenId= req.params.listenId;
+      const quizId= req.params.id;
     
     //check if quiz existed
-    const listen = await getListenById(listenId);
-    if(!listen) {
-    return res.status(400).json({ message: 'Error, Not found listen.' });
+    const quiz = await getQuizById(quizId);
+    if(!quiz) {
+    return res.status(400).json({ message: 'Error, Not found quiz.' });
     }
 
     //get question of
-    const question = await getQuestionByListenId(listenId);
+    const questions = await getQuestionByQuizId(quizId);
    // console.log(question)
-    return res.status(200).json({question });
+    return res.status(200).json({questions });
   } catch (error) {
     console.error('ERROR: ', error);
     return res.status(503).json({ message: 'Lỗi dịch vụ, thử lại sau' });
@@ -118,7 +118,7 @@ exports.deleteById = async (req, res) => {
 //delete by listenid
 exports.deleteByListenId = async (req, res) => {
   try {
-    const { listenId } = req.params.listenId;
+    const { listenId } = req.params.id;
     const isDelete = await deleteQuestionByListenId(listenId);
     if (isDelete) {
       return res.status(200).json({ message: 'Delete successfully.' });

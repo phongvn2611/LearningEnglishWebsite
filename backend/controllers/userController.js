@@ -59,7 +59,7 @@ exports.activateEmail = async (req, res) => {
     await newUser.save();
 
     return res.status(200).json({
-      message: "Account has been activated!",
+      message: "Account has been activated",
     });
   } catch (err) {
     return res.status(500).json({ message: err.message });
@@ -80,12 +80,12 @@ exports.login = async (req, res) => {
     const refresh_token = createRefreshToken({ id: user._id });
     res.cookie("token", refresh_token, {
       httpOnly: true,
-      expires: new Date(Date.now() + 7 * 24 * 3600 * 1000),
+      expires: new Date(Date.now() + 1 * 24 * 3600 * 1000),
     });
 
     return res.json({
       user,
-      message: "Login Successfully!",
+      message: "Login successfully",
     });
   } catch (err) {
     return res.status(500).json({ message: err.message });
@@ -114,15 +114,14 @@ exports.forgotPassword = async (req, res) => {
     const { email } = req.body;
     const user = await Users.findOne({ email });
     if (!user)
-      return res.status(400).json({ message: "This email does not exist." });
+      return res.status(400).json({ message: "This email does not exist" });
 
     const access_token = createAccessToken({ id: user._id });
     const url = `${CLIENT_URL}/user/reset/${access_token}`;
-    console.log(mailConfig.resetPasswordMail(url));
     mailConfig.sendEmail(email, mailConfig.resetPasswordMail(url));
     return res
       .status(200)
-      .json({ message: "Mail has been sent, please check your email." });
+      .json({ message: "Mail has been sent, please check your email" });
   } catch (err) {
     return res.status(500).json({ message: err.message });
   }
@@ -139,7 +138,7 @@ exports.resetPassword = async (req, res) => {
         password: passwordHash,
       }
     );
-    return res.status(200).json({ message: "Password changed successfully!" });
+    return res.status(200).json({ message: "Password changed successfully" });
   } catch (err) {
     return res.status(500).json({ message: err.message });
   }
@@ -187,6 +186,6 @@ const createAccessToken = (payload) => {
 
 const createRefreshToken = (payload) => {
   return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, {
-    expiresIn: "7d",
+    expiresIn: "1d",
   });
 };

@@ -9,7 +9,6 @@ import InputCustom from "../components/UI/InputCustom";
 import { formStyle } from "../components/UI/style";
 import Button from "@material-ui/core/Button";
 import makeStyles from "@material-ui/core/styles/makeStyles";
-import LockIcon from "@material-ui/icons/Lock";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
 import { Link, useHistory } from "react-router-dom";
@@ -18,7 +17,7 @@ import { useDispatch } from "react-redux";
 import userApi from "../apis/userApi";
 import { UX } from "../constants";
 import LoopIcon from "@material-ui/icons/Loop";
-import { setMessage } from './../redux/actions/messageAction';
+import { setMessage } from "./../redux/actions/messageAction";
 
 const schema = yup.object().shape({
   email: yup.string().required("Email đang trống").email("Email không hợp lệ"),
@@ -52,10 +51,10 @@ function ForgotPasswordPage() {
     try {
       setLoading(true);
       const res = await userApi.forgotPassword(user.email);
-      dispatch(setMessage(res.data.message, 'success'));
+      dispatch(setMessage(res.data.message, "success"));
       setLoading(false);
     } catch (error) {
-      dispatch(setMessage(error.response?.data?.message, 'error'));
+      dispatch(setMessage(error.response?.data?.message, "error"));
       setLoading(false);
     }
   };
@@ -69,10 +68,14 @@ function ForgotPasswordPage() {
           autoComplete="off"
         >
           <div className="flex-col">
-            <h1 className={`${classes.title} t-center`}>Quên mật khẩu</h1>
             <div className="t-center mt-5">
-              <LockIcon className={classes.labelIcon} />
+              <img
+                className={classes.labelIcon}
+                src="https://res.cloudinary.com/phongvn2611/image/upload/v1637079637/english/avatar/logo-tiny_seqkri.png"
+                alt="logo"
+              />
             </div>
+            <h1 className={`${classes.title} t-center`}>Quên mật khẩu</h1>
           </div>
 
           <div className="flex-col">
@@ -104,7 +107,6 @@ function ForgotPasswordPage() {
           >
             Gửi email
           </Button>
-
         </form>
 
         <div className="has-account">
