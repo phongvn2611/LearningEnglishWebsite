@@ -1,8 +1,0 @@
-const USER_CONSTANT = {
-  LOGIN: 'LOGIN',
-  GET_TOKEN: 'GET_TOKEN',
-  GET_USER_INFO: 'GET_USER_INFO',
-  LOGOUT: 'LOGOUT'
-}
-
-export default USER_CONSTANT;
