@@ -1,0 +1,13 @@
+const IPA_CONSTANT = {
+    GET_IPA: 'GET_IPA',
+    GET_ALL_IPA: "GET_ALL_IPA",
+    CREATE_IPA: "CREATE_IPA",
+    EDIT_IPA: "EDIT_IPA",
+    DELETE_IPA: "DELETE_IPA",
+    SET_IPA_LOADING: "SET_IPA_LOADING",
+    SET_IPA_ERROR: "SET_IPA_ERROR",
+
+  }
+  
+  export default IPA_CONSTANT;
+  
