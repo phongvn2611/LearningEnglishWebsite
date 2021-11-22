@@ -9,13 +9,15 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import SettingMenu from "./SettingMenu";
 import useStyle from "./style";
+import { cloudinaryImgOptimize } from 'helper';
 
 function Navigation() {
   const classes = useStyle();
   const theme = useTheme();
   const isXsDevice = useMediaQuery(theme.breakpoints.up("xs"));
-
+  
   const { isAuth, user } = useSelector((state) => state.authReducer);
+  const avtSrc = cloudinaryImgOptimize(user.avatar, 48, 48);
   const [showInput, setShowInput] = useState(isXsDevice);
   const [anchorMenu, setAnchorMenu] = useState(null);
 
@@ -50,7 +52,7 @@ function Navigation() {
                 <Avatar
                   className={`${classes.imgSize} ${classes.avt} cur-pointer`}
                   alt="Username"
-                  src={user.avatar}
+                  src={avtSrc}
                 />
                 <p className={classes.name}>
                   {user.name}

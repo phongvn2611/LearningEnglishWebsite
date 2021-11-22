@@ -9,6 +9,7 @@ const HomePage = React.lazy(() => import("../pages/Home"));
 const RegisterPage = React.lazy(() => import("../pages/Register"));
 const LoginPage = React.lazy(() => import("../pages/Login"));
 const ForgotPasswordPage = React.lazy(() => import("../pages/ForgotPassword"));
+const ProfilePage = React.lazy(() => import('../pages/Profile'));
 const AdminPage = React.lazy(() => import('../pages/Admin'));
 const GrammarAdminPage = React.lazy(() => import("../pages/GrammarAdmin"));
 const ListeningAdminPage = React.lazy(() => import("../pages/ListeningAdmin"));
@@ -58,6 +59,12 @@ const routes = [
     exact: true,
     isProtect: false,
     component: () => <ResetPasswordPage />,
+  },
+  {
+    path: ROUTES.PROFILE,
+    exact: true,
+    isProtect: true,
+    component: () => <ProfilePage />,
   },
   {
     path: ROUTES.LOGOUT,

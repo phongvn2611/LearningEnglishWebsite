@@ -2,6 +2,9 @@ const Users = require("../models/userModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const mailConfig = require("../configs/mailConfig");
+const { uploadImage } = require("../services/commonService");
+const { cloudinary } = require("../configs/cloudinaryConfig");
+const fs = require("fs");
 
 const { CLIENT_URL } = process.env;
 
@@ -144,6 +147,23 @@ exports.resetPassword = async (req, res) => {
   }
 };
 
+exports.updatePassword = async (req, res) => {
+  try {
+    const { password } = req.body;
+    const passwordHash = await bcrypt.hash(password, 12);
+    await Users.findOneAndUpdate(
+      { _id: req.user.id },
+      {
+        password: passwordHash,
+      }
+    );
+    return res.status(200).json({ message: "Password changed successfully" });
+  }
+  catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
+}
+
 exports.getUserInfo = async (req, res) => {
   try {
     const { isAuth } = res.locals;
@@ -152,6 +172,42 @@ exports.getUserInfo = async (req, res) => {
     }
     const user = await Users.findById(req.user.id);
     return res.status(200).json({ user });
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
+};
+
+exports.updateProfile = async (req, res) => {
+  try {
+    const { name, avatar } = req.body;
+    await Users.findOneAndUpdate(
+      { _id: req.user.id },
+      {
+        name,
+        avatar,
+      }
+    );
+    return res.status(200).json({ message: "Updated profile successfully" });
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
+};
+
+exports.updateAvatar = async (req, res) => {
+  try {
+    const file = req.files.file;
+    cloudinary.uploader.upload(
+      file.tempFilePath,
+      {
+        folder: "english/avatar",
+        resource_type: "image",
+      },
+      async (err, result) => {
+        if (err) throw err;
+        removeTmp(file.tempFilePath);
+        return res.status(200).json({ url: result.secure_url });
+      }
+    );
   } catch (err) {
     return res.status(500).json({ message: err.message });
   }
@@ -187,5 +243,11 @@ const createAccessToken = (payload) => {
 const createRefreshToken = (payload) => {
   return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, {
     expiresIn: "1d",
+  });
+};
+
+const removeTmp = (path) => {
+  fs.unlink(path, (err) => {
+    if (err) throw err;
   });
 };

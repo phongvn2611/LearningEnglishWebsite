@@ -12,7 +12,6 @@ const ListeningModel = new Schema({
   Name: {
     type: String,
     required: true,
-    maxlength:100,
   },
 
   Topic: {

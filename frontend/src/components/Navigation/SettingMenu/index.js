@@ -1,6 +1,6 @@
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-// import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import FaceIcon from "@material-ui/icons/Face";
 // import HelpIcon from '@material-ui/icons/Help';
@@ -32,6 +32,12 @@ function SettingMenu({ anchorEl, onClose }) {
             vertical: "bottom",
           }}
         >
+          <Link to={ROUTES.PROFILE}>
+            <MenuItem className={classes.menuItem}>
+              <AccountCircleIcon className={classes.icon} fontSize="small" />
+              <p className={classes.text}>Thông tin cá nhân</p>
+            </MenuItem>
+          </Link>
           {role === "admin" ? (
             <Link to={ROUTES.ADMIN}>
               <MenuItem className={classes.menuItem}>

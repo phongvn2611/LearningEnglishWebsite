@@ -7,7 +7,7 @@ import { MAX } from 'constants';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { setMessage } from 'redux/slices/message.slice';
+import { setMessage } from 'redux/actions/messageAction';
 import useStyle from './style';
 
 function checkFile(file) {
@@ -17,10 +17,10 @@ function checkFile(file) {
   if (type.split('/')[0] !== 'image')
     return { status: false, message: 'File gửi lên phải là một ảnh' };
 
-  if (size / 1024 ** 2 > MAX.IMG_SIZE)
+  if (size / 1024 ** 2 > 2)
     return {
       status: false,
-      message: `Kích thước của ảnh tối đa là ${MAX.IMG_SIZE} MB`,
+      message: `Kích thước của ảnh tối đa là 2 MB`,
     };
 
   return { status: true };
@@ -41,17 +41,14 @@ function UploadButton({ title, className, onChange, resetFlag }) {
     onChange(null);
     setState({ status: 0 });
     dispatch(
-      setMessage({
-        type: 'error',
-        message: 'Tải tập tin thất bại, thử lại',
-      }),
+      setMessage("Upload file failed", 'error')
     );
   };
 
   const onFileChange = (file) => {
     const { status, message = '' } = checkFile(file);
     if (!status) {
-      dispatch(setMessage({ type: 'error', message }));
+      dispatch(setMessage(message, 'error'));
       onChange(null);
       return;
     }

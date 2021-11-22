@@ -13,6 +13,7 @@
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
     "axios": "^0.24.0",
+    "compressorjs": "^1.1.1",
     "material-ui-player": "^0.2.5",
     "query-string": "^4.3.4",
     "react": "^17.0.2",

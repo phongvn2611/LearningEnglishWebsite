@@ -60,6 +60,7 @@ export const ROUTES = {
   FORGOT_PASSWORD: '/forgot-password',
   ACTIVATION_EMAIL: '/user/activate/:activation_token',
   RESET_PASSWORD: '/user/reset/:access_token',
+  PROFILE: '/user/profile',
   LOGOUT: '/logout',
   LISTENING: '/listening/:id',
   ADMIN: '/admin',

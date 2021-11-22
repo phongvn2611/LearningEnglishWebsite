@@ -23,32 +23,32 @@ const {
 //create word
 exports.postContributeWord = async (req, res, next) => {
   try {
-    const { Picture, Word, Type, ...rest } = req.body;
+    const { picture, word, type, ...rest } = req.body;
 
     // check existence of word
-    const isExist = await isExistWord(Word, Type);
+    const isExist = await isExistWord(word, type);
     if (isExist) {
       return res
         .status(409)
-        .json({ message: `"${Word} (${Type})" has been existed.` });
+        .json({ message: `"${word} (${type})" has been existed.` });
     }
 
     // upload description picture if available
     let pictureUrl = null;
-    if (Picture) {
-      pictureUrl = await uploadImage(Picture, 'dynonary/words');
+    if (picture) {
+      pictureUrl = await uploadImage(picture, 'english/word');
     }
 
     // create the new word
-    const word = await createNewWord({
-      Word,
-      Type,
-      Picture: pictureUrl,
+    const isCreate = await createNewWord({
+      word,
+      type,
+      picture: pictureUrl,
       ...rest,
     });
 
-    if (word !=null) {
-      return res.status(200).json({word });
+    if (isCreate) {
+      return res.status(200).json({ message: "Created word successfully" });
     }
     return res.status(503).json({ message: 'Error, can not create word.' });
   } catch (error) {
