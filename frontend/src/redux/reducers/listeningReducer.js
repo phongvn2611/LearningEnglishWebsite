@@ -23,7 +23,7 @@ const listeningReducer = (state = initialState, action) => {
         isListenLoading: true,
       }
 
-    case LISTEN_CONSTANT.GET_LISTENING:
+    case LISTEN_CONSTANT.GET_LISTENING: 
       return {
         ...state,
         listen: payload.listen,

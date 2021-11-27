@@ -3,18 +3,16 @@ import wordApi from "./../../apis/wordApi";
 import authReducer from "../reducers/authReducer";
 
 
-export const getWord = (id) => {
-    return async (dispatch, getState) => {
+export const getWord = (word) => {
+    return async (dispatch) => {
         try { 
-          const {
-            authReducer: { user },
-          } = getState();
-          
-          const response = await wordApi.getWord(id, user.access_token);
+
+          const response = await wordApi.getWord(word);
+          console.log(response.data);
             if(response.status===200){
               dispatch({
                   type: WORD_CONSTANT.GET_WORD,
-                  payload: response.data.word,
+                  payload: response.data,
                 })
             }
             else
@@ -254,14 +252,12 @@ export const postWord = (formData) => {
 };
 
 
-export const putWord = (id, formData) => {
-    return async (dispatch, getState) => {
+export const putWord = (word, formData) => {
+    return async (dispatch) => {
         try { 
-          const {
-            authReducer: { user },
-          } = getState();
-          
-          const response = await wordApi.putWord(id, formData, user.access_token);
+        
+          const response = await wordApi.putWord(word, formData);
+          console.log(response.data.word)
             if(response.status===200){
               dispatch({
                   type: WORD_CONSTANT.EDIT_WORD,

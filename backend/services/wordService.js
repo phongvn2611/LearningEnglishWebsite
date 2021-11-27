@@ -13,16 +13,18 @@ exports.createNewWord = async (wordInfo) => {
   }
 };
 
-exports.updateWord = async (_id='',wordInfo) => {
-  await WordModel.findByIdAndUpdate(_id, wordInfo,
-      function(err, result) {
-        if (err) {
-          return null;
-        } else {
-          return result;
-        }
-      }
-    );
+exports.updateWord = async (_id='', wordInfo) => {
+  try {
+    const updateWord= await WordModel.findByIdAndUpdate(_id, wordInfo);
+  
+  if (updateWord) {
+    return updateWord;
+  }
+  return null;
+}
+  catch (error) {
+    throw error;
+  }
 };
 
 exports.getIdByWord = async (word = '') => {
@@ -36,7 +38,7 @@ exports.getIdByWord = async (word = '') => {
   }
 };
 
-exports.searchWord = async (word = '', limit = 20, select = '') => {
+exports.searchWord = async (word = '', limit = 50, select = '') => {
   try {
     const regex = new RegExp(`^${word}.*`, 'gi');
     const list = await WordModel.find({ word: regex })

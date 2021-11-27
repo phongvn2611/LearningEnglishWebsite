@@ -1,18 +1,18 @@
 import LoopIcon from '@material-ui/icons/Loop';
 import AutoSearchInput from 'components/UI/AutoSearchInput';
 import InfiniteScroll from 'components/UI/InfiniteScroll';
-import WordSortModal from 'components/UI/WordSortModal';
+import SortTypeModal from 'components/UI/SortType';
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 import useStyle from './style';
-import WordItem from './WordItem/index';
+import WordItem from './ListeningItem/index';
 import WordPackSetting from './WordPackSetting';
 import WordSkeleton from './WordSkeleton';
 import AddIcon from '@material-ui/icons/Add';
 
 
 
-function WordAdmin({
+function ListeningAdmin({
   list,
   loading,
   onLoadData,
@@ -28,11 +28,11 @@ function WordAdmin({
     <div className={`${classes.root} dyno-container`}>
       {/* title - menu */}
       <div className="flex-center-between">
-        <h1 className="dyno-title">Quản lý từ vựng</h1>
+        <h1 className="dyno-title">Manage Listening</h1>
         <div>
           <AddIcon className="dyno-setting-icon mr-5" Link/>
   
-          <WordSortModal
+          <SortTypeModal
             onSelect={onSortTypeChange}
             classNameIcon="dyno-setting-icon mr-5"
           />
@@ -91,7 +91,7 @@ function WordAdmin({
   );
 }
 
-WordAdmin.propTypes = {
+ListeningAdmin.propTypes = {
   isFirstLoad: PropTypes.bool,
   list: PropTypes.array,
   loading: PropTypes.bool,
@@ -102,7 +102,7 @@ WordAdmin.propTypes = {
   onSortTypeChange: PropTypes.func,
 };
 
-WordAdmin.defaultProps = {
+ListeningAdmin.defaultProps = {
   list: [],
   loading: false,
   more: true,
@@ -113,4 +113,4 @@ WordAdmin.defaultProps = {
   onSortTypeChange: function () {},
 };
 
-export default WordAdmin;
+export default ListeningAdmin;

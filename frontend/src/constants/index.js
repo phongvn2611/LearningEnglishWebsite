@@ -66,9 +66,12 @@ export const ROUTES = {
   ADMIN: '/admin',
   GRAMMAR_ADMIN: '/admin/grammar',
   LISTENING_ADMIN: '/admin/listening',
+  LISTENING_DETAIL: '/admin/listening/:id',
   QUIZ_ADMIN: '/admin/quiz',
   WORD_ADMIN: '/admin/word',
   USER_ADMIN: '/admin/user',
+  ADD_WORD: '/admin/word/add',
+  EDIT_WORD: '/admin/word/edit/:id',
 }
 
 export const UX = {
@@ -182,4 +185,34 @@ export const WORD_SPECIALTY = [
   { value: '16', label: 'Văn hoá học (Culturology)' },
   { value: '17', label: 'Xây dựng (Construction Industry)' },
   { value: '15', label: 'Xã hội học (Sociology)' },
+];
+
+export const LISTEN_TOPIC = [
+  { value: 'Other', label: 'Other' },
+  { value: 'Culture', label: 'Culture' },
+  { value: 'Economics', label: 'Economics' },
+  { value: '3', label: 'Appearance' },
+  { value: 'Education', label: 'Education' },
+  { value: '5', label: 'Environment' },
+  { value: '6', label: 'Family' },
+  { value: '7', label: 'Food' },
+  { value: '8', label: 'Health' },
+  { value: '9', label: 'Holidays' },
+  { value: '10', label: 'Leisure' },
+  { value: '11', label: 'Movies' },
+  { value: '12', label: 'Music' },
+  { value: '13', label: 'Nature' },
+  { value: '14', label: 'Places' },
+  { value: '15', label: 'Relationships' },
+  { value: '16', label: 'Routines' },
+  { value: '17', label: 'Shopping' },
+  { value: '18', label: 'Sports' },
+  { value: '19', label: 'Technology' },
+  { value: '20', label: 'Travel' },
+  { value: '21', label: 'Work' },
+];
+
+export const SORT_TYPE = [
+  { value: 'Newest', label: 'Newest' },
+  { value: 'Oldest', label: 'Oldest' },
 ];

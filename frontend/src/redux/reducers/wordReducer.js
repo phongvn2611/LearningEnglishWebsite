@@ -1,7 +1,7 @@
 import WORD_CONSTANT from "../constants/wordConstant";
 
 const initialState = {
-  word: [],
+  wordData: null,
   words:[],
   topics:[],
   wordpack:[],
@@ -26,12 +26,12 @@ const wordReducer = (state = initialState, action) => {
     case WORD_CONSTANT.GET_WORD:
       return {
         ...state,
-        word: payload,
+        wordData: payload,
       }
       case WORD_CONSTANT.CREATE_WORD:
           return {
             ...state,
-            word: payload,
+            wordData: payload,
             words: [...state.words, payload],
           }
       case WORD_CONSTANT.EDIT_WORD:
@@ -40,7 +40,7 @@ const wordReducer = (state = initialState, action) => {
           )
           return {
               ...state,
-              word: payload,
+              wordData: payload,
               words: newWords,
           }
       case WORD_CONSTANT.DELETE_WORD:

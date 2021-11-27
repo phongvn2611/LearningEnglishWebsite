@@ -34,12 +34,7 @@ function WordContributionData() {
       // check examples validation
       const exampleArr = analysisExample(examples, word);
       if (typeof exampleArr === 'boolean' && !exampleArr) {
-        dispatch(
-          setMessage({
-            type: 'warning',
-            message: 'Câu ví dụ phải chứa từ vựng mới.',
-          }),
-        );
+        dispatch(setMessage("Câu ví dụ phải chứa từ vựng mới.", "warning"));
         setSubmitting(false);
         return;
       }

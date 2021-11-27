@@ -13,13 +13,14 @@ export const getListening = (id) => {
                   payload: response.data,
                 })
             }
-            else
+           else
             {
               dispatch({
                 type: LISTEN_CONSTANT.SET_LISTEN_ERROR,
                 payload: response.data.message,
               })
             }
+            
         } catch (error) {
           dispatch({ type: LISTEN_CONSTANT.SET_LISTEN_ERROR,
             payload: error.response.message,
@@ -212,20 +213,19 @@ export const putListen = (id, formData) => {
 };
 
 export const deleteListen = (id) => {
-  return async (dispatch, getState) => {
+  return async (dispatch) => {
     try {
-
-      const {
-        authReducer: { user },
-      } = getState();
-
-      const response = await listeningApi.deleteListen(id, user.access_token);
+      const response = await listeningApi.deleteListen(id);
       if (response.status===200) {
         dispatch({
           type: LISTEN_CONSTANT.DELETE_LISTEN,
           payload: id,
         })
-       // toast.success(response.data.message)
+      }
+      else{
+        dispatch({ type: LISTEN_CONSTANT.SET_LISTEN_ERROR,
+          payload: response.data.message,
+      })
       }
     } catch (error) {
         dispatch({ type: LISTEN_CONSTANT.SET_LISTEN_ERROR,

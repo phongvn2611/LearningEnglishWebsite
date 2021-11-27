@@ -25,6 +25,11 @@ exports.postContributeWord = async (req, res, next) => {
   try {
     const { picture, word, type, ...rest } = req.body;
 
+      const isExist = await isExistWord(word, type);
+      if(isExist)
+      {
+        return res.status(400).json({ message: `Từ ${word} (${type}) đã tồn tại trong từ điển !` });
+      }
      // upload description picture if available
      let pictureUrl = null;
      if (picture) {
@@ -52,25 +57,17 @@ exports.postContributeWord = async (req, res, next) => {
 //update word
 exports.putContributeWord = async (req, res, next) => {
   try {
-    const { picture, word, type, ...rest } = req.body;
-     
-    // check existence of word
-    const isExist = await isExistWord(word, type);
-    if (isExist) {
-      return res
-        .status(409)
-        .json({ message: `"${word} (${type})" has been existed.` });
-    }
+    const { picture, topics, synonyms, antonyms, ...rest } = req.body;
 
     // upload description picture if available
     let pictureUrl = null;
     if (picture) {
-      pictureUrl = await uploadImage(picture, 'dynonary/words');
+      pictureUrl = await uploadImage(picture, 'english/words');
     }
 
     // update the new word
     const wordData = await updateWord(req.params.id, {       
-      picture: pictureUrl,
+      picture: pictureUrl, topics, synonyms, antonyms,
       ...rest,
     });
 

@@ -8,18 +8,21 @@ import wordApi from 'apis/wordApi';
 import InputCustom from 'components/UI/InputCustom';
 import SelectCustom from 'components/UI/SelectCustom';
 import TopicSelect from 'components/UI/TopicSelect';
-import { MAX, WORD_LEVELS, WORD_SPECIALTY, WORD_TYPES } from './../../../../constants';
+import { MAX, WORD_LEVELS, WORD_SPECIALTY, WORD_TYPES } from './../../../constants';
 import UploadButton from 'components/UI/UploadButton';
 import { debounce } from 'helper';
 import PropTypes from 'prop-types';
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState,  useEffect  } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { setMessage } from 'redux/actions/messageAction';
 import * as yup from 'yup';
-import InformationTooltip from './InformationTooltip';
-import PhoneticInput from './PhoneticInput';
+import InformationTooltip from './../AddWord/InformationTooltip';
+import PhoneticInput from './../AddWord/PhoneticInput';
 import useStyle from './style';
+import { useParams } from 'react-router-dom';
+import {getWord } from './../../../redux/actions/wordAction';
+import { useHistory } from "react-router-dom";
 
 let delayTimer = null;
 
@@ -74,110 +77,163 @@ const schema = yup.object().shape({
     .max(MAX.NOTE_WORD_LEN, `Ghi chú tối đa ${MAX.NOTE_WORD_LEN} ký tự`),
 });
 
+const analysisExample = (exampleStr = '', word = '') => {
+  if (typeof exampleStr !== 'string' || exampleStr === '') {
+    return [];
+  }
+
+  const exampleArr = exampleStr.split('\n');
+  for (let str of exampleArr) {
+    if (str.toLocaleLowerCase().indexOf(word.toLocaleLowerCase()) === -1) {
+      return false;
+    }
+  }
+
+  return exampleArr;
+};
+
+const getTypeCurrent = (type = '', options=[]) => {
+
+  for (let i=0; i< options.length; i++) {
+    if (options[i].value === type) {
+      return i;
+    }
+  }
+  return 0;
+};
+
+const getStringCurrent = (ar = []) => {
+  let str='';
+
+  if(ar[0])
+  {
+    str += ar[0];
+  }
+  for (let i=1; i< ar.length; i++) {
+    if (ar[i]) {
+      str += '\n' + ar[i];
+    }
+  }
+  return str;
+};
+
+
 // Prevent unmount component topic select
 const ButtonWrapper = (props) => <Grid {...props} item xs={12} md={6} lg={4} />;
 const TagsWrapper = (props) => <Grid {...props} item xs={12} />;
 
-function WordContribution({ onSubmitForm, submitting }) {
+function WordContribution() {
   const classes = useStyle();
   const [resetFlag, setResetFlag] = useState(0);
+  const [submitting, setSubmitting] = useState(false);
 
-  //const {messageReducer} = useSelector((state) => state.messageReducer);
-
-  const dispatch = useDispatch();
+  const history = useHistory();
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-    getValues,
   } = useForm({
     resolver: yupResolver(schema),
   });
+  const dispatch = useDispatch()
+  const id = useParams().id;
+  const wordData = useSelector((state) => state.wordReducer.wordData)
+ 
+  useEffect(() => dispatch(getWord(id)), [dispatch])
 
   const topics = useRef([]);
   const picture = useRef(null);
 
-  const onSubmit = (data) => {
-    onSubmitForm({ ...data, topics: topics.current, picture: picture.current });
+  const onSubmit = async (data) => {
+    try {
+      setSubmitting(true);
+      const { examples, synonyms, antonyms, phonetic, word, ...rest } = data;
+      // check examples validation
+      const exampleArr = analysisExample(examples, word);
+      if (typeof exampleArr === 'boolean' && !exampleArr) {
+        dispatch(setMessage("Câu ví dụ phải chứa từ vựng mới.", "warning"));
+        setSubmitting(false);
+        return;
+      }
+
+      // split synonyms string to an array synonyms
+      const synonymArr = synonyms !== '' ? synonyms.split('\n') : [];
+
+      // split antonyms string to an array synonyms
+      const antonymArr = antonyms !== '' ? antonyms.split('\n') : [];
+
+      // call API
+      const dataSend = {
+        ...rest,
+        examples: exampleArr,
+        synonyms: synonymArr,
+        antonyms: antonymArr,
+        topics: topics.current,
+        picture: picture.current,
+        phonetic: phonetic.replaceAll('/', ''),
+      };
+      console.log(dataSend)
+      const apiRes = await wordApi.putWord(wordData._id ,dataSend);
+
+      if (apiRes.status === 200) {
+        dispatch(setMessage("Update word successfully", "success"));
+        setSubmitting(false);
+        history.push("/admin/word");
+     }
+
+    } catch (error) {
+      const message =  error.response?.data?.message ||
+      'Error, can not create word.';
+        dispatch(setMessage(message, "error"));
+      setSubmitting(false);
+    }
   };
 
-  const onResetForm = () => {
+
+ const onLoadingForm = () => {
     const initialValues = {
-      word: '',
-      mean: '',
-      phonetic: '',
-      type: 'n',
-      level: 'A1',
-      specialty: '0',
-      examples: '',
-      synonyms: '',
-      antonyms: '',
-      note: '',
+      word: wordData.word,
+      mean: wordData.mean,
+      phonetic: wordData.phonetic,    
+      examples:getStringCurrent(wordData.examples),
+      synonyms:getStringCurrent(wordData.synonyms),
+      antonyms: getStringCurrent(wordData.antonyms),
+      note: wordData.note,
     };
-    topics.current = [];
-    picture.current = null;
     reset(initialValues);
-    setResetFlag(Math.random() + 1);
-  };
+ };
 
-  const handleCheckWordExistence = (eWord, eType) => {
-    delayTimer = debounce(
-      delayTimer,
-      async () => {
-        try {
-          const word = eWord ? eWord.target?.value : getValues('word'),
-            type = eType ? eType.target?.value : getValues('type');
-
-          const apiRes = await wordApi.checkWordExist(word, type);
-          if (apiRes.status === 200) {
-            const { isExist = false } = apiRes.data;
-            if (isExist) {
-              dispatch(
-                setMessage(`Từ ${word} (${type}) đã tồn tại trong Dynonary !`,"error"));            
-            }
-          }
-        } catch (error) {}
-      },
-      1000,
-    );
-  };
+ function handleClickGoBack() {
+  history.push("/admin/word");
+}
 
   return (
     <div className={classes.root}>
       <h1 className={classes.title}>Thêm từ mới của bạn vào Dynonary</h1>
       <div className="dyno-break"></div>
 
-      <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
+{wordData && (
+      <form onSubmit={handleSubmit(onSubmit)} onLoad={onLoadingForm} autoComplete="off">
         <Grid className={classes.grid} container spacing={3}>
           {/* new word */}
           <Grid item xs={12} md={6} lg={4}>
             <InputCustom
               className="w-100"
-              label="Từ mới (*)"
-              error={Boolean(errors.word)}
-              inputProps={{
-                autoFocus: true,
-                maxLength: MAX.WORD_LEN,
-                name: 'word',
-                ...register('word'),
-              }}
-              onChange={(e) => handleCheckWordExistence(e, null)}
-            />
-            {errors.word && (
-              <p className="text-error">{errors.word?.message}</p>
-            )}
+              label="Word"              
+              value={wordData.word}                                      
+            />            
           </Grid>
 
           {/* mean */}
           <Grid item xs={12} md={6} lg={4}>
             <InputCustom
               className="w-100"
-              label="Nghĩa của từ (*)"
+              label="Meaning"
               error={Boolean(errors.mean)}
               inputProps={{
                 maxLength: MAX.MEAN_WORD_LEN,
-                name: 'mean',
+                name: 'mean',              
                 ...register('mean'),
               }}
             />
@@ -202,15 +258,15 @@ function WordContribution({ onSubmitForm, submitting }) {
           <Grid item xs={12} md={6} lg={4}>
             <SelectCustom
               className="w-100"
-              label="Loại từ (*)"
+              label="Type (*)"
               options={WORD_TYPES}
               error={Boolean(errors.type)}
-              resetFlag={resetFlag}
+              resetFlag={resetFlag}              
+              index={getTypeCurrent(wordData.type, WORD_TYPES)}                       
               inputProps={{
                 name: 'type',
                 ...register('type'),
               }}
-              onChange={(e) => handleCheckWordExistence(null, e)}
             />
             {errors.type && (
               <p className="text-error">{errors.type?.message}</p>
@@ -225,6 +281,7 @@ function WordContribution({ onSubmitForm, submitting }) {
               options={WORD_LEVELS}
               error={Boolean(errors.level)}
               resetFlag={resetFlag}
+              index={getTypeCurrent(wordData.level, WORD_LEVELS)}
               inputProps={{ name: 'level', ...register('level') }}
             />
             {errors.level && (
@@ -240,6 +297,7 @@ function WordContribution({ onSubmitForm, submitting }) {
               options={WORD_SPECIALTY}
               error={Boolean(errors.specialty)}
               resetFlag={resetFlag}
+              index={getTypeCurrent(wordData.specialty, WORD_SPECIALTY)}
               inputProps={{
                 name: 'specialty',
                 ...register('specialty'),
@@ -353,9 +411,10 @@ function WordContribution({ onSubmitForm, submitting }) {
             color="secondary"
             endIcon={<ResetIcon />}
             variant="outlined"
-            disabled={submitting}
-            onClick={onResetForm}>
-            Reset
+            // disabled={}
+            onClick={() => handleClickGoBack()}
+            >
+            GO BACK
           </Button>
           <Button
             type="submit"
@@ -365,10 +424,12 @@ function WordContribution({ onSubmitForm, submitting }) {
               submitting ? <LoopIcon className="ani-spin" /> : <SaveIcon />
             }
             variant="contained">
-            Thêm từ
+            EDIT
           </Button>
+         
         </div>
       </form>
+)}
     </div>
   );
 }

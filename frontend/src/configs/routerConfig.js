@@ -17,7 +17,9 @@ const QuizAdminPage = React.lazy(() => import("../pages/QuizAdmin"));
 const WordAdminPage = React.lazy(() => import("../pages/WordAdmin"));
 const UserAdminPage = React.lazy(() => import("../pages/UserAdmin"));
 const ListeningPage = React.lazy(() => import("../pages/Listening"));
-const AddWordPage = React.lazy(() => import("../components/WordAdmin/AddWord"));
+const ListeningDetailPage = React.lazy(() => import("../pages/ListeningDetail"));
+const CreateWordPage = React.lazy(() => import("../pages/CreateWord"));
+const EditWordPage = React.lazy(() => import("../pages/EditWord"));
 
 const routes = [
   {
@@ -99,6 +101,12 @@ const routes = [
     component: () => <ListeningAdminPage />
   },
   {
+    path: ROUTES.LISTENING_DETAIL,
+    exact: true,
+    isProtect: true,
+    component: () => <ListeningDetailPage />,
+  },
+  {
     path: ROUTES.QUIZ_ADMIN,
     exact: true,
     isProtect: true,
@@ -114,7 +122,13 @@ const routes = [
     path: ROUTES.ADD_WORD,
     exact: true,
     isProtect: true,
-    component: () => <AddWordPage />
+    component: () => <CreateWordPage />
+  },
+  {
+    path: ROUTES.EDIT_WORD,
+    exact: true,
+    isProtect: true,
+    component: () => <EditWordPage />
   },
   {
     path: ROUTES.USER_ADMIN,

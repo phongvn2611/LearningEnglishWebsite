@@ -2,16 +2,23 @@ const { cloudinary } = require('../configs/cloudinaryConfig');
 const { convertPackInfoToQueryStr } = require('../helpers/wordpackHelper');
 const WordModel = require('../models/wordModel');
 
-exports.uploadImage = async (imgSrc, folderName = '', config = {}) => {
+exports.uploadImage = async (files= files) => {
   try {
-    const result = await cloudinary.uploader.upload(imgSrc, {
-      folder: folderName,
-      ...config,
-    });
-    const { secure_url = null } = result;
-    return secure_url;
-  } catch (error) {
-    throw error;
+    const file = files.file;
+    cloudinary.uploader.upload(
+      file.tempFilePath,
+      {
+        folder: "english/words",
+        resource_type: "image",
+      },
+      async (err, result) => {
+        if (err) throw err;
+        removeTmp(file.tempFilePath);
+        return result.secure_url;
+      }
+    );
+  } catch (err) {
+    return erro;
   }
 };
 
@@ -37,7 +44,7 @@ exports.isExistWord = async (word = '', type = '') => {
       return false;
     }
 
-    return await WordModel.exists({ word: word, type: type });
+    return await WordModel.exists({word, type});
   } catch (error) {
     throw error;
   }
@@ -52,7 +59,7 @@ exports.isExistSentence = async (sentence = '') => {
 exports.getWordPack = async (
   packInfo = {},
   skip = 0,
-  limit = 500,
+  limit = 1000,
   select = '',
   sortType = null,
   expandQuery = null,

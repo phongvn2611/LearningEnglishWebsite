@@ -56,7 +56,6 @@ export default function ListeningPage() {
   const listenId = useParams().id;
   const {listen, questions} = useSelector((state) => state.listeningReducer);
  
-  console.log(listen);
   const dispatch = useDispatch();
   useEffect(() => 
   dispatch(getListening(listenId)), [dispatch])
@@ -73,20 +72,13 @@ export default function ListeningPage() {
         {listen.Name}
         </Typography>
 
-        {/* phuonglinh */}
-        {/* video youtube */}      
-            <div className="col-12 col-lg-6 mb-4">
-                <div className="card w-100">
-                    <div className="embed-responsive embed-responsive-16by9">
-                        <iframe id="player" className="embed-responsive-item" src={listen.Video} frameBorder="0px"></iframe>
-                    </div>
-                   
-                </div>
-            </div>
-            <div className="col-12 col-lg-6">
-                <ul className="list-unstyled" id="videoList"></ul>
-            </div>
+        <Typography>
+        {listen.Description}
+        </Typography>
 
+        {/* phuonglinh */}
+       
+        <p align="center"><iframe src={listen.Video} width="500" height="300" ></iframe></p>
     {/* phuonglinh */}
 
         <Box sx={{ width: "100%" }}>
@@ -112,7 +104,9 @@ export default function ListeningPage() {
               Answer the following questions about the interview.
             </Typography>
 
-            {questions.map((question) => 
+
+            {questions && (
+            questions.map((question) => 
             <><Typography variant="body2">
                 {question.Content}
               </Typography>
@@ -125,8 +119,8 @@ export default function ListeningPage() {
                   >
                   </FormControlLabel>
                   )}
-                </FormGroup></>
-                        
+                </FormGroup></>                        
+            )
             )}
            
 

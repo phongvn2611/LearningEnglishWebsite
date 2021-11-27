@@ -37,7 +37,7 @@ const wordApi = {
   },
 
   checkWordExist: ( word='', type='') => {
-    return axios.put(`${URL}/exist-word`, {params: { word, type}});
+    return axios.get(`${URL}/exist-word`, {params: { word, type}});
   },
 
   getWordList: (page = 1, perPage = 8, packInfo, sortType = 'rand') => {

@@ -6,28 +6,24 @@ const listeningApi = {
     return axios.get(`${URL}/get-listening/${id}`);
   },
 
-  getListenByTopic: (topic, token) => {
-    return axios.get(`${URL}/get-listen-by-topic/${topic}`, {
-      headers: {Authorization: token}
-    })
+  getListenByTopic: (topic, type) => {
+    return axios.get(`${URL}/get-listen-by-topic`, {params: {topic, type}})
   },
 
-  getListenById: (id, token) => {
-    return axios.get(`${URL}/get-listen-by-id/${id}`, {
-      headers: {Authorization: token}
-    })
+  getListenById: (id) => {
+    return axios.get(`${URL}/get-listen-by-id/${id}`)
   },
 
-  getListenTopics: (token) => {
-    return axios.get(`${URL}/get-listen-topics`, {
-      headers: {Authorization: token}
-    })
+  getListenTopics: (topic, type) => {
+    return axios.get(`${URL}/get-listen-topics`,{params: { topic, type}})
   },
 
-  getAllListen: (token) => {
-    return axios.get(`${URL}/get-all-listen`, {
-      headers: {Authorization: token}
-    })
+  getAllListen: (type) => {
+    return axios.get(`${URL}/get-all-listen`, {params: {type}})
+  },
+
+  searchListen: (name) => {
+    return axios.get(`${URL}/search-listen`, {params: {name}})
   },
 
   postListen: (formData, token) => {
@@ -36,16 +32,12 @@ const listeningApi = {
     })
   },
 
-  putListen: (id, formData, token) => {
-    return axios.put(`${URL}/put-listen/${id}`, formData, {
-      headers: {Authorization: token}
-    })
+  putListen: (id, formData) => {
+    return axios.put(`${URL}/put-listen/${id}`, formData)
   },
 
-  deleteListen: (id, token) => {
-    return axios.delete(`${URL}/delete-listen/${id}`,{
-      headers: {Authorization: token}
-    })
+  deleteListen: (id) => {
+    return axios.delete(`${URL}/delete-listen/${id}`)
   },
 }
 

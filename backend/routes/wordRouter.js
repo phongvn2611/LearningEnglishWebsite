@@ -10,7 +10,7 @@ wordApi.delete('/delete-word', authentication, wordController.deleteWord);
 wordApi.get('/exist-word',authentication, wordController.getCheckWordExistence);
 wordApi.get('/get-word-pack',authentication, wordController.getWordPack);
 wordApi.get('/search-word',authentication, wordController.getSearchWord);
-wordApi.get('/get-word-details/',authentication, wordController.getWordDetails);
+wordApi.get('/get-word-details',authentication, wordController.getWordDetails);
 wordApi.get('/get-word-by-topic/:topic',authentication, wordController.getByTopic);
 wordApi.get('/get-word-topics/:topic',authentication, wordController.getTopics);
 

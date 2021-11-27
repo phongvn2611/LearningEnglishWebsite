@@ -12,6 +12,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete'
 import { deleteWord } from "redux/actions/wordAction";
 
+
 function WordItem({ word, type, phonetic, picture, mean }) {
   const classes = useStyle();
   const imgSrc = cloudinaryImgOptimize(
@@ -22,7 +23,6 @@ function WordItem({ word, type, phonetic, picture, mean }) {
     true
   );
 
-  console.log(word);
   const [modal, setModal] = useState({ loading: false, open: false });
   const dispatch = useDispatch();
 
@@ -33,6 +33,10 @@ function WordItem({ word, type, phonetic, picture, mean }) {
      window.location.reload();
     }
   };
+
+  const handleClickEdit = (id) => {
+    window.location.href = `/admin/word/edit/${id}`;
+  }
 
   const onShowDetail = async (word) => {
     try {
@@ -70,7 +74,9 @@ function WordItem({ word, type, phonetic, picture, mean }) {
         </div>
         <div className="flex-center--ver">
         <div className="mr-5">
-          <EditIcon className="dyno-setting-icon"/>
+          <EditIcon className="dyno-setting-icon"
+          onClick={() => handleClickEdit(word)}
+          />
         </div>
         <DeleteIcon className="dyno-setting-icon" 
          onClick={() => deleteHandler()}

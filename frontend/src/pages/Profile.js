@@ -180,6 +180,7 @@ export default function ProfilePage() {
       const res = await userApi.updateAvatar(formData);
       dispatch(setMessage("Uploaded file successfully", "success"));
       setAvatar(res.data.url);
+     
     } catch (err) {
       dispatch(setMessage(err.response.data.message, "error"));
     }
@@ -212,7 +213,7 @@ export default function ProfilePage() {
     }
     if (data.password) {
       handleUpdatePassword();
-    }
+    }  
   };
 
   return (
@@ -258,6 +259,7 @@ export default function ProfilePage() {
             placeholder="Nhập mật khẩu"
             error={Boolean(errors.password)}
             inputProps={{
+
               name: "password",
               type: visiblePw ? "text" : "password",
               ...register("password"),
