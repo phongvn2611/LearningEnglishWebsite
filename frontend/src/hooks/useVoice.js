@@ -1,7 +1,7 @@
-import { VOICE_KEYS } from 'constant';
+import { VOICE_KEYS } from 'constants/index';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { setVoice } from 'redux/slices/voice.slice';
+import { setVoice } from 'redux/actions/voiceAction';
 
 // get custom voice to store into redux
 function useVoice() {

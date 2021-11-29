@@ -1,3 +1,4 @@
+const Users = require('../models/userModel');
 exports.checkAdmin = async (req, res, next) => {
   try {
     const user = await Users.findOne({ _id: req.user.id });

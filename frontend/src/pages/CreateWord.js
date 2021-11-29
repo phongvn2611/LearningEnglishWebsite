@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 //import SentenceContributionData from './Sentence/data';
 //import useStyle from './../components/WordAdmin/AddWord/style';
-import CreateWord from './../components/WordAdmin/AddWord/data';
+import CreateWord from './../components/WordAdmin/AddWord';
 
 function CreateWordData() {
   //const classes = useStyle();

@@ -1,14 +1,16 @@
 
-import VOICE_CONSTANT from "../constants/voiceConstant";
+import VOICE_CONSTANT from "redux/constants/voiceConstant";
 
-export const setVoice = (key, value)  => {
+export const setVoiceItem = (payload) => {
   return {
-    type: VOICE_CONSTANT.SET_VOICE,
-    payload: {
-      key,
-      value
-    }
+    type: VOICE_CONSTANT.SET_VOICE_ITEM,
+    payload,
   }
 }
 
-
+export const setVoice = (payload) => {
+  return {
+    type: VOICE_CONSTANT.SET_VOICE,
+    payload,
+  }
+}

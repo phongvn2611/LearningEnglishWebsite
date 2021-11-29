@@ -74,6 +74,10 @@ export const ROUTES = {
   EDIT_WORD: '/admin/word/edit/:id',
   IPA_LIST: '/ipa',
   IPA_DETAIL: '/ipa/:id',
+  USER_DETAIL: '/admin/user/:user_id',
+  WORD_TOPIC: '/word',
+  GAME: '/game',
+  WORD_LIST_BY_TOPIC: '/word/:topic_id',
 }
 
 export const UX = {

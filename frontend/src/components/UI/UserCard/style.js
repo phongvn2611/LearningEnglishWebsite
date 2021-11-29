@@ -25,29 +25,37 @@ export default makeStyles((theme) => ({
     },
   },
 
-  icon: {
-    width: '4.2rem',
-    height: '4.2rem',
-    marginRight: '1.4rem',
+  avatar: {
+    width: '8rem',
+    height: '8rem',
+    marginRight: '1.7rem',
+    border: '1px solid var(--primary-color)',
+    borderRadius: "50%"
   },
 
-  title: {
+  name: {
     color: 'var(--primary-color)',
     fontWeight: 600,
-    fontSize: '2rem',
+    fontSize: '2.2rem',
     letterSpacing: '0.5px',
   },
 
-  subTitle: {
+  role: {
     display: 'none',
     marginTop: '0.6rem',
     color: 'var(--label-color)',
-    fontSize: '1.4rem',
+    fontSize: '1.6rem',
     fontWeight: 500,
     letterSpacing: '0.5px',
+    textTransform: 'capitalize',
 
     [theme.breakpoints.up('sm')]: {
       display: 'block',
     },
   },
+  status: {
+    marginTop: '0.6rem',
+    fontSize: '1.4rem',
+    fontWeight: 400
+  }
 }));

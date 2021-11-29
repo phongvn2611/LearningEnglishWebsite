@@ -59,7 +59,7 @@ function LoginPage() {
       const res = await userApi.login(user.email, user.password);
       dispatch(setMessage(res.data.message, "success"));
       setTimeout(() => {
-        window.location.href = "/home";
+        window.location.replace('/home');
       }, UX.DELAY_TIME);
     } catch (error) {
       dispatch(setMessage(error.response?.data?.message, "error"));

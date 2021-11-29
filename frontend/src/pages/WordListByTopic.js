@@ -7,32 +7,27 @@ import AutoSearchInput from "components/UI/AutoSearchInput";
 import InfiniteScroll from "components/UI/InfiniteScroll";
 import WordSortModal from "components/UI/WordSortModal";
 import WordItem from "components/WordAdmin/WordItem";
-import WordPackSetting from "components/WordAdmin/WordPackSetting";
 import WordSkeleton from "components/WordAdmin/WordSkeleton";
-import AddIcon from "@material-ui/icons/Add";
-import commonApi from "apis/commonApi";
 import wordApi from "apis/wordApi";
 import WordDetailModal from "components/UI/WordDetailModal";
-import { equalArray } from "helper";
-import { ROUTES } from 'constants/index';
-import { useHistory } from 'react-router-dom';
+import { useParams } from "react-router";
 
 const useStyle = makeStyles((theme) => ({
   ...dictionaryRoot(theme),
 }));
 const perPage = 20;
 
-export default function WordAdminPage() {
-  useTitle("Word Admin");
+export default function WordListByTopicPage() {
+  useTitle("Word");
   const classes = useStyle();
-  const history = useHistory();
+  const { topic_id } = useParams();
   const [page, setPage] = useState(1);
   const [sortType, setSortType] = useState("rand");
   const [packInfo, setPackInfo] = useState(() => ({
     type: "-1",
     level: "-1",
     specialty: "-1",
-    topics: [],
+    topics: [topic_id],
   }));
   const [loading, setLoading] = useState(true);
   const [list, setList] = useState([]);
@@ -49,24 +44,6 @@ export default function WordAdminPage() {
     }
   };
 
-  const onSettingWordPack = (info) => {
-    // check old pack vs new pack
-    let isEqual = true;
-    for (let k in packInfo) {
-      if (k !== "topics" && packInfo[k] !== info[k]) {
-        isEqual = false;
-        break;
-      }
-    }
-    if (isEqual) isEqual = equalArray(packInfo.topics, info.topics);
-
-    totalPage.current = 0;
-    preSearchList.current = [];
-    setMore(true);
-    setList([]);
-    setPackInfo(info);
-    setPage(1);
-  };
 
   const onSortTypeChange = (type = "rand") => {
     if (type === sortType) return;
@@ -92,23 +69,6 @@ export default function WordAdminPage() {
       }
     } catch (error) {}
   };
-
-  // get total word pack
-  useEffect(() => {
-    let isSub = true;
-
-    (async function () {
-      try {
-        const apiRes = await commonApi.getWordPackTotal(packInfo);
-        if (apiRes && isSub) {
-          const { total = 0 } = apiRes.data;
-          totalPage.current = Math.ceil(total / perPage);
-        }
-      } catch (error) {}
-    })();
-
-    return () => (isSub = false);
-  }, [packInfo]);
 
   // get word pack
   useEffect(() => {
@@ -145,16 +105,11 @@ export default function WordAdminPage() {
       <div className={`${classes.root} dyno-container`}>
         {/* title - menu */}
         <div className="flex-center-between">
-          <h1 className="dyno-title">Quản lý từ vựng</h1>
+          <h1 className="dyno-title">Từ vựng</h1>
           <div>
-            <AddIcon className="dyno-setting-icon mr-5" onClick={() => history.push(ROUTES.ADD_WORD)} />
             <WordSortModal
               onSelect={onSortTypeChange}
               classNameIcon="dyno-setting-icon mr-5"
-            />
-            <WordPackSetting
-              onChoose={onSettingWordPack}
-              classNameIcon="dyno-setting-icon"
             />
           </div>
         </div>

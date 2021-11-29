@@ -1,4 +1,4 @@
-import { THEME_KEYS } from 'constant';
+import { THEME_KEYS } from 'constants/index';
 import { setRootPalettes } from 'helper';
 import { useEffect, useState } from 'react';
 

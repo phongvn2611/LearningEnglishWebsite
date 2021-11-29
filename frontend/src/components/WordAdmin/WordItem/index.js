@@ -11,7 +11,8 @@ import { DEFAULTS } from './../../../constants/index';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete'
 import { deleteWord } from "redux/actions/wordAction";
-
+import Speaker from "components/UI/Speaker";
+import { useParams } from "react-router";
 
 function WordItem({ word, type, phonetic, picture, mean }) {
   const classes = useStyle();
@@ -25,6 +26,8 @@ function WordItem({ word, type, phonetic, picture, mean }) {
 
   const [modal, setModal] = useState({ loading: false, open: false });
   const dispatch = useDispatch();
+  const { topic_id } = useParams();
+
 
   const deleteHandler = () => {
     if (window.confirm('Bạn chắc chắn muốn xóa bài viết này?')) {
@@ -72,6 +75,12 @@ function WordItem({ word, type, phonetic, picture, mean }) {
             <p className={classes.mean}>{mean}</p>
           </div>
         </div>
+        {topic_id &&  (
+          <div className="flex-center--ver">
+            <Speaker text={word} />
+          </div>
+        )}
+
         <div className="flex-center--ver">
         <div className="mr-5">
           <EditIcon className="dyno-setting-icon"

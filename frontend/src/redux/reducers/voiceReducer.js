@@ -1,21 +1,24 @@
-import { DEFAULTS } from './../../constants';
-import VOICE_CONSTANT from "../constants/voiceConstant";
+import VOICE_CONSTANT from "redux/constants/voiceConstant";
+import { DEFAULTS } from "constants/index";
 
-let initialState = {
+const initialState = {
   voiceURI: DEFAULTS.VOICE_URI,
   speed: DEFAULTS.VOICE_SPEED,
   volume: DEFAULTS.VOICE_VOLUME,
-}
+};
 
 const voiceReducer = (state = initialState, action) => {
   switch (action.type) {
-    case VOICE_CONSTANT.SET_VOICE:
+    case VOICE_CONSTANT.SET_VOICE_ITEM:
       const { key, value } = action.payload;
-      state[key] = value;
-      return { ...state, ...action.payload };
-
+      const arr = { ...state };
+      arr[key] = value;
+    case VOICE_CONSTANT.SET_VOICE:
+      const arrState = { ...state };
+      const arrPayload = { ...action.payload };
+      return { ...arrState, ...arrPayload }
     default:
-      return state;
+      return state
   }
 }
 

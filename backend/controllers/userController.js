@@ -75,10 +75,11 @@ exports.login = async (req, res) => {
     const user = await Users.findOne({ email });
     if (!user)
       return res.status(400).json({ message: "This email does not exist" });
-
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch)
       return res.status(400).json({ message: "Password is incorrect" });
+    if (user.isLocked !== 0)
+      return res.status(400).json({ message: "Account is locked" });
 
     const refresh_token = createRefreshToken({ id: user._id });
     res.cookie("token", refresh_token, {
@@ -201,6 +202,9 @@ exports.updateAvatar = async (req, res) => {
       {
         folder: "english/avatar",
         resource_type: "image",
+        width: 150,
+        height: 150,
+        crop: "fill"
       },
       async (err, result) => {
         if (err) throw err;
@@ -221,6 +225,58 @@ exports.logout = async (req, res) => {
     return res.status(500).json({ message: "Logout failed" });
   }
 };
+
+exports.getAllUsers = async (req, res) => {
+  try {
+    const users = await Users.find();
+    return res.status(200).json(users);
+  }
+  catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
+}
+
+exports.getUserDetails = async (req, res) => {
+  try {
+    const user = await Users.findById(req.params.user_id);
+    return res.status(200).json({ user });
+  }
+  catch (err) {
+    return res.status(500).json({message: err.message})
+  }
+}
+
+exports.lockUser = async (req, res) => {
+  try {
+    const token = req.cookies.token;
+    const user = jwt.verify(token, process.env.REFRESH_TOKEN_SECRET);
+    const id = req.params.user_id;
+    if (user.id === id) {
+      return res.status(400).json({message: `Can't lock account that logged in the system`})
+    }
+    await Users.findOneAndUpdate({ _id: id },
+      {
+        isLocked: 1
+      });
+    return res.status(200).json({message: 'Account has been locked'})
+  }
+  catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
+}
+
+exports.unlockUser = async (req, res) => {
+  try {
+    await Users.findOneAndUpdate({ _id: req.params.user_id },
+      {
+        isLocked: 0
+      });
+    return res.status(200).json({message: 'Account has been unlocked'})
+  }
+  catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
+}
 
 function validateEmail(email) {
   const re =
