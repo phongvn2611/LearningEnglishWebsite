@@ -75,11 +75,11 @@ function WordItem({ word, type, phonetic, picture, mean }) {
             <p className={classes.mean}>{mean}</p>
           </div>
         </div>
-        {topic_id &&  (
+        {topic_id ?  (
           <div className="flex-center--ver">
             <Speaker text={word} />
           </div>
-        )}
+        ):(
 
         <div className="flex-center--ver">
         <div className="mr-5">
@@ -89,9 +89,9 @@ function WordItem({ word, type, phonetic, picture, mean }) {
         </div>
         <DeleteIcon className="dyno-setting-icon" 
          onClick={() => deleteHandler()}
-         />
-
+         />     
       </div>
+      )}
       </div>
       {modal.open && (
         <WordDetailModal
