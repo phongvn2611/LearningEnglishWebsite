@@ -1,21 +1,17 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import CameraIcon from "@material-ui/icons/PhotoCamera";
 import InputCustom from "components/UI/InputCustom";
 import { useSelector } from "react-redux";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
-import { useForm } from "react-hook-form";
 import Button from "@material-ui/core/Button";
-import EditIcon from "@material-ui/icons/Edit";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
 import userApi from "./../apis/userApi";
 import useTitle from "hooks/useTitle";
 import { setMessage } from "redux/actions/messageAction";
-import axios from "axios";
 import { useDispatch } from "react-redux";
-import { useHistory } from "react-router";
+import EditIcon from "@material-ui/icons/Edit";
+import { formatDate } from "helper";
 
 const useStyle = makeStyles(() => ({
   wrap: {
@@ -38,7 +34,7 @@ const useStyle = makeStyles(() => ({
 
   avt: {
     borderRadius: "50%",
-    border: "2px solid var(--primary-color)"
+    border: "2px solid var(--primary-color)",
   },
 
   cameraIconWrap: {
@@ -81,11 +77,12 @@ const useStyle = makeStyles(() => ({
     letterSpacing: "0.75px",
   },
 
-  email: {
+  role: {
     fontSize: "1.5rem",
     fontWeight: 400,
     color: "var(--label-color)",
     letterSpacing: "0.75px",
+    textTransform: "capitalize",
   },
 
   info: {
@@ -118,44 +115,36 @@ const useStyle = makeStyles(() => ({
   },
   editBtn: {
     padding: "5px 10px",
-    width: "100%",
+  },
+  textError: {
+    marginTop: "4px",
+    color: "var(--error-color)",
+    fontSize: "1.2rem",
+    textAlign: "left",
   },
 }));
-
-const schema = yup.object().shape({
-  name: yup.string().trim(),
-  password: yup
-    .string()
-    .trim()
-    .required("Nhập mật khẩu")
-    .min(6, `Mật khẩu ít nhất 6 ký tự`),
-  confirmPassword: yup
-    .string()
-    .trim()
-    .required("Nhập xác nhận mật khẩu")
-    .min(6, `Xác nhận mật khẩu ít nhất 6 ký tự`)
-    .oneOf([yup.ref("password")], "Nhập xác nhận mật khẩu không khớp"),
-});
 
 export default function ProfilePage() {
   useTitle("Profile");
   const dispatch = useDispatch();
   const classes = useStyle();
+  const { user } = useSelector((state) => state.authReducer);
   const [data, setData] = useState({
+    name: user.name,
+    password: "",
+    confirmPassword: "",
+  });
+  const [avatar, setAvatar] = useState(false);
+  const [visiblePw, setVisiblePw] = useState(false);
+  const [visibleConfirmPw, setVisibleConfirmPw] = useState(false);
+  const [error, setError] = useState({
     name: "",
     password: "",
     confirmPassword: "",
   });
-  const { user } = useSelector((state) => state.authReducer);
-  const [avatar, setAvatar] = useState(false);
-  const [visiblePw, setVisiblePw] = useState(false);
-  const [visibleConfirmPw, setVisibleConfirmPw] = useState(false);
-  const {
-    register,
-    formState: { errors },
-  } = useForm({
-    resolver: yupResolver(schema),
-  });
+  const [editMode, setEditMode] = useState(false);
+  const [image, setImage] = useState("");
+  let avtRes;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -175,31 +164,61 @@ export default function ProfilePage() {
       if (file.type !== "image/jpeg" && file.type !== "image/png") {
         dispatch(setMessage("File format is incorrect", "error"));
       }
-      let formData = new FormData();
-      formData.append("file", file);
-      const res = await userApi.updateAvatar(formData);
-      dispatch(setMessage("Uploaded file successfully", "success"));
-      setAvatar(res.data.url);
+      setAvatar(URL.createObjectURL(file));
+      let formImage = new FormData();
+      formImage.append("file", file);
+      setImage(formImage);
     } catch (err) {
-      dispatch(setMessage(err.response.data.message, "error"));
+      throw err;
     }
   };
 
   const handleUpdateInfo = async () => {
+    if (data.name === "") {
+      return setError({
+        ...error,
+        name: "Nhập tên của bạn",
+        password: "",
+        confirmPassword: "",
+      });
+    }
     try {
+      
+      if (image !== '') {
+        avtRes = await userApi.updateAvatar(image);
+      }
       const res = await userApi.updateProfile(
         data.name ? data.name : user.name,
-        avatar ? avatar : user.avatar
+        avatar ? avtRes.data.url : user.avatar
       );
       dispatch(setMessage(res.data.message, "success"));
+      window.location.reload();
     } catch (err) {}
   };
 
   const handleUpdatePassword = async () => {
+    if (data.password.length < 6 || data.confirmPassword.length < 6) {
+      return setError({
+        ...error,
+        name: "",
+        password: "Mật khẩu phải ít nhất 6 ký tự",
+        confirmPassword: "Xác nhận mật khẩu phải ít nhất 6 ký tự",
+      });
+    }
+    if (data.confirmPassword !== data.password) {
+      return setError({
+        ...error,
+        name: "",
+        password: "",
+        confirmPassword: "Xác nhận mật khẩu không khớp",
+      });
+    }
     try {
       const res = await userApi.updatePassword(data.password);
       if (res) {
         dispatch(setMessage(res.data.message, "success"));
+        setData({ ...data, password: "", confirmPassword: "" });
+        window.location.reload();
       }
     } catch (err) {
       dispatch(setMessage(err.response.data.message, "error"));
@@ -210,7 +229,7 @@ export default function ProfilePage() {
     if (data.name || avatar) {
       handleUpdateInfo();
     }
-    if (data.password) {
+    if (data.password && data.confirmPassword) {
       handleUpdatePassword();
     }
   };
@@ -225,105 +244,133 @@ export default function ProfilePage() {
               alt=""
               className={`${classes.avt} w-100 h-100`}
             />
-            <div className={`${classes.cameraIconWrap} flex-center`}>
-              <CameraIcon className={classes.cameraIcon} />
-              <input
-                type="file"
-                className={classes.fileInput}
-                onChange={handleUpdateAvatar}
-              />
-            </div>
+            {editMode && (
+              <div className={`${classes.cameraIconWrap} flex-center`}>
+                <CameraIcon className={classes.cameraIcon} />
+                <input
+                  type="file"
+                  className={classes.fileInput}
+                  onChange={handleUpdateAvatar}
+                />
+              </div>
+            )}
           </div>
         </div>
-
-        <div className="flex-col mt-8">
-          <InputCustom
-            className="mb-10"
-            label="Họ tên"
-            size="small"
-            error={Boolean(errors.name)}
-            defaultValue={user.name}
-            placeholder="Nhập họ tên"
-            inputProps={{
-              name: "name",
-              ...register("name"),
-            }}
-            onChange={handleChange}
-          />
-          {errors.name && <p className="text-error">{errors.name?.message}</p>}
-          <InputCustom
-            className="mb-10"
-            label="Mật khẩu"
-            size="small"
-            placeholder="Nhập mật khẩu"
-            error={Boolean(errors.password)}
-            inputProps={{
-              name: "password",
-              type: visiblePw ? "text" : "password",
-              ...register("password"),
-            }}
-            onChange={handleChange}
-            endAdornment={
-              visiblePw ? (
-                <VisibilityIcon
-                  className={`${classes.icon} ${classes.visiblePw}`}
-                  onClick={() => setVisiblePw(false)}
-                />
-              ) : (
-                <VisibilityOffIcon
-                  className={classes.icon}
-                  onClick={() => setVisiblePw(true)}
-                />
-              )
-            }
-          />
-          {errors.password && (
-            <p className="text-error">{errors.password?.message}</p>
-          )}
-          <InputCustom
-            label="Xác nhận mật khẩu"
-            size="small"
-            placeholder="Nhập lại mật khẩu"
-            error={Boolean(errors.confirmPassword)}
-            inputProps={{
-              name: "confirmPassword",
-              type: visibleConfirmPw ? "text" : "password",
-              ...register("confirmPassword"),
-            }}
-            onChange={handleChange}
-            endAdornment={
-              visibleConfirmPw ? (
-                <VisibilityIcon
-                  className={`${classes.icon} ${classes.visibleConfirmPw}`}
-                  onClick={() => setVisibleConfirmPw(false)}
-                />
-              ) : (
-                <VisibilityOffIcon
-                  className={classes.icon}
-                  onClick={() => setVisibleConfirmPw(true)}
-                />
-              )
-            }
-          />
-          {errors.confirmPassword && (
-            <p className="text-error">{errors.confirmPassword?.message}</p>
-          )}
-        </div>
+        {!editMode ? (
+          <div className="mt-10">
+            <h2 className={classes.name}>{user.name}</h2>
+            <h4 className={classes.role}>{user.roleType}</h4>
+          </div>
+        ) : (
+          <div className="flex-col mt-10">
+            <InputCustom
+              label="Họ tên"
+              autoComplete="off"
+              size="small"
+              error={error.name}
+              defaultValue={user.name}
+              placeholder="Nhập họ tên"
+              inputProps={{
+                name: "name",
+              }}
+              onChange={handleChange}
+            />
+            {error.name !== "" && (
+              <p className={classes.textError}>{error.name}</p>
+            )}
+            <InputCustom
+              label="Mật khẩu"
+              autoComplete="off"
+              className="mt-10"
+              size="small"
+              placeholder="Nhập mật khẩu"
+              error={error.password}
+              inputProps={{
+                name: "password",
+                type: visiblePw ? "text" : "password",
+              }}
+              onChange={handleChange}
+              endAdornment={
+                visiblePw ? (
+                  <VisibilityIcon
+                    className={`${classes.icon} ${classes.visiblePw}`}
+                    onClick={() => setVisiblePw(false)}
+                  />
+                ) : (
+                  <VisibilityOffIcon
+                    className={classes.icon}
+                    onClick={() => setVisiblePw(true)}
+                  />
+                )
+              }
+            />
+            {error.password !== "" && (
+              <p className={classes.textError}>{error.password}</p>
+            )}
+            <InputCustom
+              label="Xác nhận mật khẩu"
+              autoComplete="off"
+              size="small"
+              className="mt-10"
+              placeholder="Nhập lại mật khẩu"
+              error={error.confirmPassword}
+              inputProps={{
+                name: "confirmPassword",
+                type: visibleConfirmPw ? "text" : "password",
+              }}
+              onChange={handleChange}
+              endAdornment={
+                visibleConfirmPw ? (
+                  <VisibilityIcon
+                    className={`${classes.icon} ${classes.visibleConfirmPw}`}
+                    onClick={() => setVisibleConfirmPw(false)}
+                  />
+                ) : (
+                  <VisibilityOffIcon
+                    className={classes.icon}
+                    onClick={() => setVisibleConfirmPw(true)}
+                  />
+                )
+              }
+            />
+            {error.confirmPassword !== "" && (
+              <p className={classes.textError}>{error.confirmPassword}</p>
+            )}
+          </div>
+        )}
 
         <div className={classes.info}>
+          {!editMode && <p>{user.email}</p>}
+          <p>Đã tham gia vào {formatDate(user.createdAt)}</p>
           <p>
             Số coin hiện tại: <span className={classes.coin}>{user.coin}</span>
           </p>
         </div>
 
-        <div className="d-flex w-100">
+        {!editMode ? (
           <Button
-            className={`${classes.editBtn} _btn _btn-primary w-50`}
-            onClick={handleUpdate}
+            onClick={() => setEditMode(true)}
+            className={`${classes.editBtn} _btn _btn-primary w-100`}
+            startIcon={<EditIcon />}
           >
-            Cập nhật
+            Chỉnh sửa
           </Button>
-        </div>
+        ) : (
+          <div className="d-flex w-100">
+            <Button
+              onClick={() => setEditMode(false)}
+              className={`${classes.editBtn} _btn _btn-outlined-accent w-50 mr-2`}
+            >
+              Huỷ bỏ
+            </Button>
+            <Button
+              className={`${classes.editBtn} _btn _btn-primary w-50`}
+              onClick={handleUpdate}
+            >
+              Cập nhật
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   );

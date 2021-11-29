@@ -28,7 +28,7 @@ const useStyles = makeStyles(() => ({
   },
   title: {
     fontSize: "40px",
-    color: "#dd9226",
+    color: "var(--primary-color)",
     marginBottom: "10px",
     fontWeight: "600",
   },

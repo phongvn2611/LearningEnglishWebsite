@@ -69,6 +69,11 @@ export const ROUTES = {
   QUIZ_ADMIN: '/admin/quiz',
   WORD_ADMIN: '/admin/word',
   USER_ADMIN: '/admin/user',
+  USER_DETAIL: '/admin/user/:user_id',
+  WORD_TOPIC: '/word',
+  GAME: '/game',
+  WORD_LIST_BY_TOPIC: '/word/:topic_id',
+  ADD_WORD: '/admin/word/add-word'
 }
 
 export const UX = {

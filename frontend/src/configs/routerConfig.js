@@ -16,6 +16,11 @@ const ListeningAdminPage = React.lazy(() => import("../pages/ListeningAdmin"));
 const QuizAdminPage = React.lazy(() => import("../pages/QuizAdmin"));
 const WordAdminPage = React.lazy(() => import("../pages/WordAdmin"));
 const UserAdminPage = React.lazy(() => import("../pages/UserAdmin"));
+const UserDetailPage = React.lazy(() => import("../pages/UserDetail"));
+const WordTopicPage = React.lazy(() => import("../pages/WordTopic"));
+const GamePage = React.lazy(() => import("../pages/Game"));
+const WordListByTopicPage = React.lazy(() => import("../pages/WordListByTopic"));
+const AddWordPage = React.lazy(() => import("../pages/AddWord"));
 
 const routes = [
   {
@@ -107,12 +112,42 @@ const routes = [
     exact: true,
     isProtect: true,
     component: () => <UserAdminPage />
+  },
+  {
+    path: ROUTES.USER_DETAIL,
+    exact: true,
+    isProtect: true,
+    component: () => <UserDetailPage />
+  },
+  {
+    path: ROUTES.WORD_TOPIC,
+    exact: true,
+    isProtect: true,
+    component: () => <WordTopicPage />
+  },
+  {
+    path: ROUTES.GAME,
+    exact: true,
+    isProtect: true,
+    component: () => <GamePage />
+  },
+  {
+    path: ROUTES.WORD_LIST_BY_TOPIC,
+    exact: true,
+    isProtect: true,
+    component: () => <WordListByTopicPage />
+  },
+  {
+    path: ROUTES.ADD_WORD,
+    exact: true,
+    isProtect: true,
+    component: () => <AddWordPage />
   }
 ];
 const renderRoutes = (routes, isAuth = false) => {
   return routes.map((route, index) => {
     const { path, exact, component, isProtect } = route;
-    const loginComponent = () => <LoginPage />;
+    const loginComponent = () => <LoginPage />
     const componentRender = !isProtect
       ? component
       : isAuth

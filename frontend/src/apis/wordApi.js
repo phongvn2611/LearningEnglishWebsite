@@ -30,10 +30,8 @@ const wordApi = {
     })
   },
 
-  postWord: (formData, token) => {
-    return axios.post(`${URL}/post-word`, formData, {
-      headers: {Authorization: token}
-    })
+  postWord: (formData) => {
+    return axios.post(`${URL}/post-word`, formData)
   },
 
   putWord: (id, formData, token) => {

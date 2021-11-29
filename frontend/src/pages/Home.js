@@ -28,7 +28,7 @@ const FEATURE_LIST = [
     subTitle:
       'Danh sách từ vựng được phân loại theo cấp độ, loại từ, ...',
     imgUrl: flashcardIcon,
-    to: ROUTES.HOME,
+    to: ROUTES.WORD_TOPIC,
   },
   {
     title: "Luyện nghe",
@@ -53,7 +53,7 @@ const FEATURE_LIST = [
     imgUrl: gameIcon,
     subTitle:
       'Ôn luyện kiến thức hiệu quả và đỡ nhàm chán hơn qua việc chơi game',
-    to: ROUTES.HOME,
+    to: ROUTES.GAME,
   },
   {
     title: 'Bảng xếp hạng',

@@ -6,7 +6,7 @@ let globalVoices = [];
 // get voice in redux
 function useSpeaker() {
   const [voices, setVoices] = useState(globalVoices);
-  const { speed, voiceURI, volume } = useSelector((state) => state.voice);
+  const { speed, voiceURI, volume } = useSelector((state) => state.voiceReducer);
   const voice = voices.find((i) => i.voiceURI === voiceURI);
 
   useEffect(() => {

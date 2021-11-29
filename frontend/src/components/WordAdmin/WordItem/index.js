@@ -1,4 +1,3 @@
-
 import { cloudinaryImgOptimize } from "helper";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
@@ -7,9 +6,11 @@ import wordApi from "apis/wordApi";
 import WordDetailModal from "components/UI/WordDetailModal";
 import { useDispatch } from "react-redux";
 import { setMessage } from "redux/actions/messageAction";
-import { DEFAULTS } from './../../../constants/index';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete'
+import { DEFAULTS } from "./../../../constants/index";
+import DeleteIcon from "@material-ui/icons/Delete";
+import EditIcon from "@material-ui/icons/Edit";
+import { useParams } from "react-router";
+import Speaker from "components/UI/Speaker";
 
 function WordItem({ word, type, phonetic, picture, mean }) {
   const classes = useStyle();
@@ -23,6 +24,7 @@ function WordItem({ word, type, phonetic, picture, mean }) {
 
   const [modal, setModal] = useState({ loading: false, open: false });
   const dispatch = useDispatch();
+  const { topic_id } = useParams();
 
   const onShowDetail = async (word) => {
     try {
@@ -58,12 +60,16 @@ function WordItem({ word, type, phonetic, picture, mean }) {
             <p className={classes.mean}>{mean}</p>
           </div>
         </div>
-        <div className="flex-center--ver">
-        <div className="mr-5">
-          <EditIcon className="dyno-setting-icon"/>
-        </div>
-        <DeleteIcon className="dyno-setting-icon" />
-      </div>
+        {topic_id ? (
+          <div className="flex-center--ver">
+            <Speaker text={word} />
+          </div>
+        ) : (
+          <div className="flex-center--ver">
+            <EditIcon className="dyno-setting-icon mr-5" />
+            <DeleteIcon className="dyno-setting-icon" />
+          </div>
+        )}
       </div>
       {modal.open && (
         <WordDetailModal

@@ -28,7 +28,7 @@ const userApi = {
     });
   },
   updateProfile: (name, avatar) => {
-    return axios.post(`${URL}/update-profile`, { name, avatar });
+    return axios.patch(`${URL}/update-profile`, { name, avatar });
   },
   updatePassword: (password) => {
     return axios.post(`${URL}/update-password`, { password });
@@ -36,6 +36,18 @@ const userApi = {
   logout: () => {
     return axios.post(`${URL}/logout`);
   },
+  getAllUsers: () => {
+    return axios.get(`${URL}/get-all-users`);
+  },
+  getUserDetails: (user_id) => {
+    return axios.get(`${URL}/get-user-details/${user_id}`);
+  },
+  lockUser: (user_id) => {
+    return axios.patch(`${URL}/lock-user/${user_id}`);
+  },
+  unlockUser: (user_id) => {
+    return axios.patch(`${URL}/unlock-user/${user_id}`);
+  }
 };
 
 export default userApi;
