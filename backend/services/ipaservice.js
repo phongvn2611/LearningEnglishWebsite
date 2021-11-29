@@ -23,6 +23,22 @@ exports.getIPAById = async (id = '') => {
     }
   };
 
+  exports.getIPARelative = async (type='', phonetic = '') => {
+    try {
+     // const ipa = await IPAModel.findById(id);
+      const list = await IPAModel.find({Type: type }).limit(10);  
+      let res=[];
+      for(let i=0; i <list.length; i++) {
+        if(list[i].Phonetic != phonetic){
+          res.push(list[i]); 
+        }
+      };
+      return res;
+    } catch (error) {
+      throw error;
+    }
+  };
+
 
   exports.getIPAByListenId = async (listenId = '') => {
     try {
@@ -69,3 +85,12 @@ exports.getIPAById = async (id = '') => {
       }
     };
   
+//get ipas by type
+exports.getIPAsByType = async (type = '') => {
+  try {
+    const list = await IPAModel.find({Type: type});                   
+    return list;
+  } catch (error) {
+    throw error;
+  }
+};

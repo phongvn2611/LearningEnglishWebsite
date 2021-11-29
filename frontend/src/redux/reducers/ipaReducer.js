@@ -2,7 +2,7 @@ import IPA_CONSTANT from "../constants/ipaConstant";
 
 const initialState = {
     ipas: [],
-    ipa: [],
+    ipa: null,
     message: null,
     isIPALoading: false,
 }
@@ -25,7 +25,17 @@ const ipaReducer = (state = initialState, action) => {
       return {
         ...state,
         ipa: payload,
-        isIPALoading: true,
+      }
+    case IPA_CONSTANT.GET_IPA_RELATIVE:
+      return {
+        ...state,
+        ipas: payload,
+      }
+
+    case IPA_CONSTANT.GET_IPA_BY_TYPE:
+      return {
+        ...state,
+        ipas: payload,
       }
     case IPA_CONSTANT.CREATE_IPA:
         return {

@@ -1,20 +1,16 @@
 import IPA_CONSTANT from "../constants/ipaConstant";
 import ipaApi from "./../../apis/ipaApi";
 import authReducer from "../reducers/authReducer";
-import IPA_CONSTANT from "../constants/ipaConstant";
+
 
 export const getIPA = (id) => {
-    return async (dispatch, getState) => {
+    return async (dispatch) => {
         try { 
-          const {
-            authReducer: { user },
-          } = getState();
-
-          const response = await ipaApi.getIPA(id, user.access_token);
+          const response = await ipaApi.getIPA(id);
           if(response.status===200){
             dispatch({
               type: IPA_CONSTANT.GET_IPA,
-              payload: response.data.ipa,
+              payload: response.data,
             })
           }
           else
@@ -25,13 +21,65 @@ export const getIPA = (id) => {
             })
           }
         } catch (error) {
-          dispatch({ type: IPA_CONSTANT.SET_IPA_ERROR })
-          error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message
-        }
+          dispatch({ type: IPA_CONSTANT.SET_IPA_ERROR,
+            payload: error.response.message
+          })
       }
+    }
 };
+
+export const getIPARelative = (type, key) => {
+  return async (dispatch) => {
+      try { 
+        const response = await ipaApi.getIPARelative(type, key);
+        if(response.status===200){
+          dispatch({
+            type: IPA_CONSTANT.GET_IPA_RELATIVE,
+            payload: response.data,
+          })
+        }
+        else
+        {
+          dispatch({
+            type: IPA_CONSTANT.SET_IPA_ERROR,
+            payload: response.data.message,
+          })
+        }
+      } catch (error) {
+        dispatch({ type: IPA_CONSTANT.SET_IPA_ERROR,
+          payload: error.response.message
+        })
+    }
+  }
+};
+
+export const getIPAByType = (type) => {
+  return async (dispatch) => {
+      try { 
+       
+        const response = await ipaApi.getIPAByType(type);
+        console.log(response.data)
+        if(response.status===200){
+          dispatch({
+            type: IPA_CONSTANT.GET_IPA_BY_TYPE,
+            payload: response.data.ipas,
+          })
+        }
+        else
+        {
+          dispatch({
+            type: IPA_CONSTANT.SET_IPA_ERROR,
+            payload: response.data.message,
+          })
+        }
+      } catch (error) {
+        dispatch({ type: IPA_CONSTANT.SET_IPA_ERROR,
+          payload: error.response.message
+        })
+    }
+  }
+};
+
 
 export const getAllIPA = () => {
     return async (dispatch, getState) => {
@@ -60,12 +108,11 @@ export const getAllIPA = () => {
             })
           }
         } catch (error) {
-          dispatch({ type: IPA_CONSTANT.SET_IPA_ERROR })
-          error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message
-        }
+          dispatch({ type: IPA_CONSTANT.SET_IPA_ERROR,
+             payload: error.response.message
+          })
       }
+    }
 };
 
 export const postIPA = (formData) => {
@@ -81,7 +128,6 @@ export const postIPA = (formData) => {
               type: IPA_CONSTANT.CREATE_IPA,
               payload: response.data.ipa,
             })
-            toast.success("Add successfully")
           }
           else
           {
@@ -91,28 +137,22 @@ export const postIPA = (formData) => {
             })
           }
         } catch (error) {
-          dispatch({ type: IPA_CONSTANT.SET_IPA_ERROR })
-          error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message
-        }
+          dispatch({ type: IPA_CONSTANT.SET_IPA_ERROR,
+             payload: error.response.message
+          })
       }
+    }
 };
 
 export const putIPA = (id, formData) => {
     return async (dispatch, getState) => {
         try { 
-          const {
-            authReducer: { user },
-          } = getState();
-
-          const response = await ipaApi.putIPA(id, formData, user.access_token);
+          const response = await ipaApi.putIPA(id, formData);
           if(response.status===200){
             dispatch({
               type: IPA_CONSTANT.EDIT_IPA,
               payload: response.data.ipa,
             })
-            toast.success("Edit successfully")
           }
           else
           {
@@ -122,28 +162,22 @@ export const putIPA = (id, formData) => {
             })
           }
         } catch (error) {
-          dispatch({ type: IPA_CONSTANT.SET_IPA_ERROR })
-          error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message
-        }
+          dispatch({ type: IPA_CONSTANT.SET_IPA_ERROR,
+            payload: error.response.message
+          })
       }
+    }
 };
 
 export const deleteIPA = (id) => {
     return async (dispatch, getState) => {
         try { 
-          const {
-            authReducer: { user },
-          } = getState();
-
-          const response = await ipaApi.deleteIPA(id, user.access_token);
+          const response = await ipaApi.deleteIPA(id);
           if(response.status===200){
             dispatch({
               type: IPA_CONSTANT.DELETE_IPA,
               payload: id,
             })
-            toast.success(response.data.message)
           }
           else
           {
@@ -153,10 +187,9 @@ export const deleteIPA = (id) => {
             })
           }
         } catch (error) {
-          dispatch({ type: IPA_CONSTANT.SET_IPA_ERROR })
-          error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message
-        }
+          dispatch({ type: IPA_CONSTANT.SET_IPA_ERROR,
+            payload: error.response.message
+          })
       }
+    }
 };

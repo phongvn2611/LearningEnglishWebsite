@@ -20,6 +20,8 @@ const ListeningPage = React.lazy(() => import("../pages/Listening"));
 const ListeningDetailPage = React.lazy(() => import("../pages/ListeningDetail"));
 const CreateWordPage = React.lazy(() => import("../pages/CreateWord"));
 const EditWordPage = React.lazy(() => import("../pages/EditWord"));
+const IPAPage = React.lazy(() => import("../pages/IPA"));
+const IPADetailPage = React.lazy(() => import("../components/IPA/DetailIPA"));
 
 const routes = [
   {
@@ -129,6 +131,18 @@ const routes = [
     exact: true,
     isProtect: true,
     component: () => <EditWordPage />
+  },
+  {
+    path: ROUTES.IPA_LIST,
+    exact: true,
+    isProtect: true,
+    component: () => <IPAPage />
+  },
+  {
+    path: ROUTES.IPA_DETAIL,
+    exact: true,
+    isProtect: true,
+    component: () => <IPADetailPage />
   },
   {
     path: ROUTES.USER_ADMIN,

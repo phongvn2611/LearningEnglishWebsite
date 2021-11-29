@@ -100,7 +100,6 @@ function WordAdminData() {
     (async function () {
       try {
         setLoading(true);
-        console.log(packInfo);
         const apiRes = await wordApi.getWordList(
           page,
           perPage,

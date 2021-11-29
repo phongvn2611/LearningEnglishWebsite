@@ -4,8 +4,6 @@ import React, { useState } from 'react';
 import EditWord from './../components/WordAdmin/EditWord';
 
 function CreateWordData() {
-  //const classes = useStyle();
-
   return (  
       <EditWord />          
   );

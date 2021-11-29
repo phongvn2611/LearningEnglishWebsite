@@ -4,6 +4,8 @@ import tokenReducer from './tokenReducer';
 import messageReducer from './messageReducer';
 import listeningReducer from './listeningReducer';
 import wordReducer from './wordReducer';
+import voiceReducer from './voiceReducer';
+import ipaReducer from './ipaReducer';
 
 export const rootReducer = combineReducers({
   authReducer,
@@ -11,4 +13,6 @@ export const rootReducer = combineReducers({
   messageReducer,
   listeningReducer,
   wordReducer,
+  voiceReducer,
+  ipaReducer,
 })

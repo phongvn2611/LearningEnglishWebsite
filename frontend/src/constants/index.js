@@ -72,6 +72,8 @@ export const ROUTES = {
   USER_ADMIN: '/admin/user',
   ADD_WORD: '/admin/word/add',
   EDIT_WORD: '/admin/word/edit/:id',
+  IPA_LIST: '/ipa',
+  IPA_DETAIL: '/ipa/:id',
 }
 
 export const UX = {
