@@ -6,13 +6,13 @@ import React, { useEffect, useRef, useState } from 'react';
 import InformationTooltip from './InformationTooltip';
 
 function PhoneticInput(props) {
-  const { valuePhonetic, errorMessage, error, register, resetFlag, ...restProps } = props;
+  const { value, errorMessage, error, register, resetFlag, ...restProps } = props;
   const { inputProps } = restProps;
   const { ref, ...rest } = register;
   const inputRef = useRef(null);
 
   const [openKeyboard, setOpenKeyboard] = useState(false);
-  const [phonetic, setPhonetic] = useState(valuePhonetic);
+  const [phonetic, setPhonetic] = useState(value);
 
   const onCloseKeyboard = () => setOpenKeyboard(false);
 
@@ -26,7 +26,7 @@ function PhoneticInput(props) {
     // reset value if parent component reset, except first render
     setPhonetic('');
   }, [resetFlag]);
-
+  //console.log(phonetic)
   return (
     <>
       <Grid item xs={12} md={6} lg={4}>
@@ -66,12 +66,14 @@ PhoneticInput.propTypes = {
   errorMessage: PropTypes.string,
   register: PropTypes.any,
   resetFlag: PropTypes.number,
+  value: PropTypes.string,
 };
 
 PhoneticInput.defaultProps = {
   error: false,
   errorMessage: null,
   resetFlag: 0,
+  value:'',
 };
 
 export default PhoneticInput;

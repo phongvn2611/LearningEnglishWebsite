@@ -140,6 +140,8 @@ function EditWord() {
   const dispatch = useDispatch();
   const { id } = useParams();
 
+  const [phonetic, setPhonetic] = useState('');
+
   const [wordValue, setWordValue] = useState(null);
   const [image, setImage] = useState(null);
 
@@ -147,6 +149,7 @@ function EditWord() {
     (async function () {
       const apiRes = await wordApi.getWord(id);
       setWordValue(apiRes.data);
+      setPhonetic(apiRes.data.phonetic)
       setImage(apiRes.data.picture);
     })();
     return () => {};
@@ -155,6 +158,7 @@ function EditWord() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    console.log(e.target)
     setWordValue({ ...wordValue, [name]: value });
   }
 
@@ -179,8 +183,11 @@ function EditWord() {
   const topics = useRef([]);
   const onSubmit = async (e) => {
     try {
+     console.log(e)
+      console.log(wordValue)
       setSubmitting(true);
-      const { examples, synonyms, antonyms, phonetic, word, ...rest } = wordValue;
+      const phonetic=null;
+      const { examples, synonyms, antonyms, word, ...rest } = wordValue;
       // check examples validation
       const exampleArr = analysisExample(examples, word);
       if (typeof exampleArr === "boolean" && !exampleArr) {
@@ -219,6 +226,8 @@ function EditWord() {
     }
   };
 
+ // console.log(phonetic)
+
   function handleClickGoBack() {
     history.push("/admin/word");
   }
@@ -255,7 +264,7 @@ function EditWord() {
                 className="w-100"
                 label="Word"
                 value={wordValue.word}
-                onChange={handleChange}
+              //  onChange={handleChange}
               />
             </Grid>
 
@@ -282,13 +291,15 @@ function EditWord() {
             <PhoneticInput
               errorMessage={errors.phonetic?.message}
               error={Boolean(errors.phonetic)}
-              valuePhonetic={wordValue.phonetic}
+              value={wordValue.phonetic}
+            //  valuePhonetic={wordValue.phonetic}
               inputProps={{
-                maxLength: MAX.PHONETIC_LEN,
+                maxLength: MAX.MEAN_WORD_LEN,
                 name: "phonetic",
+               // ...register("phonetic"),
               }}
               register={register("phonetic")}
-              onChange={handleChange}
+             // onChange={(e) => setPhonetic(e.target.value)}
             />
 
             {/* word type */}
@@ -457,6 +468,7 @@ function EditWord() {
                 submitting ? <LoopIcon className="ani-spin" /> : <SaveIcon />
               }
               variant="contained"
+              onClick={() => onSubmit()}
             >
               Sửa từ
             </Button>
