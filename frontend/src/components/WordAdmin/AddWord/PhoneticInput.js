@@ -6,7 +6,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import InformationTooltip from './InformationTooltip';
 
 function PhoneticInput(props) {
-  const { value, errorMessage, error, register, resetFlag, ...restProps } = props;
+  const { value, errorMessage, error, register, resetFlag, onChange,...restProps } = props;
   const { inputProps } = restProps;
   const { ref, ...rest } = register;
   const inputRef = useRef(null);
@@ -26,7 +26,7 @@ function PhoneticInput(props) {
     // reset value if parent component reset, except first render
     setPhonetic('');
   }, [resetFlag]);
-  //console.log(phonetic)
+
   return (
     <>
       <Grid item xs={12} md={6} lg={4}>
@@ -44,7 +44,10 @@ function PhoneticInput(props) {
               inputRef.current = e;
             },
           }}
-          onChange={(e) => setPhonetic(e.target.value)}
+          onChange={(e) => {
+            setPhonetic(e.target.value);
+            onChange(e);
+          }}
           endAdornment={
             <InformationTooltip title="Nhập ký âm (ngữ âm) của từ mới. Ví dụ: fəˈnetɪk" />
           }
@@ -66,14 +69,16 @@ PhoneticInput.propTypes = {
   errorMessage: PropTypes.string,
   register: PropTypes.any,
   resetFlag: PropTypes.number,
-  value: PropTypes.string,
+  valueInput: PropTypes.string,
+  onChange: PropTypes.func,
 };
 
 PhoneticInput.defaultProps = {
   error: false,
   errorMessage: null,
   resetFlag: 0,
-  value:'',
+  valueInput:'',
+  onChange: function () {},
 };
 
 export default PhoneticInput;

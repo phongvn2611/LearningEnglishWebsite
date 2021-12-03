@@ -13,13 +13,11 @@ import {
   WORD_LEVELS,
   WORD_SPECIALTY,
   WORD_TYPES,
-} from "./../../../constants";
-import UploadButton from "components/UI/UploadButton";
-import { debounce } from "helper";
+} from "constants/index";
 import PropTypes from "prop-types";
 import React, { useRef, useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setMessage } from "redux/actions/messageAction";
 import * as yup from "yup";
 import InformationTooltip from "./../AddWord/InformationTooltip";
@@ -29,6 +27,7 @@ import { useParams } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import CameraIcon from "@material-ui/icons/PhotoCamera";
 import { convertImageToBase64 } from "helper/index";
+import useTitle from 'hooks/useTitle';
 
 const schema = yup.object().shape({
   word: yup
@@ -105,25 +104,12 @@ const getTypeCurrent = (type = "", options = []) => {
   return 0;
 };
 
-const getStringCurrent = (ar = []) => {
-  let str = "";
-
-  if (ar[0]) {
-    str += ar[0];
-  }
-  for (let i = 1; i < ar.length; i++) {
-    if (ar[i]) {
-      str += "\n" + ar[i];
-    }
-  }
-  return str;
-};
-
 // Prevent unmount component topic select
 const ButtonWrapper = (props) => <Grid {...props} item xs={12} md={6} lg={4} />;
 const TagsWrapper = (props) => <Grid {...props} item xs={12} />;
 
 function EditWord() {
+  useTitle('Edit word');
   const classes = useStyle();
   const [submitting, setSubmitting] = useState(false);
   const defaultImg =
@@ -158,7 +144,6 @@ function EditWord() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log(e.target)
     setWordValue({ ...wordValue, [name]: value });
   }
 
@@ -179,14 +164,10 @@ function EditWord() {
       throw err;
     }
   };
-
   const topics = useRef([]);
   const onSubmit = async (e) => {
     try {
-     console.log(e)
-      console.log(wordValue)
       setSubmitting(true);
-      const phonetic=null;
       const { examples, synonyms, antonyms, word, ...rest } = wordValue;
       // check examples validation
       const exampleArr = analysisExample(examples, word);
@@ -226,7 +207,6 @@ function EditWord() {
     }
   };
 
- // console.log(phonetic)
 
   function handleClickGoBack() {
     history.push("/admin/word");
@@ -292,14 +272,12 @@ function EditWord() {
               errorMessage={errors.phonetic?.message}
               error={Boolean(errors.phonetic)}
               value={wordValue.phonetic}
-            //  valuePhonetic={wordValue.phonetic}
               inputProps={{
                 maxLength: MAX.MEAN_WORD_LEN,
                 name: "phonetic",
-               // ...register("phonetic"),
               }}
               register={register("phonetic")}
-             // onChange={(e) => setPhonetic(e.target.value)}
+              onChange={handleChange}
             />
 
             {/* word type */}
@@ -361,7 +339,7 @@ function EditWord() {
               <InputCustom
                 className="w-100"
                 label="Câu ví dụ"
-                value={getStringCurrent(wordValue.examples)}
+                value={wordValue.examples}
                 multiline
                 endAdornment={
                   <InformationTooltip title="Thêm các câu ví dụ cho từ trên. Đảm bảo có sự xuất hiện của từ đó trong câu. Bạn có thể thêm nhiều câu bằng cách xuống dòng." />
@@ -385,7 +363,7 @@ function EditWord() {
                 className="w-100"
                 label="Các từ đồng nghĩa"
                 multiline
-                value={getStringCurrent(wordValue.synonyms)}
+                value={wordValue.synonyms}
                 error={Boolean(errors.synonyms)}
                 inputProps={{
                   name: "synonyms",
@@ -404,7 +382,7 @@ function EditWord() {
                 className="w-100"
                 label="Các từ trái nghĩa"
                 multiline
-                value={getStringCurrent(wordValue.antonyms)}
+                value={wordValue.antonyms}
                 error={Boolean(errors.antonyms)}
                 inputProps={{
                   name: "antonyms",
