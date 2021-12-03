@@ -25,7 +25,12 @@ const IPADetailPage = React.lazy(() => import("../components/IPA/DetailIPA"));
 const UserDetailPage = React.lazy(() => import("../pages/UserDetail"));
 const WordTopicPage = React.lazy(() => import("../pages/WordTopic"));
 const GamePage = React.lazy(() => import("../pages/Game"));
-const WordListByTopicPage = React.lazy(() => import("../pages/WordListByTopic"));
+//const WordListByTopicPage = React.lazy(() => import("../pages/WordListByTopic"));
+const VocabularyPage = React.lazy(() => import("../pages/Vocabulary"));
+const CreateListeningPage = React.lazy(() => import("../pages/CreateListening"));
+const GrammarL12Page = React.lazy(() => import("../pages/GrammarL12"));
+const ListeningByTopicPage = React.lazy(() => import("../pages/ListeningByTopic"));
+const ListeningTopicsPage = React.lazy(() => import("../pages/ListeningTopics"));
 
 
 const routes = [
@@ -174,10 +179,34 @@ const routes = [
     component: () => <GamePage />
   },
   {
-    path: ROUTES.WORD_LIST_BY_TOPIC,
+    path: ROUTES.VOCABULARY,
     exact: true,
     isProtect: true,
-    component: () => <WordListByTopicPage />
+    component: () => <VocabularyPage />
+  },
+  {
+    path: ROUTES.ADD_LISTEN,
+    exact: true,
+    isProtect: true,
+    component: () => <CreateListeningPage />
+  },
+  {
+    path: ROUTES.GRAMMARL12,
+    exact: true,
+    isProtect: true,
+    component: () => <GrammarL12Page />
+  },
+  {
+    path: ROUTES.LISTENING_BY_TOPIC,
+    exact: true,
+    isProtect: true,
+    component: () => <ListeningByTopicPage />
+  },
+  {
+    path: ROUTES.LISTENING_TOPICs,
+    exact: true,
+    isProtect: true,
+    component: () => <ListeningTopicsPage />
   },
 ];
 const renderRoutes = (routes, isAuth = false) => {

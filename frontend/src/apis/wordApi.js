@@ -45,6 +45,18 @@ const wordApi = {
       params: { page, perPage, packInfo: JSON.stringify(packInfo), sortType },
     });
   },
+
+  getWordTopicGallery: (page = 1, perPage = 8, packInfo) => {
+    return axios.get(`${URL}/get-word-topic-gallery`, {
+      params: { page, perPage, packInfo: JSON.stringify(packInfo) },
+    });
+  },
+
+  getWordTopic: ( packInfo) => {
+    return axios.get(`${URL}/get-word-topic-slide`, {
+      params: { packInfo: JSON.stringify(packInfo) },
+    });
+  },
 }
 
 export default wordApi;

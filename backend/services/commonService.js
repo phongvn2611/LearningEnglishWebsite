@@ -1,5 +1,5 @@
 const { cloudinary } = require('../configs/cloudinaryConfig');
-const { convertPackInfoToQueryStr } = require('../helpers/wordpackHelper');
+const { convertPackInfoToQueryStr, convertTopicsToQueryStr } = require('../helpers/wordpackHelper');
 const WordModel = require('../models/wordModel');
 
 exports.uploadImage = async (files= files) => {
@@ -84,11 +84,57 @@ exports.getWordPack = async (
   }
 };
 
+exports.getWordTopicSlide = async (
+  packInfo = {}
+) => {
+  try {
+    let query = convertTopicsToQueryStr(packInfo);
+
+    const packList = await WordModel.find(query);
+      // .skip(skip)
+      // .limit(limit);
+
+    return packList;
+  } catch (error) {
+    throw error;
+  }
+};
+
+exports.getWordTopicGallery = async (
+  packInfo = {},
+  skip = 0,
+  limit = 1000,
+) => {
+  try {
+    let query = convertTopicsToQueryStr(packInfo);
+
+    const packList = await WordModel.find(query)
+      .skip(skip)
+      .limit(limit);
+
+    return packList;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
 exports.countWordPack = async (packInfo = {}) => {
   try {
     let query = convertPackInfoToQueryStr(packInfo);
+    console.log(query)
     return await WordModel.countDocuments(query);
   } catch (error) {
     throw error;
   }
 };
+
+  exports.countWordPackTopic = async (packInfo = {}) => {
+    try {
+      let query = convertTopicsToQueryStr(packInfo);
+    //  console.log(query)
+      return await WordModel.countDocuments(query);
+    } catch (error) {
+      throw error;
+    }
+  };

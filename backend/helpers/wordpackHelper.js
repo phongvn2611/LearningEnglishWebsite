@@ -28,3 +28,14 @@ exports.convertPackInfoToQueryStr = (packInfo) => {
 
   return query;
 };
+
+exports.convertTopicsToQueryStr = (packInfo) => {
+  const { topics} = packInfo;
+  const topicList = typeof topics === 'string' ? JSON.parse(topics) : topics;
+
+  // query multiple topic
+  let query = {};
+  this.addTopicsQuery(topicList, query);
+
+  return query;
+};

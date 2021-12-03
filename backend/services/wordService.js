@@ -1,4 +1,5 @@
 const WordModel = require('../models/wordModel');
+const { convertPackInfoToQueryStr } = require('../helpers/wordpackHelper');
 
 exports.createNewWord = async (wordInfo) => {
   try {
@@ -127,6 +128,26 @@ exports.getWordTopics = async () => {
         return null;
       }
     return list;
+  } catch (error) {
+    throw error;
+  }
+};
+
+exports.getWordTopicByPage = async (
+  topic = '',
+  skip = 0,
+  limit = 1000,
+  select = '',
+) => {
+  try {
+   // let query = convertPackInfoToQueryStr(packInfo);
+    const packList = await WordModel.find({topics: topic})
+      .skip(skip)
+      .limit(limit)
+      .select(select);
+
+    //  console.log(packList)
+    return packList;
   } catch (error) {
     throw error;
   }

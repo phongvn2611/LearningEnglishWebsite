@@ -1,20 +1,15 @@
 import GRAMMAR_CONSTANT from "../constants/grammarConstant";
 import grammarApi from "./../../apis/grammarApi";
-import authReducer from "../reducers/authReducer";
 
 
 export const getGrammar = (id) => {
-    return async (dispatch, getState) => {
+    return async (dispatch) => {
         try { 
-          const {
-            authReducer: { user },
-          } = getState();
-
-          const response = await grammarApi.getGrammar(id, user.access_token);
+          const response = await grammarApi.getGrammar(id);
           if(response.status===200){
             dispatch({
               type: GRAMMAR_CONSTANT.GET_GRAMMAR,
-              payload: response.data.grammar,
+              payload: response.data,
             })
           }
           else
@@ -25,10 +20,10 @@ export const getGrammar = (id) => {
             })
           }
         } catch (error) {
-          dispatch({ type: GRAMMAR_CONSTANT.SET_GRAMMAR_ERROR })
-          error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message
+          dispatch({
+            type: GRAMMAR_CONSTANT.SET_GRAMMAR_ERROR,
+            payload: error.response.message,
+          })
         }
       }
 };
@@ -60,10 +55,10 @@ export const getAllGrammar = () => {
           })
         }
       } catch (error) {
-        dispatch({ type: GRAMMAR_CONSTANT.SET_GRAMMAR_ERROR })
-        error.response && error.response.data.message
-        ? error.response.data.message
-        : error.message
+        dispatch({
+          type: GRAMMAR_CONSTANT.SET_GRAMMAR_ERROR,
+          payload: error.response.message,
+        })
       }
     }
 };
@@ -90,10 +85,10 @@ export const getGrammarByLevel = (level) => {
           })
         }
       } catch (error) {
-        dispatch({ type: GRAMMAR_CONSTANT.SET_GRAMMAR_ERROR })
-        error.response && error.response.data.message
-        ? error.response.data.message
-        : error.message
+        dispatch({
+          type: GRAMMAR_CONSTANT.SET_GRAMMAR_ERROR,
+          payload: error.response.message,
+        })
       }
     }
 };
@@ -120,10 +115,10 @@ export const getGrammarLevels = () => {
           })
         }
       } catch (error) {
-        dispatch({ type: GRAMMAR_CONSTANT.SET_GRAMMAR_ERROR })
-        error.response && error.response.data.message
-        ? error.response.data.message
-        : error.message
+        dispatch({
+          type: GRAMMAR_CONSTANT.SET_GRAMMAR_ERROR,
+          payload: error.response.message,
+        })
       }
     }
 };
@@ -141,7 +136,6 @@ export const postGrammar = (formData) => {
             type: GRAMMAR_CONSTANT.CREATE_GRAMMAR,
             payload: response.data.grammar,
           })
-          toast.success("Add successfully")
         }
         else
         {
@@ -151,10 +145,10 @@ export const postGrammar = (formData) => {
           })
         }
       } catch (error) {
-        dispatch({ type: GRAMMAR_CONSTANT.SET_GRAMMAR_ERROR })
-        error.response && error.response.data.message
-        ? error.response.data.message
-        : error.message
+        dispatch({
+          type: GRAMMAR_CONSTANT.SET_GRAMMAR_ERROR,
+          payload: error.response.message,
+        })
       }
     }
 };
@@ -172,7 +166,6 @@ export const putGrammar = (id, formData) => {
             type: GRAMMAR_CONSTANT.EDIT_GRAMMAR,
             payload: response.data.grammar,
           })
-          toast.success("Update successfully")
         }
         else
         {
@@ -182,10 +175,10 @@ export const putGrammar = (id, formData) => {
           })
         }
       } catch (error) {
-        dispatch({ type: GRAMMAR_CONSTANT.SET_GRAMMAR_ERROR })
-        error.response && error.response.data.message
-        ? error.response.data.message
-        : error.message
+        dispatch({
+          type: GRAMMAR_CONSTANT.SET_GRAMMAR_ERROR,
+          payload: error.response.message,
+        })
       }
     }
 };
@@ -203,7 +196,6 @@ export const deleteGrammar = (id) => {
             type: GRAMMAR_CONSTANT.DELETE_GRAMMAR,
             payload: id,
           })
-          toast.success(response.data.message)
         }
         else
         {
@@ -213,10 +205,10 @@ export const deleteGrammar = (id) => {
           })
         }
       } catch (error) {
-        dispatch({ type: GRAMMAR_CONSTANT.SET_GRAMMAR_ERROR })
-        error.response && error.response.data.message
-        ? error.response.data.message
-        : error.message
+        dispatch({
+          type: GRAMMAR_CONSTANT.SET_GRAMMAR_ERROR,
+          payload: error.response.message,
+        })
       }
     }
 };

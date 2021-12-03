@@ -41,9 +41,10 @@ const WordModel = new Schema({
   examples: [
     {
       type: String,
-      maxLength: 200,
-    },
+      maxLength: 250,
+    }
   ],
+  
 
   // link picture source
   picture: {

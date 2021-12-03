@@ -7,6 +7,12 @@ const commonApi = {
       params: { packInfo: JSON.stringify(packInfo) },
     });
   },
+
+  getWordTopicTotal: (packInfo) => {
+    return axios.get(`${URL}/word-topic/total`, {
+      params: { packInfo: JSON.stringify(packInfo) },
+    });
+  },
 };
 
 export default commonApi;

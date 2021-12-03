@@ -44,7 +44,6 @@ function ListeningAdminData() {
 
 
   const onSortTypeChange = (type = 'Newest') => {
-    console.log(type)
     if (type === sortType) return;
     preSearchList.current = [];
     setSortType(type);
@@ -59,12 +58,11 @@ function ListeningAdminData() {
         setMore(true);
         return;
       }
-      console.log(name);
       const apiRes = await listeningApi.searchListen(name);
       console.log(apiRes.data.listens);
       if (apiRes.status === 200) {
-       // const { packList = [] } = apiRes.data;
-        setList(apiRes.data.listens);
+        const { packList = [] } = apiRes.data.listens;
+        setList(packList);
         setMore(false);
       }
     } catch (error) {}
@@ -86,10 +84,9 @@ function ListeningAdminData() {
          else{
           apiRes = await listeningApi.getListenByTopic(packInfo.topic, sortType);
        }
-     //   console.log(packInfo.type);
         if (apiRes && isSub) {
          // const { packList = [] } = apiRes.data.listens;
-          const newList =apiRes.data.listens;
+          const newList = apiRes.data.listens;
           preSearchList.current = newList;
           setList(newList);
         }

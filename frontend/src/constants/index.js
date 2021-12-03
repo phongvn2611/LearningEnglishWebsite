@@ -62,11 +62,11 @@ export const ROUTES = {
   RESET_PASSWORD: '/user/reset/:access_token',
   PROFILE: '/user/profile',
   LOGOUT: '/logout',
-  LISTENING: '/listening/:id',
+  LISTENING: '/listening/details/:id',
   ADMIN: '/admin',
   GRAMMAR_ADMIN: '/admin/grammar',
   LISTENING_ADMIN: '/admin/listening',
-  LISTENING_DETAIL: '/admin/listening/:id',
+  LISTENING_DETAIL: '/admin/listening/details/:id',
   QUIZ_ADMIN: '/admin/quiz',
   WORD_ADMIN: '/admin/word',
   USER_ADMIN: '/admin/user',
@@ -77,7 +77,14 @@ export const ROUTES = {
   USER_DETAIL: '/admin/user/:user_id',
   WORD_TOPIC: '/word',
   GAME: '/game',
-  WORD_LIST_BY_TOPIC: '/word/:topic_id',
+  VOCABULARY: '/word/:topic',
+  ADD_LISTEN: '/admin/add-listening',
+  GRAMMARL12: '/grammarl12/:id',
+  GRAMMARL34: '/grammar-l34/:id',
+  GRAMMAR_ADMIN: '/admin/grammar',
+  GRAMMAR_DETAIL: '/admin/grammar/:id',
+  LISTENING_BY_TOPIC: '/listening/topic/:topic',
+  LISTENING_TOPICs: '/listening/topic',
 }
 
 export const UX = {
@@ -193,29 +200,16 @@ export const WORD_SPECIALTY = [
   { value: '15', label: 'Xã hội học (Sociology)' },
 ];
 
-export const LISTEN_TOPIC = [
-  { value: 'Other', label: 'Other' },
-  { value: 'Culture', label: 'Culture' },
-  { value: 'Economics', label: 'Economics' },
-  { value: '3', label: 'Appearance' },
-  { value: 'Education', label: 'Education' },
-  { value: '5', label: 'Environment' },
-  { value: '6', label: 'Family' },
-  { value: '7', label: 'Food' },
-  { value: '8', label: 'Health' },
-  { value: '9', label: 'Holidays' },
-  { value: '10', label: 'Leisure' },
-  { value: '11', label: 'Movies' },
-  { value: '12', label: 'Music' },
-  { value: '13', label: 'Nature' },
-  { value: '14', label: 'Places' },
-  { value: '15', label: 'Relationships' },
-  { value: '16', label: 'Routines' },
-  { value: '17', label: 'Shopping' },
-  { value: '18', label: 'Sports' },
-  { value: '19', label: 'Technology' },
-  { value: '20', label: 'Travel' },
-  { value: '21', label: 'Work' },
+
+export const LISTEN_VIDEO = [
+  {
+    value: '0',
+    label: 'Upload Video',
+  },
+  {
+    value: '1',
+    label: 'Add a link',
+  },
 ];
 
 export const SORT_TYPE = [

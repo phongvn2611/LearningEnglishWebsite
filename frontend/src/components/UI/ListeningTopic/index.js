@@ -8,9 +8,9 @@ import SelectCustom from 'components/UI/SelectCustom';
 // import { WORD_TYPES, WORD_SPECIALTY, WORD_LEVELS } from 'constants';
 import PropTypes from 'prop-types';
 import React, { useRef } from 'react';
-import TopicSelect from '../TopicSelect';
+import TopicSelect from '../../UI/TopicSelect';
 import useStyle from './style';
-import { LISTEN_TOPIC } from './../../../constants/index';
+import { LISTEN_TOPIC } from '../../../constants/listeningTopics';
 
 const formId = 'listenTopicPackForm';
 
@@ -61,6 +61,7 @@ function ListeningTopic(props) {
               <SelectCustom
                 label="Topic"
                 className="w-100"
+                index={0}
                 options={addAllOption(LISTEN_TOPIC)}
                 inputProps={{ name: 'topic' }}
               />

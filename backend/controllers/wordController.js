@@ -2,6 +2,8 @@ const {
   isExistWord,
   uploadImage,
   getWordPack,
+  getWordTopicSlide,
+  getWordTopicGallery,
 } = require('../services/commonService');
 
 const {
@@ -14,11 +16,8 @@ const {
   getFavoriteList,
   getWordByTopic,
   getWordTopics,
+ 
 } = require('../services/wordService');
-
-// const {
-//   deleteFavoriteListOfUsers,
-// } = require('../services/user.service');
 
 //create word
 exports.postContributeWord = async (req, res, next) => {
@@ -199,20 +198,7 @@ exports.getUserFavoriteList = async (req, res, next) => {
 exports.deleteWord = async (req, res, next) => {
   try {
     const {word, type}  = req.query;
-
-    //get word
-   // const word = await getWordById(wordId);
-
-    //remove word from user' favorite list
-    // const isDeleteFavoriteWordOfUser= await deleteFavoriteListOfUsers(word);
-
-    // if(!isDeleteFavoriteWordOfUser)
-    // {
-    //   return res.status(400).json({ message: 'Error, Can not delete this word.' });
-    // }
-
     //delete word
-   // console.log(_id);
     const isDeleteWord = await deleteWord(word, type);
     if (isDeleteWord) {
       return res.status(200).json({ message: 'Delete successfully.' });
@@ -248,4 +234,43 @@ exports.getTopics = async (req, res) => {
     return res.status(503).json({ message: 'Lỗi dịch vụ, thử lại sau' });
   }
 };
+
+//get word by topic and page
+exports.getWordTopicSlide = async (req, res) => {
+  try {
+    const { packInfo } = req.query;
+    const packList = await getWordTopicSlide(
+      JSON.parse(packInfo)
+    );
+
+    return res.status(200).json(packList);
+  } catch (error) {
+    console.error('ERROR: ', error);
+    return res.status(503).json({ message: 'Lỗi dịch vụ, thử lại sau' });
+  }
+};
+
+//get word by topic and page
+exports.getWordTopicGallery = async (req, res) => {
+  try {
+    const { page, perPage, packInfo } = req.query;
+
+    const pageInt = parseInt(page),
+      perPageInt = parseInt(perPage);
+    const skip = (pageInt - 1) * perPageInt;
+
+    const packList = await getWordTopicGallery(
+      JSON.parse(packInfo),
+      skip,
+      perPageInt,
+    );
+
+    return res.status(200).json(packList);
+  } catch (error) {
+    console.error('ERROR: ', error);
+    return res.status(503).json({ message: 'Lỗi dịch vụ, thử lại sau' });
+  }
+};
+
+
 

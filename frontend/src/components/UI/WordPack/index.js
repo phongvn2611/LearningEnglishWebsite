@@ -67,6 +67,7 @@ function WordPack(props) {
               <SelectCustom
                 label="Loại từ"
                 className="w-100"
+                index = {0}
                 options={addAllOption(WORD_TYPES)}
                 inputProps={{ name: 'type' }}
               />
@@ -75,6 +76,7 @@ function WordPack(props) {
               <SelectCustom
                 label="Cấp độ"
                 className="w-100"
+                index = {0}
                 options={addAllOption(WORD_LEVELS)}
                 inputProps={{ name: 'level' }}
               />
@@ -83,6 +85,7 @@ function WordPack(props) {
               <SelectCustom
                 label="Chuyên ngành"
                 className="w-100"
+                index = {0}
                 options={addAllOption(WORD_SPECIALTY)}
                 inputProps={{ name: 'specialty' }}
               />
@@ -101,6 +104,7 @@ function WordPack(props) {
                 <SelectCustom
                   label="Chủ đề"
                   className="w-100"
+                  index = "1"
                   options={addAllOption(TOPIC_OPTIONS)}
                   inputProps={{ name: 'topic' }}
                 />
@@ -150,6 +154,7 @@ WordPack.propTypes = {
   open: PropTypes.bool,
   title: PropTypes.string,
   topicMultiples: PropTypes.bool,
+  index: PropTypes.number,
 };
 
 WordPack.defaultProps = {
@@ -161,6 +166,7 @@ WordPack.defaultProps = {
   cancelBtnText: 'Đóng',
   okBtnProps: {},
   cancelBtnProps: {},
+  index: 0,
 };
 
 export default WordPack;

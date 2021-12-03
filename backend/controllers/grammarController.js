@@ -8,9 +8,11 @@ const {
   getGrammarByLevel
 } = require('../services/grammarService');
 const {
-  getListenById,
-  updateListen,
-} = require('../services/listeningService');
+  getQuestionByQuizId,
+} = require('../services/questionService');
+const {
+  getQuizByListenId,
+} = require('../services/quizService');
 const {
   uploadVideo,
   uploadImage,
@@ -187,6 +189,26 @@ exports.getAllGrammars = async (req, res) => {
   } catch (error) {
     console.error('ERROR: ', error);
     return res.status(503).json({ message: 'Lỗi dịch vụ, thử lại sau' });
+  }
+};
+
+//get grammar and quiz
+exports.getGrammar = async (req, res) => {
+  try {
+    const grammar = await getGrammarById(req.params.id);
+    const quiz = await getQuizByListenId(req.params.id);
+    if(quiz){
+    const questions = await getQuestionByQuizId(quiz._id);
+    
+    if (grammar && questions) {
+      return res.status(200).json({grammar, questions});
+    }
+  }
+  return res.status(200).json({grammar, questions:null});
+
+  } catch (error) {
+    console.error('ERROR: ', error);
+    return res.status(503).json({ message: error });
   }
 };
 

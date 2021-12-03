@@ -13,5 +13,7 @@ wordApi.get('/search-word',authentication, wordController.getSearchWord);
 wordApi.get('/get-word-details',authentication, wordController.getWordDetails);
 wordApi.get('/get-word-by-topic/:topic',authentication, wordController.getByTopic);
 wordApi.get('/get-word-topics/:topic',authentication, wordController.getTopics);
+wordApi.get('/get-word-topic-slide',authentication, wordController.getWordTopicSlide);
+wordApi.get('/get-word-topic-gallery',authentication, wordController.getWordTopicGallery);
 
 module.exports = wordApi;

@@ -23,7 +23,6 @@ function ListeningItem({ _id, Name, Image, Topic, CreateDate }) {
   );
 
   const history = useHistory();
-
   function handleClick(id) {
     history.push(`/admin/listening/${id}`);
   }

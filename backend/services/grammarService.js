@@ -16,7 +16,7 @@ exports.createGrammar = async (grammarInfo ) => {
 
 exports.getGrammarById = async (id = '') => {
     try {
-      const res = await GrammarModel.findById(id).populate('items');   
+      const res = await GrammarModel.findById(id);   
       return res;
     } catch (error) {
       throw error;

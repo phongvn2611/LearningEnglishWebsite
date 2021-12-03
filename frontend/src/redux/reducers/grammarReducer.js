@@ -1,6 +1,7 @@
 import GRAMMAR_CONSTANT from "../constants/grammarConstant";
 
 const initialState = {
+    questions: [],
     grammars: [],
     grammar: [],
     levels:[],
@@ -25,8 +26,13 @@ const grammarReducer = (state = initialState, action) => {
     case GRAMMAR_CONSTANT.GET_GRAMMAR:
       return {
         ...state,
-        grammar: payload,
-        isGrammarLoading: true,
+        grammar: payload.grammar,
+        questions: payload.questions,
+      }
+     case GRAMMAR_CONSTANT.GET_GRAMMAR_BY_ID:
+      return {
+        ...state,
+        grammar: payload.grammar,
       }
     case GRAMMAR_CONSTANT.CREATE_GRAMMAR:
         return {

@@ -2,10 +2,8 @@ import axios from "axios";
 const URL = '/api/grammar';
 
 const grammarApi = {
-  getGrammar: (id, token) => {
-    return axios.get(`${URL}/get-grammar-by-id/${id}`, {
-      headers: {Authorization: token}
-    })
+  getGrammar: (id) => {
+    return axios.get(`${URL}/get-grammar/${id}`)
   },
 
   getGrammarByLevel: (level, token) => {

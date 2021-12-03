@@ -60,26 +60,30 @@ export default function ListeningPage() {
   useEffect(() => 
   dispatch(getListening(listenId)), [dispatch])
 
+  const getScript = (sct) =>{
+    let Script =[];
+    if(sct){
+    Script = sct.split("\n");
+    } 
+    return Script;
+  };
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
 
   return (
     <>
       <Container>
         <Typography variant="h6" align="center">
-        {listen.Name}
+      {listen.Name}
         </Typography>
 
         <Typography>
         {listen.Description}
         </Typography>
 
-        {/* phuonglinh */}
-       
         <p align="center"><iframe src={listen.Video} width="500" height="300" ></iframe></p>
-    {/* phuonglinh */}
 
         <Box sx={{ width: "100%" }}>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
@@ -94,9 +98,11 @@ export default function ListeningPage() {
             </Tabs>
           </Box>
           <TabPanel value={value} index={0}>
+          {getScript(listen.Script).length!=0 && (getScript(listen.Script).map((item) =>
             <Typography variant="body2" align="justify">
-             {listen.Script}
+             {item}
             </Typography>
+         ))}
           </TabPanel>
 
           <TabPanel value={value} index={1}>
@@ -128,6 +134,7 @@ export default function ListeningPage() {
             <Button color='primary'>Reset Quiz</Button>
             <Button color='primary'>Show Answers</Button>
           </TabPanel>
+
         </Box>
       </Container>
     </>

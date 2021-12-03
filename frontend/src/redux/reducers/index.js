@@ -6,6 +6,8 @@ import listeningReducer from './listeningReducer';
 import wordReducer from './wordReducer';
 import voiceReducer from './voiceReducer';
 import ipaReducer from './ipaReducer';
+import grammarReducer from './grammarReducer';
+
 
 export const rootReducer = combineReducers({
   authReducer,
@@ -15,4 +17,5 @@ export const rootReducer = combineReducers({
   wordReducer,
   voiceReducer,
   ipaReducer,
+  grammarReducer,
 })

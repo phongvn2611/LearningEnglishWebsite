@@ -59,7 +59,7 @@ exports.postListening = async (req, res) => {
     const listen = await createListen({Name, Topic, Description, Script, Video: videoUrl, Image: imgUrl});
 
     if (listen !=null) {
-      return res.status(200).json({listen });
+      return res.status(200).json(listen);
     }
     return res.status(503).json({ message: 'Error, can not create listening.' });
   } catch (error) {
@@ -133,7 +133,6 @@ exports.getListening = async (req, res, next) => {
   try {    
     const listen = await getDetailListen(req.params.id);
     const quiz = await getQuizByListenId(req.params.id);
-    console.log(quiz)
     if(quiz){
     const questions = await getQuestionByQuizId(quiz._id);
     

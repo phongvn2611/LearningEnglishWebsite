@@ -53,7 +53,7 @@ exports.getAllListen = async (type) => {
     {
         list.forEach(item =>
            {
-            let {CreateDate, Name, Topic, Description, Video, Image, Script} =item;
+            let {_id, CreateDate, Name, Topic, Description, Video, Image, Script} =item;
             const dd= CreateDate.getDate();
             const mm =CreateDate.getMonth() + 1;
             const yyyy = CreateDate.getFullYear();
@@ -62,7 +62,7 @@ exports.getAllListen = async (type) => {
             const SS = CreateDate.getSeconds();
     
             CreateDate =`${dd}/${mm}/${yyyy} ${HH}:${MM}:${SS}`;
-            listens.push({CreateDate, Name, Topic, Description, Video, Image, Script});
+            listens.push({_id, CreateDate, Name, Topic, Description, Video, Image, Script});
         });
     }
       return  listens;
@@ -89,7 +89,7 @@ exports.getListenByTopic = async (topic, type) => {
         {
             list.forEach(item =>
                {
-                let {CreateDate, Name, Topic, Description, Video, Image, Script} =item;
+                let {_id, CreateDate, Name, Topic, Description, Video, Image, Script} =item;
                 const dd= CreateDate.getDate();
                 const mm =CreateDate.getMonth() + 1;
                 const yyyy = CreateDate.getFullYear();
@@ -98,7 +98,7 @@ exports.getListenByTopic = async (topic, type) => {
                 const SS = CreateDate.getSeconds();
         
                 CreateDate =`${dd}/${mm}/${yyyy} ${HH}:${MM}:${SS}`;
-                listens.push({CreateDate, Name, Topic, Description, Video, Image, Script});
+                listens.push({_id, CreateDate, Name, Topic, Description, Video, Image, Script});
             });
         }
           return  listens;
