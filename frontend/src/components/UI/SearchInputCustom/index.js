@@ -33,7 +33,7 @@ function SearchInputCustom({ placeholder, showInput, prefixIcon }) {
       return;
     }
 
-    const apiRes = await wordApi.getWordDetails(word);
+    const apiRes = await wordApi.getWord(word);
     setWordDetails(apiRes?.data);
   };
 

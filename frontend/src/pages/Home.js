@@ -21,7 +21,7 @@ const FEATURE_LIST = [
     subTitle:
       'Luyện nghe, phát âm chuẩn với 44 âm trong bảng phiên âm quốc tế IPA',
     imgUrl: ipaIcon,
-    to: ROUTES.HOME,
+    to: ROUTES.IPA,
   },
   {
     title: 'Từ vựng',

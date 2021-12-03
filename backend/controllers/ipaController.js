@@ -4,12 +4,10 @@ const {
     getAllIPAs,
     getIPAById,
     deleteIPAById,
-    deleteIPAByListenId,
+    getIPAsByType,
+    getIPARelative
   } = require('../services/ipaService');
-  const {
-    getListenById,
-    updateListen,
-  } = require('../services/listeningService');
+ 
   const {
     uploadVideo,
     uploadImage,
@@ -20,7 +18,7 @@ const {
   exports.postIPA = async (req, res) => {
     try {
 
-      const {Audio, MouthShape, Desc, Examples, Phonetic, Video, Image} = req.body;
+      const {Audio, MouthShape, Type, Examples, Phonetic, Video, Image} = req.body;
 
     //video
      let videoUrl = null;
@@ -57,7 +55,7 @@ const {
     }
 
     // create IPA
-    const ipa = await createIPA({Audio: audUrl, MouthShape, Desc, Examples, Phonetic, Video: videoUrl, Image: imgUrl});
+    const ipa = await createIPA({Audio: audUrl, MouthShape,  Type, Examples, Phonetic, Video: videoUrl, Image: imgUrl});
   
     if (ipa != null) {
         return res.status(201).json({ipa});
@@ -81,7 +79,7 @@ const {
         return res.status(400).json({ message: 'Error, Not found IPA.' });
       }
 
-      const {Audio, MouthShape, Desc, Examples, Phonetic, Video, Image} = req.body;
+      const {Audio, MouthShape,  Type, Examples, Phonetic, Video, Image} = req.body;
      //video
      let videoUrl = null;
      if (Video) {
@@ -116,7 +114,7 @@ const {
         audUrl = await uploadVideo(Audio, 'dynonary/ipas');
     }
 
-    const ipa = await updateIPA({Audio: audUrl, MouthShape, Desc, Examples, Phonetic, Video: videoUrl, Image: imgUrl});
+    const ipa = await updateIPA({Audio: audUrl, MouthShape,  Type, Examples, Phonetic, Video: videoUrl, Image: imgUrl});
     if (ipa) {
         return res.status(202).json({ipa });
       }
@@ -141,6 +139,21 @@ const {
     }
   };
 
+    //get IPA relative
+    exports.getIPARelative = async (req, res) => {
+      try {
+        const {type, phonetic} = req.query;
+        const ipas = await getIPARelative(type, phonetic);
+        if (ipas) {
+          return res.status(200).json(ipas);
+        }
+      } catch (error) {
+        console.error('GET DETAILS ERROR: ', error);
+        return res.status(503).json({ message: error });
+      }
+    };
+  
+
 
   //delete by id
   exports.deleteById = async (req, res) => {
@@ -164,8 +177,17 @@ const {
   } catch (error) {
     console.error('ERROR: ', error);
     return res.status(503).json({ message: 'Lỗi dịch vụ, thử lại sau' });
-  }
+  };
 };
 
-  
-  
+   //get by type
+ exports.getIPAsByType = async (req, res) => {
+  try {
+    const type = req.params.type
+    const ipas = await getIPAsByType(type);
+    return res.status(200).json({ipas });
+  } catch (error) {
+    console.error('ERROR: ', error);
+    return res.status(503).json({ message: 'Lỗi dịch vụ, thử lại sau' });
+  }
+};

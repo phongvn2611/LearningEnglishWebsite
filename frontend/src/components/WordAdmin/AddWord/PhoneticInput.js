@@ -6,25 +6,25 @@ import React, { useEffect, useRef, useState } from 'react';
 import InformationTooltip from './InformationTooltip';
 
 function PhoneticInput(props) {
-  const { errorMessage, error, register, resetFlag, ...restProps } = props;
+  const { valuePhonetic, errorMessage, error, register, resetFlag, ...restProps } = props;
   const { inputProps } = restProps;
   const { ref, ...rest } = register;
   const inputRef = useRef(null);
 
   const [openKeyboard, setOpenKeyboard] = useState(false);
-  const [value, setValue] = useState('');
+  const [phonetic, setPhonetic] = useState(valuePhonetic);
 
   const onCloseKeyboard = () => setOpenKeyboard(false);
 
   const onInput = (c) => {
-    setValue(value + c);
+    setPhonetic(phonetic + c);
     inputRef.current.focus();
   };
 
   useEffect(() => {
     if (!resetFlag) return;
     // reset value if parent component reset, except first render
-    setValue('');
+    setPhonetic('');
   }, [resetFlag]);
 
   return (
@@ -35,7 +35,7 @@ function PhoneticInput(props) {
           className="w-100"
           label="Ký âm (*)"
           error={error}
-          value={value}
+          value={phonetic}
           inputProps={{
             ...inputProps,
             ...rest,
@@ -44,7 +44,7 @@ function PhoneticInput(props) {
               inputRef.current = e;
             },
           }}
-          onChange={(e) => setValue(e.target.value)}
+          onChange={(e) => setPhonetic(e.target.value)}
           endAdornment={
             <InformationTooltip title="Nhập ký âm (ngữ âm) của từ mới. Ví dụ: fəˈnetɪk" />
           }

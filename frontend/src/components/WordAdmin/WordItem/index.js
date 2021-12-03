@@ -1,3 +1,4 @@
+
 import { cloudinaryImgOptimize } from "helper";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
@@ -6,13 +7,15 @@ import wordApi from "apis/wordApi";
 import WordDetailModal from "components/UI/WordDetailModal";
 import { useDispatch } from "react-redux";
 import { setMessage } from "redux/actions/messageAction";
-import { DEFAULTS } from "./../../../constants/index";
-import DeleteIcon from "@material-ui/icons/Delete";
-import EditIcon from "@material-ui/icons/Edit";
-import { useParams } from "react-router";
+import { DEFAULTS } from './../../../constants/index';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete'
+import { deleteWord } from "redux/actions/wordAction";
 import Speaker from "components/UI/Speaker";
+import { useParams } from "react-router";
+import { useHistory } from 'react-router-dom';
 
-function WordItem({ word, type, phonetic, picture, mean }) {
+function WordItem({ _id, word, type, phonetic, picture, mean }) {
   const classes = useStyle();
   const imgSrc = cloudinaryImgOptimize(
     picture ? picture : DEFAULTS.IMAGE_SRC,
@@ -25,12 +28,22 @@ function WordItem({ word, type, phonetic, picture, mean }) {
   const [modal, setModal] = useState({ loading: false, open: false });
   const dispatch = useDispatch();
   const { topic_id } = useParams();
+  const history = useHistory();
 
-  const onShowDetail = async (word) => {
+  const deleteHandler = () => {
+    if (window.confirm('Bạn chắc chắn muốn xóa bài viết này?')) {
+      dispatch(deleteWord(word, type));
+      dispatch(setMessage("Delete successfully", "success"));
+     window.location.reload();
+    }
+  };
+
+
+  const onShowDetail = async (id) => {
     try {
       setModal({ open: true, loading: true });
-      const apiRes = await wordApi.getWord(word);
-      if (apiRes.status === 200) {
+      const apiRes = await wordApi.getWord(id);
+      if (apiRes) {
         setModal({ open: true, loading: false, ...apiRes.data });
       }
     } catch (error) {
@@ -42,11 +55,11 @@ function WordItem({ word, type, phonetic, picture, mean }) {
   return (
     <>
       <div className={`${classes.root} flex-center-between`}>
-        <div
+        <div 
           className="w-100 flex-center--ver"
-          onClick={() => onShowDetail(word)}
+          onClick={() => onShowDetail(_id)}
         >
-          <img className={classes.picture} src={imgSrc} alt="photo" />
+          <img className={classes.picture} src={imgSrc} alt="" />
           <div className="ml-8 flex-grow-1">
             <h3 className={classes.word}>
               {word}{" "}
@@ -60,16 +73,23 @@ function WordItem({ word, type, phonetic, picture, mean }) {
             <p className={classes.mean}>{mean}</p>
           </div>
         </div>
-        {topic_id ? (
+        {topic_id ?  (
           <div className="flex-center--ver">
             <Speaker text={word} />
           </div>
-        ) : (
-          <div className="flex-center--ver">
-            <EditIcon className="dyno-setting-icon mr-5" />
-            <DeleteIcon className="dyno-setting-icon" />
-          </div>
-        )}
+        ):(
+
+        <div className="flex-center--ver">
+        <div className="mr-5">
+          <EditIcon className="dyno-setting-icon"
+          onClick={() => history.push(`/admin/word/edit/${_id}`)}
+          />
+        </div>
+        <DeleteIcon className="dyno-setting-icon" 
+         onClick={() => deleteHandler()}
+         />     
+      </div>
+      )}
       </div>
       {modal.open && (
         <WordDetailModal

@@ -2,14 +2,12 @@ import axios from "axios";
 const URL = '/api/word';
 
 const wordApi = {
-  getWord: (word = '') => {
-    return axios.get(`${URL}/get-word-details`, { params: { word } });
+  getWord: (id = '') => {
+    return axios.get(`${URL}/get-word-details`, { params: { id } });
   },
 
-  getWordByTopic: (topic, token) => {
-    return axios.get(`${URL}/get-word-by-topic/${topic}`, {
-      headers: {Authorization: token}
-    })
+  getWordByTopic: (topic) => {
+    return axios.get(`${URL}/get-word-by-topic/${topic}`);
   },
 
   searchWord: (word = '', isCompact = false) => {
@@ -18,38 +16,32 @@ const wordApi = {
     });
   },
 
-  getWordTopics: (token) => {
-    return axios.get(`${URL}/get-word-topics`, {
-      headers: {Authorization: token}
-    })
+  getWordTopics: () => {
+    return axios.get(`${URL}/get-word-topics`);
   },
 
-  getAllWord: (token) => {
-    return axios.get(`${URL}/get-all-word`, {
-      headers: {Authorization: token}
-    })
+  getAllWord: () => {
+    return axios.get(`${URL}/get-all-word`);
   },
 
-  postWord: (formData) => {
-    return axios.post(`${URL}/post-word`, formData)
+  postWord: (wordData) => {
+    return axios.post(`${URL}/post-word`, {...wordData}, {
+      header: { "content-type": "multipart/form-data" },
+    });
   },
 
-  putWord: (id, formData, token) => {
-    return axios.put(`${URL}/put-word/${id}`, formData, {
-      headers: {Authorization: token}
-    })
+  putWord: (id, wordData) => {
+    return axios.put(`${URL}/put-word/${id}`, {...wordData}, {
+      header: { "content-type": "multipart/form-data" },
+    });
   },
 
-  deleteWord: (id, token) => {
-    return axios.delete(`${URL}/delete-word/${id}`,{
-      headers: {Authorization: token}
-    })
+  deleteWord: (word='', type='') => {
+    return axios.delete(`${URL}/delete-word`, {params: { word, type}});
   },
 
-  checkWordExist: (id, formData, token) => {
-    return axios.put(`${URL}/exist-word`, formData, {
-      headers: {Authorization: token}
-    })
+  checkWordExist: ( word='', type='') => {
+    return axios.get(`${URL}/exist-word`, {params: { word, type}});
   },
 
   getWordList: (page = 1, perPage = 8, packInfo, sortType = 'rand') => {

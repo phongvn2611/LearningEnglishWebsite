@@ -37,7 +37,7 @@ exports.isExistWord = async (word = '', type = '') => {
       return false;
     }
 
-    return await WordModel.exists({ word, type });
+    return await WordModel.exists({word, type});
   } catch (error) {
     throw error;
   }
@@ -52,7 +52,7 @@ exports.isExistSentence = async (sentence = '') => {
 exports.getWordPack = async (
   packInfo = {},
   skip = 0,
-  limit = 500,
+  limit = 1000,
   select = '',
   sortType = null,
   expandQuery = null,

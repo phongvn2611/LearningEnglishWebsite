@@ -13,16 +13,18 @@ exports.createNewWord = async (wordInfo) => {
   }
 };
 
-exports.updateWord = async (_id='',wordInfo) => {
-  await WordModel.findByIdAndUpdate(_id, wordInfo,
-      function(err, result) {
-        if (err) {
-          return null;
-        } else {
-          return result;
-        }
-      }
-    );
+exports.updateWord = async (_id='', wordInfo) => {
+  try {
+    const updateWord= await WordModel.findByIdAndUpdate(_id, wordInfo);
+  
+  if (updateWord) {
+    return updateWord;
+  }
+  return null;
+}
+  catch (error) {
+    throw error;
+  }
 };
 
 exports.getIdByWord = async (word = '') => {
@@ -36,7 +38,7 @@ exports.getIdByWord = async (word = '') => {
   }
 };
 
-exports.searchWord = async (word = '', limit = 20, select = '') => {
+exports.searchWord = async (word = '', limit = 50, select = '') => {
   try {
     const regex = new RegExp(`^${word}.*`, 'gi');
     const list = await WordModel.find({ word: regex })
@@ -58,9 +60,9 @@ exports.getAllWords = async () => {
   }
 };
 
-exports.getWordDetail = async (word = '') => {
+exports.getWordDetail = async (id) => {
   try {
-    const res = await WordModel.findOne({ word });
+    const res = await WordModel.findById(id);
 
     return res;
   } catch (error) {
@@ -68,9 +70,10 @@ exports.getWordDetail = async (word = '') => {
   }
 };
 
-exports.deleteWord = async (_id = '') => {
+exports.deleteWord = async (word = '', type='') => {
   try {
-    const res = await WordModel.findByIdAndDelete(_id );
+    const isExist = await WordModel.findOne({ word, type });
+    const res = await WordModel.findByIdAndDelete(isExist._id);
     if (res) {
       return true;
     }

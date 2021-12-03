@@ -6,7 +6,7 @@ const ListeningModel = new Schema({
   CreateDate: {
     type: Date,
     required: true,
-    default: new Date(),
+    default: Date.now,
   },
 
   Name: {

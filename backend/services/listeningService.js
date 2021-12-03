@@ -37,27 +37,75 @@ exports.getListenById = async (_id) => {
   };
 
 
-exports.getAllListen = async () => {
+exports.getAllListen = async (type) => {
   try {
-    const list = await ListeningModel.find({}); 
-    return list;
+    let list= null;
+    //Sap xep tang dan
+    if(type === 'Newest'){
+      list = await ListeningModel.find({}).sort({_id:-1}); 
+    }
+    else{
+      list = await ListeningModel.find({}).sort({_id:1}); 
+    }
+
+    let listens = [];
+    if(list)
+    {
+        list.forEach(item =>
+           {
+            let {_id, CreateDate, Name, Topic, Description, Video, Image, Script} = item;
+            const dd= CreateDate.getDate();
+            const mm =CreateDate.getMonth() + 1;
+            const yyyy = CreateDate.getFullYear();
+            const HH =CreateDate.getHours();
+            const MM=CreateDate.getMinutes();
+            const SS = CreateDate.getSeconds();
+    
+            CreateDate =`${dd}/${mm}/${yyyy} ${HH}:${MM}:${SS}`;
+            listens.push({_id, CreateDate, Name, Topic, Description, Video, Image, Script});
+        });
+    }
+      return listens;
   } catch (error) {
     throw error;
   }
 };
 
-exports.getListenByTopic = async (topic) => {
+exports.getListenByTopic = async (topic, type) => {
     try {
-       // var query = new RegExp( `^${topic}.*`,'gi');
-        const list = await ListeningModel.find({Topic: topic}); 
+      let list= null;
+      //Sap xep tang dan
+      if(type === 'Newest'){
+        list = await ListeningModel.find({Topic: topic}).sort({_id:-1}); 
+      }
+      else{
+        list = await ListeningModel.find({Topic: topic}).sort({_id:1}); 
+      }
         if(list.length == 0){
           return null;
-        } 
-      return list;
-    } catch (error) {
-      throw error;
-    }
-  };
+        }
+        let listens = [];
+        if(list)
+        {
+            list.forEach(item =>
+               {
+                let {_id, CreateDate, Name, Topic, Description, Video, Image, Script} =item;
+                const dd= CreateDate.getDate();
+                const mm =CreateDate.getMonth() + 1;
+                const yyyy = CreateDate.getFullYear();
+                const HH =CreateDate.getHours();
+                const MM=CreateDate.getMinutes();
+                const SS = CreateDate.getSeconds();
+        
+                CreateDate =`${dd}/${mm}/${yyyy} ${HH}:${MM}:${SS}`;
+                listens.push({_id, CreateDate, Name, Topic, Description, Video, Image, Script});
+            });
+        }
+          return listens;
+      } catch (error) {
+        throw error;
+      }
+    };
 
   exports.getListenByLevel = async (level) => {
     try {
@@ -105,9 +153,12 @@ exports.deleteListen = async (_id = '') => {
   }
 };
 
-exports.searchListen = async (name = '', level='') => {
+exports.searchListen = async (name = '', limit = 50, select = '') => {
   try {
-    const list = await ListeningModel.find( { $or:[{'Name':name}, {'Topic':name}, {'Level':level} ]}); 
+    const regex = new RegExp(`^${name}.*`, 'gi');
+    const list = await ListeningModel.find({ Name: regex })
+    .limit(limit)
+    .select(select);
     if(list.length == 0){
       return null;
     }
@@ -115,4 +166,20 @@ exports.searchListen = async (name = '', level='') => {
   } catch (error) {
     throw error;
   }
+};
+
+exports.getDateTime = async (date = Date) => {
+ 
+    
+  // Data about date
+ 
+   const dd= date.getDate();
+   const mm =date.getMonth() + 1;
+    const yyyy = date.getFullYear();
+   const HH =date.getHours();
+   const MM=date.getMinutes();
+   const SS = date.getSeconds();
+
+   const dateConvert =`${mm}/${dd}/${yyyy} ${HH}:${MM}:${SS}`;
+    return `${mm}/${dd}/${yyyy} ${HH}:${MM}:${SS}`;
 };

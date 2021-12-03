@@ -140,6 +140,7 @@ export default function WordAdminPage() {
 
     return () => (isSub = false);
   }, [page, packInfo, sortType]);
+
   return (
     <div className="container">
       <div className={`${classes.root} dyno-container`}>

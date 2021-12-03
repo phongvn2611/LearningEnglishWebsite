@@ -13,11 +13,14 @@ function SelectCustom(props) {
     className,
     error,
     resetFlag,
+    index,
     onChange,
     ...selectProps
   } = props;
-  const [value, setValue] = useState(options[0]?.value);
+  const [value, setValue] = useState(options[index]?.value);
   const classes = useStyle();
+
+  
 
   useEffect(() => {
     if (!resetFlag) return;

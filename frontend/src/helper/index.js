@@ -1,5 +1,10 @@
-import { COLOR_VAR_KEYS, VOICE_KEYS, DEFAULTS, THEME_KEYS } from './../constants/index';
-const htmlRoot = document.querySelector(':root');
+import {
+  COLOR_VAR_KEYS,
+  VOICE_KEYS,
+  DEFAULTS,
+  THEME_KEYS,
+} from "./../constants/index";
+const htmlRoot = document.querySelector(":root");
 
 // prevent execute continuously a function
 export const debounce = (timer = null, cbFn, delay = 350) => {
@@ -19,6 +24,17 @@ export const equalArray = (a, b) => {
   );
 };
 
+// convert image to Base64
+export const convertImageToBase64 = (image) => {
+  const reader = new FileReader();
+  reader.readAsDataURL(image);
+  return new Promise((resolve) => {
+    reader.onloadend = () => {
+      resolve(reader.result);
+    };
+  });
+};
+
 // get current root palettes
 function getRootPalettes() {
   let palettes = [];
@@ -29,7 +45,7 @@ function getRootPalettes() {
 
     palettes.push({
       ...item,
-      color: color[0] === '#' ? color : color.slice(1), // output ' #123456' => slice(1) = '#123456'
+      color: color[0] === "#" ? color : color.slice(1), // output ' #123456' => slice(1) = '#123456'
     });
   });
 
@@ -91,16 +107,16 @@ export const updateLSVoice = (key, value) => {
 
 // optimize images
 export const cloudinaryImgOptimize = (
-  originSrc = '',
+  originSrc = "",
   width = 0,
   height = 0,
   fAuto = true,
   qAuto = true,
-  others = '',
+  others = ""
 ) => {
-  if (!originSrc) return '';
+  if (!originSrc) return "";
 
-  const cloudinaryBaseURL = 'https://res.cloudinary.com/dynonary/image/upload';
+  const cloudinaryBaseURL = "https://res.cloudinary.com/dynonary/image/upload";
   const index = originSrc.indexOf(cloudinaryBaseURL);
 
   // Not cloudinary source
@@ -108,18 +124,18 @@ export const cloudinaryImgOptimize = (
     return originSrc;
   }
 
-  let optimize = `${width > 0 ? `w_${width},` : ''}${
-    height > 0 ? `h_${height},` : ''
-  }${fAuto ? 'f_auto,' : ''}${qAuto ? 'q_auto,' : ''}${
-    others && others !== '' ? others : ''
+  let optimize = `${width > 0 ? `w_${width},` : ""}${
+    height > 0 ? `h_${height},` : ""
+  }${fAuto ? "f_auto," : ""}${qAuto ? "q_auto," : ""}${
+    others && others !== "" ? others : ""
   }`;
 
-  if (optimize[optimize.length - 1] === ',')
+  if (optimize[optimize.length - 1] === ",")
     optimize = optimize.slice(0, optimize.length - 1);
 
   return originSrc.replace(
     cloudinaryBaseURL,
-    `${cloudinaryBaseURL}/${optimize}`,
+    `${cloudinaryBaseURL}/${optimize}`
   );
 };
 

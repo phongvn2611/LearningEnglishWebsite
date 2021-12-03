@@ -25,7 +25,7 @@ const {
 exports.postListening = async (req, res) => {
   try {
     const {Name, Topic, Description, Script, Video, Image } = req.body;
-    const CreatDate= new Date(new Date().toUTCString()); 
+   // const CreatDate= new Date(new Date().toUTCString()); 
 
     //upload Video
     let videoUrl = null;
@@ -56,7 +56,7 @@ exports.postListening = async (req, res) => {
       }
 
     // create the new listen
-    const listen = await createListen({Name, Topic, Description, Script, Video: videoUrl, Image: imgUrl, CreatDate });
+    const listen = await createListen({Name, Topic, Description, Script, Video: videoUrl, Image: imgUrl});
 
     if (listen !=null) {
       return res.status(200).json({listen });
@@ -133,10 +133,16 @@ exports.getListening = async (req, res, next) => {
   try {    
     const listen = await getDetailListen(req.params.id);
     const quiz = await getQuizByListenId(req.params.id);
+    if(quiz){
     const questions = await getQuestionByQuizId(quiz._id);
+    
     if (listen && questions) {
       return res.status(200).json({listen, questions});
     }
+  }
+
+  return res.status(200).json({listen, questions:null});
+
   } catch (error) {
     console.error('ERROR: ', error);
     return res.status(503).json({ message: error });
@@ -146,8 +152,8 @@ exports.getListening = async (req, res, next) => {
 //get by topic
 exports.getByTopic = async (req, res) => {
   try {
-    const Topic = req.params.topic;  
-    const listens = await getListenByTopic(Topic);
+    const {topic, type} = req.query;  
+    const listens = await getListenByTopic(topic, type);
     if(listens == null ){
       return res.status(204).json({ message: 'No result.'});
       }
@@ -177,7 +183,8 @@ exports.getByTopic = async (req, res) => {
 //get all
 exports.getAll = async (req, res) => {
   try { 
-    const listens = await getAllListen();
+    const {type} = req.query; 
+    const listens = await getAllListen(type);
     return res.status(200).json({listens });
   } catch (error) {
     console.error('ERROR: ', error);
@@ -199,7 +206,7 @@ exports.getTopics = async (req, res) => {
 //delete
 exports.deleteListen = async (req, res) => {
   try {
-    const { listenId } = req.params.id;
+    const listenId = req.params.id;
     const isDeleteWord = await deleteListen(listenId);
     if (isDeleteWord) {
       return res.status(200).json({ message: 'Delete successfully.' });
@@ -213,9 +220,8 @@ exports.deleteListen = async (req, res) => {
  //search
  exports.getSearchListen = async (req, res) => {
   try {
-    const name =req.query.name;
-    const level =req.params.level;
-    const listens = await searchListen(name, level );
+    const {name} =req.query;
+    const listens = await searchListen(name );
     if(listens == null ){
     return res.status(204).json({ message: 'No result.'});
     }

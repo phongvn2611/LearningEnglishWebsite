@@ -7,15 +7,20 @@ const IPAModel = new Schema({
     default: null,
   },
 
+  Title: {
+    type: String,
+    required: true,
+  },
+
   MouthShape: {
     type: String,
     default: null,
   },
 
-  Desc: {
+  Type: {
     type: String,
     required: true,
-    enum: ['Unvoiced sound', 'Voiced sound'],
+    enum: ['Consonants', 'Diphthongs', 'Vowels'],
   },
 
   Examples:

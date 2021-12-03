@@ -24,6 +24,8 @@ import natureIcon from 'assets/icons/topics/nature.png';
 import familyIcon from 'assets/icons/topics/family.png';
 import clothesIcon from 'assets/icons/topics/clothes.png';
 
+export const TOEIC_KEY = '20';
+
 export const TOPICS = [
   {
     key: '0',
@@ -116,7 +118,7 @@ export const TOPICS = [
     icon: excitingIcon,
   },
   {
-    key: '20',
+    key: TOEIC_KEY,
     title: 'TOEIC',
     icon: toeicIcon,
   },

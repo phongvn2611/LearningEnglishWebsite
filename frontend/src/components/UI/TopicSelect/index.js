@@ -10,7 +10,6 @@ import useStyle from './style';
 
 function TopicSelect({
   onChange,
-  resetFlag,
   buttonTitle,
   topicList,
   buttonWrapper,
@@ -29,15 +28,13 @@ function TopicSelect({
     } else {
       topics.current = topics.current.filter((i) => i !== id);
     }
-
     onChange(topics.current);
   };
 
+
   useEffect(() => {
-    if (!resetFlag) return;
-    // reset value if parent component reset, except first render
     topics.current = [];
-  }, [resetFlag]);
+  }, []);
 
   return (
     <>
@@ -56,7 +53,6 @@ function TopicSelect({
           <div className={classes.tags}>
             {topicList.map((topic, index) => (
               <Tag
-                resetFlag={resetFlag}
                 iconSrc={topic.icon}
                 title={topic.title}
                 key={index}

@@ -28,6 +28,7 @@ function WordDetailModal(props) {
     examples,
     specialty,
     synonyms,
+    antonyms,
     note,
     topics,
     open,
@@ -130,6 +131,13 @@ function WordDetailModal(props) {
             <p>
               <b className={classes.label}>Các từ đồng nghĩa:</b>&nbsp;&nbsp;
               {synonyms.join(', ')}
+            </p>
+          )}
+
+          {antonyms && antonyms.length > 0 && (
+            <p>
+              <b className={classes.label}>Các từ trái nghĩa:</b>&nbsp;&nbsp;
+              {antonyms.join(', ')}
             </p>
           )}
 

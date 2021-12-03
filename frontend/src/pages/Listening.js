@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
@@ -10,7 +10,11 @@ import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Container from "@material-ui/core/Container";
-import Button from '@material-ui/core/Button'
+import Button from '@material-ui/core/Button';
+import { useDispatch, useSelector } from "react-redux";
+import {getListening}  from "../redux/actions/listeningAction";
+import { useParams } from 'react-router-dom';
+
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -47,24 +51,36 @@ function a11yProps(index) {
 
 export default function ListeningPage() {
   useTitle("Listening");
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(1);
+
+  const listenId = useParams().id;
+  const {listen, questions} = useSelector((state) => state.listeningReducer);
+ 
+  const dispatch = useDispatch();
+  useEffect(() => 
+  dispatch(getListening(listenId)), [dispatch])
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
+
   return (
     <>
       <Container>
-        <Typography variant="h4" align="center">
-          What subjects did you dislike studying?
+        <Typography variant="h6" align="center">
+        {listen.Name}
         </Typography>
-        <VideoCard
-          src={
-            "https://res.cloudinary.com/phongvn2611/video/upload/v1635815820/video/listening-video-1_quiljv.mp4"
-          }
-          width={"640px"}
-        />
+
+        <Typography>
+        {listen.Description}
+        </Typography>
+
+        {/* phuonglinh */}
+       
+        <p align="center"><iframe src={listen.Video} width="500" height="300" ></iframe></p>
+    {/* phuonglinh */}
+
         <Box sx={{ width: "100%" }}>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
             <Tabs
@@ -79,59 +95,35 @@ export default function ListeningPage() {
           </Box>
           <TabPanel value={value} index={0}>
             <Typography variant="body2" align="justify">
-              Hello. I am Peace from Nigeria, and the question I'll be answering
-              is what school subjects did you dislike studying? I did not like
-              to study mathematics at all because mathematics contains formulas
-              and figures, which I would have to memorize, and I do not like to
-              memorize things. They're not as easy as words. Words are easy to
-              read, to understand and then remember. You could even remember the
-              words in your own and put them into your own language. Unlike
-              mathematics, where the figures have to be exactly the same as well
-              as the formulas. So, no, I did not like studying mathematics at
-              all. I liked biology and English. Thank you.
+             {listen.Script}
             </Typography>
           </TabPanel>
+
           <TabPanel value={value} index={1}>
             <Typography variant="h6">
               Answer the following questions about the interview.
             </Typography>
-            <Typography variant="body2">
-              What subject does she dislike?
-            </Typography>
-            <FormGroup>
-              <FormControlLabel
-                control={<Checkbox color="primary" />}
-                label="math"
-              ></FormControlLabel>
-              <FormControlLabel
-                control={<Checkbox color="primary" />}
-                label="history"
-              ></FormControlLabel>
-            </FormGroup>
-            <Typography variant="body2">
-              She does not like to ______.{" "}
-            </Typography>
-            <FormGroup>
-              <FormControlLabel
-                control={<Checkbox color="primary" />}
-                label="read that much"
-              ></FormControlLabel>
-              <FormControlLabel
-                control={<Checkbox color="primary" />}
-                label="use formulas"
-              ></FormControlLabel>
-            </FormGroup>
-            <Typography variant="body2">She says she likes _____. </Typography>
-            <FormGroup>
-              <FormControlLabel
-                control={<Checkbox color="primary" />}
-                label="history"
-              ></FormControlLabel>
-              <FormControlLabel
-                control={<Checkbox color="primary" />}
-                label="biology"
-              ></FormControlLabel>
-            </FormGroup>
+
+
+            {questions && (
+            questions.map((question) => 
+            <><Typography variant="body2">
+                {question.Content}
+              </Typography>
+              <FormGroup>
+                  {question.Answers.map((item, i) => 
+                  <FormControlLabel
+                    key={i}
+                    control={<Checkbox color="primary" />}
+                    label={item.content}
+                  >
+                  </FormControlLabel>
+                  )}
+                </FormGroup></>                        
+            )
+            )}
+           
+
             <Button color='primary'>Check Answers</Button>
             <Button color='primary'>Reset Quiz</Button>
             <Button color='primary'>Show Answers</Button>

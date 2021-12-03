@@ -45,11 +45,10 @@ const WordModel = new Schema({
     },
   ],
 
-  // link picture source
   picture: {
     type: String,
     trim: true,
-    default: null,
+    default: "https://res.cloudinary.com/phongvn2611/image/upload/v1638368033/english/word/default-image_fbmbtn.png",
   },
 
   specialty: {

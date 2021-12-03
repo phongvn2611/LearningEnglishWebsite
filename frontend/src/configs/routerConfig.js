@@ -16,11 +16,17 @@ const ListeningAdminPage = React.lazy(() => import("../pages/ListeningAdmin"));
 const QuizAdminPage = React.lazy(() => import("../pages/QuizAdmin"));
 const WordAdminPage = React.lazy(() => import("../pages/WordAdmin"));
 const UserAdminPage = React.lazy(() => import("../pages/UserAdmin"));
+const ListeningPage = React.lazy(() => import("../pages/Listening"));
+const ListeningDetailPage = React.lazy(() => import("../pages/ListeningDetail"));
+const AddWordPage = React.lazy(() => import("../pages/AddWord"));
+const EditWordPage = React.lazy(() => import("../pages/EditWord"));
+const IPAPage = React.lazy(() => import("../pages/IPA"));
+const IPADetailPage = React.lazy(() => import("../components/IPA/DetailIPA"));
 const UserDetailPage = React.lazy(() => import("../pages/UserDetail"));
 const WordTopicPage = React.lazy(() => import("../pages/WordTopic"));
 const GamePage = React.lazy(() => import("../pages/Game"));
 const WordListByTopicPage = React.lazy(() => import("../pages/WordListByTopic"));
-const AddWordPage = React.lazy(() => import("../pages/AddWord"));
+
 
 const routes = [
   {
@@ -78,6 +84,12 @@ const routes = [
     component: () => <LogoutPage />,
   },
   {
+    path: ROUTES.LISTENING,
+    exact: true,
+    isProtect: true,
+    component: () => <ListeningPage />,
+  },
+  {
     path: ROUTES.ADMIN,
     exact: true,
     isProtect: true,
@@ -96,6 +108,12 @@ const routes = [
     component: () => <ListeningAdminPage />
   },
   {
+    path: ROUTES.LISTENING_DETAIL,
+    exact: true,
+    isProtect: true,
+    component: () => <ListeningDetailPage />,
+  },
+  {
     path: ROUTES.QUIZ_ADMIN,
     exact: true,
     isProtect: true,
@@ -106,6 +124,30 @@ const routes = [
     exact: true,
     isProtect: true,
     component: () => <WordAdminPage />
+  },
+  {
+    path: ROUTES.ADD_WORD,
+    exact: true,
+    isProtect: true,
+    component: () => <AddWordPage />
+  },
+  {
+    path: ROUTES.EDIT_WORD,
+    exact: true,
+    isProtect: true,
+    component: () => <EditWordPage />
+  },
+  {
+    path: ROUTES.IPA,
+    exact: true,
+    isProtect: true,
+    component: () => <IPAPage />
+  },
+  {
+    path: ROUTES.IPA_DETAIL,
+    exact: true,
+    isProtect: true,
+    component: () => <IPADetailPage />
   },
   {
     path: ROUTES.USER_ADMIN,
@@ -137,17 +179,11 @@ const routes = [
     isProtect: true,
     component: () => <WordListByTopicPage />
   },
-  {
-    path: ROUTES.ADD_WORD,
-    exact: true,
-    isProtect: true,
-    component: () => <AddWordPage />
-  }
 ];
 const renderRoutes = (routes, isAuth = false) => {
   return routes.map((route, index) => {
     const { path, exact, component, isProtect } = route;
-    const loginComponent = () => <LoginPage />
+    const loginComponent = () => <LoginPage />;
     const componentRender = !isProtect
       ? component
       : isAuth
