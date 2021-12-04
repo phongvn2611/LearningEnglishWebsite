@@ -11,8 +11,8 @@ const voiceReducer = (state = initialState, action) => {
   switch (action.type) {
     case VOICE_CONSTANT.SET_VOICE_ITEM:
       const { key, value } = action.payload;
-      const arr = { ...state };
-      arr[key] = value;
+      state[key] = value;
+      return {...state}
     case VOICE_CONSTANT.SET_VOICE:
       const arrState = { ...state };
       const arrPayload = { ...action.payload };

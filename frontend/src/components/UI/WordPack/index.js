@@ -5,13 +5,13 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Grid from '@material-ui/core/Grid';
 import SelectCustom from 'components/UI/SelectCustom';
-// import { WORD_TYPES, WORD_SPECIALTY, WORD_LEVELS } from 'constants';
+
 import { TOPIC_OPTIONS } from 'constants/topics';
 import PropTypes from 'prop-types';
 import React, { useRef } from 'react';
 import TopicSelect from '../TopicSelect';
 import useStyle from './style';
-import { WORD_LEVELS, WORD_TYPES, WORD_SPECIALTY } from './../../../constants/index';
+import { WORD_LEVELS, WORD_TYPES, WORD_SPECIALTY } from 'constants/index';
 
 const formId = 'wordPackForm';
 
@@ -67,27 +67,27 @@ function WordPack(props) {
               <SelectCustom
                 label="Loại từ"
                 className="w-100"
-                index = {0}
                 options={addAllOption(WORD_TYPES)}
                 inputProps={{ name: 'type' }}
+                index={0}
               />
             </Grid>
             <Grid item xs={12} md={6}>
               <SelectCustom
                 label="Cấp độ"
                 className="w-100"
-                index = {0}
                 options={addAllOption(WORD_LEVELS)}
                 inputProps={{ name: 'level' }}
+                index={0}
               />
             </Grid>
             <Grid item xs={12} md={6}>
               <SelectCustom
                 label="Chuyên ngành"
                 className="w-100"
-                index = {0}
                 options={addAllOption(WORD_SPECIALTY)}
                 inputProps={{ name: 'specialty' }}
+                index={0}
               />
             </Grid>
 
@@ -104,7 +104,6 @@ function WordPack(props) {
                 <SelectCustom
                   label="Chủ đề"
                   className="w-100"
-                  index = "1"
                   options={addAllOption(TOPIC_OPTIONS)}
                   inputProps={{ name: 'topic' }}
                 />
@@ -154,7 +153,6 @@ WordPack.propTypes = {
   open: PropTypes.bool,
   title: PropTypes.string,
   topicMultiples: PropTypes.bool,
-  index: PropTypes.number,
 };
 
 WordPack.defaultProps = {
@@ -166,7 +164,6 @@ WordPack.defaultProps = {
   cancelBtnText: 'Đóng',
   okBtnProps: {},
   cancelBtnProps: {},
-  index: 0,
 };
 
 export default WordPack;

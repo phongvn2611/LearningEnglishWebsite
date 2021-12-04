@@ -11,7 +11,7 @@ function VoiceSpeed() {
   const classes = useStyle();
   const { speed } = useSelector((state) => state.voiceReducer);
   const dispatch = useDispatch();
-  const defaultSpeed = useRef(speed); // Fix error component is changing the controlled value
+  const defaultSpeed = useRef(speed);
 
   const onSpeedChange = (value) => {
     if (value > 3 || value < 0.1) return;

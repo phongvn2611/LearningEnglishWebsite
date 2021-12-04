@@ -73,7 +73,7 @@ export const ROUTES = {
   ADD_WORD: '/admin/word/add',
   EDIT_WORD: '/admin/word/edit/:id',
   IPA_LIST: '/ipa',
-  IPA_DETAIL: '/ipa/:id',
+  IPA_DETAIL: '/ipa/details/:id',
   USER_DETAIL: '/admin/user/:user_id',
   WORD_TOPIC: '/word',
   GAME: '/game',
@@ -82,7 +82,7 @@ export const ROUTES = {
   GRAMMARL12: '/grammarl12/:id',
   GRAMMARL34: '/grammar-l34/:id',
   GRAMMAR_ADMIN: '/admin/grammar',
-  GRAMMAR_DETAIL: '/admin/grammar/:id',
+  GRAMMAR_DETAIL: '/admin/grammar/details/:id',
   LISTENING_BY_TOPIC: '/listening/topic/:topic',
   LISTENING_TOPICs: '/listening/topic',
 }

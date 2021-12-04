@@ -1,9 +1,9 @@
 import SettingsIcon from '@material-ui/icons/Settings';
-import WordPack from 'components/UI/WordPack';
+import ListeningTopic from 'components/UI/ListeningTopic';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 
-function WordPackSetting({ classNameIcon, onChoose }) {
+function ListeningTopicSetting({ classNameIcon, onChoose }) {
   const [openWordPack, setOpenWordPack] = useState(false);
 
   const onSelect = (v) => {
@@ -20,7 +20,7 @@ function WordPackSetting({ classNameIcon, onChoose }) {
 
       {/* setting modal */}
       {openWordPack && (
-        <WordPack
+        <ListeningTopic
           open={openWordPack}
           onCancel={() => setOpenWordPack(false)}
           onChoose={onSelect}
@@ -30,13 +30,13 @@ function WordPackSetting({ classNameIcon, onChoose }) {
   );
 }
 
-WordPackSetting.propTypes = {
+ListeningTopicSetting.propTypes = {
   classNameIcon: PropTypes.string,
   onChoose: PropTypes.func,
 };
 
-WordPackSetting.defaultProps = {
+ListeningTopicSetting.defaultProps = {
   onChoose: () => {},
 };
 
-export default WordPackSetting;
+export default ListeningTopicSetting;

@@ -26,10 +26,8 @@ const listeningApi = {
     return axios.get(`${URL}/search-listen`, {params: {name}})
   },
 
-  postListen: (formData, token) => {
-    return axios.post(`${URL}/post-listen`, formData, {
-      headers: {Authorization: token}
-    })
+  postListen: (formData) => {
+    return axios.post(`${URL}/post-listen`, formData)
   },
 
   putListen: (id, formData) => {

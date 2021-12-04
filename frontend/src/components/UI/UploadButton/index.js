@@ -125,7 +125,7 @@ function UploadButton({ title, className, onChange, resetFlag }) {
       {/* done */}
       {state.status === 2 && (
         <div className={`${classes.review} w-100 h-100 flex-center-between`}>
-          <img src={state.data?.imgSrc} alt="photo" />
+          <img src={state.data?.imgSrc} alt="" />
           <p>{`${state.data?.fileName} (${state.data?.fileSize} MB)`} </p>
           <DeleteIcon className="icon cur-pointer" onClick={onRemoveFile} />
         </div>

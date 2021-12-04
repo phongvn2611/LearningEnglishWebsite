@@ -1,12 +1,23 @@
-import React, { useState } from 'react';
-//import SentenceContributionData from './Sentence/data';
-//import useStyle from './../components/WordAdmin/AddWord/style';
-import EditWord from './../components/WordAdmin/EditWord';
+import React from "react";
+import EditWord from "./../components/WordAdmin/EditWord";
+import { makeStyles } from "@material-ui/core/styles";
 
-function CreateWordData() {
-  return (  
-      <EditWord />          
+const useStyle = makeStyles(() => ({
+  root: {
+    margin: "3.2rem 0",
+  },
+}));
+function EditWordPage() {
+  const classes = useStyle();
+  return (
+    <div className="container">
+      <div className={classes.root}>
+        <div className="ani-fade">
+          <EditWord />
+        </div>
+      </div>
+    </div>
   );
 }
 
-export default CreateWordData;
+export default EditWordPage;

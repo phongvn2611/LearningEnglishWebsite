@@ -161,9 +161,6 @@ export default function ProfilePage() {
       if (file.size / 1024 ** 2 > 2) {
         dispatch(setMessage("Size too large", "error"));
       }
-      if (file.type !== "image/jpeg" && file.type !== "image/png") {
-        dispatch(setMessage("File format is incorrect", "error"));
-      }
       setAvatar(URL.createObjectURL(file));
       let formImage = new FormData();
       formImage.append("file", file);
@@ -251,6 +248,7 @@ export default function ProfilePage() {
                   type="file"
                   className={classes.fileInput}
                   onChange={handleUpdateAvatar}
+                  accept="image/*"
                 />
               </div>
             )}

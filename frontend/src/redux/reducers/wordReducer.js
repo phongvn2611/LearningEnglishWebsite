@@ -34,15 +34,16 @@ const wordReducer = (state = initialState, action) => {
             wordData: payload,
             words: [...state.words, payload],
           }
-      case WORD_CONSTANT.EDIT_WORD:
-          const newWords = state.words.map((word) =>
-                word._id === payload._id ? payload : word
-          )
-          return {
+          case WORD_CONSTANT.EDIT_WORD:
+            const arr = { ...state };
+            const newWords = arr.words.map((word) =>
+              word._id === payload._id ? payload : word
+            );
+            return {
               ...state,
               wordData: payload,
               words: newWords,
-          }
+            };
       case WORD_CONSTANT.DELETE_WORD:
           return {
               ...state,

@@ -4,9 +4,9 @@ import Navigation from "./components/Navigation";
 import GlobalLoading from "./components/UI/GlobalLoading";
 import Message from "./components/UI/Message";
 import routerConfig from "./configs/routerConfig";
-import theme from "./configs/theme";
-// import useTheme from './hooks/useTheme';
-// import useVoice from 'hooks/useVoice';
+import theme from "./configs/themeConfig";
+import useTheme from './hooks/useTheme';
+import useVoice from 'hooks/useVoice';
 import NotFoundPage from './pages/NotFound';
 import React, { Suspense, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,6 +21,9 @@ function App() {
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
   const { isAuth } = useSelector((state) => state.authReducer);
+
+  useTheme();
+  useVoice();
 
   useEffect(() => {
     const getUser = async () => {

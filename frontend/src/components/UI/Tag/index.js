@@ -1,8 +1,8 @@
-import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
-import useStyle from './style';
+import PropTypes from "prop-types";
+import React, { useEffect, useState } from "react";
+import useStyle from "./style";
 
-function Tag({ title, iconSrc, id, onChange, resetFlag }) {
+function Tag({ title, iconSrc, id, onChange }) {
   const classes = useStyle();
   const [isActive, setIsActive] = useState(false);
 
@@ -12,17 +12,16 @@ function Tag({ title, iconSrc, id, onChange, resetFlag }) {
   };
 
   useEffect(() => {
-    if (!resetFlag) return;
-    // reset value if parent component reset, except first render
     setIsActive(false);
-  }, [resetFlag]);
+  }, []);
 
   return (
     <div
       className={`${classes.root} flex-center--ver cur-pointer ${
-        isActive ? 'active' : ''
+        isActive ? "active" : ""
       }`}
-      onClick={onClick}>
+      onClick={onClick}
+    >
       {iconSrc && <img className={classes.icon} src={iconSrc} alt="icon" />}
       <span className={classes.text}>{title}</span>
     </div>
@@ -38,9 +37,9 @@ Tag.propTypes = {
 };
 
 Tag.defaultProps = {
-  id: '',
+  id: "",
   iconSrc: null,
-  title: 'Title',
+  title: "Title",
   onChange: function () {},
   resetFlag: 0,
 };

@@ -2,8 +2,8 @@ import axios from "axios";
 const URL = '/api/word';
 
 const wordApi = {
-  getWord: (word = '') => {
-    return axios.get(`${URL}/get-word-details`, { params: { word } });
+  getWord: (id = '') => {
+    return axios.get(`${URL}/get-word-details`, { params: { id } });
   },
 
   getWordByTopic: (topic) => {
@@ -24,12 +24,25 @@ const wordApi = {
     return axios.get(`${URL}/get-all-word`);
   },
 
-  postWord: (formData) => {
-    return axios.post(`${URL}/post-word`, formData);
+  postWord: (wordData) => {
+    return axios.post(
+      `${URL}/post-word`,
+      { ...wordData },
+      {
+        header: { "content-type": "multipart/form-data" },
+      }
+    );
   },
 
-  putWord: (id, formData) => {
-    return axios.put(`${URL}/put-word/${id}`, formData);
+  putWord: (id, wordData) => {
+    return axios.put(
+      `${URL}/put-word/${id}`,
+      { ...wordData },
+      {
+        params: { id },
+        header: { "content-type": "multipart/form-data" },
+      }
+    );
   },
 
   deleteWord: (word='', type='') => {

@@ -18,6 +18,7 @@ import { makeStyles } from "@material-ui/core";
 import { cloudinaryImgOptimize } from "helper";
 import { DEFAULTS } from '../constants/index';
 
+  
 const useStyle = makeStyles(() => ({
     borderTopic: {
         borderStyle: "solid",

@@ -224,61 +224,53 @@ export const getWordPack = (formData) => {
 };
 
 export const postWord = (formData) => {
-    return async (dispatch, getState) => {
-        try { 
-        
-          const response = await wordApi.postWord(formData);
-            if(response.status===200){
-              dispatch({
-                  type: WORD_CONSTANT.CREATE_WORD,
-                  payload: response.data.word,
-                })
-              //  toast.success("Add successfully")
-            }
-            else
-            {
-              dispatch({
-                type: WORD_CONSTANT.SET_WORD_ERROR,
-                payload: response.data.message,
-              })
-            }
-        } catch (error) {
-          dispatch({
-            type: WORD_CONSTANT.SET_WORD_ERROR,
-            payload: error.response.message,
-          })
-        }
+  return async (dispatch, getState) => {
+    try {
+      const response = await wordApi.postWord(formData);
+      if (response.status === 200) {
+        dispatch({
+          type: WORD_CONSTANT.CREATE_WORD,
+          payload: response.data.word,
+        });
+        //  toast.success("Add successfully")
+      } else {
+        dispatch({
+          type: WORD_CONSTANT.SET_WORD_ERROR,
+          payload: response.data.message,
+        });
       }
+    } catch (error) {
+      dispatch({
+        type: WORD_CONSTANT.SET_WORD_ERROR,
+        payload: error.response.message,
+      });
+    }
+  };
 };
 
-
 export const putWord = (word, formData) => {
-    return async (dispatch) => {
-        try { 
-        
-          const response = await wordApi.putWord(word, formData);
-          console.log(response.data.word)
-            if(response.status===200){
-              dispatch({
-                  type: WORD_CONSTANT.EDIT_WORD,
-                  payload: response.data.word,
-                })
-             //   toast.success("Edit successfully")
-            }
-            else
-            {
-              dispatch({
-                type: WORD_CONSTANT.SET_WORD_ERROR,
-                payload: response.data.message,
-              })
-            }
-        } catch (error) {
-          dispatch({
-            type: WORD_CONSTANT.SET_WORD_ERROR,
-            payload: error.response.message,
-          })
-        }
+  return async (dispatch) => {
+    try {
+      const response = await wordApi.putWord(word, formData);
+      console.log(response.data.word);
+      if (response.status === 200) {
+        dispatch({
+          type: WORD_CONSTANT.EDIT_WORD,
+          payload: response.data.word,
+        });
+      } else {
+        dispatch({
+          type: WORD_CONSTANT.SET_WORD_ERROR,
+          payload: response.data.message,
+        });
       }
+    } catch (error) {
+      dispatch({
+        type: WORD_CONSTANT.SET_WORD_ERROR,
+        payload: error.response.message,
+      });
+    }
+  };
 };
 
 export const deleteWord = (word, type) => {
