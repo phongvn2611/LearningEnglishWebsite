@@ -53,13 +53,16 @@ exports.postContributeWord = async (req, res, next) => {
 exports.putContributeWord = async (req, res, next) => {
   try {
     const { picture, topics, synonyms, antonyms, ...rest } = req.body;
-
     // upload description picture if available
     let pictureUrl = null;
     if (picture) {
-      pictureUrl = await uploadImage(picture, "english/word");
+      if (picture.includes('cloudinary')) {
+        pictureUrl = picture;
+      }
+      else {
+        pictureUrl = await uploadImage(picture, "english/word");
+      }
     }
-
     // update the new word
     const wordData = await updateWord(req.params.id, {
       picture: pictureUrl,
@@ -74,7 +77,7 @@ exports.putContributeWord = async (req, res, next) => {
     }
     return res.status(503).json({ message: "Error, can not update word." });
   } catch (error) {
-    console.error("POST CONTRIBUTE WORD ERROR: ", error);
+    console.error("PUT CONTRIBUTE WORD ERROR: ", error);
     return res.status(503).json({ message: "Error, can not update word." });
   }
 };
@@ -141,7 +144,6 @@ exports.getWordDetails = async (req, res, next) => {
       return res.status(200).json(wordDetail);
     }
   } catch (error) {
-    console.error("GET WORD DETAILS ERROR: ", error);
     return res.status(503).json({ message: "Lỗi dịch vụ, thử lại sau" });
   }
 };

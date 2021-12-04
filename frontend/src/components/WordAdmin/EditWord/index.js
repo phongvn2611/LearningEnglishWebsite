@@ -134,13 +134,15 @@ function EditWord() {
   useEffect(() => {
     (async function () {
       const apiRes = await wordApi.getWord(id);
+      apiRes.data.examples = apiRes.data.examples.join('\n');
+      apiRes.data.synonyms = apiRes.data.synonyms.join('\n');
+      apiRes.data.antonyms = apiRes.data.antonyms.join('\n');
       setWordValue(apiRes.data);
       setPhonetic(apiRes.data.phonetic)
       setImage(apiRes.data.picture);
     })();
     return () => {};
   }, [id]);
-
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -193,7 +195,8 @@ function EditWord() {
         picture: image,
         phonetic: phonetic.replaceAll("/", ""),
       };
-      const apiRes = await wordApi.putWord(wordValue.id, dataSend);
+
+      const apiRes = await wordApi.putWord(id, dataSend);
 
       if (apiRes) {
         dispatch(setMessage("Update word successfully", "success"));
@@ -410,6 +413,7 @@ function EditWord() {
                   name: "note",
                   ...register("note"),
                 }}
+                onChange={handleChange}
               />
               {errors.note && (
                 <p className="text-error">{errors.note?.message}</p>
