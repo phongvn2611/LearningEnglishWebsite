@@ -57,26 +57,32 @@ exports.postContributeWord = async (req, res, next) => {
 exports.putContributeWord = async (req, res, next) => {
   try {
     const { picture, topics, synonyms, antonyms, ...rest } = req.body;
-
     // upload description picture if available
     let pictureUrl = null;
     if (picture) {
-      pictureUrl = await uploadImage(picture, 'english/words');
+      if (picture.includes('cloudinary')) {
+        pictureUrl = picture;
+      }
+      else {
+        pictureUrl = await uploadImage(picture, "english/word");
+      }
     }
-
     // update the new word
-    const wordData = await updateWord(req.params.id, {       
-      picture: pictureUrl, topics, synonyms, antonyms,
+    const wordData = await updateWord(req.params.id, {
+      picture: pictureUrl,
+      topics,
+      synonyms,
+      antonyms,
       ...rest,
     });
 
-    if (wordData !=null) {
-      return res.status(200).json({wordData });
+    if (wordData != null) {
+      return res.status(200).json({ wordData });
     }
-    return res.status(503).json({ message: 'Error, can not update word.' });
+    return res.status(503).json({ message: "Error, can not update word." });
   } catch (error) {
-    console.error('POST CONTRIBUTE WORD ERROR: ', error);
-    return res.status(503).json({ message: 'Error, can not update word.' });
+    console.error("PUT CONTRIBUTE WORD ERROR: ", error);
+    return res.status(503).json({ message: "Error, can not update word." });
   }
 };
 
@@ -105,15 +111,15 @@ exports.getWordPack = async (req, res) => {
       JSON.parse(packInfo),
       skip,
       perPageInt,
-      '-_id type word mean phonetic picture',
-      sortType === 'asc' ? '1' : sortType === 'desc' ? '-1' : null,
-      null,
+      "-_id _id type word mean phonetic picture",
+      sortType === "asc" ? "1" : sortType === "desc" ? "-1" : null,
+      null
     );
 
     return res.status(200).json({ packList });
   } catch (error) {
-    console.error('WORD GET WORD PACK ERROR: ', error);
-    return res.status(503).json({ message: 'Lỗi dịch vụ, thử lại sau' });
+    console.error("WORD GET WORD PACK ERROR: ", error);
+    return res.status(503).json({ message: "Lỗi dịch vụ, thử lại sau" });
   }
 };
 
@@ -124,28 +130,25 @@ exports.getSearchWord = async (req, res) => {
     const list = await searchWord(
       word,
       20,
-      isCompact == 'true'
-        ? '-_id word'
-        : '-_id type word mean phonetic picture',
+      isCompact == "true" ? "-_id word" : "-_id _id type word mean phonetic picture"
     );
     return res.status(200).json({ packList: list });
   } catch (error) {
-    console.error('GET SEARCH WORD ERROR: ', error);
-    return res.status(503).json({ message: 'Lỗi dịch vụ, thử lại sau' });
+    console.error("GET SEARCH WORD ERROR: ", error);
+    return res.status(503).json({ message: "Lỗi dịch vụ, thử lại sau" });
   }
 };
 
 //get the details of word
 exports.getWordDetails = async (req, res, next) => {
   try {
-    const { word } = req.query;
-    const wordDetail = await getWordDetail(word);
+    const { id } = req.query;
+    const wordDetail = await getWordDetail(id);
     if (wordDetail) {
       return res.status(200).json(wordDetail);
     }
   } catch (error) {
-    console.error('GET WORD DETAILS ERROR: ', error);
-    return res.status(503).json({ message: 'Lỗi dịch vụ, thử lại sau' });
+    return res.status(503).json({ message: "Lỗi dịch vụ, thử lại sau" });
   }
 };
 
@@ -189,7 +192,7 @@ exports.getUserFavoriteList = async (req, res, next) => {
     const words = await getAllWords();
     return res.status(200).json({words });
   } catch (error) {
-    console.error('GET SEARCH WORD ERROR: ', error);
+    console.error('ERROR: ', error);
     return res.status(503).json({ message: 'Lỗi dịch vụ, thử lại sau' });
   }
 };

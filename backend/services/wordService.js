@@ -61,15 +61,16 @@ exports.getAllWords = async () => {
   }
 };
 
-exports.getWordDetail = async (word = '') => {
+exports.getWordDetail = async (id) => {
   try {
-    const res = await WordModel.findOne({ word });
+    const res = await WordModel.findById(id);
 
     return res;
   } catch (error) {
     throw error;
   }
 };
+
 
 exports.deleteWord = async (word = '', type='') => {
   try {
