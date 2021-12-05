@@ -16,6 +16,7 @@ const {
 const {
   uploadVideo,
   uploadImage,
+  uploadAudio,
 } = require('../services/commonService');
 
 
@@ -23,11 +24,10 @@ const {
 exports.postGrammar = async (req, res) => {
   try {
     const {Title, Video, Audio, Image, Script, Content, Level, Items}= req.body;
-
      //video
      let videoUrl = null;
      if (Video) {
-      if(typeof Video === 'string') {
+      if(Video.includes("youtube") || Video.includes("youtu.be")) {
         let vid = Video.trim();
         if(vid){
           let videoId = null;
@@ -38,27 +38,87 @@ exports.postGrammar = async (req, res) => {
           {
             videoId = vid.split("youtu.be/");
           }
+
           videoUrl= `https://www.youtube.com/embed/${videoId[1]}?enablejsapi=1`;
         }
       }
-       else{
-         videoUrl = await uploadVideo(Video, 'video');
-       }
-     }
-
-     //upload Audio
-     let audUrl = null;
-     if(Audio){      
-      if (Audio) {      
-          audUrl = await uploadVideo(Audio, 'audio');
+      else
+      {
+          videoUrl = await uploadVideo(Video, 'video');
       }
     }
 
-    //upload Image
-    let imgUrl = null;
-    if (Image) {      
-        imgUrl = await uploadImage(Image, 'dynonary/grammars');
+      //upload Image
+      let imgUrl = null;
+      if (Image) {      
+          imgUrl = await uploadImage(Image, 'english/grammar');
+      }
+
+       //upload Audio
+       let audUrl = null;
+       if (Audio) {      
+           audUrl = await uploadAudio(Audio, 'audio');
+       }
+
+    // create the new listen
+    const grammar = await createGrammar({Title, Video: videoUrl, Audio: audUrl, Image: imgUrl, Script, Content, Level, Items});
+
+    if (grammar !=null) {
+      return res.status(200).json(grammar);
     }
+    return res.status(503).json({ message: 'Error, can not create grammar.' });
+  } catch (error) {
+    console.error('ERROR: ', error);
+    return res.status(503).json({ message: 'Error, can not create grammar.' });
+  }
+};
+
+//update 
+exports.putListen = async (req, res, next) => {
+  try {
+      const {Name, Topic, Description, Script, Video, Image }= req.body;
+
+      if(!Video){
+        return res.status(400).json({ message: 'Error, please upload video.' });
+      } 
+    //upload Video
+    let videoUrl = null;
+      if(Video.includes("youtube") || Video.includes("youtu.be")) {
+        if(Video.includes("embed")){
+          videoUrl= Video;
+        }
+        else{
+          let vid = Video.trim();
+          if(vid){
+            let videoId = null;
+            if(Video.includes("=")){
+              videoId = vid.split("=");
+            }
+            else
+            {
+              videoId = vid.split("youtu.be/");
+            }
+
+            videoUrl= `https://www.youtube.com/embed/${videoId[1]}?enablejsapi=1`;
+          }
+        }
+      }
+      else{
+        // if(Video.includes("cloudinary"))
+        // {
+        //   videoUrl= Video;
+        // }
+        // else{
+            videoUrl = await uploadVideo(Video, 'video');
+      //  }
+      }
+
+      //upload Image
+      let imgUrl = null;
+      if (Image) {      
+          imgUrl = await uploadImage(Image, 'english/listening');
+      }
+
 
     const grammar = await createGrammar({Title, Video: videoUrl, Audio:audUrl, Image: imgUrl, Script, Content,Level, Items});
     if (grammar) {

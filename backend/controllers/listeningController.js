@@ -24,7 +24,7 @@ const {
 //create Listening
 exports.postListening = async (req, res) => {
   try {
-    const {Name, Topic, Description, Script, Video, Image } = req.body;
+    const {Name, Topic, Description, Script, Video, Image, Items } = req.body;
     if(!Video){
       return res.status(400).json({ message: 'Error, please upload video.' });
     }
@@ -57,7 +57,7 @@ exports.postListening = async (req, res) => {
       }
 
     // create the new listen
-    const listen = await createListen({Name, Topic, Description, Script, Video: videoUrl, Image: imgUrl});
+    const listen = await createListen({Name, Topic, Description, Script, Video: videoUrl, Image: imgUrl, Items});
 
     if (listen !=null) {
       return res.status(200).json(listen);

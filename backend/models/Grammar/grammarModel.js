@@ -38,7 +38,7 @@ const GrammarModel = new Schema({
 
   Level: {
     type: String,
-    enum: ['0','1','2', '3'],
+    enum: ['4','1','2', '3'],
     default: '0',
   },
 

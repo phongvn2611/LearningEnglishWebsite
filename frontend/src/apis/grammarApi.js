@@ -24,16 +24,19 @@ const grammarApi = {
     })
   },
 
-  postGrammar: (formData, token) => {
-    return axios.post(`${URL}/post-grammar`, formData, {
-      headers: {Authorization: token}
+  postGrammar: (formData) => {
+    return axios.post(`${URL}/post-grammar`, {...formData},
+    {
+      header: { "content-type": "multipart/form-data" },
     })
   },
 
-  putGrammar: (id, formData, token) => {
-    return axios.put(`${URL}/put-grammar/${id}`, formData, {
-      headers: {Authorization: token}
-    })
+  putGrammar: (id, formData) => {
+    return axios.put(`${URL}/put-grammar/${id}`, { ...formData},
+    {
+      params: { id },
+      header: { "content-type": "multipart/form-data" },
+    });
   },
 
   deleteGrammar: (id, token) => {

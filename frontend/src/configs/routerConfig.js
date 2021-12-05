@@ -35,7 +35,7 @@ const ListeningTopicsPage = React.lazy(() => import("../pages/ListeningTopics"))
 const GrammarByLevelPage = React.lazy(() => import("../pages/GrammarByLevel"));
 const GrammarLevelsPage = React.lazy(() => import("../pages/GrammarLevels"));
 const EditListeningPage = React.lazy(() => import("../pages/EditListening"));
-//const CreateGrammarPage = React.lazy(() => import("../components/GrammarAmin/CreateGrammar/index"));
+const CreateGrammarPage = React.lazy(() => import("../pages/CreateGrammar"));
 
 
 const routes = [
@@ -225,12 +225,12 @@ const routes = [
     isProtect: true,
     component: () => <GrammarLevelsPage/>
   },
-  // {
-  //   path: ROUTES.CREATE_GRAMMAR,
-  //   exact: true,
-  //   isProtect: true,
-  //   component: () => <CreateGrammarPage />
-  // },
+  {
+    path: ROUTES.CREATE_GRAMMAR,
+    exact: true,
+    isProtect: true,
+    component: () => <CreateGrammarPage />
+  },
   {
     path: ROUTES.EDIT_LISTEN,
     exact: true,

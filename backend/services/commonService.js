@@ -30,6 +30,20 @@ exports.uploadVideo = async (vidSrc, folderName ='', config = {}) => {
   }
 };
 
+exports.uploadAudio = async (audSrc, folderName ='', config = {}) => {
+  try {
+    const result = await cloudinary.uploader.upload(audSrc, {
+      folder: folderName,
+      resource_type: "video",
+      ...config,
+    });
+    const { secure_url = null } = result;
+    return secure_url;
+  } catch (error) {
+    throw error;
+  }
+};
+
 exports.isExistWord = async (word = '', type = '') => {
   try {
     if (word === '' || type === '') {

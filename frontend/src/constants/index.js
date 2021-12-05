@@ -86,7 +86,7 @@ export const ROUTES = {
   LISTENING_TOPICS: '/listening/topic',
   GRAMMAR_LEVELS: '/grammar/level',
   GRAMMAR_BY_LEVEL: '/grammar/level/:level',
-  CREATE_GRAMMAR: '/grammar/add',
+  CREATE_GRAMMAR: '/admin/grammar/add',
   EDIT_LISTEN: '/admin/listening/edit/:id',
 }
 

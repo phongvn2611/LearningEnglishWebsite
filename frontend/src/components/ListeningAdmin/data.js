@@ -59,7 +59,6 @@ function ListeningAdminData() {
         return;
       }
       const apiRes = await listeningApi.searchListen(name);
-      console.log(apiRes.data.listens);
       if (apiRes.status === 200) {
        // const { packList = [] } = apiRes.data.listens;
         setList(apiRes.data.listens);
@@ -74,8 +73,6 @@ function ListeningAdminData() {
     let isSub = true;
     (async function () {
       try {
-
-        console.log(packInfo);
         setLoading(true);
        let apiRes = null
          if(packInfo.topic ==='All'){
