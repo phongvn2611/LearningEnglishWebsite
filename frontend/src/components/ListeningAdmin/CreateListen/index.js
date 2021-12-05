@@ -4,14 +4,9 @@ import Grid from '@material-ui/core/Grid';
 import LoopIcon from '@material-ui/icons/Loop';
 import ResetIcon from '@material-ui/icons/RotateLeft';
 import SaveIcon from '@material-ui/icons/Save';
-import wordApi from 'apis/wordApi';
 import InputCustom from 'components/UI/InputCustom';
 import SelectCustom from 'components/UI/SelectCustom';
-import TopicSelect from 'components/UI/TopicSelect';
 import { LISTEN_TOPIC } from './../../../constants/listeningTopics';
-import { LISTEN_VIDEO } from './../../../constants';
-import UploadButton from 'components/UI/UploadButton';
-import { debounce } from 'helper';
 import PropTypes from 'prop-types';
 import React, { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -21,6 +16,9 @@ import useStyle from './style';
 import Box from "@material-ui/core/Box";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
+import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setMessage } from "redux/actions/messageAction";
 
 const schema = yup.object().shape({
   Name: yup
@@ -39,10 +37,6 @@ const schema = yup.object().shape({
   Script: yup
     .string(),
 });
-
-// Prevent unmount component topic select
-const ButtonWrapper = (props) => <Grid {...props} item xs={12} md={6} lg={4} />;
-const TagsWrapper = (props) => <Grid {...props} item xs={12} />;
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -89,12 +83,64 @@ function CreateListening({ onSubmitForm, submitting }) {
     resolver: yupResolver(schema),
   });
 
-  const UploadVid = useRef(null);
-  //const LinkVid = useRef(null);
-  const Image = useRef(null);
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const defaultImg =
+  "https://res.cloudinary.com/phongvn2611/image/upload/v1638368033/english/word/default-image_fbmbtn.png";
+  const [image, setImage] = useState(defaultImg);
+  const [video, setVideo] = useState(null);
+
+  const convertImageToBase64 = (image) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(image);
+    return new Promise((resolve) => {
+      reader.onloadend = () => {
+        resolve(reader.result);
+      };
+    });
+  };
+
+  const handleChangePicture = (e) => {
+    e.preventDefault();
+    try {
+      const file = e.target.files[0];
+      if (!file) {
+        dispatch(setMessage("No files were uploaded", "error"));
+      }
+      if (file.size / 1024 ** 2 > 2) {
+        dispatch(setMessage("Size too large", "error"));
+      }
+      convertImageToBase64(file).then(res => {
+        setImage(res);
+      });
+      
+    } catch (err) {
+      throw err;
+    }
+  };
+
+  const handleChangeVideo = (e) => {
+   // console.log(e)
+    e.preventDefault();
+    try {
+      const file = e.target.files[0];
+      if (!file) {
+        dispatch(setMessage("No files were uploaded", "error"));
+      }
+      if (file.size / 1024 ** 2 > 2) {
+        dispatch(setMessage("Size too large", "error"));
+      }
+     convertImageToBase64(file).then(res => {
+        setVideo(res);
+      });
+      
+    } catch (err) {
+      throw err;
+    }
+  };
 
   const onSubmit = (data) => {
-    onSubmitForm({ ...data, VidUpload: UploadVid.current, Image: Image.current });
+    onSubmitForm({ ...data, VidUpload: video, Image: image });
   };
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -107,6 +153,23 @@ function CreateListening({ onSubmitForm, submitting }) {
       <div className="dyno-break"></div>
 
       <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
+      <Grid container alignContent="center">
+          <div className={classes.avtWrap}>
+            <img
+              src={image ? image : defaultImg}
+              alt=""
+              className={`${classes.avt} w-100 h-100`}
+            />
+            <div className={`${classes.cameraIconWrap} flex-center`}>
+              <input
+                type="file"
+                className={classes.fileInput}
+                onChange={handleChangePicture}
+                accept="image/*"
+              />
+            </div>
+          </div>
+        </Grid>
         <Grid className={classes.grid} container spacing={3}>
           {/* new name */}
           <Grid item xs={12} md={6} lg={4}>
@@ -159,17 +222,6 @@ function CreateListening({ onSubmitForm, submitting }) {
               <p className="text-error">{errors.Topic?.message}</p>
             )}
           </Grid>
-
-          {/* Image */}
-          <Grid item xs={12} md={6} lg={4}>
-            <UploadButton
-              title="Image"
-              className="w-100"
-              resetFlag={resetFlag}
-              onChange={(imgSrc) => (Image.current = imgSrc)}
-            />
-          </Grid>
-
           <Box sx={{ width: "50%" }}>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
             <Tabs
@@ -183,14 +235,20 @@ function CreateListening({ onSubmitForm, submitting }) {
             </Tabs>
           </Box>
           <TabPanel value={value} index={0}>
-                   {/* Image */}
+                   {/* Video */}
             <Grid item xs={6}>
-            <UploadButton
-              title="Video"
-              className="w-100 h-100"
-              resetFlag={resetFlag}
-              onChange={(vidSrc) => (UploadVid.current = vidSrc)}
-            />
+              <Grid container alignContent="center">
+              <div className={classes.avtWrap}>
+              <div className={`${classes.cameraIconWrap} flex-center`}>
+                <input
+                  type="file"
+                  className={classes.fileInput}
+                  onChange={handleChangeVideo}
+                  accept="video/*"
+                />
+              </div>
+            </div>
+              </Grid>
           </Grid>
           </TabPanel>
 
@@ -246,9 +304,9 @@ function CreateListening({ onSubmitForm, submitting }) {
             endIcon={<ResetIcon />}
             variant="outlined"
             disabled={submitting}
-           // onClick={onResetForm}
+            onClick={() => history.push("/admin/listening")}
            >
-            Reset
+            Return
           </Button>
           <Button
             type="submit"
@@ -258,7 +316,7 @@ function CreateListening({ onSubmitForm, submitting }) {
               submitting ? <LoopIcon className="ani-spin" /> : <SaveIcon />
             }
             variant="contained">
-            Thêm từ
+            Create
           </Button>
         </div>
       </form>

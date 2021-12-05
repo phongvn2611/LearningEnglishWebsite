@@ -78,13 +78,16 @@ export const ROUTES = {
   WORD_TOPIC: '/word',
   GAME: '/game',
   VOCABULARY: '/word/:topic',
-  ADD_LISTEN: '/admin/add-listening',
-  GRAMMARL12: '/grammarl12/:id',
-  GRAMMARL34: '/grammar-l34/:id',
+  ADD_LISTEN: '/admin/listening/add',
+  GRAMMAR: '/grammar/details/:id',
   GRAMMAR_ADMIN: '/admin/grammar',
   GRAMMAR_DETAIL: '/admin/grammar/details/:id',
   LISTENING_BY_TOPIC: '/listening/topic/:topic',
-  LISTENING_TOPICs: '/listening/topic',
+  LISTENING_TOPICS: '/listening/topic',
+  GRAMMAR_LEVELS: '/grammar/level',
+  GRAMMAR_BY_LEVEL: '/grammar/level/:level',
+  CREATE_GRAMMAR: '/grammar/add',
+  EDIT_LISTEN: '/admin/listening/edit/:id',
 }
 
 export const UX = {
@@ -198,18 +201,6 @@ export const WORD_SPECIALTY = [
   { value: '16', label: 'Văn hoá học (Culturology)' },
   { value: '17', label: 'Xây dựng (Construction Industry)' },
   { value: '15', label: 'Xã hội học (Sociology)' },
-];
-
-
-export const LISTEN_VIDEO = [
-  {
-    value: '0',
-    label: 'Upload Video',
-  },
-  {
-    value: '1',
-    label: 'Add a link',
-  },
 ];
 
 export const SORT_TYPE = [

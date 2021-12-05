@@ -18,6 +18,12 @@ const GrammarModel = new Schema({
     trim: true,
     default: null,
   },
+  
+  Audio: {
+    type: String,
+    trim: true,
+    default: null,
+  },
 
   Image: {
     type: String,

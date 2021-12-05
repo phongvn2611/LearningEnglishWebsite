@@ -12,7 +12,6 @@ const analysisLinkVideo = (linkVideo = '') => {
   }
 
   let checkVid = linkVideo.includes("https://www.youtube.com")
-  console.log(checkVid)
   if(!checkVid){
       checkVid =linkVideo.includes("youtu.be/")
       if(checkVid)
@@ -35,8 +34,9 @@ function CreateListeningData() {
       setSubmitting(true);
       const { VidUpload, LinkVideo, ...rest } = data;
       let dataSend = []
-      if(!VidUpload){
-        console.log(data)
+      console.log(data);
+      if(VidUpload == null){
+      //  console.log(data)
         const videoUrl = analysisLinkVideo(LinkVideo);
         if (videoUrl==null) {
           dispatch(setMessage("Link video is invalid.", "warning"));
@@ -45,7 +45,7 @@ function CreateListeningData() {
         }
         dataSend ={
           ...rest,
-         Video: LinkVideo,
+         Video: videoUrl,
         };
       }
       else{

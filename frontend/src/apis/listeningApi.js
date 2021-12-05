@@ -27,11 +27,18 @@ const listeningApi = {
   },
 
   postListen: (formData) => {
-    return axios.post(`${URL}/post-listen`, formData)
+    return axios.post(`${URL}/post-listen`, {...formData},
+    {
+      header: { "content-type": "multipart/form-data" },
+    })
   },
 
   putListen: (id, formData) => {
-    return axios.put(`${URL}/put-listen/${id}`, formData)
+    return axios.put(`${URL}/put-listen/${id}`, { ...formData},
+    {
+      params: { id },
+      header: { "content-type": "multipart/form-data" },
+    });
   },
 
   deleteListen: (id) => {

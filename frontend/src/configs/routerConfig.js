@@ -5,6 +5,7 @@ import ActivationEmailPage from "../pages/ActivationEmail";
 import ResetPasswordPage from "../pages/ResetPassword";
 import LogoutPage from "../pages/Logout";
 import WelcomePage from "../pages/Welcome";
+import { GRAMMAR_LEVEL } from "constants/grammarLevels";
 const HomePage = React.lazy(() => import("../pages/Home"));
 const RegisterPage = React.lazy(() => import("../pages/Register"));
 const LoginPage = React.lazy(() => import("../pages/Login"));
@@ -28,10 +29,13 @@ const GamePage = React.lazy(() => import("../pages/Game"));
 //const WordListByTopicPage = React.lazy(() => import("../pages/WordListByTopic"));
 const VocabularyPage = React.lazy(() => import("../pages/Vocabulary"));
 const CreateListeningPage = React.lazy(() => import("../pages/CreateListening"));
-const GrammarL12Page = React.lazy(() => import("../pages/GrammarL12"));
+const GrammarPage = React.lazy(() => import("../pages/Grammar"));
 const ListeningByTopicPage = React.lazy(() => import("../pages/ListeningByTopic"));
 const ListeningTopicsPage = React.lazy(() => import("../pages/ListeningTopics"));
-const CreateGrammarPage = React.lazy(() => import("../components/GrammarAmin/CreateGrammar/index"));
+const GrammarByLevelPage = React.lazy(() => import("../pages/GrammarByLevel"));
+const GrammarLevelsPage = React.lazy(() => import("../pages/GrammarLevels"));
+const EditListeningPage = React.lazy(() => import("../pages/EditListening"));
+//const CreateGrammarPage = React.lazy(() => import("../components/GrammarAmin/CreateGrammar/index"));
 
 
 const routes = [
@@ -192,10 +196,10 @@ const routes = [
     component: () => <CreateListeningPage />
   },
   {
-    path: ROUTES.GRAMMARL12,
+    path: ROUTES.GRAMMAR,
     exact: true,
     isProtect: true,
-    component: () => <GrammarL12Page />
+    component: () => <GrammarPage />
   },
   {
     path: ROUTES.LISTENING_BY_TOPIC,
@@ -204,16 +208,34 @@ const routes = [
     component: () => <ListeningByTopicPage />
   },
   {
-    path: ROUTES.LISTENING_TOPICs,
+    path: ROUTES.LISTENING_TOPICS,
     exact: true,
     isProtect: true,
     component: () => <ListeningTopicsPage />
   },
   {
-    path: ROUTES.CREATE_GRAMMAR,
+    path: ROUTES.GRAMMAR_BY_LEVEL,
     exact: true,
     isProtect: true,
-    component: () => <CreateGrammarPage />
+    component: () => <GrammarByLevelPage />
+  },
+  {
+    path: ROUTES.GRAMMAR_LEVELS,
+    exact: true,
+    isProtect: true,
+    component: () => <GrammarLevelsPage/>
+  },
+  // {
+  //   path: ROUTES.CREATE_GRAMMAR,
+  //   exact: true,
+  //   isProtect: true,
+  //   component: () => <CreateGrammarPage />
+  // },
+  {
+    path: ROUTES.EDIT_LISTEN,
+    exact: true,
+    isProtect: true,
+    component: () => <EditListeningPage />
   },
 ];
 const renderRoutes = (routes, isAuth = false) => {

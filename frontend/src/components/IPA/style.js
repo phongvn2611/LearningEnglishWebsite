@@ -32,8 +32,8 @@ export default makeStyles(() => ({
   relative: {
     display: 'inline-block',
     fontSize: '2.2rem',
-    fontWeight: 400,
-    color: 'blue',
+    fontWeight: 500,
+    color: 'red',
     margin: '0.8rem 0rem 0rem 0',
   },
 
@@ -77,5 +77,32 @@ export default makeStyles(() => ({
       borderBottom: 'solid 1px var(--accent-color)',
     },
   },
+  mobilelist : {
+    height: "115px",
+ 
+  },
+floatleft: {
+  float: "left",
+  margin: "0 10px 10px 0px",
+  padding: "2px",
+},
+title: {
+  display: 'inline-block',
+  fontSize: '2.0rem',
+  fontWeight: 400,
+  color: 'blue',
+  margin: '0.8rem 0rem 0rem 0',
+},
+tldetail: {
+  fontSize: '1.5rem',
+  fontWeight:400,
+  color: 'black', 
+},
+textlimit: {
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
+  width: "500px",
+},
 
 }));

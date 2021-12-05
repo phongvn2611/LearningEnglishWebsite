@@ -25,12 +25,12 @@ const {
 exports.postListening = async (req, res) => {
   try {
     const {Name, Topic, Description, Script, Video, Image } = req.body;
-   // const CreatDate= new Date(new Date().toUTCString()); 
-
+    if(!Video){
+      return res.status(400).json({ message: 'Error, please upload video.' });
+    }
     //upload Video
     let videoUrl = null;
-    if (Video) {
-      if(typeof Video === 'string') {
+      if(Video.includes("youtube") || Video.includes("youtu.be")) {
         let vid = Video.trim();
         if(vid){
           let videoId = null;
@@ -41,18 +41,19 @@ exports.postListening = async (req, res) => {
           {
             videoId = vid.split("youtu.be/");
           }
+
           videoUrl= `https://www.youtube.com/embed/${videoId[1]}?enablejsapi=1`;
         }
       }
-        else{
-          videoUrl = await uploadVideo(Video, 'dynonary/litenings');
-        }
+      else
+      {
+          videoUrl = await uploadVideo(Video, 'video');
       }
 
       //upload Image
       let imgUrl = null;
       if (Image) {      
-          imgUrl = await uploadImage(Image, 'dynonary/listenings');
+          imgUrl = await uploadImage(Image, 'english/listening');
       }
 
     // create the new listen
@@ -73,33 +74,46 @@ exports.putListen = async (req, res, next) => {
   try {
       const {Name, Topic, Description, Script, Video, Image }= req.body;
 
-       //video
+      if(!Video){
+        return res.status(400).json({ message: 'Error, please upload video.' });
+      } 
+    //upload Video
     let videoUrl = null;
-    if (Video) {
-      if(typeof Video === 'string') {
-        let vid = Video.trim();
-        if(vid){
-          let videoId = null;
-          if(Video.includes("=")){
-            videoId = vid.split("=");
+      if(Video.includes("youtube") || Video.includes("youtu.be")) {
+        if(Video.includes("embed")){
+          videoUrl= Video;
+        }
+        else{
+          let vid = Video.trim();
+          if(vid){
+            let videoId = null;
+            if(Video.includes("=")){
+              videoId = vid.split("=");
+            }
+            else
+            {
+              videoId = vid.split("youtu.be/");
+            }
+
+            videoUrl= `https://www.youtube.com/embed/${videoId[1]}?enablejsapi=1`;
           }
-          else
-          {
-            videoId = vid.split("youtu.be/");
-          }
-          videoUrl= `https://www.youtube.com/embed/${videoId[1]}?enablejsapi=1`;
         }
       }
       else{
-        videoUrl = await uploadVideo(Video, 'dynonary/listenings');
+        // if(Video.includes("cloudinary"))
+        // {
+        //   videoUrl= Video;
+        // }
+        // else{
+            videoUrl = await uploadVideo(Video, 'video');
+      //  }
       }
-    }
 
-     //upload Image
-     let imgUrl = null;
-     if (Image) {      
-         imgUrl = await uploadImage(Image, 'dynonary/listenings');
-     }
+      //upload Image
+      let imgUrl = null;
+      if (Image) {      
+          imgUrl = await uploadImage(Image, 'english/listening');
+      }
 
     // update
     const listen = await updateListen(req.params.id, 

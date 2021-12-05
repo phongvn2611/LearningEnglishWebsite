@@ -34,6 +34,11 @@ const useStyle = makeStyles(() => ({
         border: "1px solid #666",
         marginBottom: "10px",	
       },
+      picture: {
+        width: '50rem',
+        height: '30rem',
+        marginLeft: '15rem',
+      },
    
   }));
   
@@ -115,16 +120,15 @@ console.log(grammar)
             {grammar.Content}
         </Typography></>
 
-        {grammar.Image ?  (
-             <img className={classes.picture} src={imgSrc} alt="photo" align="center" />
-             
-            ):(
-                <p align="center"><iframe src= {grammar.Video} width="500" height="300"></iframe></p>
+        {grammar.Video ?  (
+              <p align="center"><iframe src= {grammar.Video} width="500" height="300"></iframe></p>             
+            ):(              
+                <img className={classes.picture} src={imgSrc} alt="photo" align="center" />
         )}
         
-        {grammar.Video && (
+        {grammar.Audio && (
         <audio controls>
-        <source src={grammar.Video} type="audio/mpeg"/>
+        <source src={grammar.Audio} type="audio/mpeg"/>
         Your browser does not support the audio element.
         </audio>
         )}

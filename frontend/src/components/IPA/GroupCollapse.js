@@ -11,7 +11,7 @@ import useStyle from './style';
 function IPAGroupCollapse({phoneticData, isNoVoice}) {
   const classes = useStyle();
   const handleClick = (id) =>{
-    window.location.href = `ipa/${id}`;
+    window.location.href = `ipa/details/${id}`;
   }
   return (
   

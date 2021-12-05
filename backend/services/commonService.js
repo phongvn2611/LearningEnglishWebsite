@@ -16,12 +16,11 @@ exports.uploadImage = async (imgSrc, folderName = '', config = {}) => {
 };
 
 
-exports.uploadVideo = async (vidSrc, publicid ='', config = {}) => {
+exports.uploadVideo = async (vidSrc, folderName ='', config = {}) => {
   try {
     const result = await cloudinary.uploader.upload(vidSrc, {
       folder: folderName,
       resource_type: "video",
-      public_id: publicid,
       ...config,
     });
     const { secure_url = null } = result;

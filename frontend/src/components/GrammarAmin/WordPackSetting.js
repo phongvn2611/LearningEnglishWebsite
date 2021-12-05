@@ -1,5 +1,5 @@
 import SettingsIcon from '@material-ui/icons/Settings';
-import ListeningTopic from 'components/UI/ListeningTopic';
+import ListeningTopic from '../UI/ListeningTopic';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 

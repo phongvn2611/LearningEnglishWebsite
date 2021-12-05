@@ -14,7 +14,8 @@ import Button from '@material-ui/core/Button';
 import { useDispatch, useSelector } from "react-redux";
 import {getListening}  from "../redux/actions/listeningAction";
 import { useParams } from 'react-router-dom';
-
+import { cloudinaryImgOptimize } from "helper";
+import { DEFAULTS } from 'constants/index';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -52,7 +53,7 @@ function a11yProps(index) {
 export default function ListeningPage() {
   useTitle("Listening");
   const [value, setValue] = useState(1);
-
+  const [video, setVideo] = useState(1);
   const listenId = useParams().id;
   const {listen, questions} = useSelector((state) => state.listeningReducer);
  

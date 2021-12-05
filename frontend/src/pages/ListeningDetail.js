@@ -19,8 +19,8 @@ export default function ListeningPage() {
  
   const history = useHistory();
 
-  function handleClickEdit(id) {
-    history.push(`/admin/listening/${id}`);
+  function handleClickEdit() {
+    history.push(`/admin/listening/edit/${listen._id}`);
   }
 
   function handleClickGoBack() {
@@ -69,7 +69,7 @@ export default function ListeningPage() {
       ))}
              
     <Button color='primary' onClick={() => handleClickGoBack()}>GO BACK</Button>
-    <Button color='primary'>Edit</Button>
+    <Button color='primary'onClick={() => handleClickEdit()}>Edit</Button>
          
        
       </Container>

@@ -13,14 +13,11 @@ import { cloudinaryImgOptimize } from "helper";
 import { DEFAULTS } from '../../constants/index';
 import {getIPARelative} from '../../redux/actions/ipaAction'
 
-
 function IPARelative(props) {
   const classes = useStyle();
   const ipas = useSelector((state) => state.ipaReducer.ipas);
   
   const {type, phonetic} =props
-  console.log(type);
-  console.log(phonetic);
   const dispatch = useDispatch();
   useEffect(() => 
   dispatch(getIPARelative(type, phonetic)), [dispatch])
@@ -55,24 +52,26 @@ if(ipas)
       </AccordionSummary>
 
       <AccordionDetails>
-        <Grid container spacing={3}>
-          {ipas &&
-            ipas.map((item, key) => (
-              <Grid
-                item
-                className="flex-left"
-                xs={12}
-                key={key}>
-               <div onClick={() => handleClick(item._id)}>
-                <img  width="350px" height="200px"
-                    src={imgList[key]} />
-                  <p className={classes.gcDesc}>{item.Title}</p>
-               
-                </div>
-               
-              </Grid>
-            ))}
-        </Grid>
+      <div className="container">
+
+{ipas &&  ipas.map((item, key) => (
+<div className={classes.mobilelist} >
+<div>
+ <div className={classes.floatleft}>
+   <a>
+     <img height="80px" width="80px" src={imgList[key]} onClick={()=>handleClick(item._id)}/>
+   </a>
+   </div>
+   <a className={classes.title} href={`/ipa/details/${item._id}`}><u> {item.Title}</u></a>
+   <br></br>
+   
+   <div className={classes.textlimit}>
+   <span className={classes.tldetail}></span>
+   </div>
+</div>
+</div>            
+))}
+</div>
       </AccordionDetails>
     </Accordion>
   );

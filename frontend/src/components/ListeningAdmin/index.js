@@ -9,8 +9,8 @@ import WordItem from './ListeningItem/index';
 import WordPackSetting from './WordPackSetting';
 import WordSkeleton from './WordSkeleton';
 import AddIcon from '@material-ui/icons/Add';
-
-
+import { ROUTES } from 'constants/index';
+import { useHistory } from 'react-router-dom';
 
 function ListeningAdmin({
   list,
@@ -23,14 +23,15 @@ function ListeningAdmin({
   onSearchWord,
 }) {
   const classes = useStyle();
-
+  const history = useHistory();
+  
   return (
     <div className={`${classes.root} dyno-container`}>
       {/* title - menu */}
       <div className="flex-center-between">
         <h1 className="dyno-title">Manage Listening</h1>
         <div>
-          <AddIcon className="dyno-setting-icon mr-5" Link/>
+          <AddIcon className="dyno-setting-icon mr-5" onClick={() => history.push(ROUTES.ADD_LISTEN)}/>
   
           <SortTypeModal
             onSelect={onSortTypeChange}

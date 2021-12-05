@@ -5,12 +5,12 @@ import SortTypeModal from 'components/UI/SortType';
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 import useStyle from './style';
-//import WordItem from '../';
+import WordItem from './ListeningItem/index';
 import WordPackSetting from './WordPackSetting';
 import WordSkeleton from './WordSkeleton';
 import AddIcon from '@material-ui/icons/Add';
-
-
+import { ROUTES } from 'constants/index';
+import { useHistory } from 'react-router-dom';
 
 function ListeningAdmin({
   list,
@@ -20,23 +20,35 @@ function ListeningAdmin({
   isFirstLoad,
   onSettingWordPack,
   onSortTypeChange,
- // onSearchWord,
+  onSearchWord,
 }) {
   const classes = useStyle();
-
+  const history = useHistory();
+  
   return (
     <div className={`${classes.root} dyno-container`}>
       {/* title - menu */}
       <div className="flex-center-between">
         <h1 className="dyno-title">Manage Listening</h1>
         <div>
-          <AddIcon className="dyno-setting-icon mr-5" Link/>
+          <AddIcon className="dyno-setting-icon mr-5" onClick={() => history.push(ROUTES.ADD_LISTEN)}/>
+  
+          <SortTypeModal
+            onSelect={onSortTypeChange}
+            classNameIcon="dyno-setting-icon mr-5"
+          />
+          <WordPackSetting
+              onChoose={onSettingWordPack}
+              classNameIcon="dyno-setting-icon"
+          />
         </div>
       </div>
       <div className="dyno-break"></div>
 
       {/* list content */}
       <div className={classes.contentWrap}>
+        <AutoSearchInput disabled={loading} onSearch={onSearchWord} />
+
         <div className={`${classes.listWrap} w-100`}>
           <ul id="dictionaryId" className={`${classes.list} flex-col w-100`}>
             <>
@@ -49,7 +61,7 @@ function ListeningAdmin({
                       {/* render list */}
                       {list.map((item, index) => (
                         <li className={classes.listItem} key={index}>
-                          {/* <WordItem {...item} /> */}
+                          <WordItem {...item} />
                         </li>
                       ))}
 

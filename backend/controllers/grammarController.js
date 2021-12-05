@@ -22,7 +22,7 @@ const {
 //create grammar
 exports.postGrammar = async (req, res) => {
   try {
-    const {Title, Video, Image, Script, Content, Level, Items}= req.body;
+    const {Title, Video, Audio, Image, Script, Content, Level, Items}= req.body;
 
      //video
      let videoUrl = null;
@@ -42,9 +42,17 @@ exports.postGrammar = async (req, res) => {
         }
       }
        else{
-         videoUrl = await uploadVideo(Video, 'dynonary/grammars');
+         videoUrl = await uploadVideo(Video, 'video');
        }
      }
+
+     //upload Audio
+     let audUrl = null;
+     if(Audio){      
+      if (Audio) {      
+          audUrl = await uploadVideo(Audio, 'audio');
+      }
+    }
 
     //upload Image
     let imgUrl = null;
@@ -52,7 +60,7 @@ exports.postGrammar = async (req, res) => {
         imgUrl = await uploadImage(Image, 'dynonary/grammars');
     }
 
-    const grammar = await createGrammar({Title, Video: videoUrl, Image: imgUrl, Script, Content,Level, Items});
+    const grammar = await createGrammar({Title, Video: videoUrl, Audio:audUrl, Image: imgUrl, Script, Content,Level, Items});
     if (grammar) {
       return res.status(201).json({grammar });
     }
