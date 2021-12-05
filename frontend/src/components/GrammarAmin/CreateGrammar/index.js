@@ -25,10 +25,8 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { DialogActions } from '@material-ui/core';
-import WordSkeleton from 'components/GrammarAmin/WordSkeleton';
 import AddIcon from '@material-ui/icons/Add';
 import InfiniteScroll from 'components/UI/InfiniteScroll';
-import GrammarItem from './GrammarItems';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 const schema = yup.object().shape({
@@ -113,7 +111,7 @@ function CreateGrammar({ onSubmitForm, submitting }) {
   const [grammarItems, setgrammarItems] = useState([]);
   const [page, setPage] = useState(1);
   const totalPage = useRef(0);
-
+console.log(indexEdit)
   const [point, setPoint] = useState({
     Point: "",
     Examples: "",
@@ -134,6 +132,7 @@ function CreateGrammar({ onSubmitForm, submitting }) {
   };
 
   const handleDialogSubmit = () => {
+    if(point.Point.trim()!="" ){
     if(editItems){
      grammarItems[indexEdit]=point;
      setEditItems(false);
@@ -141,10 +140,10 @@ function CreateGrammar({ onSubmitForm, submitting }) {
     }
     else{
       grammarItems.push(point)
-    }   
+    } 
+  }  
     setOpenDialog(false) 
     setPoint({Point: "", Examples: ""})
-  
   };
 
   const onLoadData = () => {
@@ -422,7 +421,7 @@ console.log(point)
           <AddIcon className="dyno-setting-icon mr-5" onClick={() => handleOpenDialog()}/>
                 {/* Dialog */}
           <Dialog onClose={handleCloseDialog} open={openDialog}>
-        <DialogTitle onClose={handleCloseDialog}></DialogTitle>
+        <DialogTitle onClose={handleCloseDialog}>Add point</DialogTitle>
         <DialogContent dividers>
           <form noValidate>
             {/* Point */}
