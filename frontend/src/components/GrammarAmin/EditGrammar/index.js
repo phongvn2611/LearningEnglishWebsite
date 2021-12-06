@@ -6,9 +6,8 @@ import ResetIcon from '@material-ui/icons/RotateLeft';
 import SaveIcon from '@material-ui/icons/Save';
 import InputCustom from 'components/UI/InputCustom';
 import SelectCustom from 'components/UI/SelectCustom';
-import { LISTEN_TOPIC } from './../../../constants/listeningTopics';
 import PropTypes from 'prop-types';
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import InformationTooltip from './InformationTooltip';
@@ -27,7 +26,9 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import { DialogActions } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import InfiniteScroll from 'components/UI/InfiniteScroll';
+import grammarApi from 'apis/grammarApi';
 import DeleteIcon from '@material-ui/icons/Delete';
+import { useParams } from "react-router-dom";
 
 const schema = yup.object().shape({
   Title: yup
@@ -45,17 +46,37 @@ const schema = yup.object().shape({
     .string(),
   Script: yup
     .string(),
-  Items: yup
-  .array(),
-  Point: yup
-    .string()
-    .required('Input value'),
-  Examples: yup
-    .string()
-    .required('Input value'),
   
 });
 
+const analysisLinkVideo = (linkVideo = '') => {
+  if (typeof linkVideo !== 'string' || linkVideo === '') {
+    return null;
+  }
+  if(linkVideo.includes("embed")){
+    return linkVideo;
+  }
+
+  let checkVid = linkVideo.includes("https://www.youtube.com")
+  if(!checkVid){
+      checkVid =linkVideo.includes("youtu.be/")
+      if(checkVid)
+      {
+        return linkVideo;
+      }
+      return null;
+  }
+  return linkVideo;
+};
+
+const getTypeCurrent = (type = "", options = []) => {
+  for (let i = 0; i < options.length; i++) {
+    if (options[i].value === type) {
+      return i;
+    }
+  }
+  return 0;
+};
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -89,7 +110,7 @@ function a11yProps(index) {
   };
 }
 
-function CreateGrammar({ onSubmitForm, submitting }) {
+function EditGrammar() {
   const classes = useStyle();
   const [resetFlag, setResetFlag] = useState(0);
   const [value, setValue] = useState(1);
@@ -102,7 +123,7 @@ function CreateGrammar({ onSubmitForm, submitting }) {
   });
 //grammar item
   const [loading, setLoading] = useState(true);
-  const [list, setList] = useState([]);
+  const [submitting, setSubmitting] = useState(false);
   const [more, setMore] = useState(true); // toggle infinite scrolling
   const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [openDialog, setOpenDialog] = useState(false);
@@ -111,7 +132,7 @@ function CreateGrammar({ onSubmitForm, submitting }) {
   const [grammarItems, setgrammarItems] = useState([]);
   const [page, setPage] = useState(1);
   const totalPage = useRef(0);
-
+console.log(indexEdit)
   const [point, setPoint] = useState({
     Point: "",
     Examples: "",
@@ -175,9 +196,39 @@ function CreateGrammar({ onSubmitForm, submitting }) {
   const history = useHistory();
   const defaultImg =
   "https://res.cloudinary.com/phongvn2611/image/upload/v1638368033/english/word/default-image_fbmbtn.png";
+  const [grammarValue, setGrammarValue] = useState(null);
   const [image, setImage] = useState(defaultImg);
   const [video, setVideo] = useState(null);
   const [audio, setAudio] = useState(null);
+  const [linkVideo, setLinkVideo] = useState('');
+
+  const { id } = useParams();
+
+  useEffect(() => {
+    (async function () {
+      const apiRes = await grammarApi.getGrammarById(id);
+      setGrammarValue(apiRes.data);
+      if(apiRes.data.Video?.includes("youtube")){
+        setLinkVideo(apiRes.data.Video);
+      }
+      // else{
+      //   setVideo(apiRes.data.listen.Video);
+      // }
+      setImage(apiRes.data.Image);
+      setgrammarItems(apiRes.data.Items);
+      setAudio(apiRes.data.Audio)
+    })();
+    return () => {};
+  }, [id]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setGrammarValue({ ...grammarValue, [name]: value });
+    if(name=="LinkVideo"){
+      setLinkVideo(value)
+    }
+  }
+
 
   const handleChangePicture = (e) => {
     e.preventDefault();
@@ -236,12 +287,68 @@ function CreateGrammar({ onSubmitForm, submitting }) {
     }
   };
 
-  const onSubmit = (data) => {
-    onSubmitForm({ ...data, VidUpload: video, Image: image, Audio: audio, Items: grammarItems });
-  };
-  const handleChange = (event, newValue) => {
+  const onSubmit = async () => {
+    try {
+      setSubmitting(true);
+      const {Title, Content, Level, Script, Video} = grammarValue;
+      let dataSend = [];
+      let videoUrl= null;
+      if(video == null){
+        console.log(video)
+        console.log(linkVideo)
+        if(linkVideo== null || linkVideo.trim()==""){
+          videoUrl = Video;
+        }
+        else{
+          videoUrl = analysisLinkVideo(linkVideo);
+          if (videoUrl==null) {
+            dispatch(setMessage("Link video is invalid.", "warning"));
+            setSubmitting(false);
+            return;
+          }
+        }
+        console.log(videoUrl)
+        dataSend ={
+          Title, Content, Level, Script,
+          Items: grammarItems,
+          Image: image,
+          Video: videoUrl,
+          Audio: audio,
+        };
+      }
+      else{
+        dataSend ={
+          Title, Content, Level, Script,
+          Items: grammarItems,
+          Image: image,
+          Video: video,
+          Audio: audio,
+        };  
+      } 
+      console.log(dataSend)    
+      const apiRes = await grammarApi.putGrammar(grammarValue._id, dataSend);
+      console.log(apiRes.status)
+      if (apiRes.status === 200) {
+        dispatch(setMessage("Update grammar successfully", "success"));
+        setSubmitting(false);
+     }
+
+    } catch (error) {
+      const message =  error.response?.data?.message ||
+      'Error, can not update grammar.';
+        dispatch(setMessage(message, "error"));
+      setSubmitting(false);
+    }
+  }
+
+  const handleChangeValue = (event, newValue) => {
     setValue(newValue);
   };
+
+  function handleClickGoBack() {
+    history.push("/admin/listening");
+  }
+
 console.log(grammarItems)
 console.log(point)
 
@@ -250,6 +357,7 @@ console.log(point)
       <h1 className={classes.title}>Creat new grammar in system</h1>
       <div className="dyno-break"></div>
 
+      {grammarValue && (
       <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
       <Grid container alignContent="center">
           <div className={classes.avtWrap}>
@@ -275,11 +383,13 @@ console.log(point)
               className="w-100"
               label="Title (*)"
               error={Boolean(errors.Title)}
+              value={grammarValue.Title}
               inputProps={{
                 autoFocus: true,
                 name: 'Title',
                 ...register('Title'),
               }}
+              onChange={handleChange}
             />
             {errors.Title && (
               <p className="text-error">{errors.Title?.message}</p>
@@ -292,10 +402,12 @@ console.log(point)
               className="w-100"
               label="Content (*)"
               error={Boolean(errors.Content)}
+              value={grammarValue.Content}
               inputProps={{
                 name: 'Content',
                 ...register('Content'),
               }}
+              onChange={handleChange}
             />
             {errors.Content && (
               <p className="text-error">{errors.Content?.message}</p>
@@ -310,13 +422,14 @@ console.log(point)
               options={GRAMMAR_LEVEL}
               error={Boolean(errors.Level)}
               resetFlag={resetFlag}
-              index={0}
+              index={getTypeCurrent(grammarValue.Level, GRAMMAR_LEVEL)}
               inputProps={{
                 name: 'Level',
                 ...register('Level'),
               }}
+              onChange={handleChange}
             />
-            {errors.type && (
+            {errors.Level && (
               <p className="text-error">{errors.Level?.message}</p>
             )}
           </Grid>
@@ -326,7 +439,7 @@ console.log(point)
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
             <Tabs
               value={value}
-              onChange={handleChange}
+              onChange={handleChangeValue}
               aria-label="basic tabs example"
               indicatorColor="primary"
             >
@@ -359,6 +472,7 @@ console.log(point)
               className="w-100"
               label="Link Video"
               multiline
+              value={linkVideo}
               endAdornment={
                 <InformationTooltip title="Input link youtube" />
               }
@@ -366,6 +480,7 @@ console.log(point)
                 name: 'LinkVideo',
                 ...register('LinkVideo'),
               }}
+              onChange={handleChange}
             />
 
             {errors.Video && (
@@ -398,6 +513,7 @@ console.log(point)
               className="w-100"
               label="Script"
               multiline
+              value={grammarValue.Script}
               endAdornment={
                 <InformationTooltip title="Input script for listening" />
               }
@@ -406,6 +522,7 @@ console.log(point)
                 name: 'Script',
                 ...register('Script'),
               }}
+              onChange={handleChange}
             />
                {errors.Script && (
               <p className="text-error">{errors.Script?.message}</p>
@@ -541,7 +658,7 @@ console.log(point)
             disabled={submitting}
             onClick={() => history.push("/admin/grammar")}
            >
-            Return
+            Cancel
           </Button>
           <Button
             type="submit"
@@ -551,22 +668,23 @@ console.log(point)
               submitting ? <LoopIcon className="ani-spin" /> : <SaveIcon />
             }
             variant="contained">
-            Create
+            Edit
           </Button>
         </div>
       </form>
+      )}
     </div>
   );
 }
 
-CreateGrammar.propTypes = {
+EditGrammar.propTypes = {
   onSubmitForm: PropTypes.func,
   submitting: PropTypes.bool,
 };
 
-CreateGrammar.defaultProps = {
+EditGrammar.defaultProps = {
   onSubmitForm: function () {},
   submitting: false,
 };
 
-export default CreateGrammar;
+export default EditGrammar;

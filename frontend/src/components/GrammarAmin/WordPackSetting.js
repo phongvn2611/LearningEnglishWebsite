@@ -1,9 +1,9 @@
 import SettingsIcon from '@material-ui/icons/Settings';
-import ListeningTopic from '../UI/ListeningTopic';
+import GrammarLevel from '../UI/GrammarLevel';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 
-function ListeningTopicSetting({ classNameIcon, onChoose }) {
+function GrammarLevelSetting({ classNameIcon, onChoose }) {
   const [openWordPack, setOpenWordPack] = useState(false);
 
   const onSelect = (v) => {
@@ -20,7 +20,7 @@ function ListeningTopicSetting({ classNameIcon, onChoose }) {
 
       {/* setting modal */}
       {openWordPack && (
-        <ListeningTopic
+        <GrammarLevel
           open={openWordPack}
           onCancel={() => setOpenWordPack(false)}
           onChoose={onSelect}
@@ -30,13 +30,13 @@ function ListeningTopicSetting({ classNameIcon, onChoose }) {
   );
 }
 
-ListeningTopicSetting.propTypes = {
+GrammarLevelSetting.propTypes = {
   classNameIcon: PropTypes.string,
   onChoose: PropTypes.func,
 };
 
-ListeningTopicSetting.defaultProps = {
+GrammarLevelSetting.defaultProps = {
   onChoose: () => {},
 };
 
-export default ListeningTopicSetting;
+export default GrammarLevelSetting;

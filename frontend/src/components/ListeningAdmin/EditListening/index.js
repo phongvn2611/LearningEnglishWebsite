@@ -350,7 +350,7 @@ function EditListening() {
               <div className={`${classes.cameraIconWrap} flex-center`}>
                 <input
                   type="file" 
-                  vvalue={listenValue.Video.fileInput}               
+                  value={listenValue.Video.fileInput}               
                   className={classes.fileInput}
                   onChange={handleChangeVideo}
                   accept="video/*"

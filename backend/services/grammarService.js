@@ -1,3 +1,4 @@
+const grammarModel = require('../models/Grammar/grammarModel');
 const GrammarModel = require('../models/Grammar/grammarModel');
 
 exports.createGrammar = async (grammarInfo ) => {
@@ -12,6 +13,18 @@ exports.createGrammar = async (grammarInfo ) => {
     throw error;
   }
 };
+
+exports.updateGrammar = async (_id='',grammarInfo) => {
+  try{
+  const grammar= await grammarModel.findByIdAndUpdate(_id, grammarInfo);
+      if (grammar) {
+          return grammar;
+        }
+        return null;
+      } catch (error) {
+        throw error;
+      }
+    };
 
 
 exports.getGrammarById = async (id = '') => {
@@ -90,6 +103,21 @@ exports.getGrammarById = async (id = '') => {
     exports.getAllGrammars = async () => {
       try {
         const list = await GrammarModel.find({});                   
+        return list;
+      } catch (error) {
+        throw error;
+      }
+    };
+
+    exports.searchGrammar = async (title = '', limit = 50, select = '') => {
+      try {
+        const regex = new RegExp(`^${title}.*`, 'gi');
+        const list = await GrammarModel.find({ Title: regex })
+        .limit(limit)
+        .select(select);
+        if(list.length == 0){
+          return null;
+        }
         return list;
       } catch (error) {
         throw error;

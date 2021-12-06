@@ -1,15 +1,15 @@
-import listeningApi from 'apis/listeningApi';
-import ListeningDetailModal from 'components/UI/ListeningDetailModal';
+import { Title } from '@material-ui/icons';
+import grammarApi from 'apis/grammarApi';
+import GrammarDetailModal from 'components/UI/GrammarDetailModal';
 import { equalArray } from 'helper';
 import React, { useEffect, useRef, useState } from 'react';
-import ListeningAdmin from './index';
+import GrammarAdmin from './index';
 
 
 function ListeningAdminData() {
   const [page, setPage] = useState(1);
-  const [sortType, setSortType] = useState('Newest');
   const [packInfo, setPackInfo] = useState(() => ({
-    topic: 'All',
+    level: 'All',
   }));
   const [loading, setLoading] = useState(true);
   const [list, setList] = useState([]);
@@ -29,10 +29,10 @@ function ListeningAdminData() {
   const settingWordPack = (info) => {
     // check old pack vs new pack
     let isEqual = true;
-    if (packInfo!== 'topic' && packInfo.topic !== info.topic) {
+    if (packInfo!== 'level' && packInfo.level !== info.level) {
       isEqual = false;
     }
-    if (isEqual) isEqual = equalArray(packInfo.topic, info.topic);
+    if (isEqual) isEqual = equalArray(packInfo.level, info.level);
 
     totalPage.current = 0;
     preSearchList.current = [];
@@ -42,27 +42,17 @@ function ListeningAdminData() {
     setPage(1);
   };
 
-
-  const onSortTypeChange = (type = 'Newest') => {
-    if (type === sortType) return;
-    preSearchList.current = [];
-    setSortType(type);
-    setPage(1);
-    setList([]);
-  };
-
-  const onSearchWord = async (name) => {
+  const onSearchWord = async (title) => {
     try {
-      if (name === '') {
+      if (title === '') {
         setList(preSearchList.current);
         setMore(true);
         return;
       }
-      const apiRes = await listeningApi.searchListen(name);
-      console.log(apiRes.data.listens);
+      const apiRes = await grammarApi.searchGrammar(title);
+      console.log(apiRes.data);
       if (apiRes.status === 200) {
-       // const { packList = [] } = apiRes.data.listens;
-        setList(apiRes.data.listens);
+        setList(apiRes.data);
         setMore(false);
       }
     } catch (error) {}
@@ -78,15 +68,15 @@ function ListeningAdminData() {
         console.log(packInfo);
         setLoading(true);
        let apiRes = null
-         if(packInfo.topic ==='All'){
-           apiRes = await listeningApi.getAllListen(sortType);
+         if(packInfo.level ==='All'){
+           apiRes = await grammarApi.getAllGrammar();
          }
          else{
-          apiRes = await listeningApi.getListenByTopic(packInfo.topic, sortType);
+          apiRes = await grammarApi.getGrammarByLevel(packInfo.level);
        }
         if (apiRes && isSub) {
-         // const { packList = [] } = apiRes.data.listens;
-          const newList = apiRes.data.listens;
+          const newList = apiRes.data.grammars;
+          console.log(apiRes.data.grammars)
           preSearchList.current = newList;
           setList(newList);
         }
@@ -100,21 +90,20 @@ function ListeningAdminData() {
     })();
 
     return () => (isSub = false);
-  }, [page, packInfo, sortType]);
+  }, [page, packInfo]);
 
   return (
     <>
-      <ListeningAdmin
+      <GrammarAdmin
         list={list}
         loading={loading}
         onLoadData={nextPage}
         more={more}
         isFirstLoad={isFirstLoad}
         onSettingWordPack={settingWordPack}
-         onSortTypeChange={onSortTypeChange}
          onSearchWord={onSearchWord}
       />
-      <ListeningDetailModal />
+      <GrammarDetailModal />
     </>
   );
 }

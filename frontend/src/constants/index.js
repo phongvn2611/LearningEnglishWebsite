@@ -88,6 +88,7 @@ export const ROUTES = {
   GRAMMAR_BY_LEVEL: '/grammar/level/:level',
   CREATE_GRAMMAR: '/admin/grammar/add',
   EDIT_LISTEN: '/admin/listening/edit/:id',
+  EDIT_GRAMMAR: '/admin/grammar/edit/:id',
 }
 
 export const UX = {

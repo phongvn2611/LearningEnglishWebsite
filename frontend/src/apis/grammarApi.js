@@ -6,6 +6,10 @@ const grammarApi = {
     return axios.get(`${URL}/get-grammar/${id}`)
   },
 
+  getGrammarById: (id) => {
+    return axios.get(`${URL}/get-grammar-by-id/${id}`)
+  },
+
   getGrammarByLevel: (level, token) => {
     return axios.get(`${URL}/get-grammar-by-level/${level}`, {
       headers: {Authorization: token}
@@ -39,10 +43,12 @@ const grammarApi = {
     });
   },
 
-  deleteGrammar: (id, token) => {
-    return axios.delete(`${URL}/delete-grammar/${id}`,{
-      headers: {Authorization: token}
-    })
+  deleteGrammar: (id) => {
+    return axios.delete(`${URL}/delete-grammar/${id}`)
+  },
+
+  searchGrammar: (title) => {
+    return axios.get(`${URL}/search-grammar`, {params: {title}})
   },
 }
 

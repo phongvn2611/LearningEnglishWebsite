@@ -5,21 +5,20 @@ import SortTypeModal from 'components/UI/SortType';
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 import useStyle from './style';
-import WordItem from './ListeningItem/index';
+import WordItem from './GrammarItem/index';
 import WordPackSetting from './WordPackSetting';
 import WordSkeleton from './WordSkeleton';
 import AddIcon from '@material-ui/icons/Add';
 import { ROUTES } from 'constants/index';
 import { useHistory } from 'react-router-dom';
 
-function ListeningAdmin({
+function GrammarAdmin({
   list,
   loading,
   onLoadData,
   more,
   isFirstLoad,
   onSettingWordPack,
-  onSortTypeChange,
   onSearchWord,
 }) {
   const classes = useStyle();
@@ -29,14 +28,10 @@ function ListeningAdmin({
     <div className={`${classes.root} dyno-container`}>
       {/* title - menu */}
       <div className="flex-center-between">
-        <h1 className="dyno-title">Manage Listening</h1>
+        <h1 className="dyno-title">Manage Grammar</h1>
         <div>
-          <AddIcon className="dyno-setting-icon mr-5" onClick={() => history.push(ROUTES.ADD_LISTEN)}/>
+          <AddIcon className="dyno-setting-icon mr-5" onClick={() => history.push(ROUTES.CREATE_GRAMMAR)}/>
   
-          <SortTypeModal
-            onSelect={onSortTypeChange}
-            classNameIcon="dyno-setting-icon mr-5"
-          />
           <WordPackSetting
               onChoose={onSettingWordPack}
               classNameIcon="dyno-setting-icon"
@@ -92,7 +87,7 @@ function ListeningAdmin({
   );
 }
 
-ListeningAdmin.propTypes = {
+GrammarAdmin.propTypes = {
   isFirstLoad: PropTypes.bool,
   list: PropTypes.array,
   loading: PropTypes.bool,
@@ -100,10 +95,9 @@ ListeningAdmin.propTypes = {
   onLoadData: PropTypes.func,
   onSearchWord: PropTypes.func,
   onSettingWordPack: PropTypes.func,
-  onSortTypeChange: PropTypes.func,
 };
 
-ListeningAdmin.defaultProps = {
+GrammarAdmin.defaultProps = {
   list: [],
   loading: false,
   more: true,
@@ -111,7 +105,6 @@ ListeningAdmin.defaultProps = {
   onLoadData: function () {},
   onSearchWord: function () {},
   onSettingWordPack: function () {},
-  onSortTypeChange: function () {},
 };
 
-export default ListeningAdmin;
+export default GrammarAdmin;

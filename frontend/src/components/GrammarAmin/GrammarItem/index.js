@@ -9,10 +9,10 @@ import { setMessage } from "redux/actions/messageAction";
 import { DEFAULTS } from '../../../constants/index';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete'
-import { deleteListen } from "redux/actions/listeningAction";
+import { deleteGrammar } from "redux/actions/grammarAction";
 import { useHistory } from "react-router-dom";
 
-function ListeningItem({ _id, Name, Image, Topic, CreateDate }) {
+function GrammarItem({ _id, Title, Image, Level, Content }) {
   const classes = useStyle();
   const imgSrc = cloudinaryImgOptimize(
     Image ? Image : DEFAULTS.IMAGE_SRC,
@@ -24,17 +24,17 @@ function ListeningItem({ _id, Name, Image, Topic, CreateDate }) {
 
   const history = useHistory();
   function handleClick(id) {
-    history.push(`/admin/listening/details/${id}`);
+    history.push(`/admin/grammar/details/${id}`);
   }
   function handleEditClick(id) {
-    history.push(`/admin/listening/edit/${id}`);
+    history.push(`/admin/grammar/edit/${id}`);
   }
   const [modal, setModal] = useState({ loading: false, open: false });
   const dispatch = useDispatch();
 
   const deleteHandler = (id) => {
-    if (window.confirm('Bạn chắc chắn muốn xóa bài viết này?')) {
-       dispatch(deleteListen(id));
+    if (window.confirm('Bạn chắc chắn muốn xóa nguwx phaps này?')) {
+       dispatch(deleteGrammar(id));
        dispatch(setMessage("Delete successfully", "success"));
      window.location.reload();
     }
@@ -50,13 +50,13 @@ function ListeningItem({ _id, Name, Image, Topic, CreateDate }) {
           <img className={classes.picture} src={imgSrc} alt="photo" />
           <div className="ml-8 flex-grow-1">
             <h3 className={classes.word}>
-              {Name}
+              {Title}
               
             </h3>
           
-              <p className={`${classes.phonetic} phonetic`}> Topic: {Topic} </p>
+              <p className={`${classes.phonetic} phonetic`}> Level: {Level} </p>
            
-            <p className={classes.mean}>Create Date: {CreateDate}</p>
+            <p className={classes.mean}>{Content}</p>
           </div>
         </div>
         <div className="flex-center--ver">
@@ -81,7 +81,7 @@ function ListeningItem({ _id, Name, Image, Topic, CreateDate }) {
   );
 }
 
-ListeningItem.propTypes = {
+GrammarItem.propTypes = {
   CreateDate: PropTypes.string,
   onShowDetail: PropTypes.func,
   Topic: PropTypes.string,
@@ -90,8 +90,8 @@ ListeningItem.propTypes = {
   _id: PropTypes.string,
 };
 
-ListeningItem.defaultProps = {
+GrammarItem.defaultProps = {
   onShowDetail: function () {},
 };
 
-export default ListeningItem;
+export default GrammarItem;

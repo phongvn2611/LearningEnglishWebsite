@@ -178,22 +178,6 @@ exports.getByTopic = async (req, res) => {
   }
 };
 
-// //get by level
-// exports.getByLevel = async (req, res) => {
-//   try {
-//     const Level = req.params.level;  
-//     const list = await getListenByLevel(Level);
-//     if(list == null ){
-//       return res.status(204).json({ message: 'No result.'});
-//       }
-//     return res.status(200).json({list });
-//   } catch (error) {
-//     console.error('ERROR: ', error);
-//     return res.status(503).json({ message: 'ERROR, can not get listening' });
-//   }
-// };
-
-
 //get all
 exports.getAll = async (req, res) => {
   try { 

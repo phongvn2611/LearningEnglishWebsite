@@ -64,13 +64,9 @@ export const getAllGrammar = () => {
 };
 
 export const getGrammarByLevel = (level) => {
-  return async (dispatch, getState) => {
+  return async (dispatch) => {
       try { 
-        const {
-          authReducer: { user },
-        } = getState();
-
-        const response = await grammarApi.getGrammarByLevel(level, user.access_token);
+        const response = await grammarApi.getGrammarByLevel(level);
         if(response.status===200){
           dispatch({
             type: GRAMMAR_CONSTANT.GET_GRAMMAR_BY_LEVEL,
@@ -94,13 +90,9 @@ export const getGrammarByLevel = (level) => {
 };
 
 export const getGrammarLevels = () => {
-  return async (dispatch, getState) => {
+  return async (dispatch) => {
       try { 
-        const {
-          authReducer: { user },
-        } = getState();
-
-        const response = await grammarApi.getGrammarLevels(user.access_token);
+        const response = await grammarApi.getGrammarLevels();
         if(response.status===200){
           dispatch({
             type: GRAMMAR_CONSTANT.GET_GRAMMAR_LEVELS,
@@ -124,13 +116,9 @@ export const getGrammarLevels = () => {
 };
 
 export const postGrammar = (formData) => {
-  return async (dispatch, getState) => {
+  return async (dispatch) => {
       try { 
-        const {
-          authReducer: { user },
-        } = getState();
-
-        const response = await grammarApi.postGrammar(formData, user.access_token);
+        const response = await grammarApi.postGrammar(formData);
         if(response.status===200){
           dispatch({
             type: GRAMMAR_CONSTANT.CREATE_GRAMMAR,
@@ -154,13 +142,9 @@ export const postGrammar = (formData) => {
 };
 
 export const putGrammar = (id, formData) => {
-  return async (dispatch, getState) => {
-      try { 
-        const {
-          authReducer: { user },
-        } = getState();
-
-        const response = await grammarApi.putGrammar(id, formData, user.access_token);
+  return async (dispatch)=>{
+    try{
+        const response = await grammarApi.putGrammar(id, formData);
         if(response.status===200){
           dispatch({
             type: GRAMMAR_CONSTANT.EDIT_GRAMMAR,
@@ -184,13 +168,9 @@ export const putGrammar = (id, formData) => {
 };
 
 export const deleteGrammar = (id) => {
-  return async (dispatch, getState) => {
+  return async (dispatch) => {
       try { 
-        const {
-          authReducer: { user },
-        } = getState();
-
-        const response = await grammarApi.deleteGrammar(id, user.access_token);
+        const response = await grammarApi.deleteGrammar(id);
         if(response.status===200){
           dispatch({
             type: GRAMMAR_CONSTANT.DELETE_GRAMMAR,
