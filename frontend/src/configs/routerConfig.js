@@ -37,6 +37,7 @@ const GrammarLevelsPage = React.lazy(() => import("../pages/GrammarLevels"));
 const EditListeningPage = React.lazy(() => import("../pages/EditListening"));
 const CreateGrammarPage = React.lazy(() => import("../pages/CreateGrammar"));
 const EditGrammarPage = React.lazy(() => import("../pages/EditGrammar"));
+const GrammarDetailPage = React.lazy(() => import("../pages/GrammarDetail"));
 
 
 const routes = [
@@ -243,6 +244,12 @@ const routes = [
     exact: true,
     isProtect: true,
     component: () => <EditGrammarPage />
+  },
+  {
+    path: ROUTES.GRAMMAR_DETAIL,
+    exact: true,
+    isProtect: true,
+    component: () => <GrammarDetailPage/>
   },
 ];
 const renderRoutes = (routes, isAuth = false) => {

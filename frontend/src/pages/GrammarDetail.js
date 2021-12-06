@@ -4,11 +4,7 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
-import useTitle from "../hooks/useTitle";
-import { VideoCard } from "material-ui-player";
-import FormGroup from "@material-ui/core/FormGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
+import { useHistory } from "react-router";
 import Container from "@material-ui/core/Container";
 import Button from '@material-ui/core/Button';
 import { useDispatch, useSelector } from "react-redux";
@@ -77,11 +73,11 @@ function a11yProps(index) {
   };
 }
 
-export default function GrammarPage() {
+export default function GrammarDetailPage() {
   const [value, setValue] = useState(0);
   const classes= useStyle();
   const grammarId = useParams().id;
-  const {grammar, questions} = useSelector((state) => state.grammarReducer);
+  const {grammar} = useSelector((state) => state.grammarReducer);
  
   const dispatch = useDispatch();
   useEffect(() => 
@@ -109,7 +105,17 @@ export default function GrammarPage() {
   const handleChange = (_event, newValue) => {
     setValue(newValue);
   };
-console.log(grammar)
+
+  
+  const history = useHistory();
+
+  function handleClickEdit() {
+    history.push(`/admin/grammar/edit/${grammar._id}`);
+  }
+
+  function handleClickGoBack() {
+    history.push("/admin/grammar");
+  }
   return (
     <>
       <Container>
@@ -143,7 +149,6 @@ console.log(grammar)
             >
               <Tab label="Script" {...a11yProps(0)} />
               <Tab label="Grammar" {...a11yProps(1)} />
-              <Tab label="Quiz" {...a11yProps(2)} />
              
             </Tabs>
           </Box>
@@ -170,36 +175,9 @@ console.log(grammar)
             </div></>
          ))}
           </TabPanel>
-
-          <TabPanel value={value} index={2}>
-            <Typography variant="h6">
-              Answer the following questions about the interview.
-            </Typography>
-
-
-            {questions && (
-            questions.map((question) => 
-            <><Typography variant="body2">
-                {question.Content}
-              </Typography>
-              <FormGroup>
-                  {question.Answers.map((item, i) => 
-                  <FormControlLabel
-                    key={i}
-                    control={<Checkbox color="primary" />}
-                    label={item.content}
-                  >
-                  </FormControlLabel>
-                  )}
-                </FormGroup></>                        
-            )
-            )}
-           
-            <Button color='primary'>Check Answers</Button>
-            <Button color='primary'>Reset Quiz</Button>
-            <Button color='primary'>Show Answers</Button>
-          </TabPanel>
         </Box>
+        <Button color='primary' onClick={() => handleClickGoBack()}>GO BACK</Button>
+        <Button color='primary'onClick={() => handleClickEdit()}>Edit</Button>
       </Container>
     </>
   );
