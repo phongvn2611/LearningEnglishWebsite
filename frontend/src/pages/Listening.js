@@ -185,7 +185,7 @@ export default function ListeningPage() {
             {questions && (
             questions.map((question, index) => 
             <><Typography variant="body2">
-                {question.Content}
+               {index+1}) {question.Content}
                 { checkAnswer && isCorrect[index]==true && (
                 <span>
                 <img src={correctIcon} alt="Correct!"/>
