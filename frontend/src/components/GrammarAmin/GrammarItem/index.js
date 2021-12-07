@@ -33,7 +33,7 @@ function GrammarItem({ _id, Title, Image, Level, Content }) {
   const dispatch = useDispatch();
 
   const deleteHandler = (id) => {
-    if (window.confirm('Bạn chắc chắn muốn xóa nguwx phaps này?')) {
+    if (window.confirm('Bạn chắc chắn muốn xóa ngữ pháp này?')) {
        dispatch(deleteGrammar(id));
        dispatch(setMessage("Delete successfully", "success"));
      window.location.reload();

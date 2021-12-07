@@ -23,7 +23,7 @@ export const getListening = (id) => {
             
         } catch (error) {
           dispatch({ type: LISTEN_CONSTANT.SET_LISTEN_ERROR,
-            payload: error.response.message,
+            payload: error.message,
          })
           
         }

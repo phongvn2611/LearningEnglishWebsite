@@ -14,8 +14,9 @@ import Button from '@material-ui/core/Button';
 import { useDispatch, useSelector } from "react-redux";
 import {getListening}  from "../redux/actions/listeningAction";
 import { useParams } from 'react-router-dom';
-import { cloudinaryImgOptimize } from "helper";
-import { DEFAULTS } from 'constants/index';
+import incorrectIcon from 'assets/icons/checkAnswer/incorrect.gif';
+import correctIcon from 'assets/icons/checkAnswer/correct.gif'
+
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -53,13 +54,18 @@ function a11yProps(index) {
 export default function ListeningPage() {
   useTitle("Listening");
   const [value, setValue] = useState(1);
-  const [video, setVideo] = useState(1);
+  const [checkAnswer, setCheckAnswer] = useState(false);
+  const [showAnswer, setShowAnswer] = useState(false);
+  
+
   const listenId = useParams().id;
   const {listen, questions} = useSelector((state) => state.listeningReducer);
  
   const dispatch = useDispatch();
-  useEffect(() => 
-  dispatch(getListening(listenId)), [dispatch])
+  useEffect(() =>
+  dispatch(getListening(listenId),[dispatch]))
+
+  const [answers, setAnswers] = useState([]);
 
   const getScript = (sct) =>{
     let Script =[];
@@ -68,10 +74,74 @@ export default function ListeningPage() {
     } 
     return Script;
   };
+  const [isCorrect, setisCorrect] = useState([]);
+  const handleClickShowAnswer = () =>{
+     setShowAnswer(true)
+  };
+
+  const handleClickReset = () =>{
+    if (window.confirm('Do you want reload page again?')) {
+      window.location.reload();
+    }
+ };
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  const handleCheck = (index, i) => {
+    if(answers[index]){
+      if(answers[index].includes(i)){
+        for (var j = 0; j < answers[index].length; j++) {
+          if (answers[index][j] == i) {
+             answers[index].splice(j, 1);
+          }
+        }
+      }
+      else{
+        answers[index].push(i)
+      }
+    }
+    else{
+      let ar=[];
+      answers[index]=ar;
+      answers[index].push(i);
+    }
+  };
+  
+  const handleClickCheckAnswer = ()=>{
+  if(answers.length>0){
+      for(var i=0;i<answers.length;i++){
+        if(answers[i])
+        {
+          if(answers[i].length>0){
+            if(answers[i].length>1) {isCorrect[i]=false;}
+            else{
+              if(questions[i].Answers[answers[i][0]].isCorrect==true) {isCorrect[i]=true;}
+              if(questions[i].Answers[answers[i][0]].isCorrect==false) {isCorrect[i]=false;}
+            }
+          }
+          else{
+            if (window.confirm('Chọn đáp án cho tất cả câu hỏi.')) {
+              window.close();
+            }
+          }
+        }
+        else{
+          if (window.confirm('Chọn đáp án cho tất cả câu hỏi.')) {
+            window.close();
+          }
+        }
+      }
+    }
+    else{
+        if (window.confirm('Chọn đáp án cho tất cả câu hỏi.')) {
+          window.close();
+        }
+    }
+    setCheckAnswer(true);
+    setShowAnswer(true)
+  }
 
   return (
     <>
@@ -113,27 +183,46 @@ export default function ListeningPage() {
 
 
             {questions && (
-            questions.map((question) => 
+            questions.map((question, index) => 
             <><Typography variant="body2">
                 {question.Content}
+                { checkAnswer && isCorrect[index]==true && (
+                <span>
+                <img src={correctIcon} alt="Correct!"/>
+                </span>
+                )} 
+                 { checkAnswer && isCorrect[index]==false &&(
+                <span>
+                <img src={incorrectIcon} alt="Correct!"/>
+                </span>
+                )} 
               </Typography>
               <FormGroup>
                   {question.Answers.map((item, i) => 
+                  (showAnswer && item.isCorrect==true ?(
                   <FormControlLabel
                     key={i}
-                    control={<Checkbox color="primary" />}
+                    control={<Checkbox color="primary" id={`${item}-${i}`} onClick={()=>handleCheck(index,i)}/>}
+                    label={<Typography style={{ color: '#008000' }}><strong>{item.content}</strong></Typography>}
+                  >
+                  </FormControlLabel>
+                  ):(
+                    <FormControlLabel
+                    key={i}
+                    control={<Checkbox color="primary" id={`${item}-${i}`} onClick={()=>handleCheck(index,i)}/>}
                     label={item.content}
                   >
                   </FormControlLabel>
-                  )}
+                  )
+                  ))} 
                 </FormGroup></>                        
             )
             )}
            
 
-            <Button color='primary'>Check Answers</Button>
-            <Button color='primary'>Reset Quiz</Button>
-            <Button color='primary'>Show Answers</Button>
+            <Button color='primary' onClick={()=> handleClickCheckAnswer()}>Check Answers</Button>
+            <Button color='primary' onClick={()=> handleClickReset()}>Reset Quiz</Button>
+            <Button color='primary' onClick={()=> handleClickShowAnswer()}>Show Answers</Button>
           </TabPanel>
 
         </Box>

@@ -17,7 +17,8 @@ import { useParams } from 'react-router-dom';
 import { makeStyles } from "@material-ui/core";
 import { cloudinaryImgOptimize } from "helper";
 import { DEFAULTS } from '../constants/index';
-
+import incorrectIcon from 'assets/icons/checkAnswer/incorrect.gif';
+import correctIcon from 'assets/icons/checkAnswer/correct.gif'
   
 const useStyle = makeStyles(() => ({
     borderTopic: {
@@ -78,14 +79,21 @@ function a11yProps(index) {
 }
 
 export default function GrammarPage() {
-  const [value, setValue] = useState(0);
+  useTitle("Grammar");
   const classes= useStyle();
+  const [value, setValue] = useState(0);
+  const [checkAnswer, setCheckAnswer] = useState(false);
+  const [showAnswer, setShowAnswer] = useState(false);
+
+
   const grammarId = useParams().id;
   const {grammar, questions} = useSelector((state) => state.grammarReducer);
  
   const dispatch = useDispatch();
   useEffect(() => 
-  dispatch(getGrammar(grammarId)), [dispatch])
+  dispatch(getGrammar(grammarId), [dispatch]))
+
+  const [answers, setAnswers] = useState([]);
 
   const getText = (text) =>{
     let Text =[];
@@ -109,7 +117,77 @@ export default function GrammarPage() {
   const handleChange = (_event, newValue) => {
     setValue(newValue);
   };
-console.log(grammar)
+  const [isCorrect, setisCorrect] = useState([]);
+
+  const handleClickShowAnswer = () =>{
+    setShowAnswer(true)
+ };
+
+ const handleClickReset = () =>{
+   if (window.confirm('Do you want reload page again?')) {
+     window.location.reload();
+   }
+};
+
+ const handleCheck = (index, i) => {
+   if(answers[index]){
+     if(answers[index].includes(i)){
+       for (var j = 0; j < answers[index].length; j++) {
+         if (answers[index][j] == i) {
+            answers[index].splice(j, 1);
+         }
+       }
+     }
+     else{
+       answers[index].push(i)
+     }
+   }
+   else{
+     let ar=[];
+     answers[index]=ar;
+     answers[index].push(i);
+   }
+ };
+ 
+ const handleClickCheckAnswer = ()=>{
+ if(answers.length>0){
+   console.log(answers)
+     for(var i=0;i<answers.length;i++){
+       if(answers[i])
+       {
+         console.log(i)
+        console.log(answers[i])
+         if(answers[i].length>0){
+           if(answers[i].length>1) {isCorrect[i]=false;}
+           else{
+             if(questions[i].Answers[answers[i][0]].isCorrect==true) {isCorrect[i]=true;}
+             if(questions[i].Answers[answers[i][0]].isCorrect==false) {isCorrect[i]=false;}
+           }
+         }
+         else{
+           if (window.confirm('Chọn đáp án cho tất cả câu hỏi.')) {
+             window.close();
+           }
+         }
+       }
+       else{
+        if (window.confirm('Chọn đáp án cho tất cả câu hỏi.')) {
+          window.close();
+        }
+       }
+     }
+   }
+   else{
+       if (window.confirm('Chọn đáp án cho tất cả câu hỏi.')) {
+         window.close();
+       }
+   }
+   setCheckAnswer(true);
+   setShowAnswer(true)
+ }
+
+ console.log(questions)
+ console.log(isCorrect)
   return (
     <>
       <Container>
@@ -170,7 +248,7 @@ console.log(grammar)
             </div></>
          ))}
           </TabPanel>
-
+                
           <TabPanel value={value} index={2}>
             <Typography variant="h6">
               Answer the following questions about the interview.
@@ -178,27 +256,48 @@ console.log(grammar)
 
 
             {questions && (
-            questions.map((question) => 
+            questions.map((question, index) => 
             <><Typography variant="body2">
                 {question.Content}
+                { checkAnswer && isCorrect[index]==true && (
+                <span>
+                <img src={correctIcon} alt="Correct!"/>
+                </span>
+                )} 
+                 { checkAnswer && isCorrect[index]==false &&(
+                <span>
+                <img src={incorrectIcon} alt="Correct!"/>
+                </span>
+                )} 
               </Typography>
               <FormGroup>
                   {question.Answers.map((item, i) => 
+                  (showAnswer && item.isCorrect==true ?(
                   <FormControlLabel
                     key={i}
-                    control={<Checkbox color="primary" />}
+                    control={<Checkbox color="primary" id={`${item}-${i}`} onClick={()=>handleCheck(index,i)}/>}
+                    label={<Typography style={{ color: '#008000' }}><strong>{item.content}</strong></Typography>}
+                  >
+                  </FormControlLabel>
+                  ):(
+                    <FormControlLabel
+                    key={i}
+                    control={<Checkbox color="primary" id={`${item}-${i}`} onClick={()=>handleCheck(index,i)}/>}
                     label={item.content}
                   >
                   </FormControlLabel>
-                  )}
+                  )
+                  ))} 
                 </FormGroup></>                        
             )
             )}
            
-            <Button color='primary'>Check Answers</Button>
-            <Button color='primary'>Reset Quiz</Button>
-            <Button color='primary'>Show Answers</Button>
+
+            <Button color='primary' onClick={()=> handleClickCheckAnswer()}>Check Answers</Button>
+            <Button color='primary' onClick={()=> handleClickReset()}>Reset Quiz</Button>
+            <Button color='primary' onClick={()=> handleClickShowAnswer()}>Show Answers</Button>
           </TabPanel>
+               
         </Box>
       </Container>
     </>
