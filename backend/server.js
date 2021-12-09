@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const fileUpload = require('express-fileupload');
+const path = require('path');
 
 const app = express();
 app.use(express.urlencoded({extended: true})); 
@@ -13,6 +14,21 @@ app.use(cors());
 app.use(fileUpload({
   useTempFiles: true
 }));
+
+const __dirname = path.resolve();
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "/frontend/build")));
+
+  app.get("*", (req, res) =>
+    res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"))
+  );
+} else {
+  app.get("/", (req, res) => {
+    res.send("API is running...");
+  });
+}
+
 const BASE_URL = '/api'
 app.use(`${BASE_URL}/user`, require('./routes/userRouter'));
 app.use(`${BASE_URL}/grammar`, require('./routes/grammarRouter'));
