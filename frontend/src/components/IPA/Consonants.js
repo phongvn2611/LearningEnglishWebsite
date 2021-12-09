@@ -1,14 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import IPAGroupCollapse from './GroupCollapse';
-import {getIPAByType} from '../../redux/actions/ipaAction'
-import { useDispatch, useSelector } from "react-redux";
 import ipaApi from 'apis/ipaApi';
 
 function Consonants() {
   const [list, setList] = useState([]);
- // const ipas = useSelector((state) => state.ipaReducer.ipas);
  
-  const dispatch = useDispatch();
   useEffect(() => {
   (async function () {
     try {

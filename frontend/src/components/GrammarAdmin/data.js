@@ -1,4 +1,3 @@
-import { Title } from '@material-ui/icons';
 import grammarApi from 'apis/grammarApi';
 import GrammarDetailModal from 'components/UI/GrammarDetailModal';
 import { equalArray } from 'helper';

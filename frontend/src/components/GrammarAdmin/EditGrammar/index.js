@@ -132,7 +132,7 @@ function EditGrammar() {
   const [grammarItems, setgrammarItems] = useState([]);
   const [page, setPage] = useState(1);
   const totalPage = useRef(0);
-console.log(indexEdit)
+
   const [point, setPoint] = useState({
     Point: "",
     Examples: "",
@@ -153,7 +153,7 @@ console.log(indexEdit)
   };
 
   const handleDialogSubmit = () => {
-    if(point.Point.trim()!="" ){
+    if(point.Point.trim() !=="" ){
     if(editItems){
      grammarItems[indexEdit]=point;
      setEditItems(false);
@@ -185,7 +185,7 @@ console.log(indexEdit)
     let arr = [];
     for(let i=0; i<grammarItems.length; i++)
     {
-      if(i != index)
+      if(i !== index)
       arr.push(grammarItems[i])
     }
     setgrammarItems(arr);
@@ -224,7 +224,7 @@ console.log(indexEdit)
   const handleChange = (e) => {
     const { name, value } = e.target;
     setGrammarValue({ ...grammarValue, [name]: value });
-    if(name=="LinkVideo"){
+    if(name ==="LinkVideo"){
       setLinkVideo(value)
     }
   }
@@ -293,10 +293,10 @@ console.log(indexEdit)
       const {Title, Content, Level, Script, Video} = grammarValue;
       let dataSend = [];
       let videoUrl= null;
-      if(video == null){
+      if(video === null){
         console.log(video)
         console.log(linkVideo)
-        if(linkVideo== null || linkVideo.trim()==""){
+        if(linkVideo== null || linkVideo.trim() === ""){
           videoUrl = Video;
         }
         else{
@@ -307,7 +307,6 @@ console.log(indexEdit)
             return;
           }
         }
-        console.log(videoUrl)
         dataSend ={
           Title, Content, Level, Script,
           Items: grammarItems,
@@ -325,7 +324,6 @@ console.log(indexEdit)
           Audio: audio,
         };  
       } 
-      console.log(dataSend)    
       const apiRes = await grammarApi.putGrammar(grammarValue._id, dataSend);
       console.log(apiRes.status)
       if (apiRes.status === 200) {
@@ -348,9 +346,6 @@ console.log(indexEdit)
   function handleClickGoBack() {
     history.push("/admin/listening");
   }
-
-console.log(grammarItems)
-console.log(point)
 
   return (
     <div >

@@ -91,7 +91,7 @@ export const ROUTES = {
   EDIT_GRAMMAR: '/admin/grammar/edit/:id',
   ADD_USER: '/admin/user/add',
   EDIT_USER: '/admin/user/edit/:user_id',
-  CREATE_QUESTION: '/admin/question/add',
+  CREATE_QUESTION: '/admin/quiz/add/:id/:quiz_id',
   QUIZ_DETAIL: '/admin/quiz/details/:id'
 }
 

@@ -1,10 +1,8 @@
 import grammarApi from 'apis/grammarApi';
-import React, { useState, useEffect  } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-// import { messageReducer } from '/src/redux/reducers/messageReducer';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import CreateGrammar from './index';
 import { setMessage } from 'redux/actions/messageAction';
-//import messageReducer from 'redux/reducers/messageReducer';
 
 const analysisLinkVideo = (linkVideo = '') => {
   if (typeof linkVideo !== 'string' || linkVideo === '') {

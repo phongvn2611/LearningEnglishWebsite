@@ -8,7 +8,6 @@ import { dictionaryRoot } from "../components/UI/style";
 import { makeStyles } from "@material-ui/styles";
 import { useHistory } from "react-router-dom";
 import AddIcon from "@material-ui/icons/Add";
-import { ROUTES } from "constants/index";
 import { Button, Typography } from "@material-ui/core";
 import { useDispatch } from "react-redux";
 import { setMessage } from "redux/actions/messageAction";
@@ -66,7 +65,7 @@ export default function QuizDetailPage() {
         {quiz && (
           <AddIcon
             className="dyno-setting-icon mr-5"
-            onClick={() => history.push(ROUTES.CREATE_QUESTION)}
+            onClick={() => history.push(`/admin/quiz/add/${id}/${quizID}`)}
           />
         )}
       </div>

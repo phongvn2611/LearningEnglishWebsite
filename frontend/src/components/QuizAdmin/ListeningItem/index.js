@@ -7,12 +7,8 @@ import WordDetailModal from "components/UI/WordDetailModal";
 import { useDispatch } from "react-redux";
 import { setMessage } from "redux/actions/messageAction";
 import { DEFAULTS } from '../../../constants/index';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete'
 import { deleteListen } from "redux/actions/listeningAction";
 import { useHistory } from "react-router-dom";
-import AddIcon from '@material-ui/icons/Add';
-import { ROUTES } from 'constants/index';
 
 function ListeningItem({ _id, Name, Image, Topic, CreateDate }) {
   const classes = useStyle();
@@ -46,7 +42,7 @@ function ListeningItem({ _id, Name, Image, Topic, CreateDate }) {
           className="w-100 flex-center--ver"
           onClick={() => handleClick(_id)}
         >
-          <img className={classes.picture} src={imgSrc} alt="photo" />
+          <img className={classes.picture} src={imgSrc} alt="" />
           <div className="ml-8 flex-grow-1">
             <h3 className={classes.word}>
               {Name}

@@ -1,9 +1,8 @@
 import LoopIcon from '@material-ui/icons/Loop';
 import AutoSearchInput from 'components/UI/AutoSearchInput';
 import InfiniteScroll from 'components/UI/InfiniteScroll';
-import SortTypeModal from 'components/UI/SortType';
 import PropTypes from 'prop-types';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import useStyle from './style';
 import WordItem from './GrammarItem/index';
 import WordPackSetting from './WordPackSetting';

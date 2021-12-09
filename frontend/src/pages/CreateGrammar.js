@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import CreateGrammarData from "components/GrammarAmin/CreateGrammar/data";
+import CreateGrammarData from "components/GrammarAdmin/CreateGrammar/data";
 //import CreateListeningData from "components/ListeningAdmin/CreateListen/data";
 import { makeStyles } from "@material-ui/core/styles";
 

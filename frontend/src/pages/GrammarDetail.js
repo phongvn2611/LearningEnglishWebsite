@@ -129,7 +129,7 @@ export default function GrammarDetailPage() {
         {grammar.Video ?  (
               <p align="center"><iframe src= {grammar.Video} width="500" height="300"></iframe></p>             
             ):(              
-                <img className={classes.picture} src={imgSrc} alt="photo" align="center" />
+                <img className={classes.picture} src={imgSrc} alt="" align="center" />
         )}
         
         {grammar.Audio && (

@@ -13,7 +13,6 @@ const {
 exports.postQuestion = async (req, res) => {
   try {
     const QuizId = req.params.id;
-
     //check if quiz existed
     const quiz = await getQuizById(QuizId);
     if (!quiz) {
@@ -29,7 +28,6 @@ exports.postQuestion = async (req, res) => {
     }
     return res.status(503).json({ message: "Error, can not create question." });
   } catch (error) {
-    console.error("POST ERROR: ", error);
     return res.status(503).json({ message: "Error, can not create question." });
   }
 };

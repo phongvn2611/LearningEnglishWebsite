@@ -1,6 +1,5 @@
 import { ThemeProvider } from "@material-ui/core/styles";
 import Navigation from "./components/Navigation";
-// import SpeedDials from 'components/SpeedDial';
 import GlobalLoading from "./components/UI/GlobalLoading";
 import Message from "./components/UI/Message";
 import routerConfig from "./configs/routerConfig";

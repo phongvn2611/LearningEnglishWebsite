@@ -16,13 +16,15 @@ import CheckIcon from "@material-ui/icons/Check";
 import AddIcon from "@material-ui/icons/Add";
 import useTitle from "hooks/useTitle";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from "@material-ui/core/styles";
+import questionApi from "apis/questionApi";
+import { useParams } from "react-router";
 
 const schema = yup.object().shape({
-  Content: yup.string().trim().required("Input value"),
-  Answer1: yup.string().trim().required("Input value"),
-  Answer2: yup.string().trim().required("Input value"),
-  Answer3: yup.string().trim().required("Input value"),
+  content: yup.string().trim().required("Input value"),
+  answer1: yup.string().trim().required("Input value"),
+  answer2: yup.string().trim().required("Input value"),
+  answer3: yup.string().trim().required("Input value"),
 });
 
 const useStyle = makeStyles(() => ({
@@ -30,46 +32,46 @@ const useStyle = makeStyles(() => ({
     margin: "3.2rem 0",
   },
   root: {
-    padding: '2.8rem 3.6rem',
-    boxShadow: 'var(--box-shadow)',
-    borderRadius: 'var(--border-radius)',
-    backgroundColor: 'var(--bg-color-sec)',
+    padding: "2.8rem 3.6rem",
+    boxShadow: "var(--box-shadow)",
+    borderRadius: "var(--border-radius)",
+    backgroundColor: "var(--bg-color-sec)",
   },
 
   title: {
-    color: 'var(--title-color)',
-    textTransform: 'capitalize',
-    fontSize: '2.8rem',
-    marginBottom: '1.2rem',
+    color: "var(--title-color)",
+    textTransform: "capitalize",
+    fontSize: "2.8rem",
+    marginBottom: "1.2rem",
   },
 
   grid: {
-    marginTop: '2.4rem',
-    marginBottom: '2.4rem',
+    marginTop: "2.4rem",
+    marginBottom: "2.4rem",
   },
 
   tooltipIcon: {
-    fontSize: '1.6rem',
-    color: 'var(--label-color)',
+    fontSize: "1.6rem",
+    color: "var(--label-color)",
   },
 
   btn: {
-    marginLeft: '1rem',
-    textTransform: 'none',
-    minWidth: '14rem',
+    marginLeft: "1rem",
+    textTransform: "none",
+    minWidth: "14rem",
   },
 
   btnReset: {
-    borderColor: 'var(--accent-color) !important',
-    color: 'var(--accent-color) !important',
+    borderColor: "var(--accent-color) !important",
+    color: "var(--accent-color) !important",
 
-    '&:hover, &:active': {
-      filter: 'brightness(0.85)',
+    "&:hover, &:active": {
+      filter: "brightness(0.85)",
     },
   },
 
   sentenceInput: {
-    minHeight: '8rem',
+    minHeight: "8rem",
   },
 }));
 
@@ -98,6 +100,7 @@ function CreateQuestionPage() {
   });
 
   const [indexCheck, setIndexCheck] = useState(-1);
+  const { id, quiz_id } = useParams();
 
   const handleChangeQuestion = (e) => {
     const { name, value } = e.target;
@@ -121,7 +124,44 @@ function CreateQuestionPage() {
     newArr.check[indexCheck] = false;
     setQuestion(newArr);
   };
-  const onSubmit = () => {};
+  const onSubmit = async () => {
+    try {
+      setSubmitting(true);
+      const isNotCheckAll = (arr) => arr.every((v) => v === false);
+      if (isNotCheckAll(question.check)) {
+        dispatch(setMessage("Please check the correct answer", 'error'));
+        setSubmitting(false);
+      }
+      else {
+        const dataSend = {
+          Content: question.content,
+          Answers: [
+            {
+              content: question.answer1,
+              isCorrect: question.check[0],
+            },
+            {
+              content: question.answer2,
+              isCorrect: question.check[1],
+            },
+            {
+              content: question.answer3,
+              isCorrect: question.check[2],
+            },
+          ],
+        };
+        const apiRes = await questionApi.postQuestion(quiz_id, dataSend);
+        if (apiRes) {
+          dispatch(setMessage('Create question successfully', 'success'));
+          setSubmitting(false);
+          history.replace(`/admin/quiz/details/${id}`);
+        }
+      }
+    } catch (error) {
+      dispatch(setMessage(error.response.data.message, 'error'));
+      setSubmitting(false);
+    }
+  };
 
   return (
     <div className="container">
@@ -137,15 +177,15 @@ function CreateQuestionPage() {
                   <InputCustom
                     className="w-100"
                     label="Câu hỏi"
-                    error={Boolean(errors.Content)}
+                    error={Boolean(errors.content)}
                     inputProps={{
                       name: "content",
-                      ...register("Content"),
+                      ...register("content"),
                     }}
                     onChange={handleChangeQuestion}
                   />
                   {errors.Content && (
-                    <p className="text-error">{errors.Content?.message}</p>
+                    <p className="text-error">{errors.content?.message}</p>
                   )}
                 </Grid>
                 <Grid item xs={12} md={4}>
@@ -153,11 +193,10 @@ function CreateQuestionPage() {
                     className="w-100"
                     label="Đáp án thứ nhất"
                     onChange={handleChangeQuestion}
-                    name="answer1"
-                    error={Boolean(errors.Answer1)}
+                    error={Boolean(errors.answer1)}
                     inputProps={{
                       name: "answer1",
-                      ...register("Answer1"),
+                      ...register("answer1"),
                     }}
                     endAdornment={
                       question.check[0] === false ? (
@@ -176,8 +215,8 @@ function CreateQuestionPage() {
                     }
                   />
 
-                  {errors.Answer1 && (
-                    <p className="text-error">{errors.Answer1?.message}</p>
+                  {errors.answer1 && (
+                    <p className="text-error">{errors.answer1?.message}</p>
                   )}
                 </Grid>
                 <Grid item xs={12} md={4}>
@@ -185,10 +224,10 @@ function CreateQuestionPage() {
                     className="w-100"
                     label="Đáp án thứ hai"
                     onChange={handleChangeQuestion}
-                    error={Boolean(errors.Answer2)}
+                    error={Boolean(errors.answer2)}
                     inputProps={{
                       name: "answer2",
-                      ...register("Answer2"),
+                      ...register("answer2"),
                     }}
                     endAdornment={
                       question.check[1] === false ? (
@@ -206,8 +245,8 @@ function CreateQuestionPage() {
                       )
                     }
                   />
-                  {errors.Answer2 && (
-                    <p className="text-error">{errors.Answer2?.message}</p>
+                  {errors.answer2 && (
+                    <p className="text-error">{errors.answer2?.message}</p>
                   )}
                 </Grid>
                 <Grid item xs={12} md={4}>
@@ -215,10 +254,10 @@ function CreateQuestionPage() {
                     className="w-100"
                     label="Đáp án thứ ba"
                     onChange={handleChangeQuestion}
-                    error={Boolean(errors.Answer3)}
+                    error={Boolean(errors.answer3)}
                     inputProps={{
                       name: "answer3",
-                      ...register("Answer3"),
+                      ...register("answer3"),
                     }}
                     endAdornment={
                       question.check[2] === false ? (
@@ -236,8 +275,8 @@ function CreateQuestionPage() {
                       )
                     }
                   />
-                  {errors.Answer3 && (
-                    <p className="text-error">{errors.Answer3?.message}</p>
+                  {errors.answer3 && (
+                    <p className="text-error">{errors.answer3?.message}</p>
                   )}
                 </Grid>
               </Grid>
