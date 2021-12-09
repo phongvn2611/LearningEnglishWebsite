@@ -4,9 +4,6 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const fileUpload = require('express-fileupload');
-const path = require('path');
-const https = require('https');
-const corsConfig = require('./configs/corsConfig');
 
 const app = express();
 app.use(express.urlencoded({extended: true})); 
