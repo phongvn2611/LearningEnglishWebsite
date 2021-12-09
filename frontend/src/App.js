@@ -19,7 +19,7 @@ const { routes, renderRoutes } = routerConfig;
 function App() {
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
-  const { isAuth } = useSelector((state) => state.authReducer);
+  const { isAuth, role } = useSelector((state) => state.authReducer);
 
   useTheme();
   useVoice();
@@ -34,7 +34,6 @@ function App() {
     return () => {};
   }, []);
 
-
   return (
     <>
       {loading ? (
@@ -47,7 +46,7 @@ function App() {
               <Navigation />
               <Suspense fallback={<GlobalLoading />}>
                 <Switch>
-                  {renderRoutes(routes, isAuth)}
+                  {renderRoutes(routes, isAuth, role)}
                   <Route><NotFoundPage /></Route>
                 </Switch>
               </Suspense>
