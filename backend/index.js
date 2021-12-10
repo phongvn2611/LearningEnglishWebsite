@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const fileUpload = require('express-fileupload');
+const path = require('path')
 
 const app = express();
 app.use(express.urlencoded({extended: true})); 
@@ -31,6 +32,18 @@ mongoose.connect(URI, {
   if (err) throw err;
   console.log("Connected to mongodb");
 })
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("public"));
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname + "/public/index.html"));
+  });
+} else {
+  app.get("/", (req, res) => {
+    res.send("API is running...");
+  });
+}
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
