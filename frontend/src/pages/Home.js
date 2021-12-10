@@ -21,7 +21,7 @@ const FEATURE_LIST = [
     subTitle:
       'Luyện nghe, phát âm chuẩn với 44 âm trong bảng phiên âm quốc tế IPA',
     imgUrl: ipaIcon,
-    to: ROUTES.IPA,
+    to: ROUTES.IPA_LIST,
   },
   {
     title: 'Từ vựng',
@@ -34,7 +34,7 @@ const FEATURE_LIST = [
     title: "Luyện nghe",
     subTitle: 'Rèn luyện kỹ năng nghe thông qua các video và các bài quiz rèn luyện',
     imgUrl: communicateIcon,
-    to: ROUTES.HOME,
+    to: ROUTES.LISTENING_TOPICS,
   },
   {
     title: 'Từ điển',
@@ -46,7 +46,7 @@ const FEATURE_LIST = [
     title: 'Ngữ pháp',
     imgUrl: grammarIcon,
     subTitle: 'Danh sách tổng hợp những cấu trúc câu trong tiếng Anh',
-    to: ROUTES.HOME,
+    to: ROUTES.GRAMMAR_LEVELS,
   },
   {
     title: 'Play Games',

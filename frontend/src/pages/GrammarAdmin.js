@@ -2,7 +2,7 @@ import React from 'react'
 import { dictionaryRoot } from '../components/UI/style'
 import { makeStyles } from '@material-ui/styles';
 import useTitle from './../hooks/useTitle';
-import GrammarAdminData from '../components/GrammarAmin/data'
+import GrammarAdminData from '../components/GrammarAdmin/data'
 
 const useStyle = makeStyles((theme) => ({
   ...dictionaryRoot(theme)

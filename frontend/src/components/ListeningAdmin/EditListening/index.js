@@ -7,61 +7,49 @@ import SaveIcon from "@material-ui/icons/Save";
 import listeningApi from "apis/listeningApi";
 import InputCustom from "components/UI/InputCustom";
 import SelectCustom from "components/UI/SelectCustom";
-import TopicSelect from "components/UI/TopicSelect";
-import { LISTEN_TOPIC} from "constants/listeningTopics";
+import { LISTEN_TOPIC } from "constants/listeningTopics";
 import PropTypes from "prop-types";
-import React, { useRef, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { setMessage } from "redux/actions/messageAction";
 import * as yup from "yup";
 import InformationTooltip from "./../CreateListen/InformationTooltip";
 import useStyle from "./style";
 import { useParams } from "react-router-dom";
-import CameraIcon from "@material-ui/icons/PhotoCamera";
 import { convertImageToBase64 } from "helper/index";
-import useTitle from 'hooks/useTitle';
+import useTitle from "hooks/useTitle";
 import Box from "@material-ui/core/Box";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
-
-
 const schema = yup.object().shape({
-  Name: yup
-    .string()
-    .trim()
-    .required('Input value'),
-  Description: yup
-    .string()
-    .required('Input value'),
+  Name: yup.string().trim().required("Input value"),
+  Description: yup.string().required("Input value"),
   Topic: yup
     .string()
-    .required('Select one')
+    .required("Select one")
     .oneOf(LISTEN_TOPIC.map((i) => i.value)),
-    LinkVideo: yup
-    .string(),
-    Script: yup
-    .string(),
+  LinkVideo: yup.string(),
+  Script: yup.string(),
 });
 
-const analysisLinkVideo = (linkVideo = '') => {
-  if (typeof linkVideo !== 'string' || linkVideo === '') {
+const analysisLinkVideo = (linkVideo = "") => {
+  if (typeof linkVideo !== "string" || linkVideo === "") {
     return null;
   }
-  if(linkVideo.includes("embed")){
+  if (linkVideo.includes("embed")) {
     return linkVideo;
   }
 
-  let checkVid = linkVideo.includes("https://www.youtube.com")
-  if(!checkVid){
-      checkVid =linkVideo.includes("youtu.be/")
-      if(checkVid)
-      {
-        return linkVideo;
-      }
-      return null;
+  let checkVid = linkVideo.includes("https://www.youtube.com");
+  if (!checkVid) {
+    checkVid = linkVideo.includes("youtu.be/");
+    if (checkVid) {
+      return linkVideo;
+    }
+    return null;
   }
   return linkVideo;
 };
@@ -87,7 +75,7 @@ function TabPanel(props) {
     >
       {value === index && (
         <Box sx={{ p: 3 }}>
-         <Grid>{children}</Grid>
+          <Grid>{children}</Grid>
         </Box>
       )}
     </div>
@@ -108,9 +96,8 @@ function a11yProps(index) {
 }
 
 function EditListening() {
-  useTitle('Edit Listening');
+  useTitle("Edit Listening");
   const classes = useStyle();
-  const [resetFlag, setResetFlag] = useState(0);
   const [value, setValue] = useState(1);
   const [submitting, setSubmitting] = useState(false);
   const defaultImg =
@@ -129,7 +116,7 @@ function EditListening() {
   const [listenValue, setListenValue] = useState(null);
   const [image, setImage] = useState(defaultImg);
   const [video, setVideo] = useState(null);
-  const [linkVideo, setLinkVideo] = useState('');
+  const [linkVideo, setLinkVideo] = useState("");
 
   const handleChangePicture = (e) => {
     e.preventDefault();
@@ -141,10 +128,9 @@ function EditListening() {
       if (file.size / 1024 ** 2 > 2) {
         dispatch(setMessage("Size too large", "error"));
       }
-      convertImageToBase64(file).then(res => {
+      convertImageToBase64(file).then((res) => {
         setImage(res);
       });
-      
     } catch (err) {
       throw err;
     }
@@ -154,18 +140,17 @@ function EditListening() {
     e.preventDefault();
     try {
       const file = e.target.files[0];
-     // console.log(file)
+      // console.log(file)
       if (!file) {
         dispatch(setMessage("No files were uploaded", "error"));
       }
       if (file.size / 1024 ** 2 > 2) {
         dispatch(setMessage("Size too large", "error"));
       }
-     convertImageToBase64(file).then(res => {
+      convertImageToBase64(file).then((res) => {
         setVideo(res);
-        console.log(res)
+        console.log(res);
       });
-      
     } catch (err) {
       throw err;
     }
@@ -177,7 +162,7 @@ function EditListening() {
     (async function () {
       const apiRes = await listeningApi.getListenById(id);
       setListenValue(apiRes.data.listen);
-      if(apiRes.data.listen.Video.includes("youtube")){
+      if (apiRes.data.listen.Video.includes("youtube")) {
         setLinkVideo(apiRes.data.listen.Video);
       }
       // else{
@@ -191,65 +176,67 @@ function EditListening() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setListenValue({ ...listenValue, [name]: value });
-    if(name=="LinkVideo"){
-      setLinkVideo(value)
+    if (name === "LinkVideo") {
+      setLinkVideo(value);
     }
-  }
+  };
 
   const handleChangeValue = (event, newValue) => {
     setValue(newValue);
   };
 
-
   const onSubmit = async () => {
-      try {
-        setSubmitting(true);
-        const {Name, Topic, Description, Script, Video} = listenValue;
-        let dataSend = [];
-        let videoUrl= null;
-        if(video == null){
-          console.log(video)
-          console.log(linkVideo)
-          if(linkVideo== null || linkVideo.trim()==""){
-            videoUrl = Video;
+    try {
+      setSubmitting(true);
+      const { Name, Topic, Description, Script, Video } = listenValue;
+      let dataSend = [];
+      let videoUrl = null;
+      if (video == null) {
+        console.log(video);
+        console.log(linkVideo);
+        if (linkVideo == null || linkVideo.trim() === "") {
+          videoUrl = Video;
+        } else {
+          videoUrl = analysisLinkVideo(linkVideo);
+          if (videoUrl == null) {
+            dispatch(setMessage("Link video is invalid.", "warning"));
+            setSubmitting(false);
+            return;
           }
-          else{
-            videoUrl = analysisLinkVideo(linkVideo);
-            if (videoUrl==null) {
-              dispatch(setMessage("Link video is invalid.", "warning"));
-              setSubmitting(false);
-              return;
-            }
-          }
-          console.log(videoUrl)
-          dataSend ={
-            Name, Topic, Description, Script,
-            Image: image,
-           Video: videoUrl,
-          };
         }
-        else{
-          dataSend ={
-            Name, Topic, Description, Script,
-            Image: image,
-            Video: video,
-          };  
-        } 
-        console.log(dataSend)    
-        const apiRes = await listeningApi.putListen(listenValue._id, dataSend);
-        console.log(apiRes.data)
-        if (apiRes.status === 200) {
-          dispatch(setMessage("Update listening successfully", "success"));
-          setSubmitting(false);
-       }
-  
-      } catch (error) {
-        const message =  error.response?.data?.message ||
-        'Error, can not create listening.';
-          dispatch(setMessage(message, "error"));
+        console.log(videoUrl);
+        dataSend = {
+          Name,
+          Topic,
+          Description,
+          Script,
+          Image: image,
+          Video: videoUrl,
+        };
+      } else {
+        dataSend = {
+          Name,
+          Topic,
+          Description,
+          Script,
+          Image: image,
+          Video: video,
+        };
+      }
+      console.log(dataSend);
+      const apiRes = await listeningApi.putListen(listenValue._id, dataSend);
+      console.log(apiRes.data);
+      if (apiRes.status === 200) {
+        dispatch(setMessage("Update listening successfully", "success"));
         setSubmitting(false);
       }
+    } catch (error) {
+      const message =
+        error.response?.data?.message || "Error, can not create listening.";
+      dispatch(setMessage(message, "error"));
+      setSubmitting(false);
     }
+  };
 
   function handleClickGoBack() {
     history.push("/admin/listening");
@@ -331,60 +318,59 @@ function EditListening() {
             </Grid>
 
             <Box sx={{ width: "100%" }}>
-          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-            <Tabs
-              value={value}
-              onChange={handleChangeValue}
-              aria-label="basic tabs example"
-              indicatorColor="primary"
-            >
-              <Tab label="Upload" {...a11yProps(0)} />
-              <Tab label="Link" {...a11yProps(1)} />
-            </Tabs>
-          </Box>
-          <TabPanel value={value} index={0}>
-                   {/* Video */}
-            <Grid item xs={6}>
-              <Grid container alignContent="center">
-              <div className={classes.avtWrap}>
-              <div className={`${classes.cameraIconWrap} flex-center`}>
-                <input
-                  type="file" 
-                  value={listenValue.Video.fileInput}               
-                  className={classes.fileInput}
-                  onChange={handleChangeVideo}
-                  accept="video/*"
-                />
-              </div>
-            </div>
-              </Grid>
-          </Grid>
-          </TabPanel>
+              <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                <Tabs
+                  value={value}
+                  onChange={handleChangeValue}
+                  aria-label="basic tabs example"
+                  indicatorColor="primary"
+                >
+                  <Tab label="Upload" {...a11yProps(0)} />
+                  <Tab label="Link" {...a11yProps(1)} />
+                </Tabs>
+              </Box>
+              <TabPanel value={value} index={0}>
+                {/* Video */}
+                <Grid item xs={6}>
+                  <Grid container alignContent="center">
+                    <div className={classes.avtWrap}>
+                      <div className={`${classes.cameraIconWrap} flex-center`}>
+                        <input
+                          type="file"
+                          value={listenValue.Video.fileInput}
+                          className={classes.fileInput}
+                          onChange={handleChangeVideo}
+                          accept="video/*"
+                        />
+                      </div>
+                    </div>
+                  </Grid>
+                </Grid>
+              </TabPanel>
 
-          <TabPanel value={value} index={1}>
-          <Grid item xs={6} >
-            <InputCustom
-              className="w-100"
-              label="Link Video"
-              multiline
-              value={linkVideo}
-              endAdornment={
-                <InformationTooltip title="Input link youtube" />
-              }
-              inputProps={{
-                name: 'LinkVideo',
-                ...register('LinkVideo'),
-              }}
-              onChange={handleChange}
-            />
+              <TabPanel value={value} index={1}>
+                <Grid item xs={6}>
+                  <InputCustom
+                    className="w-100"
+                    label="Link Video"
+                    multiline
+                    value={linkVideo}
+                    endAdornment={
+                      <InformationTooltip title="Input link youtube" />
+                    }
+                    inputProps={{
+                      name: "LinkVideo",
+                      ...register("LinkVideo"),
+                    }}
+                    onChange={handleChange}
+                  />
 
-            {errors.Video && (
-              <p className="text-error">{errors.Video?.message}</p>
-            )}
-          </Grid>
-
-          </TabPanel>
-        </Box>
+                  {errors.Video && (
+                    <p className="text-error">{errors.Video?.message}</p>
+                  )}
+                </Grid>
+              </TabPanel>
+            </Box>
 
             {/* examples */}
             <Grid item xs={12} md={6} lg={4}>

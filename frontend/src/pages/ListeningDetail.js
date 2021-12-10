@@ -9,8 +9,6 @@ import { useParams } from 'react-router-dom';
 import { useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core";
 
-
-
 export default function ListeningPage() {
   useTitle("Listening");
 
@@ -50,10 +48,8 @@ export default function ListeningPage() {
         <Typography>
         {listen.Description}
         </Typography>
-        {/* phuonglinh */}
        
         <p align="center"><iframe src={listen.Video} width="500" height="300" ></iframe></p>
-    {/* phuonglinh */}
 
     <Typography variant="h6">
         Topic:    <i><mark>  {listen.Topic} </mark></i>

@@ -20,7 +20,7 @@ function Diphthongs() {
 
   return (
     <>
-      <h2 className="dyno-title">2. Nguyên âm đôi (Diphthongs)</h2>
+      <h2 className="dyno-title">2. Diphthongs</h2>
       <h3 className="dyno-sub-title">
        
       </h3>

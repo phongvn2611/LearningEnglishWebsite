@@ -74,7 +74,7 @@ export const ROUTES = {
   EDIT_WORD: '/admin/word/edit/:id',
   IPA_LIST: '/ipa',
   IPA_DETAIL: '/ipa/details/:id',
-  USER_DETAIL: '/admin/user/:user_id',
+  USER_DETAIL: '/admin/user/detail/:user_id',
   WORD_TOPIC: '/word',
   GAME: '/game',
   VOCABULARY: '/word/:topic',
@@ -89,6 +89,10 @@ export const ROUTES = {
   CREATE_GRAMMAR: '/admin/grammar/add',
   EDIT_LISTEN: '/admin/listening/edit/:id',
   EDIT_GRAMMAR: '/admin/grammar/edit/:id',
+  ADD_USER: '/admin/user/add',
+  EDIT_USER: '/admin/user/edit/:user_id',
+  CREATE_QUESTION: '/admin/quiz/add/:id/:quiz_id',
+  QUIZ_DETAIL: '/admin/quiz/details/:id'
 }
 
 export const UX = {
@@ -208,3 +212,9 @@ export const SORT_TYPE = [
   { value: 'Newest', label: 'Newest' },
   { value: 'Oldest', label: 'Oldest' },
 ];
+
+export const ROLE_TYPE = [
+  { value: 'admin', label: 'Admin'},
+  { value: 'instructor', label: 'Instructor'},
+  { value: 'user', label: 'User' },
+]

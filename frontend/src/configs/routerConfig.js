@@ -5,20 +5,23 @@ import ActivationEmailPage from "../pages/ActivationEmail";
 import ResetPasswordPage from "../pages/ResetPassword";
 import LogoutPage from "../pages/Logout";
 import WelcomePage from "../pages/Welcome";
+import NotFoundPage from "../pages/NotFound";
 import { GRAMMAR_LEVEL } from "constants/grammarLevels";
 const HomePage = React.lazy(() => import("../pages/Home"));
 const RegisterPage = React.lazy(() => import("../pages/Register"));
 const LoginPage = React.lazy(() => import("../pages/Login"));
 const ForgotPasswordPage = React.lazy(() => import("../pages/ForgotPassword"));
-const ProfilePage = React.lazy(() => import('../pages/Profile'));
-const AdminPage = React.lazy(() => import('../pages/Admin'));
+const ProfilePage = React.lazy(() => import("../pages/Profile"));
+const AdminPage = React.lazy(() => import("../pages/Admin"));
 const GrammarAdminPage = React.lazy(() => import("../pages/GrammarAdmin"));
 const ListeningAdminPage = React.lazy(() => import("../pages/ListeningAdmin"));
 const QuizAdminPage = React.lazy(() => import("../pages/QuizAdmin"));
 const WordAdminPage = React.lazy(() => import("../pages/WordAdmin"));
 const UserAdminPage = React.lazy(() => import("../pages/UserAdmin"));
 const ListeningPage = React.lazy(() => import("../pages/Listening"));
-const ListeningDetailPage = React.lazy(() => import("../pages/ListeningDetail"));
+const ListeningDetailPage = React.lazy(() =>
+  import("../pages/ListeningDetail")
+);
 const CreateWordPage = React.lazy(() => import("../pages/AddWord"));
 const EditWordPage = React.lazy(() => import("../pages/EditWord"));
 const IPAPage = React.lazy(() => import("../pages/IPA"));
@@ -28,17 +31,26 @@ const WordTopicPage = React.lazy(() => import("../pages/WordTopic"));
 const GamePage = React.lazy(() => import("../pages/Game"));
 //const WordListByTopicPage = React.lazy(() => import("../pages/WordListByTopic"));
 const VocabularyPage = React.lazy(() => import("../pages/Vocabulary"));
-const CreateListeningPage = React.lazy(() => import("../pages/CreateListening"));
+const CreateListeningPage = React.lazy(() =>
+  import("../pages/CreateListening")
+);
 const GrammarPage = React.lazy(() => import("../pages/Grammar"));
-const ListeningByTopicPage = React.lazy(() => import("../pages/ListeningByTopic"));
-const ListeningTopicsPage = React.lazy(() => import("../pages/ListeningTopics"));
+const ListeningByTopicPage = React.lazy(() =>
+  import("../pages/ListeningByTopic")
+);
+const ListeningTopicsPage = React.lazy(() =>
+  import("../pages/ListeningTopics")
+);
 const GrammarByLevelPage = React.lazy(() => import("../pages/GrammarByLevel"));
 const GrammarLevelsPage = React.lazy(() => import("../pages/GrammarLevels"));
 const EditListeningPage = React.lazy(() => import("../pages/EditListening"));
 const CreateGrammarPage = React.lazy(() => import("../pages/CreateGrammar"));
 const EditGrammarPage = React.lazy(() => import("../pages/EditGrammar"));
 const GrammarDetailPage = React.lazy(() => import("../pages/GrammarDetail"));
-
+const AddUserPage = React.lazy(() => import("../pages/AddUser"));
+const EditUserPage = React.lazy(() => import("../pages/EditUser"));
+const CreateQuestionPage = React.lazy(() => import("../pages/CreateQuestion"));
+const QuizDetailPage = React.lazy(() => import("../pages/QuizDetail"));
 
 const routes = [
   {
@@ -46,220 +58,287 @@ const routes = [
     exact: true,
     isProtect: false,
     component: () => <WelcomePage />,
+    role: [],
   },
   {
     path: ROUTES.HOME,
     exact: true,
     isProtect: false,
     component: () => <HomePage />,
+    role: [],
   },
   {
     path: ROUTES.LOGIN,
     exact: true,
     isProtect: false,
     component: () => <LoginPage />,
+    role: [],
   },
   {
     path: ROUTES.REGISTER,
     exact: true,
     isProtect: false,
     component: () => <RegisterPage />,
+    role: [],
   },
   {
     path: ROUTES.FORGOT_PASSWORD,
     exact: true,
     isProtect: false,
     component: () => <ForgotPasswordPage />,
+    role: [],
   },
   {
     path: ROUTES.ACTIVATION_EMAIL,
     exact: true,
     isProtect: false,
     component: () => <ActivationEmailPage />,
+    role: [],
   },
   {
     path: ROUTES.RESET_PASSWORD,
     exact: true,
     isProtect: false,
     component: () => <ResetPasswordPage />,
+    role: [],
   },
   {
     path: ROUTES.PROFILE,
     exact: true,
     isProtect: true,
     component: () => <ProfilePage />,
+    role: ["user", "instructor", "admin"],
   },
   {
     path: ROUTES.LOGOUT,
     exact: true,
     isProtect: false,
     component: () => <LogoutPage />,
+    role: ["user", "instructor", "admin"],
   },
   {
     path: ROUTES.LISTENING,
     exact: true,
     isProtect: true,
     component: () => <ListeningPage />,
+    role: ["user", "instructor", "admin"],
   },
   {
     path: ROUTES.ADMIN,
     exact: true,
     isProtect: true,
     component: () => <AdminPage />,
+    role: ["instructor", "admin"],
   },
   {
     path: ROUTES.GRAMMAR_ADMIN,
     exact: true,
     isProtect: true,
     component: () => <GrammarAdminPage />,
+    role: ["instructor", "admin"],
   },
   {
     path: ROUTES.LISTENING_ADMIN,
     exact: true,
     isProtect: true,
-    component: () => <ListeningAdminPage />
+    component: () => <ListeningAdminPage />,
+    role: ["instructor", "admin"],
   },
   {
     path: ROUTES.LISTENING_DETAIL,
     exact: true,
     isProtect: true,
     component: () => <ListeningDetailPage />,
+    role: ["instructor", "admin"],
   },
   {
     path: ROUTES.QUIZ_ADMIN,
     exact: true,
     isProtect: true,
-    component: () => <QuizAdminPage />
+    component: () => <QuizAdminPage />,
+    role: ["instructor", "admin"],
   },
   {
     path: ROUTES.WORD_ADMIN,
     exact: true,
     isProtect: true,
-    component: () => <WordAdminPage />
+    component: () => <WordAdminPage />,
+    role: ["instructor", "admin"],
   },
   {
     path: ROUTES.ADD_WORD,
     exact: true,
     isProtect: true,
-    component: () => <CreateWordPage />
+    component: () => <CreateWordPage />,
+    role: ["instructor", "admin"],
   },
   {
     path: ROUTES.EDIT_WORD,
     exact: true,
     isProtect: true,
-    component: () => <EditWordPage />
+    component: () => <EditWordPage />,
+    role: ["instructor", "admin"],
   },
   {
     path: ROUTES.IPA_LIST,
     exact: true,
     isProtect: true,
-    component: () => <IPAPage />
+    component: () => <IPAPage />,
+    role: ["user", "instructor", "admin"],
   },
   {
     path: ROUTES.IPA_DETAIL,
     exact: true,
     isProtect: true,
-    component: () => <IPADetailPage />
+    component: () => <IPADetailPage />,
+    role: ["user", "instructor", "admin"],
   },
   {
     path: ROUTES.USER_ADMIN,
     exact: true,
     isProtect: true,
-    component: () => <UserAdminPage />
+    component: () => <UserAdminPage />,
+    role: ["admin"],
   },
   {
     path: ROUTES.USER_DETAIL,
     exact: true,
     isProtect: true,
-    component: () => <UserDetailPage />
+    component: () => <UserDetailPage />,
+    role: ["admin"],
   },
   {
     path: ROUTES.WORD_TOPIC,
     exact: true,
     isProtect: true,
-    component: () => <WordTopicPage />
+    component: () => <WordTopicPage />,
+    role: ["user", "instructor", "admin"],
   },
   {
     path: ROUTES.GAME,
     exact: true,
     isProtect: true,
-    component: () => <GamePage />
+    component: () => <GamePage />,
+    role: ["user", "instructor", "admin"],
   },
   {
     path: ROUTES.VOCABULARY,
     exact: true,
     isProtect: true,
-    component: () => <VocabularyPage />
+    component: () => <VocabularyPage />,
+    role: ["user", "instructor", "admin"],
   },
   {
     path: ROUTES.ADD_LISTEN,
     exact: true,
     isProtect: true,
-    component: () => <CreateListeningPage />
+    component: () => <CreateListeningPage />,
+    role: ["instructor", "admin"],
   },
   {
     path: ROUTES.GRAMMAR,
     exact: true,
     isProtect: true,
-    component: () => <GrammarPage />
+    component: () => <GrammarPage />,
+    role: ["user", "instructor", "admin"],
   },
   {
     path: ROUTES.LISTENING_BY_TOPIC,
     exact: true,
     isProtect: true,
-    component: () => <ListeningByTopicPage />
+    component: () => <ListeningByTopicPage />,
+    role: ["user", "instructor", "admin"],
   },
   {
     path: ROUTES.LISTENING_TOPICS,
     exact: true,
     isProtect: true,
-    component: () => <ListeningTopicsPage />
+    component: () => <ListeningTopicsPage />,
+    role: ["user", "instructor", "admin"],
   },
   {
     path: ROUTES.GRAMMAR_BY_LEVEL,
     exact: true,
     isProtect: true,
-    component: () => <GrammarByLevelPage />
+    component: () => <GrammarByLevelPage />,
+    role: ["user", "instructor", "admin"],
   },
   {
     path: ROUTES.GRAMMAR_LEVELS,
     exact: true,
     isProtect: true,
-    component: () => <GrammarLevelsPage/>
+    component: () => <GrammarLevelsPage />,
+    role: ["user", "instructor", "admin"],
   },
   {
     path: ROUTES.CREATE_GRAMMAR,
     exact: true,
     isProtect: true,
-    component: () => <CreateGrammarPage />
+    component: () => <CreateGrammarPage />,
+    role: ["instructor", "admin"],
   },
   {
     path: ROUTES.EDIT_LISTEN,
     exact: true,
     isProtect: true,
-    component: () => <EditListeningPage />
+    component: () => <EditListeningPage />,
+    role: ["instructor", "admin"],
   },
   {
     path: ROUTES.EDIT_GRAMMAR,
     exact: true,
     isProtect: true,
-    component: () => <EditGrammarPage />
+    component: () => <EditGrammarPage />,
+    role: ["instructor", "admin"],
   },
   {
     path: ROUTES.GRAMMAR_DETAIL,
     exact: true,
     isProtect: true,
-    component: () => <GrammarDetailPage/>
+    component: () => <GrammarDetailPage />,
+    role: ["instructor", "admin"],
+  },
+  {
+    path: ROUTES.ADD_USER,
+    exact: true,
+    isProtect: true,
+    component: () => <AddUserPage />,
+    role: ["admin"],
+  },
+  {
+    path: ROUTES.EDIT_USER,
+    exact: true,
+    isProtect: true,
+    component: () => <EditUserPage />,
+    role: ["admin"],
+  },
+  {
+    path: ROUTES.CREATE_QUESTION,
+    exact: true,
+    isProtect: true,
+    component: () => <CreateQuestionPage />,
+    role: ["instructor", "admin"],
+  },
+  {
+    path: ROUTES.QUIZ_DETAIL,
+    exact: true,
+    isProtect: true,
+    component: () => <QuizDetailPage />,
+    role: ["instructor", "admin"],
   },
 ];
-const renderRoutes = (routes, isAuth = false) => {
+
+const renderRoutes = (routes, isAuth = false, roleType = "") => {
   return routes.map((route, index) => {
-    const { path, exact, component, isProtect } = route;
+    const { path, exact, component, isProtect, role } = route;
     const loginComponent = () => <LoginPage />;
+    const notfoundComponent = () => <NotFoundPage />;
     const componentRender = !isProtect
       ? component
       : isAuth
-      ? component
+      ? role.includes(roleType)
+        ? component
+        : notfoundComponent
       : loginComponent;
 
     return (

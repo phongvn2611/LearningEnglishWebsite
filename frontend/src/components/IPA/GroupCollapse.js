@@ -1,9 +1,5 @@
-import { Grid } from '@material-ui/core';
 import Accordion from '@material-ui/core/Accordion';
-import AccordionDetails from '@material-ui/core/AccordionDetails';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import Speaker from 'components/UI/Speaker';
 import PropTypes from 'prop-types';
 import React from 'react';
 import useStyle from './style';

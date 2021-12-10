@@ -47,7 +47,26 @@ const userApi = {
   },
   unlockUser: (user_id) => {
     return axios.patch(`${URL}/unlock-user/${user_id}`);
-  }
+  },
+  addUser: (user) => {
+    return axios.post(
+      `${URL}/add-user`,
+      { ...user },
+      {
+        header: { "content-type": "multipart/form-data" },
+      }
+    );
+  },
+  editUser: (user_id, user) => {
+    return axios.post(
+      `${URL}/edit-user/${user_id}`,
+      { ...user },
+      {
+        params: { user_id },
+        header: { "content-type": "multipart/form-data" },
+      }
+    );
+  },
 };
 
 export default userApi;

@@ -21,7 +21,7 @@ function Vowels() {
 
   return (
     <>
-      <h2 className="dyno-title">1. Nguyên âm đơn (Vowels)</h2>
+      <h2 className="dyno-title">1. Vowels</h2>
       <h3 className="dyno-sub-title">
        
       </h3>

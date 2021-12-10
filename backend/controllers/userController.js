@@ -278,6 +278,73 @@ exports.unlockUser = async (req, res) => {
   }
 }
 
+exports.addUser = async (req, res) => {
+  try {
+    const { name, email, avatar, role } = req.body;
+    const user = await Users.findOne({ email });
+    if (user) {
+      return res.status(400).json({ message: "This email already exists" });
+    }
+    let avatarUrl = null;
+    if (avatar) {
+      if (avatar.includes("cloudinary")) {
+        avatarUrl = avatar;
+      } else {
+        avatarUrl = await uploadImage(avatar, "english/avatar");
+      }
+    }
+    const passwordHash = await bcrypt.hash("123456", 12);
+    const newUser = new Users({
+      name,
+      email,
+      password: passwordHash,
+      avatar: avatarUrl,
+      roleType: role,
+    });
+    await newUser.save();
+    return res.status(200).json({
+      message: "Create account successfully",
+    });
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
+};
+
+exports.editUser = async (req, res) => {
+  try {
+    const { name, email, avatar, role, initEmail } = req.body;
+    if (email !== initEmail) {
+      const user = await Users.findOne({ email });
+      if (user) {
+        return res.status(400).json({ message: "This email already exists" });
+      }
+    }
+    let avatarUrl = null;
+    if (avatar) {
+      if (avatar.includes("cloudinary")) {
+        avatarUrl = avatar;
+      } else {
+        avatarUrl = await uploadImage(avatar, "english/avatar");
+      }
+    }
+    await Users.findOneAndUpdate(
+      { _id: req.params.user_id },
+      {
+        name,
+        email,
+        avatar: avatarUrl,
+        roleType: role,
+      }
+    );
+
+    return res.status(200).json({
+      message: "Update account successfully",
+    });
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
+};
+
 function validateEmail(email) {
   const re =
     /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

@@ -5,7 +5,7 @@ const { authentication, authRole } = require('../middlewares/authenticationMiddl
 
 quizApi.get('/get-all-quiz',authentication, quizController.getAllQuizzes);
 quizApi.get('/get-quiz-by-id/:id',authentication, quizController.getById);
-quizApi.get('/get-quiz-by-listen/:id',authentication, quizController.getByLiteningId);
+quizApi.get('/get-quiz-by-listen/:id',authentication, quizController.getByListeningId);
 quizApi.post('/post-quiz-by-listen/:id',authentication, quizController.postQuiz);
 quizApi.delete('/delete-quiz-by-listen/:id',authentication, quizController.deleteByListenId);
 quizApi.delete('/delete-quiz-by-id/:id',authentication, authentication, quizController.deleteById);

@@ -26,7 +26,28 @@ router.get(
   checkAdmin,
   userController.getAllUsers
 );
-router.get("/get-user-details/:user_id", authentication, userController.getUserDetails);
-router.patch('/lock-user/:user_id', authentication, checkAdmin, userController.lockUser);
-router.patch('/unlock-user/:user_id', authentication, checkAdmin, userController.unlockUser);
+router.get(
+  "/get-user-details/:user_id",
+  authentication,
+  userController.getUserDetails
+);
+router.patch(
+  "/lock-user/:user_id",
+  authentication,
+  checkAdmin,
+  userController.lockUser
+);
+router.patch(
+  "/unlock-user/:user_id",
+  authentication,
+  checkAdmin,
+  userController.unlockUser
+);
+router.post("/add-user", authentication, checkAdmin, userController.addUser);
+router.post(
+  "/edit-user/:user_id",
+  authentication,
+  checkAdmin,
+  userController.editUser
+);
 module.exports = router;

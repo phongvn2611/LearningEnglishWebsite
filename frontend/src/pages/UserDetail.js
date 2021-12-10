@@ -15,6 +15,7 @@ import { useParams } from "react-router";
 import LockIcon from "@material-ui/icons/Lock";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
 import EditIcon from "@material-ui/icons/Edit";
+import { useHistory } from 'react-router-dom';
 
 const useStyle = makeStyles(() => ({
   wrap: {
@@ -135,6 +136,7 @@ export default function UserDetailPage() {
   const { user_id } = useParams();
   const [userDetail, setUserDetail] = useState([]);
   const dispatch = useDispatch();
+  const history = useHistory();
 
   useEffect(() => {
     (async function () {
@@ -200,6 +202,7 @@ export default function UserDetailPage() {
           <Button
             className={`${classes.editBtn} _btn _btn-primary mb-5`}
             startIcon={<EditIcon />}
+            onClick={() => history.push(`/admin/user/edit/${user_id}`)}
           >
             Chỉnh sửa
           </Button>

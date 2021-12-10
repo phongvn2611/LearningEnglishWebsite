@@ -228,17 +228,20 @@ export default function GrammarPage() {
           <TabPanel value={value} index={0}>
           {getText(grammar.Script).length!=0 && (getText(grammar.Script).map((item) =>
             <Typography variant="body2" align="justify">
-             {item}
+              {item}
             </Typography>
+            
          ))}
           </TabPanel>
 
           <TabPanel value={value} index={1}>
           {grammar.Items && (
               grammar.Items.map((item, index) =>
-            <><Typography className={classes.grammarbox}>
+            <>
+            <Typography className={classes.grammarbox}>
               <p><strong>Point {index+1} :  </strong>{item.Point}</p>
             </Typography>
+           
             <div>
                 {getText(item.Examples).map((it) => 
                 <Typography variant="body2" align="justify">
