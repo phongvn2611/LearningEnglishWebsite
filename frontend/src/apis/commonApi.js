@@ -1,5 +1,5 @@
 import axios from "axios";
-const URL = `${process.env.REACT_APP_API_URL}/api/common`;
+const URL = `/api/common`;
 
 const commonApi = {
   getWordPackTotal: (packInfo) => {

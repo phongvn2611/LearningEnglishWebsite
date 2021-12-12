@@ -1,5 +1,5 @@
 import axios from "axios";
-const URL = `${process.env.REACT_APP_API_URL}/api/word`;
+const URL = `/api/word`;
 
 const wordApi = {
   getWord: (id = '') => {
