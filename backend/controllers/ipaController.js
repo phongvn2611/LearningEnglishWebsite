@@ -1,11 +1,4 @@
-const {
-  createIPA,
-  getAllIPAs,
-  getIPAById,
-  deleteIPAById,
-  getIPAsByType,
-  getIPARelative,
-} = require("../services/ipaService");
+const IPAModel = require('../models/ipaModel');
 
 const { uploadVideo, uploadImage } = require("../services/commonService");
 
@@ -47,7 +40,7 @@ exports.postIPA = async (req, res) => {
     }
 
     // create IPA
-    const ipa = await createIPA({
+    const ipa = await IPAModel.create({
       Audio: audUrl,
       MouthShape,
       Type,
@@ -128,7 +121,7 @@ exports.postIPA = async (req, res) => {
 //get IPA by id
 exports.getById = async (req, res) => {
   try {
-    const ipa = await getIPAById(req.params.id);
+    const ipa = await IPAModel.findById(req.params.id);
     if (ipa) {
       return res.status(200).json(ipa);
     }
@@ -142,7 +135,13 @@ exports.getById = async (req, res) => {
 exports.getIPARelative = async (req, res) => {
   try {
     const { type, phonetic } = req.query;
-    const ipas = await getIPARelative(type, phonetic);
+    const list = await IPAModel.find({ Type: type }).limit(10);
+    let ipas = [];
+    for (let i = 0; i < list.length; i++) {
+      if (list[i].Phonetic != phonetic) {
+        ipas.push(list[i]);
+      }
+    }
     if (ipas) {
       return res.status(200).json(ipas);
     }
@@ -152,36 +151,36 @@ exports.getIPARelative = async (req, res) => {
   }
 };
 
-//delete by id
-exports.deleteById = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const isDelete = await deleteIPAById(id);
-    if (isDelete) {
-      return res.status(200).json({ message: "Delete successfully." });
-    }
-  } catch (error) {
-    console.error("ERROR: ", error);
-    return res.status(503).json({ message: "Eror, can not delete this IPA" });
-  }
-};
+// //delete by id
+// exports.deleteById = async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const isDelete = await deleteIPAById(id);
+//     if (isDelete) {
+//       return res.status(200).json({ message: "Delete successfully." });
+//     }
+//   } catch (error) {
+//     console.error("ERROR: ", error);
+//     return res.status(503).json({ message: "Eror, can not delete this IPA" });
+//   }
+// };
 
-//get all
-exports.getAllIPAs = async (req, res) => {
-  try {
-    const ipas = await getAllIPAs();
-    return res.status(200).json({ ipas });
-  } catch (error) {
-    console.error("ERROR: ", error);
-    return res.status(503).json({ message: "Lỗi dịch vụ, thử lại sau" });
-  }
-};
+// //get all
+// exports.getAllIPAs = async (req, res) => {
+//   try {
+//     const ipas = await getAllIPAs();
+//     return res.status(200).json({ ipas });
+//   } catch (error) {
+//     console.error("ERROR: ", error);
+//     return res.status(503).json({ message: "Lỗi dịch vụ, thử lại sau" });
+//   }
+// };
 
 //get by type
 exports.getIPAsByType = async (req, res) => {
   try {
     const type = req.params.type;
-    const ipas = await getIPAsByType(type);
+    const ipas = await IPAModel.find({ Type: type });
     return res.status(200).json({ ipas });
   } catch (error) {
     console.error("ERROR: ", error);
