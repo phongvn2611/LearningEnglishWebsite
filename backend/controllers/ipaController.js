@@ -1,12 +1,12 @@
 const {
     createIPA,
-    updateIPA,
+    // updateIPA,
     getAllIPAs,
     getIPAById,
     deleteIPAById,
     getIPAsByType,
     getIPARelative
-  } = require('../services/ipaService');
+  } = require('../services/ipaservice');
  
   const {
     uploadVideo,
@@ -67,63 +67,63 @@ const {
     }
   };
 
-  //update IPA
-  exports.putIPA = async (req, res) => {
-    try {
+  // //update IPA
+  // exports.putIPA = async (req, res) => {
+  //   try {
 
-        //check if IPA existed
-      const ipaId = req.params.id;
-      const IPAExist = await getIPAById(ipaId);
+  //       //check if IPA existed
+  //     const ipaId = req.params.id;
+  //     const IPAExist = await getIPAById(ipaId);
 
-      if(!IPAExist) {
-        return res.status(400).json({ message: 'Error, Not found IPA.' });
-      }
+  //     if(!IPAExist) {
+  //       return res.status(400).json({ message: 'Error, Not found IPA.' });
+  //     }
 
-      const {Audio, MouthShape,  Type, Examples, Phonetic, Video, Image} = req.body;
-     //video
-     let videoUrl = null;
-     if (Video) {
-      if(typeof Video === 'string') {
-        let vid = Video.trim();
-        if(vid){
-          let videoId = null;
-          if(Video.includes("=")){
-            videoId = vid.split("=");
-          }
-          else
-          {
-            videoId = vid.split("youtu.be/");
-          }
-          videoUrl= `https://www.youtube.com/embed/${videoId[1]}?enablejsapi=1`;
-        }
-      }
-       else{
-         videoUrl = await uploadVideo(Video, 'dynonary/ipas');
-       }
-     }
+  //     const {Audio, MouthShape,  Type, Examples, Phonetic, Video, Image} = req.body;
+  //    //video
+  //    let videoUrl = null;
+  //    if (Video) {
+  //     if(typeof Video === 'string') {
+  //       let vid = Video.trim();
+  //       if(vid){
+  //         let videoId = null;
+  //         if(Video.includes("=")){
+  //           videoId = vid.split("=");
+  //         }
+  //         else
+  //         {
+  //           videoId = vid.split("youtu.be/");
+  //         }
+  //         videoUrl= `https://www.youtube.com/embed/${videoId[1]}?enablejsapi=1`;
+  //       }
+  //     }
+  //      else{
+  //        videoUrl = await uploadVideo(Video, 'dynonary/ipas');
+  //      }
+  //    }
 
-    //upload Image
-    let imgUrl = null;
-    if (Image) {      
-        imgUrl = await uploadImage(Image, 'dynonary/ipas');
-    }
+  //   //upload Image
+  //   let imgUrl = null;
+  //   if (Image) {      
+  //       imgUrl = await uploadImage(Image, 'dynonary/ipas');
+  //   }
 
-    //upload Audio
-    let audUrl = null;
-    if (Audio) {      
-        audUrl = await uploadVideo(Audio, 'dynonary/ipas');
-    }
+  //   //upload Audio
+  //   let audUrl = null;
+  //   if (Audio) {      
+  //       audUrl = await uploadVideo(Audio, 'dynonary/ipas');
+  //   }
 
-    const ipa = await updateIPA({Audio: audUrl, MouthShape,  Type, Examples, Phonetic, Video: videoUrl, Image: imgUrl});
-    if (ipa) {
-        return res.status(202).json({ipa });
-      }
-      return res.status(503).json({ message: 'Error, can not update IPA.' });return res.status(503).json({ message: 'Error, can not update question.' });
-    } catch (error) {
-      console.error('PUT ERROR: ', error);
-      return res.status(503).json({ message: 'Error, can not update IPA.' });
-    }
-  };
+  //   const ipa = await updateIPA({Audio: audUrl, MouthShape,  Type, Examples, Phonetic, Video: videoUrl, Image: imgUrl});
+  //   if (ipa) {
+  //       return res.status(202).json({ipa });
+  //     }
+  //     return res.status(503).json({ message: 'Error, can not update IPA.' });return res.status(503).json({ message: 'Error, can not update question.' });
+  //   } catch (error) {
+  //     console.error('PUT ERROR: ', error);
+  //     return res.status(503).json({ message: 'Error, can not update IPA.' });
+  //   }
+  // };
 
 
   //get IPA by id
