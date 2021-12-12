@@ -1,5 +1,5 @@
 import axios from "axios";
-const URL = '/api/ipa';
+const URL = `${process.env.REACT_APP_API_URL}/api/ipa`;
 
 const ipaApi = {
   getIPA: (id) => {
