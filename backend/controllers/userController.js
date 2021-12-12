@@ -26,7 +26,7 @@ exports.register = async (req, res) => {
         .status(400)
         .json({ message: "Password must be at least 6 characters" });
     }
-    const passwordHash = bcrypt.hashSync(password, 12);
+    const passwordHash = await bcrypt.hash(password, 12);
     const newUser = {
       name,
       email,
@@ -75,7 +75,7 @@ exports.login = async (req, res) => {
     const user = await Users.findOne({ email });
     if (!user)
       return res.status(400).json({ message: "This email does not exist" });
-    const isMatch = bcrypt.compareSync(password, user.password);
+    const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch)
       return res.status(400).json({ message: "Password is incorrect" });
     if (user.isLocked !== 0)
@@ -135,7 +135,7 @@ exports.resetPassword = async (req, res) => {
   try {
     const { password, access_token } = req.body;
     const user = jwt.verify(access_token, process.env.ACCESS_TOKEN_SECRET);
-    const passwordHash = bcrypt.hashSync(password, 12);
+    const passwordHash = await bcrypt.hash(password, 12);
     await Users.findOneAndUpdate(
       { _id: user.id },
       {
@@ -151,7 +151,7 @@ exports.resetPassword = async (req, res) => {
 exports.updatePassword = async (req, res) => {
   try {
     const { password } = req.body;
-    const passwordHash = bcrypt.hashSync(password, 12);
+    const passwordHash = await bcrypt.hash(password, 12);
     await Users.findOneAndUpdate(
       { _id: req.user.id },
       {
@@ -293,7 +293,7 @@ exports.addUser = async (req, res) => {
         avatarUrl = await uploadImage(avatar, "english/avatar");
       }
     }
-    const passwordHash = bcrypt.hashSync("123456", 12);
+    const passwordHash = await bcrypt.hash("123456", 12);
     const newUser = new Users({
       name,
       email,
