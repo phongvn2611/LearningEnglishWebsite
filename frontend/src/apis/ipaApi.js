@@ -26,12 +26,6 @@ const ipaApi = {
     })
   },
 
-  putIPA: (id, formData, token) => {
-    return axios.put(`${URL}/put-ipa/${id}`, formData, {
-      headers: {Authorization: token}
-    })
-  },
-
   deleteIPA: (id, token) => {
     return axios.delete(`${URL}/delete-ipa/${id}`,{
       headers: {Authorization: token}

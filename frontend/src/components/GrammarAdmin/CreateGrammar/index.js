@@ -77,7 +77,6 @@ function a11yProps(index) {
 
 function CreateGrammar({ onSubmitForm, submitting }) {
   const classes = useStyle();
-  const [resetFlag, setResetFlag] = useState(0);
   const [value, setValue] = useState(1);
   const {
     register,
@@ -88,7 +87,6 @@ function CreateGrammar({ onSubmitForm, submitting }) {
   });
   //grammar item
   const [loading, setLoading] = useState(true);
-  const [list, setList] = useState([]);
   const [more, setMore] = useState(true); // toggle infinite scrolling
   const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [openDialog, setOpenDialog] = useState(false);
@@ -292,7 +290,6 @@ function CreateGrammar({ onSubmitForm, submitting }) {
               label="Level (*)"
               options={GRAMMAR_LEVEL}
               error={Boolean(errors.Level)}
-              resetFlag={resetFlag}
               index={0}
               inputProps={{
                 name: "Level",

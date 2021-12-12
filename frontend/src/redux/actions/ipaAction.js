@@ -1,6 +1,5 @@
 import IPA_CONSTANT from "../constants/ipaConstant";
 import ipaApi from "./../../apis/ipaApi";
-import authReducer from "../reducers/authReducer";
 
 
 export const getIPA = (id) => {
@@ -139,31 +138,6 @@ export const postIPA = (formData) => {
         } catch (error) {
           dispatch({ type: IPA_CONSTANT.SET_IPA_ERROR,
              payload: error.response.message
-          })
-      }
-    }
-};
-
-export const putIPA = (id, formData) => {
-    return async (dispatch, getState) => {
-        try { 
-          const response = await ipaApi.putIPA(id, formData);
-          if(response.status===200){
-            dispatch({
-              type: IPA_CONSTANT.EDIT_IPA,
-              payload: response.data.ipa,
-            })
-          }
-          else
-          {
-            dispatch({
-              type: IPA_CONSTANT.SET_IPA_ERROR,
-              payload: response.data.message,
-            })
-          }
-        } catch (error) {
-          dispatch({ type: IPA_CONSTANT.SET_IPA_ERROR,
-            payload: error.response.message
           })
       }
     }

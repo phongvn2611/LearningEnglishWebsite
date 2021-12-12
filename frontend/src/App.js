@@ -32,7 +32,7 @@ function App() {
     getUser();
     setLoading(false);
     return () => {};
-  }, []);
+  }, [dispatch]);
 
   return (
     <>
