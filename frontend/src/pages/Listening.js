@@ -16,7 +16,16 @@ import {getListening}  from "../redux/actions/listeningAction";
 import { useParams } from 'react-router-dom';
 import incorrectIcon from 'assets/icons/checkAnswer/incorrect.gif';
 import correctIcon from 'assets/icons/checkAnswer/correct.gif'
+import { makeStyles } from "@material-ui/core/styles";
 
+const useStyle = makeStyles((theme) => ({
+  tabcontents: {
+    border: "1px solid #B7B7B7",
+    padding: "10px",
+    backgroundColor: "#FFF",
+    borderRadius: "0 3px 3px 3px",
+}
+}));
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -53,6 +62,7 @@ function a11yProps(index) {
 
 export default function ListeningPage() {
   useTitle("Listening");
+  const classes = useStyle();
   const [value, setValue] = useState(1);
   const [checkAnswer, setCheckAnswer] = useState(false);
   const [showAnswer, setShowAnswer] = useState(false);
@@ -65,15 +75,10 @@ export default function ListeningPage() {
   useEffect(() =>
   dispatch(getListening(listenId),[dispatch]))
 
-  const [answers, setAnswers] = useState([]);
+  window.localStorage.setItem(listenId, listen.Name);
+  console.log(window.localStorage)
 
-  const getScript = (sct) =>{
-    let Script =[];
-    if(sct){
-    Script = sct.split("\n");
-    } 
-    return Script;
-  };
+  const [answers, setAnswers] = useState([]);
   const [isCorrect, setisCorrect] = useState([]);
   const handleClickShowAnswer = () =>{
      setShowAnswer(true)
@@ -143,6 +148,8 @@ export default function ListeningPage() {
     setShowAnswer(true)
   }
 
+  console.log(localStorage
+    );
   return (
     <>
       <Container>
@@ -156,8 +163,10 @@ export default function ListeningPage() {
 
         <p align="center"><iframe src={listen.Video} width="500" height="300" ></iframe></p>
 
+        
+
         <Box sx={{ width: "100%" }}>
-          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+          <Box sx={{ borderBottom: 1, borderColor: "divider" }} >
             <Tabs
               value={value}
               onChange={handleChange}
@@ -168,12 +177,9 @@ export default function ListeningPage() {
               <Tab label="Quiz" {...a11yProps(1)} />
             </Tabs>
           </Box>
+          <div className={classes.tabcontents}>
           <TabPanel value={value} index={0}>
-          {getScript(listen.Script).length!=0 && (getScript(listen.Script).map((item) =>
-            <Typography variant="body2" align="justify">
-             {item}
-            </Typography>
-         ))}
+          <td dangerouslySetInnerHTML={{__html: listen.Script}} />
           </TabPanel>
 
           <TabPanel value={value} index={1}>
@@ -224,7 +230,7 @@ export default function ListeningPage() {
             <Button color='primary' onClick={()=> handleClickReset()}>Reset Quiz</Button>
             <Button color='primary' onClick={()=> handleClickShowAnswer()}>Show Answers</Button>
           </TabPanel>
-
+          </div>
         </Box>
       </Container>
     </>

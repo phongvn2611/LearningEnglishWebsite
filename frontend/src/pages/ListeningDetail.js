@@ -30,14 +30,6 @@ export default function ListeningPage() {
   useEffect(() => 
   dispatch(getListening(listenId)), [dispatch])
 
-  const getScript = (sct) =>{
-    let Script =[];
-    if(sct){
-    Script = sct.split("\n");
-    } 
-    return Script;
-  };
-
   return (
     <>
       <Container>
@@ -58,11 +50,7 @@ export default function ListeningPage() {
     <Typography variant="h6">
         Script: 
     </Typography>
-    {getScript(listen.Script).length!=0 && (getScript(listen.Script).map((item) =>
-            <Typography variant="body2" align="justify">
-             {item}
-            </Typography>
-      ))}
+    <td dangerouslySetInnerHTML={{__html: listen.Script}} />
              
     <Button color='primary' onClick={() => handleClickGoBack()}>GO BACK</Button>
     <Button color='primary'onClick={() => handleClickEdit()}>Edit</Button>

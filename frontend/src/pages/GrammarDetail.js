@@ -35,6 +35,12 @@ const useStyle = makeStyles(() => ({
         height: '30rem',
         marginLeft: '15rem',
       },
+      tabcontents: {
+        border: "1px solid #B7B7B7",
+        padding: "10px",
+        backgroundColor: "#FFF",
+        borderRadius: "0 3px 3px 3px",
+    },
    
   }));
   
@@ -152,13 +158,11 @@ export default function GrammarDetailPage() {
              
             </Tabs>
           </Box>
+          <div className={classes.tabcontents}>
           <TabPanel value={value} index={0}>
-          {getText(grammar.Script).length!=0 && (getText(grammar.Script).map((item) =>
-            <Typography variant="body2" align="justify">
-             {item}
-            </Typography>
-         ))}
+          <td dangerouslySetInnerHTML={{__html: grammar.Script}} />
           </TabPanel>
+          </div>
 
           <TabPanel value={value} index={1}>
           {grammar.Items && (

@@ -11,7 +11,7 @@ ipaApi.post(
   checkInstructor,
   ipaController.postIPA
 );
-ipaApi.put("/put-ipa/:id", authentication, checkInstructor, ipaController.putIPA);
+// ipaApi.put("/put-ipa/:id", authentication, checkInstructor, ipaController.putIPA);
 ipaApi.delete("/delete-ipa/:id", authentication, checkInstructor, ipaController.deleteById);
 ipaApi.get(
   "/get-ipa-by-type/:type",

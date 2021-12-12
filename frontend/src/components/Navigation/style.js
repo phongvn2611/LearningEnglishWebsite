@@ -80,4 +80,38 @@ export default makeStyles((theme) => ({
   registerLabel: {
     fontSize: '1.4rem',
   },
+
+  bbcleNavButton: { 
+    cursor: "pointer",
+    fontSize:"16px",
+    textTransform: "capitalize",
+    fontWeight: "bold",
+    color: "#68C2E8",
+    fontFamily: "Lucida Sans Unicode",
+},
+bgp: {
+  mozBoxSizing: "content-box",
+  webkitBoxSizing: "content-box",
+  boxSizing: "content-box",
+  margin: "0 auto",
+  maxWidth: "1024px",
+  minWidth: "240px",
+  width: "auto",
+},
+
+_lienket: {       
+  backgroundColor: "white",
+  color: "black",
+  border: "2px solid #73AD21",
+  borderRadius: "5px",
+  padding: "10px 20px",
+  textAlign: "center",
+  textDecoration: "none",
+  display: "inline-block",
+  fontSize: "16px",
+  fontFamily: "Lucida Sans Unicode",
+},
+
+
+ 
 }));

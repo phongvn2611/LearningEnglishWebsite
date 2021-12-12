@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import SettingMenu from "./SettingMenu";
 import useStyle from "./style";
 import { cloudinaryImgOptimize } from 'helper';
+import { useHistory } from "react-router-dom";
 
 function Navigation() {
   const classes = useStyle();
@@ -20,7 +21,7 @@ function Navigation() {
   const avtSrc = cloudinaryImgOptimize(user.avatar, 48, 48);
   const [showInput, setShowInput] = useState(isXsDevice);
   const [anchorMenu, setAnchorMenu] = useState(null);
-
+  const history= useHistory();
   const onOpenMenu = (e) => setAnchorMenu(e.currentTarget);
   const onCloseMenu = () => setAnchorMenu(null);
 
@@ -29,15 +30,25 @@ function Navigation() {
       <div className={`${classes.nav} w-100`}>
         <div className="container h-100 flex-center--ver">
           {(isXsDevice || !showInput) && (
-            <Link to={ROUTES.HOME}>
+            <><Link to={ROUTES.HOME}>
               <img
                 className={`${classes.imgSize} ${classes.logo}`}
-                src={
-                  "https://res.cloudinary.com/phongvn2611/image/upload/v1637319049/english/avatar/logo-horizon_vmirgt.png"
-                }
-                alt="Logo"
-              />
+                src={"https://res.cloudinary.com/phongvn2611/image/upload/v1637319049/english/avatar/logo-horizon_vmirgt.png"}
+                alt="Logo" />
             </Link>
+
+            { user && user.roleType=="admin" && (
+              <div className="container" align="center">
+                <div className={classes.bgp}>
+              <Button className={classes.bbcleNavButton} onClick={()=>history.push(ROUTES.LISTENING_TOPICS)} >Listening</Button>
+              <Button className={classes.bbcleNavButton} onClick={()=>history.push(ROUTES.GRAMMAR_LEVELS)}>Grammar</Button>
+              <Button className={classes.bbcleNavButton} onClick={()=>history.push(ROUTES.WORD_TOPIC)}>Vocabulary</Button>
+              <Button className={classes.bbcleNavButton} onClick={()=>history.push(ROUTES.IPA_LIST)}>Pronunciation</Button>
+
+              </div>
+              </div>
+            )}
+            </>
           )}
           <div className={`${classes.control} flex-center--ver`}>
             {showInput && !isXsDevice && (
@@ -52,12 +63,12 @@ function Navigation() {
                 <Avatar
                   className={`${classes.imgSize} ${classes.avt} cur-pointer`}
                   alt="Username"
-                  src={avtSrc}
-                />
+                  src={avtSrc} />
                 <p className={classes.name}>
                   {user.name}
                 </p>
               </div>
+                
             ) : (
               <div>
                 <Link to={ROUTES.REGISTER}>

@@ -10,6 +10,7 @@ import WordSkeleton from './WordSkeleton';
 import AddIcon from '@material-ui/icons/Add';
 import { ROUTES } from 'constants/index';
 import { useHistory } from 'react-router-dom';
+import RichTextEditor from 'components/UI/RichTextEditor';
 
 function GrammarAdmin({
   list,

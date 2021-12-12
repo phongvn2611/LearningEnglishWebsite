@@ -158,7 +158,7 @@ const {
   //delete by id
   exports.deleteById = async (req, res) => {
     try {
-      const { id } = req.params.id;
+      const id = req.params.id;
       const isDelete = await deleteIPAById(id);
       if (isDelete) {
         return res.status(200).json({ message: 'Delete successfully.' });

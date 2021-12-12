@@ -29,6 +29,7 @@ import InfiniteScroll from 'components/UI/InfiniteScroll';
 import grammarApi from 'apis/grammarApi';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { useParams } from "react-router-dom";
+import RichTextEditor from 'components/UI/RichTextEditor';
 
 const schema = yup.object().shape({
   Title: yup
@@ -201,6 +202,10 @@ function EditGrammar() {
   const [video, setVideo] = useState(null);
   const [audio, setAudio] = useState(null);
   const [linkVideo, setLinkVideo] = useState('');
+  const [script, setScript] = useState("");
+  const getScript = (spt) => {
+    setScript(spt);
+  };
 
   const { id } = useParams();
 
@@ -211,9 +216,7 @@ function EditGrammar() {
       if(apiRes.data.Video?.includes("youtube")){
         setLinkVideo(apiRes.data.Video);
       }
-      // else{
-      //   setVideo(apiRes.data.listen.Video);
-      // }
+      setScript(apiRes.data.Script)
       setImage(apiRes.data.Image);
       setgrammarItems(apiRes.data.Items);
       setAudio(apiRes.data.Audio)
@@ -290,7 +293,7 @@ function EditGrammar() {
   const onSubmit = async () => {
     try {
       setSubmitting(true);
-      const {Title, Content, Level, Script, Video} = grammarValue;
+      const {Title, Content, Level, Video} = grammarValue;
       let dataSend = [];
       let videoUrl= null;
       if(video === null){
@@ -308,20 +311,22 @@ function EditGrammar() {
           }
         }
         dataSend ={
-          Title, Content, Level, Script,
+          Title, Content, Level,
           Items: grammarItems,
           Image: image,
           Video: videoUrl,
           Audio: audio,
+          Script: script,
         };
       }
       else{
         dataSend ={
-          Title, Content, Level, Script,
+          Title, Content, Level,
           Items: grammarItems,
           Image: image,
           Video: video,
           Audio: audio,
+          Script: script,
         };  
       } 
       const apiRes = await grammarApi.putGrammar(grammarValue._id, dataSend);
@@ -501,29 +506,19 @@ function EditGrammar() {
           </Grid>
           </TabPanel>
         </Box>
-                
-              {/* {Script} */}
-              <Grid item xs={12}>
-            <InputCustom
-              className="w-100"
-              label="Script"
-              multiline
-              value={grammarValue.Script}
-              endAdornment={
-                <InformationTooltip title="Input script for listening" />
-              }
-              error={Boolean(errors.Script)}
-              inputProps={{
-                name: 'Script',
-                ...register('Script'),
-              }}
-              onChange={handleChange}
-            />
-               {errors.Script && (
-              <p className="text-error">{errors.Script?.message}</p>
-            )}
-          </Grid>
         </Grid>
+
+      {/* Script */}
+      <div className="row">
+          <div className="col-md-6" style={{ margin: "auto", marginTop: "50px" }}>
+            <div style={{ textAlign: "center" }}>
+              <h3>Rich Text Editor</h3>
+            </div>
+            <RichTextEditor initialValue={script} getValue={getScript} />
+           
+          </div>
+        </div> 
+
 
         {/* Grammar Item */}
         <div className={`${classes.root2} dyno-container`}>

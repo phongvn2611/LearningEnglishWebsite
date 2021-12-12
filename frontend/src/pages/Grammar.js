@@ -186,8 +186,6 @@ export default function GrammarPage() {
    setShowAnswer(true)
  }
 
- console.log(questions)
- console.log(isCorrect)
   return (
     <>
       <Container>
@@ -226,12 +224,7 @@ export default function GrammarPage() {
             </Tabs>
           </Box>
           <TabPanel value={value} index={0}>
-          {getText(grammar.Script).length!=0 && (getText(grammar.Script).map((item) =>
-            <Typography variant="body2" align="justify">
-              {item}
-            </Typography>
-            
-         ))}
+          <td dangerouslySetInnerHTML={{__html: grammar.Script}} />
           </TabPanel>
 
           <TabPanel value={value} index={1}>
