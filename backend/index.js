@@ -4,9 +4,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const fileUpload = require('express-fileupload');
-const path = require('path');
-const https = require('https');
-const corsConfig = require('./configs/corsConfig');
+const path = require('path')
 
 const app = express();
 app.use(express.urlencoded({extended: true})); 
@@ -19,12 +17,12 @@ app.use(fileUpload({
 const BASE_URL = '/api'
 app.use(`${BASE_URL}/user`, require('./routes/userRouter'));
 app.use(`${BASE_URL}/grammar`, require('./routes/grammarRouter'));
-app.use(`${BASE_URL}/ipa`, require('./routes/ipaRouter'));
 app.use(`${BASE_URL}/listening`, require('./routes/listeningRouter'));
 app.use(`${BASE_URL}/question`, require('./routes/questionRouter'));
 app.use(`${BASE_URL}/quiz`, require('./routes/quizRouter'));
 app.use(`${BASE_URL}/word`, require('./routes/wordRouter'));
 app.use(`${BASE_URL}/common`, require('./routes/commonRouter'));
+app.use(`${BASE_URL}/ipa`, require('./routes/ipaRouter'));
 
 const URI = process.env.MONGODB_URL;
 mongoose.connect(URI, {
@@ -34,6 +32,18 @@ mongoose.connect(URI, {
   if (err) throw err;
   console.log("Connected to mongodb");
 })
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("public"));
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname + "/public/index.html"));
+  });
+} else {
+  app.get("/", (req, res) => {
+    res.send("API is running...");
+  });
+}
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

@@ -14,6 +14,14 @@ import { ROUTES } from '../constants';
 import useScrollTop from '../hooks/useScrollTop';
 import useTitle from '../hooks/useTitle';
 import React from 'react';
+import { makeStyles } from "@material-ui/core";
+import { Link } from 'react-router-dom';
+import './style/home.scss';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faAddressBook, faArchive, faAtom,faBook, faBookReader, faCoffee, faLanguage } from '@fortawesome/free-solid-svg-icons'
+import { faBookOpen } from '@fortawesome/free-solid-svg-icons'
+
+
 
 const FEATURE_LIST = [
   {
@@ -66,22 +74,156 @@ const FEATURE_LIST = [
 
 function HomePage() {
   useTitle('Study');
-
+//const classes= useStyle();
   return (
-    <div className="container my-10">
-      <Grid container spacing={3}>
-        {FEATURE_LIST.map((box, index) => (
-          <Grid item xs={12} md={6} lg={4} key={index}>
-            <FeatureBox
-              imgUrl={box.imgUrl}
-              title={box.title}
-              to={box.to}
-              subTitle={box.subTitle}
-            />
-          </Grid>
-        ))}
+    <div>
+    <section className="section section-height-2 border-0 mt-5 mb-0 pt-5">
+      <div className="row text-capitalize pt-3" align="center">
+						<div className="col-md-10 mx-md-auto">
+							<h1 className="mb-2 mt-2 text-2">
+								<p style={{fontSize: '3.2rem', fontWeight:800, color:'gray'}}> you can learn English for free!</p>
+							</h1>
+							<div className="row">
+							<p style={{fontSize: '2.2rem', fontWeight:800, color:'blue'}}>
+								Skill Group 
+							</p>
+							</div>
+						</div>
+			</div>
+
+    <div className="container mb-5 pb-4" >
+    <Grid container spacing={1} >
+        <Grid item xs={3} md={1} lg={3} key ={0}>		
+        <div className="featured-boxes featured-boxes-flat">
+          <div className="row">
+            <div className="col-lg-3 col-sm-6">
+              <div className="featured-box featured-box-primary featured-box-effect-2" style={{height: '264.8px'}}>
+                <div className="box-content box-content-border-bottom">
+                  <a href={ROUTES.LISTENING_TOPICS}><i className="icon-featured" ><FontAwesomeIcon icon={faCoffee} color='black' /></i>
+                    <h1 className="font-weight-normal" style={{color:"#000066"}}>Listening</h1>
+                  </a>
+                  <p className="mb-2 mt-2 text-2">Listening videos and answer the questions.</p>
+                </div>
+              </div>
+            </div>
+          
+          </div>
+      </div>
       </Grid>
+
+      <Grid item xs={3} md={1} lg={3} key ={0}>		
+        <div className="featured-boxes featured-boxes-flat">
+          <div className="row">
+            <div className="col-lg-3 col-sm-6">
+              <div className="featured-box featured-box-primary featured-box-effect-2" style={{height: '264.8px'}}>
+                <div className="box-content box-content-border-bottom">
+                  <a href={ROUTES.GRAMMAR_LEVELS}><i className="icon-featured" ><FontAwesomeIcon icon={faBook} color='black' /></i>
+                    <h1 className="font-weight-normal" style={{color:"#0000CC"}}>Grammar</h1>
+                  </a>
+                  <p className="mb-2 mt-2 text-2">Your guide to English grammar.</p>
+                  <br></br>
+                  <br></br>
+                </div>
+              </div>
+            </div>
+          
+          </div>
+      </div>
+      </Grid>
+
+      <Grid item xs={3} md={1} lg={3} key ={0}>		
+        <div className="featured-boxes featured-boxes-flat">
+          <div className="row">
+            <div className="col-lg-3 col-sm-6">
+              <div className="featured-box featured-box-primary featured-box-effect-2" style={{height: '264.8px'}}>
+                <div className="box-content box-content-border-bottom">
+                  <a href={ROUTES.WORD_TOPIC}><i className="icon-featured" ><FontAwesomeIcon icon={faBookOpen} color='black' /></i>
+                    <h1 className="font-weight-normal" style={{color:"#3366FF"}}>Vocabulary</h1>
+                  </a>
+                  <p className="mb-2 mt-2 text-2">Learn English vocabulary by topic.</p>
+                  <br></br>
+                  <br></br>
+                </div>
+              </div>
+            </div>
+          
+          </div>
+      </div>
+      </Grid>
+
+      <Grid item xs={3} md={1} lg={3} key ={0}>		
+        <div className="featured-boxes featured-boxes-flat">
+          <div className="row">
+            <div className="col-lg-3 col-sm-6">
+              <div className="featured-box featured-box-primary featured-box-effect-2" style={{height: '264.8px'}}>
+                <div className="box-content box-content-border-bottom">
+                  <a href={ROUTES.IPA_LIST}><i className="icon-featured" ><FontAwesomeIcon icon={faAddressBook} color='black' /></i>
+                    <h1 className="font-weight-normal" style={{color:"#3399FF"}}>Pronunciation</h1>
+                  </a>
+                  <p className="mb-2 mt-2 text-2">Tricky English pronunciation. With listening practice.</p>
+                  
+                </div>
+              </div>
+            </div>
+          
+          </div>
+      </div>
+      </Grid>
+    </Grid>
+
+  <div className="row text-capitalize pt-3" align="center">
+						<div className="col-md-10 mx-md-auto">
+						
+							<div className="row">
+							<p style={{fontSize: '2.2rem', fontWeight:800, color:'blue'}}>
+								Tool Group 
+							</p>
+							</div>
+						</div>
+	</div>
+
+    <Grid container spacing={1}>       
+    <Grid item xs={3} md={1} lg={3} key ={0}>		
+      <div className="featured-boxes featured-boxes-flat">
+        <div className="row">
+          <div className="col-lg-3 col-sm-6">
+            <div className="featured-box featured-box-primary featured-box-effect-2" style={{height: '264.8px'}}>
+              <div className="box-content box-content-border-bottom">
+                <a href="grammarpage.html"><i className="icon-featured" ><FontAwesomeIcon icon={faLanguage} color='black' /></i>
+                  <h1 className="font-weight-normal" style={{color:"#3199FF"}}>Dictionary</h1>
+                </a>
+                <p className="mb-2 mt-2 text-2">Tricky English pronunciation. With listening practice.</p>
+                
+              </div>
+            </div>
+          </div>        
+        </div>
     </div>
+    </Grid>
+
+    <Grid item xs={3} md={1} lg={3} key ={1}>		
+      <div className="featured-boxes featured-boxes-flat">
+        <div className="row">
+          <div className="col-lg-3 col-sm-6">
+            <div className="featured-box featured-box-primary featured-box-effect-2" style={{height: '264.8px'}}>
+              <div className="box-content box-content-border-bottom">
+                <a href="grammarpage.html"><i className="icon-featured" ><FontAwesomeIcon icon={faAtom} color='black' /></i>
+                  <h1 className="font-weight-normal" style={{color:"#3355FF"}}>Games</h1>
+                </a>
+                <p className="mb-2 mt-2 text-2">Tricky English pronunciation. With listening practice.</p>
+                
+              </div>
+            </div>
+          </div>        
+        </div>
+    </div>
+    </Grid>
+
+  </Grid>
+ </div>
+ </section>
+</div>
+       
   );
 }
 

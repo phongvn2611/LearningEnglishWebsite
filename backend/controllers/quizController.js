@@ -12,10 +12,10 @@ exports.postQuiz = async (req, res) => {
   try {
     const ListeningId = req.params.id;
     //check if quiz existed
-    // const listen = await getListenById(ListeningId);
-    // if (!listen) {
-    //   return res.status(400).json({ message: "Error, Not found quiz." });
-    // }
+    const listen = await getListenById(ListeningId);
+    if (!listen) {
+      return res.status(400).json({ message: "Error, Not found quiz." });
+    }
 
     // create quiz
     const quiz = await createQuiz({ ListeningId });

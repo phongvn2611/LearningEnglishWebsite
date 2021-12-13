@@ -1,5 +1,5 @@
 import axios from "axios";
-const URL = "/api/user";
+const URL = `/api/user`;
 const userApi = {
   login: (email, password) => {
     return axios.post(`${URL}/login`, { email, password });

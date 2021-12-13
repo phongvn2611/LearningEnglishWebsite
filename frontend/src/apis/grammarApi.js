@@ -1,5 +1,5 @@
 import axios from "axios";
-const URL = '/api/grammar';
+const URL = `/api/grammar`;
 
 const grammarApi = {
   getGrammar: (id) => {

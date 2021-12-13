@@ -18,6 +18,7 @@ import userApi from "../apis/userApi";
 import { UX } from "../constants";
 import LoopIcon from "@material-ui/icons/Loop";
 import { setMessage } from "./../redux/actions/messageAction";
+import {useSelector } from "react-redux";
 
 const schema = yup.object().shape({
   email: yup.string().required("Email đang trống").email("Email không hợp lệ"),
@@ -30,7 +31,7 @@ const schema = yup.object().shape({
 function LoginPage() {
   useTitle("Login");
   useCloseNavigation();
-
+  const { isAuth, role } = useSelector((state) => state.authReducer);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const history = useHistory();
@@ -58,9 +59,16 @@ function LoginPage() {
       setLoading(true);
       const res = await userApi.login(user.email, user.password);
       dispatch(setMessage(res.data.message, "success"));
+        if(res.data.user.roleType =="user"){
+        setTimeout(() => {
+          window.location.replace('/home');
+        }, UX.DELAY_TIME);
+        }
+    else{
       setTimeout(() => {
-        window.location.replace('/home');
+        window.location.replace('/admin');
       }, UX.DELAY_TIME);
+      }
     } catch (error) {
       dispatch(setMessage(error.response?.data?.message, "error"));
       setLoading(false);

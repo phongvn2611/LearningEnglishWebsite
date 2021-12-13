@@ -1,5 +1,5 @@
 import axios from "axios";
-const URL = '/api/listening';
+const URL = `/api/listening`;
 
 const listeningApi = {
   getListening: (id) => {

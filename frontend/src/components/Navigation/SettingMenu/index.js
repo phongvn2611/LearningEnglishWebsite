@@ -39,10 +39,10 @@ function SettingMenu({ anchorEl, onClose }) {
             </MenuItem>
           </Link>
           {role !== "user" ? (
-            <Link to={ROUTES.ADMIN}>
+            <Link to={ROUTES.HOME}>
               <MenuItem className={classes.menuItem}>
                 <FaceIcon className={classes.icon} fontSize="small" />
-                <p className={classes.text}>Admin</p>
+                <p className={classes.text}>User</p>
               </MenuItem>
             </Link>
           ) : (

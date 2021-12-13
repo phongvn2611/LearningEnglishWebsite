@@ -1,5 +1,5 @@
 import axios from "axios";
-const URL = "/api/quiz";
+const URL = `/api/quiz`;
 
 const quizApi = {
   getQuiz: (id, token) => {

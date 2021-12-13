@@ -1,5 +1,5 @@
 import axios from "axios";
-const URL = '/api/word';
+const URL = `/api/word`;
 
 const wordApi = {
   getWord: (id = '') => {

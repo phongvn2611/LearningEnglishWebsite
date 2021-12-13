@@ -20,9 +20,10 @@ import Sports from 'assets/images/listenTopics/Sports.jpg';
 import Technology from 'assets/images/listenTopics/Technology.jpg';
 import Travel from 'assets/images/listenTopics/Travel.jpg';
 import Work from 'assets/images/listenTopics/Work.jpg';
+import Other from 'assets/images/listenTopics/Other.jpg';
 
 export const LISTEN_TOPIC = [
-    { value: 'Other', label: 'Other', image: 'Other'  },
+    { value: 'Other', label: 'Other', image: Other  },
     { value: 'Culture', label: 'Culture', image: Culture },
     { value: 'Economics', label: 'Economics', image: Economics },
     { value: 'Appearance', label: 'Appearance', image: Appearance },

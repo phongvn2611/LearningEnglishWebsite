@@ -1,4 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
+import Background from 'assets/images/background.jpg';
 
 const imgSize = '4.8rem',
   iconSize = '2.4rem';
@@ -99,18 +100,26 @@ bgp: {
   width: "auto",
 },
 
-_lienket: {       
-  backgroundColor: "white",
-  color: "black",
-  border: "2px solid #73AD21",
-  borderRadius: "5px",
-  padding: "10px 20px",
-  textAlign: "center",
-  textDecoration: "none",
-  display: "inline-block",
-  fontSize: "16px",
-  fontFamily: "Lucida Sans Unicode",
+bbcleHeader: {
+ // background: "#68C2E8",
+  background: `url(${ Background })`,
+  height: "350px",
+  margin: "0px",
+  position: "",
+  width: "100%",
 },
+
+bbcleHeaderMasthead: {
+ color:"white",
+  height: "224px",
+  marginLeft:"100px",
+  fontSize: "50px",
+  fontWeight:"bold",
+  paddingBottom: "0",
+  paddingTop: "200px",
+  zIndex: "99", 
+  whiteSpace: "nowrap",
+}
 
 
  

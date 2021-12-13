@@ -37,8 +37,8 @@ function Navigation() {
                 alt="Logo" />
             </Link>
 
-            { user && user.roleType=="admin" && (
-              <div className="container" align="center">
+            { user && user.roleType!=="admin" && user.roleType!=="instructor" && (
+             
                 <div className={classes.bgp}>
               <Button className={classes.bbcleNavButton} onClick={()=>history.push(ROUTES.LISTENING_TOPICS)} >Listening</Button>
               <Button className={classes.bbcleNavButton} onClick={()=>history.push(ROUTES.GRAMMAR_LEVELS)}>Grammar</Button>
@@ -46,10 +46,11 @@ function Navigation() {
               <Button className={classes.bbcleNavButton} onClick={()=>history.push(ROUTES.IPA_LIST)}>Pronunciation</Button>
 
               </div>
-              </div>
+              
             )}
             </>
           )}
+         
           <div className={`${classes.control} flex-center--ver`}>
             {showInput && !isXsDevice && (
               <ArrowBackIosIcon
@@ -57,6 +58,7 @@ function Navigation() {
                 onClick={() => setShowInput(!showInput)}
               />
             )}
+            
 
             {isAuth ? (
               <div className={classes.auth} onClick={onOpenMenu}>
@@ -70,7 +72,7 @@ function Navigation() {
               </div>
                 
             ) : (
-              <div>
+              <div >
                 <Link to={ROUTES.REGISTER}>
                   <Button
                     className="_btn _btn-primary"
@@ -101,10 +103,33 @@ function Navigation() {
                 </Link>
               </div>
             )}
+           
             <SettingMenu anchorEl={anchorMenu} onClose={onCloseMenu} />
+         
           </div>
         </div>
       </div>
+
+      { user && user.roleType!=="admin" && user.roleType!=="instructor" && (
+      <div className={classes.bbcleHeader}>
+      <div className={classes.bbcleHeaderMasthead}>
+          <a style={{backgroundColor:"black"}}>L</a><span> </span>
+          <a style={{backgroundColor:"black"}}>E</a><span> </span>
+          <a style={{backgroundColor:"black"}}>A</a><span> </span>
+          <a style={{backgroundColor:"black"}}>R</a><span> </span>
+          <a style={{backgroundColor:"black"}}>N</a><span> </span>
+          <a style={{backgroundColor:"black"}}>I</a><span> </span>
+          <a style={{backgroundColor:"black"}}>N</a><span> </span>
+          <a style={{backgroundColor:"black"}}>G</a><span> </span>
+          <a style={{backgroundColor:"black"}}>E</a><span> </span>
+          <a style={{backgroundColor:"black"}}>N</a><span> </span>
+          <a style={{backgroundColor:"black"}}>L</a><span> </span>
+          <a style={{backgroundColor:"black"}}>I</a><span> </span>
+          <a style={{backgroundColor:"black"}}>S</a><span> </span>
+          <a style={{backgroundColor:"black"}}>H</a><span> </span>
+      </div>
+      </div>
+      )}
     </div>
   );
 }

@@ -37,7 +37,7 @@ const ListeningModel = new Schema({
   },
 
   Script: {
-    type: String ,
+    type: String,
     default: null,
   },
 });

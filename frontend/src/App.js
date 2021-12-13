@@ -11,6 +11,7 @@ import React, { Suspense, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Element } from "react-scroll";
+import Contact from "./components/Contacts";
 
 import userApi from './apis/userApi';
 import { getUserInfo } from "./redux/actions/authAction";
@@ -32,7 +33,7 @@ function App() {
     getUser();
     setLoading(false);
     return () => {};
-  }, []);
+  }, [dispatch]);
 
   return (
     <>
@@ -50,6 +51,7 @@ function App() {
                   <Route><NotFoundPage /></Route>
                 </Switch>
               </Suspense>
+              <Contact/>
               <div id="_overlay"></div>
               <Message />
             </div>
