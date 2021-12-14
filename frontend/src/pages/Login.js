@@ -19,6 +19,8 @@ import { UX } from "../constants";
 import LoopIcon from "@material-ui/icons/Loop";
 import { setMessage } from "./../redux/actions/messageAction";
 import {useSelector } from "react-redux";
+import useCloseContact from 'hooks/useCloseContact';
+
 
 const schema = yup.object().shape({
   email: yup.string().required("Email đang trống").email("Email không hợp lệ"),
@@ -31,6 +33,7 @@ const schema = yup.object().shape({
 function LoginPage() {
   useTitle("Login");
   useCloseNavigation();
+  useCloseContact();
   const { isAuth, role } = useSelector((state) => state.authReducer);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();

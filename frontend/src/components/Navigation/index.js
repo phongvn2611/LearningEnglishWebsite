@@ -74,7 +74,7 @@ function Navigation() {
                 
             ) : (
               <div >
-                <Link to={ROUTES.REGISTER}>
+               {/* <Link to={ROUTES.REGISTER}> */}
                   <Button
                     className="_btn _btn-primary"
                     classes={{
@@ -84,11 +84,12 @@ function Navigation() {
                     variant="contained"
                     color="primary"
                     size="small"
+                     onClick={()=>window.location.replace("/register")}
                   >
                     Đăng ký
                   </Button>
-                </Link>
-                <Link to={ROUTES.LOGIN}>
+                  {/* </Link> */}
+               {/* <Link to={ROUTES.LOGIN}> */}
                   <Button
                     className="_btn _btn-primary"
                     classes={{
@@ -98,10 +99,11 @@ function Navigation() {
                     variant="contained"
                     color="primary"
                     size="small"
+                   onClick={()=>window.location.replace("/login")}
                   >
                     Đăng nhập
                   </Button>
-                </Link>
+                  {/* </Link> */}
               </div>
             )}
            

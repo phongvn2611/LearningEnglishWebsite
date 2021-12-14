@@ -1,7 +1,7 @@
 
 import React, { useState} from "react";
 import { useSelector } from "react-redux";
-import '../../utils/contact.scss';
+import '../Contacts/contact.scss';
 import logo from "assets/images/logo2.png";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FaFacebookSquare, FaMailBulk, FaFacebookMessenger, FaTwitter } from "react-icons/fa";
@@ -10,6 +10,7 @@ import { FaFacebookSquare, FaMailBulk, FaFacebookMessenger, FaTwitter } from "re
 
 function Contact() {
     const { isAuth, user } = useSelector((state) => state.authReducer);
+   
   return (
       <div id="dynoContact">
     { user && user.roleType !=="admin" &&  user.roleType !=="instructor" &&(
