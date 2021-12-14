@@ -50,7 +50,7 @@ function FastGameData() {
   }, [topicKey]);
 
   const handleGoBack = () => {
-    history.push(ROUTES.GAMES.HOME);
+    history.push(ROUTES.GAMES_HOME);
   };
 
   const renderTopic = () => (

@@ -189,7 +189,7 @@ function HomePage() {
           <div className="col-lg-3 col-sm-6">
             <div className="featured-box featured-box-primary featured-box-effect-2" style={{height: '264.8px'}}>
               <div className="box-content box-content-border-bottom">
-                <a href="grammarpage.html"><i className="icon-featured" ><FontAwesomeIcon icon={faLanguage} color='black' /></i>
+                <a href={ROUTES.IPA_LIST}><i className="icon-featured" ><FontAwesomeIcon icon={faLanguage} color='black' /></i>
                   <h1 className="font-weight-normal" style={{color:"#3199FF"}}>Dictionary</h1>
                 </a>
                 <p className="mb-2 mt-2 text-2">Tricky English pronunciation. With listening practice.</p>
@@ -207,11 +207,12 @@ function HomePage() {
           <div className="col-lg-3 col-sm-6">
             <div className="featured-box featured-box-primary featured-box-effect-2" style={{height: '264.8px'}}>
               <div className="box-content box-content-border-bottom">
-                <a href="grammarpage.html"><i className="icon-featured" ><FontAwesomeIcon icon={faAtom} color='black' /></i>
-                  <h1 className="font-weight-normal" style={{color:"#3355FF"}}>Games</h1>
+                <a href={ROUTES.GAMES_HOME}><i className="icon-featured" ><FontAwesomeIcon icon={faAtom} color='black' /></i>
+                  <h1 className="font-weight-normal" style={{color:"#3355FF"}}>Play Games</h1>
                 </a>
-                <p className="mb-2 mt-2 text-2">Tricky English pronunciation. With listening practice.</p>
-                
+                <p className="mb-2 mt-2 text-2">Play games to review.</p>
+                <br></br>
+                  <br></br>
               </div>
             </div>
           </div>        

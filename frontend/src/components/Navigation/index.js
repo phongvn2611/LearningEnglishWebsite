@@ -44,7 +44,8 @@ function Navigation() {
               <Button className={classes.bbcleNavButton} onClick={()=>history.push(ROUTES.GRAMMAR_LEVELS)}>Grammar</Button>
               <Button className={classes.bbcleNavButton} onClick={()=>history.push(ROUTES.WORD_TOPIC)}>Vocabulary</Button>
               <Button className={classes.bbcleNavButton} onClick={()=>history.push(ROUTES.IPA_LIST)}>Pronunciation</Button>
-
+              <Button className={classes.bbcleNavButton} onClick={()=>history.push(ROUTES.IPA_LIST)}>Dictionary</Button>
+              <Button className={classes.bbcleNavButton} onClick={()=>history.push(ROUTES.GAMES_HOME)}>Games</Button>
               </div>
               
             )}

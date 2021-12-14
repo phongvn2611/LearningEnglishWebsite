@@ -11,7 +11,7 @@ import { FaFacebookSquare, FaMailBulk, FaFacebookMessenger, FaTwitter } from "re
 function Contact() {
     const { isAuth, user } = useSelector((state) => state.authReducer);
   return (
-      <div>
+      <div id="dynoContact">
     { user && user.roleType !=="admin" &&  user.roleType !=="instructor" &&(
     <footer id="footer">
     <div className="container">
