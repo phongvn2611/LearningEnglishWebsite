@@ -92,7 +92,17 @@ export const ROUTES = {
   ADD_USER: '/admin/user/add',
   EDIT_USER: '/admin/user/edit/:user_id',
   CREATE_QUESTION: '/admin/quiz/add/:id/:quiz_id',
-  QUIZ_DETAIL: '/admin/quiz/details/:id'
+  QUIZ_DETAIL: '/admin/quiz/details/:id',
+  GAMES_HOME: '/games',
+  GAMES_CORRECT_WORD: '/games/correct-word',
+  GAMES_CORRECT_WORD_ADV: '/games/correct-word-advance',
+  GAMES_MILLIONAIRE: '/games/who-is-a-millionaire',
+  GAMES_JIGSAW: '/games/jigsaw-puzzle',
+  GAMES_FAST_GAME: '/games/fast-game',
+  GAMES_WORD_MATCHING: '/games/word-match',
+  GAMES_GRAMMARLY: '/games/grammarly',
+  GAMES_VIP: '/games/vip',
+
 }
 
 export const UX = {

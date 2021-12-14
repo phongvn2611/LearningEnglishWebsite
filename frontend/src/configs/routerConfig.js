@@ -28,8 +28,6 @@ const IPAPage = React.lazy(() => import("../pages/IPA"));
 const IPADetailPage = React.lazy(() => import("../components/IPA/DetailIPA"));
 const UserDetailPage = React.lazy(() => import("../pages/UserDetail"));
 const WordTopicPage = React.lazy(() => import("../pages/WordTopic"));
-const GamePage = React.lazy(() => import("../pages/Game"));
-//const WordListByTopicPage = React.lazy(() => import("../pages/WordListByTopic"));
 const VocabularyPage = React.lazy(() => import("../pages/Vocabulary"));
 const CreateListeningPage = React.lazy(() =>
   import("../pages/CreateListening")
@@ -51,6 +49,10 @@ const AddUserPage = React.lazy(() => import("../pages/AddUser"));
 const EditUserPage = React.lazy(() => import("../pages/EditUser"));
 const CreateQuestionPage = React.lazy(() => import("../pages/CreateQuestion"));
 const QuizDetailPage = React.lazy(() => import("../pages/QuizDetail"));
+const CorrectWordPage = React.lazy(() => import('pages/PlayGames/CorrectWord'));
+const WordMatchGamePage = React.lazy(() => import('pages/PlayGames/WordMatch'));
+const FastGamePage = React.lazy(() => import('pages/PlayGames/FastGame'));
+const PlayGamesPage = React.lazy(() => import('pages/PlayGames'));
 
 const routes = [
   {
@@ -215,13 +217,6 @@ const routes = [
     role: ["user", "instructor", "admin"],
   },
   {
-    path: ROUTES.GAME,
-    exact: true,
-    isProtect: true,
-    component: () => <GamePage />,
-    role: ["user", "instructor", "admin"],
-  },
-  {
     path: ROUTES.VOCABULARY,
     exact: true,
     isProtect: true,
@@ -325,6 +320,30 @@ const routes = [
     isProtect: true,
     component: () => <QuizDetailPage />,
     role: ["instructor", "admin"],
+  },
+  {
+    path: ROUTES.GAMES_HOME,
+    exact: true,
+    isProtect: false,
+    component: () => <PlayGamesPage />,
+  },
+  {
+    path: ROUTES.GAMES_CORRECT_WORD,
+    exact: true,
+    isProtect: false,
+    component: () => <CorrectWordPage />,
+  },
+  {
+    path: ROUTES.GAMES_WORD_MATCHING,
+    exact: true,
+    isProtect: false,
+    component: () => <WordMatchGamePage />,
+  },
+  {
+    path: ROUTES.GAMES_FAST_GAME,
+    exact: true,
+    isProtect: false,
+    component: () => <FastGamePage />,
   },
 ];
 

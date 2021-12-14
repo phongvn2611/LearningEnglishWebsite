@@ -1,4 +1,4 @@
-const { MIN } = require('../constant');
+const { MIN } = require('../constants');
 
 const generateWrongWordList = (
   word = '',
@@ -52,6 +52,7 @@ const randomWordQuestionPack = (list = [], amount = 100) => {
   // shuffle list and generate seed list
   const seedList = list.sort(() => Math.random() - 0.5).slice(0, n);
   let confusingList = list.slice(n + 1);
+  console.log(confusingList.length)
   const isEnough = confusingList.length > MIN.CONFUSING_LIST;
 
   for (let i = 0; i < n; ++i) {

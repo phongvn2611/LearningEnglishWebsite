@@ -345,6 +345,28 @@ exports.editUser = async (req, res) => {
   }
 };
 
+exports.putUpdateUserCoin = async (req, res) => {
+  try {
+    const { newCoin } = req.body;
+    const username = req.user?.username;
+    if (!username) {
+      return res.status(406).json({ message: 'Not Accept' });
+    }
+
+    const update = await updateUserCoin(newCoin, username);
+
+    if (update) {
+      return res.status(200).json({ message: 'success' });
+    }
+
+    return res.status(406).json({ message: 'Not Accept' });
+  } catch (error) {
+    console.error('PUT UPDATE USER COIN ERROR: ', error);
+    return res.status(503).json({ message: 'Lỗi dịch vụ, thử lại sau' });
+  }
+};
+
+
 function validateEmail(email) {
   const re =
     /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

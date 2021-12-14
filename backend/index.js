@@ -23,6 +23,8 @@ app.use(`${BASE_URL}/quiz`, require('./routes/quizRouter'));
 app.use(`${BASE_URL}/word`, require('./routes/wordRouter'));
 app.use(`${BASE_URL}/common`, require('./routes/commonRouter'));
 app.use(`${BASE_URL}/ipa`, require('./routes/ipaRouter'));
+app.use(`${BASE_URL}/games`, require('./routes/gameRouter'));
+app.use(`${BASE_URL}/highscore`, require('./routes/highScoreRouter'));
 
 const URI = process.env.MONGODB_URL;
 mongoose.connect(URI, {

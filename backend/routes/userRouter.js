@@ -50,4 +50,9 @@ router.post(
   checkAdmin,
   userController.editUser
 );
+router.put(
+  '/update-coin',
+  authentication,
+  userController.putUpdateUserCoin,
+);
 module.exports = router;
