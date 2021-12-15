@@ -81,7 +81,7 @@ exports.putContributeWord = async (req, res, next) => {
     }
     return res.status(503).json({ message: "Error, can not update word." });
   } catch (error) {
-    console.error("PUT CONTRIBUTE WORD ERROR: ", error);
+    // console.error("PUT CONTRIBUTE WORD ERROR: ", error);
     return res.status(503).json({ message: "Error, can not update word." });
   }
 };
@@ -118,7 +118,7 @@ exports.getWordPack = async (req, res) => {
 
     return res.status(200).json({ packList });
   } catch (error) {
-    console.error("WORD GET WORD PACK ERROR: ", error);
+    // console.error("WORD GET WORD PACK ERROR: ", error);
     return res.status(503).json({ message: "Lỗi dịch vụ, thử lại sau" });
   }
 };

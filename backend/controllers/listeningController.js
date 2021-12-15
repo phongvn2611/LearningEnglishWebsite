@@ -100,19 +100,23 @@ exports.putListen = async (req, res, next) => {
         }
       }
       else{
-        // if(Video.includes("cloudinary"))
-        // {
-        //   videoUrl= Video;
-        // }
-        // else{
+        if(Video.includes("cloudinary")){
+          videoUrl= Video;
+        }
+        else{      
             videoUrl = await uploadVideo(Video, 'video');
-      //  }
+        }
       }
 
       //upload Image
       let imgUrl = null;
-      if (Image) {      
+      if (Image) {
+        if(Image.includes("cloudinary")){
+          imgUrl =Image
+        }
+        else{      
           imgUrl = await uploadImage(Image, 'english/listening');
+        }             
       }
 
     // update
@@ -154,7 +158,6 @@ exports.getListening = async (req, res, next) => {
       return res.status(200).json({listen, questions});
     }
   }
-
   return res.status(200).json({listen, questions:null});
 
   } catch (error) {

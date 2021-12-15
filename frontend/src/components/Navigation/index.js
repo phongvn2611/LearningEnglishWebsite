@@ -37,18 +37,24 @@ function Navigation() {
                 alt="Logo" />
             </Link>
 
-            { user && user.roleType!=="admin" && user.roleType!=="instructor" && (
+            <div className={classes.bgp}>
+            { user && user.roleType ==="admin" || user.roleType ==="instructor" ? (
              
-                <div className={classes.bgp}>
-              <Button className={classes.bbcleNavButton} onClick={()=>history.push(ROUTES.LISTENING_TOPICS)} >Listening</Button>
-              <Button className={classes.bbcleNavButton} onClick={()=>history.push(ROUTES.GRAMMAR_LEVELS)}>Grammar</Button>
-              <Button className={classes.bbcleNavButton} onClick={()=>history.push(ROUTES.WORD_TOPIC)}>Vocabulary</Button>
-              <Button className={classes.bbcleNavButton} onClick={()=>history.push(ROUTES.IPA_LIST)}>Pronunciation</Button>
-              <Button className={classes.bbcleNavButton} onClick={()=>history.push(ROUTES.IPA_LIST)}>Dictionary</Button>
-              <Button className={classes.bbcleNavButton} onClick={()=>history.push(ROUTES.GAMES_HOME)}>Games</Button>
-              </div>
+                 
+              <><Button className={classes.bbcleNavButton} onClick={() => history.push(ROUTES.LISTENING_ADMIN)}>Listening</Button><Button className={classes.bbcleNavButton} onClick={() => history.push(ROUTES.GRAMMAR_ADMIN)}>Grammar</Button><Button className={classes.bbcleNavButton} onClick={() => history.push(ROUTES.WORD_ADMIN)}>Vocabulary</Button><Button className={classes.bbcleNavButton} onClick={() => history.push(ROUTES.WORD_ADMIN)}>Pronunciation</Button><Button className={classes.bbcleNavButton} onClick={() => history.push(ROUTES.USER_ADMIN)}>User</Button></>
+            
+             
               
-            )}
+            ):
+
+         (
+             
+            
+          <><Button className={classes.bbcleNavButton} onClick={() => history.push(ROUTES.LISTENING_TOPICS)}>Listening</Button><Button className={classes.bbcleNavButton} onClick={() => history.push(ROUTES.GRAMMAR_LEVELS)}>Grammar</Button><Button className={classes.bbcleNavButton} onClick={() => history.push(ROUTES.WORD_TOPIC)}>Vocabulary</Button><Button className={classes.bbcleNavButton} onClick={() => history.push(ROUTES.IPA_LIST)}>Pronunciation</Button><Button className={classes.bbcleNavButton} onClick={() => history.push(ROUTES.IPA_LIST)}>Dictionary</Button><Button className={classes.bbcleNavButton} onClick={() => history.push(ROUTES.GAMES_HOME)}>Games</Button></>
+         
+          
+        )}
+         </div>
             </>
           )}
          

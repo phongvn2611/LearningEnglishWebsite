@@ -15,7 +15,7 @@ import useScrollTop from '../hooks/useScrollTop';
 import useTitle from '../hooks/useTitle';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import '../utils/home.scss';
+import './style/home.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAddressBook, faArchive, faAtom,faBook, faBookReader, faCoffee, faLanguage } from '@fortawesome/free-solid-svg-icons'
 import { faBookOpen } from '@fortawesome/free-solid-svg-icons'
