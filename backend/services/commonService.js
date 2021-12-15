@@ -65,7 +65,7 @@ exports.isExistSentence = async (sentence = '') => {
 exports.getWordPack = async (
   packInfo = {},
   skip = 0,
-  limit = 1000,
+  limit = 10,
   select = '',
   sortType = null,
   expandQuery = null,
