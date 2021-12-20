@@ -20,7 +20,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyle = makeStyles((theme) => ({
   tabcontents: {
-    border: "1px solid #B7B7B7",
+    border: "1px solid #2eb8b8",
     padding: "10px",
     backgroundColor: "#FFF",
     borderRadius: "0 3px 3px 3px",
@@ -40,7 +40,7 @@ function TabPanel(props) {
     >
       {value === index && (
         <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
+          <Typography >{children}</Typography>
         </Box>
       )}
     </div>
@@ -75,8 +75,8 @@ export default function ListeningPage() {
   useEffect(() =>
   dispatch(getListening(listenId),[dispatch]))
 
-  window.localStorage.setItem(listenId, listen.Name);
-  console.log(window.localStorage)
+  // window.localStorage.setItem(listenId, listen.Name);
+  // console.log(window.localStorage)
 
   const [answers, setAnswers] = useState([]);
   const [isCorrect, setisCorrect] = useState([]);
@@ -115,15 +115,38 @@ export default function ListeningPage() {
   };
   
   const handleClickCheckAnswer = ()=>{
-  if(answers.length>0){
-      for(var i=0;i<answers.length;i++){
-        if(answers[i])
-        {
-          if(answers[i].length>0){
-            if(answers[i].length>1) {isCorrect[i]=false;}
+    if(answers.length>0){
+        for(var i=0;i<answers.length;i++){
+          if(answers[i])
+          {
+            if(answers[i].length>0){
+              let numberCorrect = 0;
+              for(let j=0; j< questions[i].Answers.length;j++)
+              {
+                if(questions[i].Answers[j].isCorrect==true) {
+                  numberCorrect += 1;
+                }
+                console.log(answers[i])
+              }
+              if(numberCorrect == answers[i].length)
+              {
+                isCorrect[i] = true;
+                for(let k=0; k < answers[i].length;k++)
+                {
+                  if(questions[i].Answers[answers[i][k]].isCorrect==false) {isCorrect[i]=false;} 
+                }
+              }
+              else {isCorrect[i] = false;}
+             
+              // if(answers[i].length>1) {isCorrect[i]=false;}
+              // else{
+              //   if(questions[i].Answers[answers[i][0]].isCorrect==true) {isCorrect[i]=true;}
+              //   if(questions[i].Answers[answers[i][0]].isCorrect==false) {isCorrect[i]=false;}
+            }
             else{
-              if(questions[i].Answers[answers[i][0]].isCorrect==true) {isCorrect[i]=true;}
-              if(questions[i].Answers[answers[i][0]].isCorrect==false) {isCorrect[i]=false;}
+              if (window.confirm('Chọn đáp án cho tất cả câu hỏi.')) {
+                window.close();
+              }
             }
           }
           else{
@@ -132,24 +155,17 @@ export default function ListeningPage() {
             }
           }
         }
-        else{
+      }
+      else{
           if (window.confirm('Chọn đáp án cho tất cả câu hỏi.')) {
             window.close();
           }
-        }
       }
+      setCheckAnswer(true);
+      setShowAnswer(true)
     }
-    else{
-        if (window.confirm('Chọn đáp án cho tất cả câu hỏi.')) {
-          window.close();
-        }
-    }
-    setCheckAnswer(true);
-    setShowAnswer(true)
-  }
 
-  console.log(localStorage
-    );
+  
   return (
     <>
       <Container>
@@ -166,12 +182,13 @@ export default function ListeningPage() {
         
 
         <Box sx={{ width: "100%" }}>
-          <Box sx={{ borderBottom: 1, borderColor: "divider" }} >
+          <Box sx={{ borderBottom: 1, borderColor: "divider", backgroundColor:"#2eb8b8", color:"white" }} >
             <Tabs
               value={value}
               onChange={handleChange}
               aria-label="basic tabs example"
               indicatorColor="primary"
+              
             >
               <Tab label="Script" {...a11yProps(0)} />
               <Tab label="Quiz" {...a11yProps(1)} />

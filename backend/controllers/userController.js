@@ -8,6 +8,10 @@ const fs = require("fs");
 
 const { CLIENT_URL } = process.env;
 
+const {
+  updateUserCoin,
+} = require('../services/userService');
+
 exports.register = async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -236,6 +240,16 @@ exports.getAllUsers = async (req, res) => {
   }
 }
 
+exports.getTopCoin = async (req, res) => {
+  try {
+    const users = await Users.find().sort( {coin : -1} );
+    return res.status(200).json(users);
+  }
+  catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
+}
+
 exports.getUserDetails = async (req, res) => {
   try {
     const user = await Users.findById(req.params.user_id);
@@ -348,12 +362,12 @@ exports.editUser = async (req, res) => {
 exports.putUpdateUserCoin = async (req, res) => {
   try {
     const { newCoin } = req.body;
-    const username = req.user?.username;
-    if (!username) {
+    const _id = req.user?.id;
+    if (!_id) {
       return res.status(406).json({ message: 'Not Accept' });
     }
 
-    const update = await updateUserCoin(newCoin, username);
+    const update = await updateUserCoin(newCoin, _id);
 
     if (update) {
       return res.status(200).json({ message: 'success' });

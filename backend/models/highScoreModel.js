@@ -2,20 +2,16 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const highscoreSchema = new Schema({
-  Name: {
+  name: {
     type: String,
     required: true,
   },
-  top: [
-    {
-      accountId: {
-        type: Schema.Types.ObjectId,
-        required: true,
-        ref: 'account',
-      },
-      score: Number,
-    },
-  ],
+  accountId: {
+    type: Schema.Types.ObjectId,
+    required: true,
+    ref: 'users',
+  },
+  coin: Number,
 });
 
 const HighscoreModel = mongoose.model(

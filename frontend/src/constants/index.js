@@ -102,7 +102,8 @@ export const ROUTES = {
   GAMES_WORD_MATCHING: '/games/word-match',
   GAMES_GRAMMARLY: '/games/grammarly',
   GAMES_VIP: '/games/vip',
-
+  LEADERBOARD: '/leaderboard',
+  EDIT_QUESTION: '/admin/quiz/edit/:listen_id/:id',
 }
 
 export const UX = {

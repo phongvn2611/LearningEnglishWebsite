@@ -5,7 +5,7 @@ const { getWordPack } = require('../services/commonService');
 // ======== CORRECT WORD GAME ========
 exports.getWordPackCWG = async (req, res, next) => {
   try {
-    let { nQuestion = 50, ...packInfo } = req.query;
+    let { nQuestion = 20, ...packInfo } = req.query;
 
     nQuestion = parseInt(nQuestion);
     if (nQuestion > MAX.LEN_WORD_PACK) nQuestion = MAX.LEN_WORD_PACK;
@@ -33,7 +33,7 @@ exports.getWordPackCWG = async (req, res, next) => {
 // ======== WORD MATCH GAME ========
 exports.getWordPackWMG = async (req, res, next) => {
   try {
-    let { nQuestion = 50, ...packInfo } = req.query;
+    let { nQuestion = 20, ...packInfo } = req.query;
     nQuestion = parseInt(nQuestion);
     if (nQuestion > MAX.LEN_WORD_PACK) nQuestion = MAX.LEN_WORD_PACK;
 

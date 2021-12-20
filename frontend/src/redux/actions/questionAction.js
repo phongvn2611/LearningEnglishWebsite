@@ -24,13 +24,11 @@ export const getQuestion = (id) => {
             })
           }
         } catch (error) {
-          dispatch({ type: QUESTION_CONSTANT.SET_QUESTION_ERROR })
-          error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message
+          dispatch({ type: QUESTION_CONSTANT.SET_QUESTION_ERROR, payload: error.message})
+
         }
-      }
-};
+      }        
+    };
 
 export const getQuestionByQuiz = (id) => {
     return async (dispatch, getState) => {
@@ -54,13 +52,10 @@ export const getQuestionByQuiz = (id) => {
             })
           }
         } catch (error) {
-          dispatch({ type: QUESTION_CONSTANT.SET_QUESTION_ERROR })
-          error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message
+          dispatch({ type: QUESTION_CONSTANT.SET_QUESTION_ERROR, payload: error.message})
         }
       }
-};
+    };
 
 export const postQuestionByQuiz = (id, formData) => {
     return async (dispatch, getState) => {
@@ -84,13 +79,10 @@ export const postQuestionByQuiz = (id, formData) => {
             })
           }
         } catch (error) {
-          dispatch({ type: QUESTION_CONSTANT.SET_QUESTION_ERROR })
-          error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message
+          dispatch({ type: QUESTION_CONSTANT.SET_QUESTION_ERROR, payload: error.message})
         }
       }
-};
+    };
 
 export const putQuestion = (id, formData) => {
     return async (dispatch, getState) => {
@@ -114,22 +106,16 @@ export const putQuestion = (id, formData) => {
             })
           }
         } catch (error) {
-          dispatch({ type: QUESTION_CONSTANT.SET_QUESTION_ERROR })
-          error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message
+          dispatch({ type: QUESTION_CONSTANT.SET_QUESTION_ERROR, payload: error.message})
         }
       }
-};
+    };
 
-export const deleteQuestion = (id, formData) => {
-    return async (dispatch, getState) => {
+export const deleteQuestion = (id) => {
+    return async (dispatch) => {
         try { 
-          const {
-            authReducer: { user },
-          } = getState();
-
-          const response = await questionApi.deleteQuestion(id, formData, user.access_token);
+      
+          const response = await questionApi.deleteQuestion(id);
           if(response.status===200){
             dispatch({
               type: QUESTION_CONSTANT.DELETE_QUESTION,
@@ -144,13 +130,11 @@ export const deleteQuestion = (id, formData) => {
             })
           }
         } catch (error) {
-          dispatch({ type: QUESTION_CONSTANT.SET_QUESTION_ERROR })
-          error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message
+          dispatch({ type: QUESTION_CONSTANT.SET_QUESTION_ERROR, payload: error.message})
+
         }
       }
-};
+            };
 
 export const deleteQuestionByQuiz = (id, formData) => {
     return async (dispatch, getState) => {
@@ -174,10 +158,8 @@ export const deleteQuestionByQuiz = (id, formData) => {
             })
           }
         } catch (error) {
-          dispatch({ type: QUESTION_CONSTANT.SET_QUESTION_ERROR })
-          error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message
+          dispatch({ type: QUESTION_CONSTANT.SET_QUESTION_ERROR, payload: error.message})
         }
       }
-};
+    
+  };

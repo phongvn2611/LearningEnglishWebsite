@@ -41,8 +41,15 @@ function WordMatchGame({ list }) {
       nRightConsecutive.current.top = nRightConsecutive.current.n;
     }
     setTimeout(() => {
-      if (current >= nQuestion) {
+      if (current+1 >= nQuestion) {
+       
         handleDone();
+        setState({
+       //   current: current + 1,
+          nRight: nRight + 1,
+         // resetFlag: current,
+          nWrong,
+        });
       } else {
         setIsDelay(false);
         setState({
@@ -76,6 +83,7 @@ function WordMatchGame({ list }) {
     }
   };
 
+
   const handleReplay = () => {
     setIsDone(false);
     setState({
@@ -86,7 +94,8 @@ function WordMatchGame({ list }) {
     });
     nRightConsecutive.current = { top: 0, n: 0 };
   };
-
+console.log(current)
+console.log(nQuestion)
   return (
     <div className="flex-center-col h-100vh">
       <div className={`${classes.root} container dyno-game-box position-rel`}>
@@ -120,7 +129,7 @@ function WordMatchGame({ list }) {
               </div>
             </div>
 
-            {list && list.length > 0 ? (
+            {list && list.length > 0? (
               <SplitWord
                 mean={list[current].mean}
                 word={list[current].word}
@@ -151,6 +160,7 @@ function WordMatchGame({ list }) {
             nRight={nRight}
             nWrong={nWrong}
             nRightConsecutive={nRightConsecutive.current.top}
+            nameGame="word-match"
           />
         )}
       </div>

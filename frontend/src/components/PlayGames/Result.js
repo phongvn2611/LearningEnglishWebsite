@@ -31,7 +31,7 @@ function convertQuesToCoin(nRight = 0, nWrong = 0, currentCoin = 0) {
   return newCoin;
 }
 
-function CorrectWordResult({ nRight, nWrong, nRightConsecutive, onReplay }) {
+function CorrectWordResult({ nRight, nWrong, onReplay, nameGame, nRightConsecutive}) {
   const classes = cwResultStyle();
   const history = useHistory();
   const dispatch = useDispatch();
@@ -49,22 +49,30 @@ function CorrectWordResult({ nRight, nWrong, nRightConsecutive, onReplay }) {
     (async function () {
       try {
         const newCoin = convertQuesToCoin(nRight, nWrong, coin);
-        highScoreApi.putUpdateHighscore(HIGHSCORE_NAME.TOP_COIN, newCoin);
 
-        highScoreApi.putUpdateHighscore(
-          HIGHSCORE_NAME.CORRECT_GAME_RIGHT,
-          nRight,
-        );
-
-        highScoreApi.putUpdateHighscore(
-          HIGHSCORE_NAME.CORRECT_GAME_RIGHT_CONSECUTIVE,
-          nRightConsecutive,
-        );
-
-        const apiRes = await userApi.putUpdateUserCoin(newCoin);
-        if (apiRes.status === 200) {
-          dispatch(setUserCoin(newCoin));
+        if(nameGame == HIGHSCORE_NAME.TOP_COIN){
+          const apiRes = await userApi.putUpdateUserCoin(newCoin);
+          if (apiRes.status === 200) {
+            dispatch(setUserCoin(newCoin));
+          }  
         }
+        else{
+         await highScoreApi.postScore(nameGame, nRight);
+        }
+      //  const gameCoin =  nRight * COINS.CORRECT_GAME_PER_QUES -
+      //  nWrong * COINS.CORRECT_GAME_PER_QUES ;
+      //   highScoreApi.putUpdateHighscore(HIGHSCORE_NAME.TOP_COIN, newCoin);
+
+      //   highScoreApi.putUpdateHighscore(
+      //     HIGHSCORE_NAME.CORRECT_GAME_RIGHT,
+      //     nRight,
+      //   );
+
+      //   highScoreApi.putUpdateHighscore(
+      //     HIGHSCORE_NAME.CORRECT_GAME_RIGHT_CONSECUTIVE,
+      //     nRightConsecutive,
+      //   );
+      
       } catch (error) {}
     })();
   }, []);
@@ -81,9 +89,9 @@ function CorrectWordResult({ nRight, nWrong, nRightConsecutive, onReplay }) {
         <b>{nRight}</b>&nbsp;Đúng
         <RightIcon className={`${classes.icon} right`} />
         &nbsp;-&nbsp;
-        <b>{nRightConsecutive}</b>&nbsp;Đúng liên tiếp
+        {/* <b>{nRightConsecutive}</b>&nbsp;Đúng liên tiếp
         <RightIcon className={`${classes.icon} right`} />
-        &nbsp;-&nbsp;
+        &nbsp;-&nbsp; */}
         <b>{nWrong}</b>&nbsp;Sai
         <WrongIcon className={`${classes.icon} wrong`} />
       </div>
@@ -94,7 +102,7 @@ function CorrectWordResult({ nRight, nWrong, nRightConsecutive, onReplay }) {
             className={classes.icon}
             style={{ color: '#C3AD1A', marginLeft: 0 }}
           />
-          Số coin hiện tại:&nbsp;<b>{coin}</b>
+          Số coin hiện tại:&nbsp;<b>{convertQuesToCoin(nRight, nWrong, coin)}</b>
         </div>
       )}
 
@@ -116,14 +124,14 @@ function CorrectWordResult({ nRight, nWrong, nRightConsecutive, onReplay }) {
 CorrectWordResult.propTypes = {
   nRight: PropTypes.number,
   nWrong: PropTypes.number,
-  nRightConsecutive: PropTypes.number,
+ // nRightConsecutive: PropTypes.number,
   onReplay: PropTypes.func,
 };
 
 CorrectWordResult.defaultProps = {
   nRight: 0,
   nWrong: 0,
-  nRightConsecutive: 0,
+ // nRightConsecutive: 0,
   onReplay: function () {},
 };
 

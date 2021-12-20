@@ -22,8 +22,9 @@ router.post(
 router.post("/update-password", authentication, userController.updatePassword);
 router.get(
   "/get-all-users",
-  authentication,
   checkAdmin,
+  authentication,
+ 
   userController.getAllUsers
 );
 router.get(
@@ -54,5 +55,11 @@ router.put(
   '/update-coin',
   authentication,
   userController.putUpdateUserCoin,
+);
+router.get(
+  "/get-top-coin",
+  authentication,
+ 
+  userController.getTopCoin
 );
 module.exports = router;

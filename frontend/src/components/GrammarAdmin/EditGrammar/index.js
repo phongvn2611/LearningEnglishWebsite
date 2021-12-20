@@ -294,6 +294,11 @@ function EditGrammar() {
     try {
       setSubmitting(true);
       const {Title, Content, Level, Video} = grammarValue;
+      if (video && linkVideo &&linkVideo.trim()!=""){
+        dispatch(setMessage("Chọn một trong hai tùy chọn để thêm video", "warning"));
+        setSubmitting(false);
+        return;
+      }
       let dataSend = [];
       let videoUrl= null;
       if(video === null){

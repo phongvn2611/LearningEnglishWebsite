@@ -176,6 +176,7 @@ function SplitWord({ word, mean, onCorrect, onWrong, resetFlag }) {
 
     return () => (isSub = false);
   }, [modal]);
+ 
 
   // @rendering ...
   return (
@@ -212,14 +213,14 @@ function SplitWord({ word, mean, onCorrect, onWrong, resetFlag }) {
       </div>
 
       {/* word detail modal */}
-      {modal.show && (
+      {/* {modal.show && ( */}
         <WordDetailModal
           open={modal.show}
           loading={modal.loading}
           onClose={() => setModal({ loading: false, data: null, show: false })}
           {...modal.data}
         />
-      )}
+      {/* )} */}
     </div>
   );
 }

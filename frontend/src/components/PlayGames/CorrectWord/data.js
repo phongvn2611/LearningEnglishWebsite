@@ -18,7 +18,7 @@ function CorrectWordData() {
   const [wordPack, setWordPack] = useState([]);
   const dispatch = useDispatch();
   const history = useHistory();
-  const nQuestion = useRef(50);
+  const nQuestion = useRef(20);
 
   const getWordPackage = async ({ type, topics, level, specialty }) => {
     try {
@@ -89,7 +89,7 @@ function CorrectWordData() {
             inputProps={{
               min: 5,
               max: MAX_LEN_WORD_PACK,
-              defaultValue: 50,
+              defaultValue: 20,
             }}
             placeholder="Nhập số câu"
             label="Số câu"

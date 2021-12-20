@@ -37,8 +37,8 @@ export default makeStyles((theme) => ({
   },
 
   answerItem: {
-    backgroundColor: 'var(--bg-color-accent)',
-    borderRadius: 'var(--border-radius)',
+    backgroundColor: '#00ffff',
+    borderRadius: '10px',
 
     color: 'var(--text-color)',
     fontSize: '2rem',
@@ -46,7 +46,7 @@ export default makeStyles((theme) => ({
     cursor: 'pointer',
     transition: 'all 0.25s',
     '&:hover, &:active': {
-      backgroundColor: 'var(--hover-color)',
+      backgroundColor: '#ccffff',
     },
 
     '& .phonetic': {
@@ -54,10 +54,10 @@ export default makeStyles((theme) => ({
       fontSize: '1.6rem',
     },
     '&.right': {
-      border: 'solid 1px var(--right-color)',
+      border: 'solid 5px var(--right-color)',
     },
     '&.wrong': {
-      border: 'solid 1px var(--error-color)',
+      border: 'solid 5px var(--error-color)',
     },
   },
 }));

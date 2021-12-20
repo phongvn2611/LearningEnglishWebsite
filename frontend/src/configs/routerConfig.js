@@ -53,6 +53,8 @@ const CorrectWordPage = React.lazy(() => import('pages/PlayGames/CorrectWord'));
 const WordMatchGamePage = React.lazy(() => import('pages/PlayGames/WordMatch'));
 const FastGamePage = React.lazy(() => import('pages/PlayGames/FastGame'));
 const PlayGamesPage = React.lazy(() => import('pages/PlayGames'));
+const LeaderBoardPage = React.lazy(() => import('pages/LeaderBoard'));
+const EditQuestionPage = React.lazy(() => import("../pages/EditQuestion"));
 
 const routes = [
   {
@@ -344,6 +346,19 @@ const routes = [
     exact: true,
     isProtect: false,
     component: () => <FastGamePage />,
+  },
+  {
+    path: ROUTES.LEADERBOARD,
+    exact: true,
+    isProtect: false,
+    component: () => <LeaderBoardPage />,
+  },
+  {
+    path: ROUTES.EDIT_QUESTION,
+    exact: true,
+    isProtect: true,
+    component: () => <EditQuestionPage />,
+    role: ["instructor", "admin"],
   },
 ];
 

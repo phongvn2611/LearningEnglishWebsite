@@ -8,6 +8,7 @@ const {
 
 const {
   getAllWords,
+  getWordByWord,
   createNewWord,
   updateWord,
   deleteWord,
@@ -144,6 +145,19 @@ exports.getWordDetails = async (req, res, next) => {
   try {
     const { id } = req.query;
     const wordDetail = await getWordDetail(id);
+    if (wordDetail) {
+      return res.status(200).json(wordDetail);
+    }
+  } catch (error) {
+    return res.status(503).json({ message: "Lỗi dịch vụ, thử lại sau" });
+  }
+};
+
+//get the word by word
+exports.getWordByWord = async (req, res, next) => {
+  try {
+    const { word } = req.query;
+    const wordDetail = await getWordByWord(word);
     if (wordDetail) {
       return res.status(200).json(wordDetail);
     }

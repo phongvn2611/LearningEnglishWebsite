@@ -192,6 +192,13 @@ function EditListening() {
     try {
       setSubmitting(true);
       const { Name, Topic, Description, Video } = listenValue;
+
+      if (video && linkVideo &&linkVideo.trim()!=""){
+        dispatch(setMessage("Chọn một trong hai tùy chọn để thêm video", "warning"));
+        setSubmitting(false);
+        return;
+      }
+      
       let dataSend = [];
       let videoUrl = null;
       if (video == null) {

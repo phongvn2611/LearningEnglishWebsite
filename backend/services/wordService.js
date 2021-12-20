@@ -71,6 +71,17 @@ exports.getWordDetail = async (id) => {
   }
 };
 
+exports.getWordByWord = async (word) => {
+  try {
+    const res = await WordModel.findOne({word: word});
+
+    return res;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
 
 exports.deleteWord = async (word = '', type='') => {
   try {

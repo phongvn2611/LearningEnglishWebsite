@@ -6,6 +6,10 @@ const wordApi = {
     return axios.get(`${URL}/get-word-details`, { params: { id } });
   },
 
+  getWordDetails: (word = '') => {
+    return axios.get(`${URL}/get-word-by-word`, { params: { word } });
+  },
+
   getWordByTopic: (topic) => {
     return axios.get(`${URL}/get-word-by-topic/${topic}`);
   },

@@ -1,7 +1,7 @@
 import Grid from '@material-ui/core/Grid';
 import brainIcon from 'assets/icons/games/brain.png';
 import correctWordIcon from 'assets/icons/games/correct-word.png';
-import grammarlyIcon from 'assets/icons/games/grammarly.png';
+import vipIcon from 'assets/icons/games/vip.png';
 import jigsawIcon from 'assets/icons/games/jigsaw.png';
 import millionaireIcon from 'assets/icons/games/millionaire.png';
 import wordMatchingIcon from 'assets/icons/games/word-match.png';
@@ -10,8 +10,12 @@ import { ROUTES } from '../../constants/index';
 import useScrollTop from 'hooks/useScrollTop';
 import useTitle from 'hooks/useTitle';
 import React from 'react';
-
-
+import TopicBox from '../../components/TopicBox/index';
+import { dictionaryRoot } from "../../components/UI/style";
+import { makeStyles } from "@material-ui/styles";
+const useStyle = makeStyles((theme) => ({
+  ...dictionaryRoot(theme),
+}));
 const GAME_LIST = [
   {
     title: 'Hãy chọn từ đúng',
@@ -34,58 +38,35 @@ const GAME_LIST = [
     imgUrl: brainIcon,
     to: ROUTES.GAMES_FAST_GAME,
   },
-  /* {
-    title: 'Hãy chọn từ đúng (nâng cao)',
-    subTitle: 'Chọn tất cả các từ đồng nghĩa (trái nghĩa) với từ đã cho.',
-    imgUrl: correctWordAdvIcon,
-    to: GAMES.CORRECT_WORD_ADV,
-  }, */
-
-  /*  {
-    title: 'Ai là triệu phú',
-    subTitle:
-      'Trải nghiệm game show truyền hình "Ai là triệu phú" phiên bản tiếng Anh ngay với Dynonary',
-    imgUrl: millionaireIcon,
-    to: GAMES.MILLIONAIRE,
-  },
   {
-    title: 'Nối từ',
+    title: 'Xem Bảng xếp hạng',
     subTitle:
-      'Cùng bắt trend nối từ đã từ rầm rộ trên mạng xã hội với Dyno nhé. Đặc biệt, bạn có thể chơi cùng bạn bè nhé 😮',
-    imgUrl: jigsawIcon,
-    to: GAMES.JIGSAW,
-  },
-  {
-    title: 'Điền vào chỗ trống',
-    subTitle:
-      'Luyện tập ngữ pháp với câu trắc nghiệm điền vào chỗ trống sao cho phù hợp nhé.',
-    imgUrl: grammarlyIcon,
-    to: GAMES.GRAMMARLY,
-  }, */
-  /*   {
-    title: 'Game VIP',
-    subTitle:
-      'Tận hưởng một game cực kỳ tuyệt vời của Dyno nhé, nâng cấp tài khoản VIP để chơi.',
+      'Xem bảng xếp hạng các trò chơi và top người dùng có nhiều coin nhất.',
     imgUrl: vipIcon,
-    to: GAMES.VIP,
-  }, */
+    to: ROUTES.LEADERBOARD,
+  },
+ 
 ];
 
 function PlayGamesPage() {
   useTitle('Game');
   useScrollTop();
-
+  const classes = useStyle();
   return (
-    <div className="container my-10">
+    <div className={`${classes.root} dyno-container`}>
+      <div className="flex-center-between">
+        <h1 className="dyno-title">Trò chơi</h1>
+      </div>
+      <div className="dyno-break"></div>
       <Grid container spacing={3}>
         {GAME_LIST.map((box, index) => (
           <Grid item xs={12} md={6} lg={4} key={index}>
-            <FeatureBox
-              imgUrl={box.imgUrl}
-              title={box.title}
+             <TopicBox
               to={box.to}
-              subTitle={box.subTitle}
+              icon={box.imgUrl}
+              title={box.title}
             />
+            
           </Grid>
         ))}
       </Grid>

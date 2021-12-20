@@ -14,15 +14,15 @@ exports.createQuestion = async (questionInfo ) => {
 };
 
 exports.updateQuestion = async (_id='', questionInfo ) => {
-    await QuestionModel.findByIdAndUpdate(_id, { ...questionInfo},
-        function(err, result) {
-        if (err) {
-          return null;
-        } else {
-          return result;
-        }
-      }
-    );
+  try{
+   const updateQuestion= await QuestionModel.findByIdAndUpdate(_id, { ...questionInfo});
+   if (updateQuestion) {
+    return updateQuestion;
+  }
+  return null;
+  } catch (error) {
+    throw error;
+  }
 };
 
 exports.getQuestionById = async (_id = '') => {

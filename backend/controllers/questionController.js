@@ -45,15 +45,15 @@ exports.putQuestion = async (req, res) => {
     }
     // delete question
     const { Content, Answers } = req.body;
-    const isDeleted = await deleteQuestionById({ questionId });
-    if (!isDeleted) {
-      return res
-        .status(400)
-        .json({ message: "Error, can not update question." });
-    }
+    // const isDeleted = await deleteQuestionById( questionId );
+    // if (!isDeleted) {
+    //   return res
+    //     .status(400)
+    //     .json({ message: "Error, can not update question." });
+    // }
 
     const QuizId = QuestionExist.QuizId;
-    const question = await createQuestion({ Content, Answers, QuizId });
+    const question = await updateQuestion(questionId,{ Content, Answers, QuizId });
     if (question != null) {
       return res.status(200).json({ question });
     }
@@ -100,8 +100,8 @@ exports.getByQuizId = async (req, res) => {
 //delete by questionid
 exports.deleteById = async (req, res) => {
   try {
-    const { _id } = req.params.id;
-    const isDelete = await deleteQuestionById(_id);
+    const id  = req.params.id;
+    const isDelete = await deleteQuestionById(id);
     if (isDelete) {
       return res.status(200).json({ message: "Delete successfully." });
     }

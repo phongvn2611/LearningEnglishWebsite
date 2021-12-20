@@ -52,14 +52,14 @@ export default makeStyles((theme) => ({
     lineHeight: '4.2rem',
     textAlign: 'center',
 
-    backgroundColor: 'var(--bg-color-accent)',
+    backgroundColor: '#00ffff',
     cursor: 'pointer',
     boxShadow: '1px 1px 4px 0px rgba(0,0,0,0.2)',
     borderRadius: 4,
     transition: 'all 0.25s',
 
     '&:hover, &:active': {
-      backgroundColor: 'var(--hover-color)',
+      backgroundColor: '#ccffff',
     },
 
     '&.wrong': {

@@ -58,35 +58,35 @@ function TimeBar({ correctFlag, wrongFlag, onSaveTime, onTimeout }) {
     };
   }, [restTime]);
 
-  // When correct
-  useEffect(() => {
-    // pass the first render
-    if (!correctFlag) {
-      return;
-    }
+  // // When correct
+  // useEffect(() => {
+  //   // pass the first render
+  //   if (!correctFlag) {
+  //     return;
+  //   }
 
-    const newRestTime = restTime + ADD_TIME;
-    if (newRestTime < TOTAL_TIME) {
-      setRestTime(newRestTime);
-    } else {
-      setRestTime(TOTAL_TIME);
-    }
-  }, [correctFlag]);
+  //   // const newRestTime = restTime + ADD_TIME;
+  //   // if (newRestTime < TOTAL_TIME) {
+  //   //   setRestTime(newRestTime);
+  //   // } else {
+  //   //   setRestTime(TOTAL_TIME);
+  //   // }
+  // }, [correctFlag]);
 
-  // When wrong
-  useEffect(() => {
-    // pass the first render
-    if (!wrongFlag) {
-      return;
-    }
+  // // When wrong
+  // useEffect(() => {
+  //   // pass the first render
+  //   if (!wrongFlag) {
+  //     return;
+  //   }
 
-    const newRestTime = restTime - MINUS_TIME;
-    if (newRestTime) {
-      setRestTime(newRestTime);
-    } else {
-      onTimeout();
-    }
-  }, [wrongFlag]);
+  //   const newRestTime = restTime - MINUS_TIME;
+  //   if (newRestTime) {
+  //     setRestTime(newRestTime);
+  //   } else {
+  //     onTimeout();
+  //   }
+  // }, [wrongFlag]);
 
   return (
     <div className={classes.timerWrap}>
@@ -109,7 +109,7 @@ function Result({ score }) {
       try {
         const newCoin = coin + score;
 
-        highscoreApi.putUpdateHighscore(HIGHSCORE_NAME.FAST_GAME, score);
+       await highscoreApi.postScore(HIGHSCORE_NAME.FAST_GAME, score);
 
         const apiRes = await userApi.putUpdateUserCoin(newCoin);
         if (apiRes.status === 200) {
@@ -126,7 +126,7 @@ function Result({ score }) {
   }, []);
 
   const onGoBack = () => {
-    history.push('/homes');
+    history.push('/home');
   };
 
   const onReplay = () => {
@@ -250,7 +250,7 @@ function FastGame({ list }) {
           />
         </>
       ) : (
-        <Result score={score} />
+        <Result score={score}/>
       )}
     </div>
   );

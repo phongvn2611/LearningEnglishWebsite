@@ -10,8 +10,8 @@ export default makeStyles((theme) => ({
   bg: {
     zIndex: -1,
     position: 'absolute',
-    backgroundImage:
-      'url(https://res.cloudinary.com/dynonary/image/upload/v1628497463/dynonary/games/fast-game-bg_huk7ii.jpg)',
+    // backgroundImage:
+    //   'url(https://res.cloudinary.com/dynonary/image/upload/v1628497463/dynonary/games/fast-game-bg_huk7ii.jpg)',
     backgroundSize: 'cover',
     backgroundPosition: 'center center',
     backgroundRepeat: 'no-repeat',

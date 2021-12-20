@@ -47,7 +47,7 @@ function CorrectWord({ list }) {
   const nQuestion = list.length;
   const { status, current, nRight, nWrong, answerList, answerIndex } = state;
   const { word, mean } = list[state.current];
-  const nRightConsecutive = useRef({ top: 0, n: 0 });
+ // const nRightConsecutive = useRef({ top: 0, n: 0 });
 
   // fix Can't perform a React state update on an unmounted component
   useEffect(() => {
@@ -63,7 +63,7 @@ function CorrectWord({ list }) {
         status: 1,
         answerIndex,
       });
-      nRightConsecutive.current.n++;
+    //  nRightConsecutive.current.n++;
     } else {
       playSoundAnswer(word, false, voice, volume, speed);
       setState({
@@ -72,8 +72,8 @@ function CorrectWord({ list }) {
         status: 2,
         answerIndex,
       });
-      const { top, n } = nRightConsecutive.current;
-      if (top < n) nRightConsecutive.current.top = n;
+      // const { top, n } = nRightConsecutive.current;
+      // if (top < n) nRightConsecutive.current.top = n;
     }
 
     // wait to speak the word if not last question
@@ -116,7 +116,7 @@ function CorrectWord({ list }) {
       ),
       answerIndex: -1,
     });
-    nRightConsecutive.current = { top: 0, n: 0 };
+    //nRightConsecutive.current = { top: 0, n: 0 };
   };
 
   return (
@@ -195,7 +195,8 @@ function CorrectWord({ list }) {
             onReplay={handleReplay}
             nRight={nRight}
             nWrong={nWrong}
-            nRightConsecutive={nRightConsecutive.current.top}
+         //   nRightConsecutive={nRightConsecutive.current.top}
+            nameGame="correct-word"
           />
         )}
       </div>

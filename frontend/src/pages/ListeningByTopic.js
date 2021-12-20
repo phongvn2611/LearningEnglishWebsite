@@ -8,6 +8,7 @@ import { useHistory, useParams } from 'react-router';
 import { cloudinaryImgOptimize } from "helper";
 import { DEFAULTS } from 'constants/index';
 import { makeStyles } from "@material-ui/core";
+import { Link } from 'react-router-dom';
 
 const useStyle = makeStyles(() => ({
   mobilelist : {
@@ -25,6 +26,9 @@ title: {
   fontWeight: 400,
   color: 'blue',
   margin: '0.8rem 0rem 0rem 0',
+  '&:hover, &:focus': {
+    color: "#CCC",
+  },
 },
 tldetail: {
   fontSize: '1.5rem',
@@ -77,38 +81,35 @@ const viewDetail=(id)=>{
 }
 
   return (
-    <div className="container">
-
-        <Typography variant="h6" align="center">
-                {topic}
-        </Typography>
-                
-      {list &&(
-      list.map((item) => 
    
-      <div className={classes.mobilelist} >
-      <div>
-        <div className={classes.floatleft}>
-          <a>
-            <img height="80px" width="80px" src={getImage(item.Image)} onClick={()=>viewDetail(item._id)}/>
-          </a>
-          </div>
-          <a className={classes.title} href={`/listening/details/${item._id}`}><strong> {item.Name}</strong></a>
-          <br></br>
-          
-          <div className={classes.textlimit}>
-          <span className={classes.tldetail}>{item.Description}</span>
-          </div>
-      
-      </div>
 
-    </div>
-   
-     
-      ))}
+      <><Typography variant="h4" align="center">
+      {topic}
+    </Typography>
+    <div className="container" style={{ position: "relative", left: "250px" }}>
+        {list && (
+          list.map((item) => <div className={classes.mobilelist}>
+            <div>
+              <Link to={`/listening/details/${item._id}`}>
+              <div className={classes.floatleft}>
+                  <img height="80px" width="80px" src={getImage(item.Image)}/>
+              </div>
+              <p className={classes.title}><strong> {item.Name}</strong></p>
+              <br></br>
+            </Link>
+              <div className={classes.textlimit}>
+                <span className={classes.tldetail}>{item.Description}</span>
+              </div>
 
-     
-    </div>
+            </div>
+
+          </div>
+
+
+          ))}
+
+
+      </div></>
   );
 }
 

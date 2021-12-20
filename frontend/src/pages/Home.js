@@ -18,7 +18,8 @@ import { Link } from 'react-router-dom';
 import './style/home.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAddressBook, faArchive, faAtom,faBook, faBookReader, faCoffee, faLanguage } from '@fortawesome/free-solid-svg-icons'
-import { faBookOpen } from '@fortawesome/free-solid-svg-icons'
+import { faBookOpen } from '@fortawesome/free-solid-svg-icons';
+import {FaMicrosoft, FaCoffee, FaLanguage,FaLaptopHouse, FaLayerGroup, FaGrin} from 'react-icons/fa';
 
 
 
@@ -98,7 +99,7 @@ function HomePage() {
             <div className="col-lg-3 col-sm-6">
               <div className="featured-box featured-box-primary featured-box-effect-2" style={{height: '264.8px'}}>
                 <div className="box-content box-content-border-bottom">
-                  <a href={ROUTES.LISTENING_TOPICS}><i className="icon-featured" ><FontAwesomeIcon icon={faCoffee} color='black' /></i>
+                  <a href={ROUTES.LISTENING_TOPICS}><i className="icon-featured" ><FaMicrosoft style={{ color:"black"}}/></i>
                     <h1 className="font-weight-normal" style={{color:"#000066"}}>Listening</h1>
                   </a>
                   <p className="mb-2 mt-2 text-2">Listening videos and answer the questions.</p>
@@ -116,7 +117,7 @@ function HomePage() {
             <div className="col-lg-3 col-sm-6">
               <div className="featured-box featured-box-primary featured-box-effect-2" style={{height: '264.8px'}}>
                 <div className="box-content box-content-border-bottom">
-                  <a href={ROUTES.GRAMMAR_LEVELS}><i className="icon-featured" ><FontAwesomeIcon icon={faBook} color='black' /></i>
+                  <a href={ROUTES.GRAMMAR_LEVELS}><i className="icon-featured" ><FaCoffee style={{ color:"black"}}/></i>
                     <h1 className="font-weight-normal" style={{color:"#0000CC"}}>Grammar</h1>
                   </a>
                   <p className="mb-2 mt-2 text-2">Your guide to English grammar.</p>
@@ -136,7 +137,7 @@ function HomePage() {
             <div className="col-lg-3 col-sm-6">
               <div className="featured-box featured-box-primary featured-box-effect-2" style={{height: '264.8px'}}>
                 <div className="box-content box-content-border-bottom">
-                  <a href={ROUTES.WORD_TOPIC}><i className="icon-featured" ><FontAwesomeIcon icon={faBookOpen} color='black' /></i>
+                  <a href={ROUTES.WORD_TOPIC}><i className="icon-featured" ><FaLaptopHouse style={{ color:"black"}}/></i>
                     <h1 className="font-weight-normal" style={{color:"#3366FF"}}>Vocabulary</h1>
                   </a>
                   <p className="mb-2 mt-2 text-2">Learn English vocabulary by topic.</p>
@@ -156,7 +157,7 @@ function HomePage() {
             <div className="col-lg-3 col-sm-6">
               <div className="featured-box featured-box-primary featured-box-effect-2" style={{height: '264.8px'}}>
                 <div className="box-content box-content-border-bottom">
-                  <a href={ROUTES.IPA_LIST}><i className="icon-featured" ><FontAwesomeIcon icon={faAddressBook} color='black' /></i>
+                  <a href={ROUTES.IPA_LIST}><i className="icon-featured" ><FaLayerGroup style={{ color:"black"}}/></i>
                     <h1 className="font-weight-normal" style={{color:"#3399FF"}}>Pronunciation</h1>
                   </a>
                   <p className="mb-2 mt-2 text-2">Tricky English pronunciation. With listening practice.</p>
@@ -188,7 +189,7 @@ function HomePage() {
           <div className="col-lg-3 col-sm-6">
             <div className="featured-box featured-box-primary featured-box-effect-2" style={{height: '264.8px'}}>
               <div className="box-content box-content-border-bottom">
-                <a href={ROUTES.IPA_LIST}><i className="icon-featured" ><FontAwesomeIcon icon={faLanguage} color='black' /></i>
+                <a href={ROUTES.IPA_LIST}><i className="icon-featured" ><FaLanguage style={{ color:"black"}}/></i>
                   <h1 className="font-weight-normal" style={{color:"#3199FF"}}>Dictionary</h1>
                 </a>
                 <p className="mb-2 mt-2 text-2">Tricky English pronunciation. With listening practice.</p>
@@ -206,7 +207,7 @@ function HomePage() {
           <div className="col-lg-3 col-sm-6">
             <div className="featured-box featured-box-primary featured-box-effect-2" style={{height: '264.8px'}}>
               <div className="box-content box-content-border-bottom">
-                <a href={ROUTES.GAMES_HOME}><i className="icon-featured" ><FontAwesomeIcon icon={faAtom} color='black' /></i>
+                <a href={ROUTES.GAMES_HOME}><i className="icon-featured" ><FaGrin style={{ color:"black"}}/></i>
                   <h1 className="font-weight-normal" style={{color:"#3355FF"}}>Play Games</h1>
                 </a>
                 <p className="mb-2 mt-2 text-2">Play games to review.</p>

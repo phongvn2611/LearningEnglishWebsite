@@ -18,7 +18,8 @@ import useTitle from "hooks/useTitle";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import { makeStyles } from "@material-ui/core/styles";
 import questionApi from "apis/questionApi";
-import { useParams } from "react-router";
+import { useParams } from 'react-router-dom';
+import { useEffect } from "react";
 
 const schema = yup.object().shape({
   content: yup.string().trim(),
@@ -75,7 +76,7 @@ const useStyle = makeStyles(() => ({
   },
 }));
 
-function CreateQuestionPage() {
+function EditQuestionPage() {
   const classes = useStyle();
 
   useTitle("Create quiz");
@@ -88,8 +89,6 @@ function CreateQuestionPage() {
   });
 
   const [submitting, setSubmitting] = useState(false);
-
-  const dispatch = useDispatch();
   const history = useHistory();
   const [question, setQuestion] = useState({
     content: "",
@@ -99,8 +98,30 @@ function CreateQuestionPage() {
     check: [false, false, false],
   });
 
+  const { id, listen_id } = useParams();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    (async function () {
+      const apiRes = await questionApi.getQuestion(id);
+
+      const arrValue = { ...question };
+     arrValue.content = apiRes.data.question.Content;
+     arrValue.answer1 =apiRes.data.question.Answers[0].content;
+     arrValue.answer2 =apiRes.data.question.Answers[1].content;   
+     arrValue.check[0]=apiRes.data.question.Answers[0].isCorrect;
+     arrValue.check[1]=apiRes.data.question.Answers[1].isCorrect;
+     if(apiRes.data.question.Answers[2]){
+        arrValue.answer3 =apiRes.data.question.Answers[2]?.content;
+        arrValue.check[2]=apiRes.data.question.Answers[2]?.isCorrect;
+    }
+     setQuestion(arrValue)
+     
+    })();
+    return ()=>{};
+  }, [id]);
+
   const [indexCheck, setIndexCheck] = useState(-1);
-  const { id, quiz_id } = useParams();
+ // const { id, quiz_id } = useParams();
 
   const handleChangeQuestion = (e) => {
     const { name, value } = e.target;
@@ -123,6 +144,7 @@ function CreateQuestionPage() {
     newArr.check[indexCheck] = false;
     setQuestion(newArr);
   };
+ 
   const onSubmit = async () => {
     try {
       setSubmitting(true);
@@ -170,26 +192,14 @@ function CreateQuestionPage() {
         const dataSend = {
           Content: question.content,
           Answers: answerQuestion,
-          // Answers: [
-          //   {
-          //     content: question.answer1,
-          //     isCorrect: question.check[0],
-          //   },
-          //   {
-          //     content: question.answer2,
-          //     isCorrect: question.check[1],
-          //   },
-          //   {
-          //     content: question.answer3,
-          //     isCorrect: question.check[2],
-          //   },
-          // ],
+        
         };
-        const apiRes = await questionApi.postQuestion(quiz_id, dataSend);
+        const apiRes = await questionApi.putQuestion(id, dataSend);
         if (apiRes) {
-          dispatch(setMessage('Create question successfully', 'success'));
+          dispatch(setMessage('Edit question successfully', 'success'));
           setSubmitting(false);
-          history.replace(`/admin/quiz/details/${id}`);
+          console.log(listen_id)
+          history.push(`/admin/quiz/details/${listen_id}`);
         }
       }
     } catch (error) {
@@ -212,6 +222,7 @@ function CreateQuestionPage() {
                   <InputCustom
                     className="w-100"
                     label="Câu hỏi"
+                    value={question.content}
                     error={Boolean(errors.content)}
                     inputProps={{
                       name: "content",
@@ -227,6 +238,7 @@ function CreateQuestionPage() {
                   <InputCustom
                     className="w-100"
                     label="Đáp án thứ nhất"
+                    value={question.answer1}
                     onChange={handleChangeQuestion}
                     error={Boolean(errors.answer1)}
                     inputProps={{
@@ -236,6 +248,7 @@ function CreateQuestionPage() {
                     endAdornment={
                       question.check[0] === false ? (
                         <CheckIcon
+                        value= {question.check[0]}
                           className="dyno-setting-icon"
                           onMouseOver={() => setIndexCheck(0)}
                           onClick={handleCheck}
@@ -258,6 +271,7 @@ function CreateQuestionPage() {
                   <InputCustom
                     className="w-100"
                     label="Đáp án thứ hai"
+                    value={question.answer2}
                     onChange={handleChangeQuestion}
                     error={Boolean(errors.answer2)}
                     inputProps={{
@@ -267,6 +281,7 @@ function CreateQuestionPage() {
                     endAdornment={
                       question.check[1] === false ? (
                         <CheckIcon
+                            value={question.check[1]}
                           className="dyno-setting-icon"
                           onMouseOver={() => setIndexCheck(1)}
                           onClick={handleCheck}
@@ -287,6 +302,7 @@ function CreateQuestionPage() {
                 <Grid item xs={12} md={4}>
                   <InputCustom
                     className="w-100"
+                    value={question.answer3}
                     label="Đáp án thứ ba"
                     onChange={handleChangeQuestion}
                     error={Boolean(errors.answer3)}
@@ -297,6 +313,7 @@ function CreateQuestionPage() {
                     endAdornment={
                       question.check[2] === false ? (
                         <CheckIcon
+                        value={question.check[2]}
                           className="dyno-setting-icon"
                           onMouseOver={() => setIndexCheck(2)}
                           onClick={handleCheck}
@@ -324,7 +341,7 @@ function CreateQuestionPage() {
                   endIcon={<ResetIcon />}
                   variant="outlined"
                   disabled={submitting}
-                  onClick={() => history.push("/admin/quiz")}
+                  onClick={() => history.push(`/admin/quiz/details/${listen_id}`)}
                 >
                   Quay lại
                 </Button>
@@ -341,7 +358,7 @@ function CreateQuestionPage() {
                   }
                   variant="contained"
                 >
-                  Create
+                  Sửa
                 </Button>
               </div>
             </form>
@@ -352,4 +369,4 @@ function CreateQuestionPage() {
   );
 }
 
-export default CreateQuestionPage;
+export default EditQuestionPage;

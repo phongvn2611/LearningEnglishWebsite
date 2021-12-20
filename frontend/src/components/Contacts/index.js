@@ -23,13 +23,13 @@ function Contact() {
 
         <h4>You'd better let us know...</h4>
               <div className="container">
-            <a href="https://www.facebook.com/LearnEnglishNetwork.LEN" target="_blank" title="Learn English on Facebook"><FaFacebookSquare style={{height:"30px", width:"30px",color:"#fffff5"}}/></a>
+            <a href="https://www.facebook.com/tranphuonglinh1507/" target="_blank" title="Learn English on Facebook"><FaFacebookSquare style={{height:"30px", width:"30px",color:"#fffff5"}}/></a>
             <span>          </span>
-            <a href="https://www.twitter.com/LearnEnglishLEN/" target="_blank" title="Learn English on Twitter"><FaMailBulk style={{height:"30px", width:"30px", color:"#fffff5"}}/></a>
+            <a href="https://www.facebook.com/tranphuonglinh1507/" target="_blank" title="Learn English on Twitter"><FaMailBulk style={{height:"30px", width:"30px", color:"#fffff5"}}/></a>
             <span>          </span>
-            <a href="https://www.twitter.com/LearnEnglishLEN/" target="_blank" title="Learn English on Twitter"><FaFacebookMessenger style={{height:"30px", width:"30px", color:"#fffff5"}}/></a>
+            <a href="https://www.facebook.com/tranphuonglinh1507/" target="_blank" title="Learn English on Twitter"><FaFacebookMessenger style={{height:"30px", width:"30px", color:"#fffff5"}}/></a>
             <span>          </span>
-            <a href="https://www.twitter.com/LearnEnglishLEN/" target="_blank" title="Learn English on Twitter"><FaTwitter style={{height:"30px", width:"30px", color:"#fffff5"}}/></a>
+            <a href="https://www.facebook.com/tranphuonglinh1507/" target="_blank" title="Learn English on Twitter"><FaTwitter style={{height:"30px", width:"30px", color:"#fffff5"}}/></a>
 
             </div>   
                

@@ -30,7 +30,7 @@ const useStyle = makeStyles(() => ({
         height: "auto",
       },
       grammarbox: {
-        backgroundColor: "#CF9",
+        backgroundColor: "#99ffff",
         padding: "10px 10px",
         border: "1px solid #666",
         marginBottom: "10px",	
@@ -40,7 +40,12 @@ const useStyle = makeStyles(() => ({
         height: '30rem',
         marginLeft: '15rem',
       },
-   
+      tabcontents: {
+        border: "1px solid #2eb8b8",
+        padding: "10px",
+        backgroundColor: "#FFF",
+        borderRadius: "0 3px 3px 3px",
+    }
   }));
   
 
@@ -150,41 +155,57 @@ export default function GrammarPage() {
  };
  
  const handleClickCheckAnswer = ()=>{
- if(answers.length>0){
-   console.log(answers)
-     for(var i=0;i<answers.length;i++){
-       if(answers[i])
-       {
-         console.log(i)
-        console.log(answers[i])
-         if(answers[i].length>0){
-           if(answers[i].length>1) {isCorrect[i]=false;}
-           else{
-             if(questions[i].Answers[answers[i][0]].isCorrect==true) {isCorrect[i]=true;}
-             if(questions[i].Answers[answers[i][0]].isCorrect==false) {isCorrect[i]=false;}
-           }
-         }
-         else{
-           if (window.confirm('Chọn đáp án cho tất cả câu hỏi.')) {
-             window.close();
-           }
-         }
-       }
-       else{
+  if(answers.length>0){
+      for(var i=0;i<answers.length;i++){
+        if(answers[i])
+        {
+          if(answers[i].length>0){
+            let numberCorrect = 0;
+            for(let j=0; j< questions[i].Answers.length;j++)
+            {
+              if(questions[i].Answers[j].isCorrect==true) {
+                numberCorrect += 1;
+              }
+              console.log(answers[i])
+            }
+            if(numberCorrect == answers[i].length)
+            {
+              isCorrect[i] = true;
+              for(let k=0; k < answers[i].length;k++)
+              {
+                if(questions[i].Answers[answers[i][k]].isCorrect==false) {isCorrect[i]=false;} 
+              }
+            }
+            else {isCorrect[i] = false;}
+           
+            // if(answers[i].length>1) {isCorrect[i]=false;}
+            // else{
+            //   if(questions[i].Answers[answers[i][0]].isCorrect==true) {isCorrect[i]=true;}
+            //   if(questions[i].Answers[answers[i][0]].isCorrect==false) {isCorrect[i]=false;}
+          }
+          else{
+            if (window.confirm('Chọn đáp án cho tất cả câu hỏi.')) {
+              window.close();
+            }
+          }
+        }
+        else{
+          if (window.confirm('Chọn đáp án cho tất cả câu hỏi.')) {
+            window.close();
+          }
+        }
+      }
+    }
+    else{
         if (window.confirm('Chọn đáp án cho tất cả câu hỏi.')) {
           window.close();
         }
-       }
-     }
-   }
-   else{
-       if (window.confirm('Chọn đáp án cho tất cả câu hỏi.')) {
-         window.close();
-       }
-   }
-   setCheckAnswer(true);
-   setShowAnswer(true)
- }
+    }
+    setCheckAnswer(true);
+    setShowAnswer(true)
+  }
+
+
 
   return (
     <>
@@ -210,7 +231,7 @@ export default function GrammarPage() {
         )}
 
         <Box sx={{ width: "100%" }}>
-          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+          <Box sx={{ borderBottom: 1, borderColor: "divider", backgroundColor:"#2eb8b8", color:"white"}}>
             <Tabs
               value={value}
               onChange={handleChange}
@@ -223,6 +244,7 @@ export default function GrammarPage() {
              
             </Tabs>
           </Box>
+          <div className={classes.tabcontents}>
           <TabPanel value={value} index={0}>
           <td dangerouslySetInnerHTML={{__html: grammar.Script}} />
           </TabPanel>
@@ -293,7 +315,7 @@ export default function GrammarPage() {
             <Button color='primary' onClick={()=> handleClickReset()}>Reset Quiz</Button>
             <Button color='primary' onClick={()=> handleClickShowAnswer()}>Show Answers</Button>
           </TabPanel>
-               
+          </div>     
         </Box>
       </Container>
     </>
