@@ -32,12 +32,12 @@ function SettingMenu({ anchorEl, onClose }) {
             vertical: "bottom",
           }}
         >
-          <Link to={ROUTES.PROFILE}>
+          <a href={ROUTES.PROFILE}>
             <MenuItem className={classes.menuItem}>
               <AccountCircleIcon className={classes.icon} fontSize="small" />
               <p className={classes.text}>Thông tin cá nhân</p>
             </MenuItem>
-          </Link>
+          </a>
           {role !== "user" ? (
             <Link to={ROUTES.HOME}>
               <MenuItem className={classes.menuItem}>

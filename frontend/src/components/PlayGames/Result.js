@@ -50,13 +50,13 @@ function CorrectWordResult({ nRight, nWrong, onReplay, nameGame, nRightConsecuti
       try {
         const newCoin = convertQuesToCoin(nRight, nWrong, coin);
 
-        if(nameGame == HIGHSCORE_NAME.TOP_COIN){
+        // if(nameGame == HIGHSCORE_NAME.TOP_COIN){
           const apiRes = await userApi.putUpdateUserCoin(newCoin);
           if (apiRes.status === 200) {
             dispatch(setUserCoin(newCoin));
-          }  
-        }
-        else{
+           }  
+        // }
+        if(nameGame !== HIGHSCORE_NAME.TOP_COIN){
          await highScoreApi.postScore(nameGame, nRight);
         }
       //  const gameCoin =  nRight * COINS.CORRECT_GAME_PER_QUES -
