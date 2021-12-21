@@ -41,7 +41,7 @@ function Navigation() {
             { user && user.roleType ==="admin" || user.roleType ==="instructor" ? (
              
                  
-              <><Button className={classes.bbcleNavButton} onClick={() => history.push(ROUTES.LISTENING_ADMIN)}>Listening</Button><Button className={classes.bbcleNavButton} onClick={() => history.push(ROUTES.GRAMMAR_ADMIN)}>Grammar</Button><Button className={classes.bbcleNavButton} onClick={() => history.push(ROUTES.WORD_ADMIN)}>Vocabulary</Button><Button className={classes.bbcleNavButton} onClick={() => history.push(ROUTES.WORD_ADMIN)}>Pronunciation</Button><Button className={classes.bbcleNavButton} onClick={() => history.push(ROUTES.USER_ADMIN)}>User</Button></>
+              <><Button className={classes.bbcleNavButton} onClick={() => history.push(ROUTES.LISTENING_ADMIN)}>Listening</Button><Button className={classes.bbcleNavButton} onClick={() => history.push(ROUTES.GRAMMAR_ADMIN)}>Grammar</Button><Button className={classes.bbcleNavButton} onClick={() => history.push(ROUTES.WORD_ADMIN)}>Vocabulary</Button><Button className={classes.bbcleNavButton} onClick={() => history.push(ROUTES.QUIZ_ADMIN)}>Quizzes</Button><Button className={classes.bbcleNavButton} onClick={() => history.push(ROUTES.USER_ADMIN)}>User</Button></>
             
              
               
