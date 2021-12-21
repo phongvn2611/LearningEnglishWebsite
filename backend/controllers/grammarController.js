@@ -112,22 +112,35 @@ exports.putGrammar = async (req, res) => {
         }
       }
       else{
+        if(Video.includes("cloudinary")){
+          videoUrl= Video;
+        }
+        else{      
             videoUrl = await uploadVideo(Video, 'video');
+        }
       }
     }
 
-    //upload Image
-    let imgUrl = null;
-    if (Image) {      
-        imgUrl = await uploadImage(Image, 'english/grammar');
-    }
-
-    
-        //upload Audio
-        let audUrl = null;
-        if (Audio) {      
-            audUrl = await uploadAudio(Audio, 'audio');
+      //upload Image
+      let imgUrl = null;
+      if (Image) {      
+        if(Image.includes("cloudinary")){
+          imgUrl =Image
         }
+        else{      
+          imgUrl = await uploadImage(Image, 'english/grammar');
+        }      
+      }
+    //upload Audio
+    let audUrl = null;
+    if (Audio) {      
+      if(Audio.includes("cloudinary")){
+        audUrl= Audio;
+      }
+      else{      
+          audUrl = await uploadAudio(Audio, 'audio');
+        }
+    }
     const grammar = await updateGrammar(grammarId, {Title, Video: videoUrl, Image: imgUrl, Audio: audUrl, Script, Content,Level, Items});
     if (grammar != null) {
       return res.status(200).json(grammar);

@@ -9,18 +9,19 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import SettingMenu from "./SettingMenu";
 import useStyle from "./style";
-import { cloudinaryImgOptimize } from 'helper';
+import { cloudinaryImgOptimize } from "helper";
+import { useHistory } from "react-router-dom";
 
 function Navigation() {
   const classes = useStyle();
   const theme = useTheme();
   const isXsDevice = useMediaQuery(theme.breakpoints.up("xs"));
-  
+
   const { isAuth, user } = useSelector((state) => state.authReducer);
   const avtSrc = cloudinaryImgOptimize(user.avatar, 48, 48);
   const [showInput, setShowInput] = useState(isXsDevice);
   const [anchorMenu, setAnchorMenu] = useState(null);
-
+  const history = useHistory();
   const onOpenMenu = (e) => setAnchorMenu(e.currentTarget);
   const onCloseMenu = () => setAnchorMenu(null);
 
@@ -29,16 +30,54 @@ function Navigation() {
       <div className={`${classes.nav} w-100`}>
         <div className="container h-100 flex-center--ver">
           {(isXsDevice || !showInput) && (
-            <Link to={ROUTES.HOME}>
-              <img
-                className={`${classes.imgSize} ${classes.logo}`}
-                src={
-                  "https://res.cloudinary.com/phongvn2611/image/upload/v1637319049/english/avatar/logo-horizon_vmirgt.png"
-                }
-                alt="Logo"
-              />
-            </Link>
+            <>
+              <a href={ROUTES.HOME}>
+                <img
+                  className={`${classes.imgSize} ${classes.logo}`}
+                  src={
+                    "https://res.cloudinary.com/phongvn2611/image/upload/v1637319049/english/avatar/logo-horizon_vmirgt.png"
+                  }
+                  alt="Logo"
+                />
+              </a>
+
+              {!window.location.pathname.includes("admin") && (
+                <div className={classes.bgp}>
+                  <a
+                    className={classes.bbcleNavButton}
+                    href={ROUTES.LISTENING_TOPICS}
+                  >
+                    Listening
+                  </a>
+                  <a
+                    className={classes.bbcleNavButton}
+                    href={ROUTES.GRAMMAR_LEVELS}
+                  >
+                    Grammar
+                  </a>
+                  <a
+                    className={classes.bbcleNavButton}
+                    href={ROUTES.WORD_TOPIC}
+                  >
+                    Vocabulary
+                  </a>
+                  <a className={classes.bbcleNavButton} href={ROUTES.IPA_LIST}>
+                    Pronunciation
+                  </a>
+                  <a className={classes.bbcleNavButton} href={ROUTES.IPA_LIST}>
+                    Dictionary
+                  </a>
+                  <a
+                    className={classes.bbcleNavButton}
+                    href={ROUTES.GAMES_HOME}
+                  >
+                    Games
+                  </a>
+                </div>
+              )}
+            </>
           )}
+
           <div className={`${classes.control} flex-center--ver`}>
             {showInput && !isXsDevice && (
               <ArrowBackIosIcon
@@ -54,42 +93,43 @@ function Navigation() {
                   alt="Username"
                   src={avtSrc}
                 />
-                <p className={classes.name}>
-                  {user.name}
-                </p>
+                <p className={classes.name}>{user.name}</p>
               </div>
             ) : (
               <div>
-                <Link to={ROUTES.REGISTER}>
-                  <Button
-                    className="_btn _btn-primary"
-                    classes={{
-                      root: classes.registerBtn,
-                      label: classes.registerLabel,
-                    }}
-                    variant="contained"
-                    color="primary"
-                    size="small"
-                  >
-                    Đăng ký
-                  </Button>
-                </Link>
-                <Link to={ROUTES.LOGIN}>
-                  <Button
-                    className="_btn _btn-primary"
-                    classes={{
-                      root: classes.loginBtn,
-                      label: classes.loginLabel,
-                    }}
-                    variant="contained"
-                    color="primary"
-                    size="small"
-                  >
-                    Đăng nhập
-                  </Button>
-                </Link>
+                {/* <Link to={ROUTES.REGISTER}> */}
+                <Button
+                  className="_btn _btn-primary"
+                  classes={{
+                    root: classes.registerBtn,
+                    label: classes.registerLabel,
+                  }}
+                  variant="contained"
+                  color="primary"
+                  size="small"
+                  onClick={() => window.location.replace("/register")}
+                >
+                  Đăng ký
+                </Button>
+                {/* </Link> */}
+                {/* <Link to={ROUTES.LOGIN}> */}
+                <Button
+                  className="_btn _btn-primary"
+                  classes={{
+                    root: classes.loginBtn,
+                    label: classes.loginLabel,
+                  }}
+                  variant="contained"
+                  color="primary"
+                  size="small"
+                  onClick={() => window.location.replace("/login")}
+                >
+                  Đăng nhập
+                </Button>
+                {/* </Link> */}
               </div>
             )}
+
             <SettingMenu anchorEl={anchorMenu} onClose={onCloseMenu} />
           </div>
         </div>

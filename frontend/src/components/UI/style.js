@@ -122,6 +122,7 @@ export const formStyle = () => ({
 
   title: {
     fontSize: '2.4rem',
+    fontWeight:'400px',
     color: 'var(--text-color)',
   },
 

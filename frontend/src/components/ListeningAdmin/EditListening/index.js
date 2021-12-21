@@ -23,6 +23,7 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import RichTextEditor from 'components/UI/RichTextEditor';
 
 const schema = yup.object().shape({
   Name: yup.string().trim().required("Input value"),
@@ -117,6 +118,10 @@ function EditListening() {
   const [image, setImage] = useState(defaultImg);
   const [video, setVideo] = useState(null);
   const [linkVideo, setLinkVideo] = useState("");
+  const [script, setScript] = useState("");
+  const getScript = (spt) => {
+    setScript(spt);
+  };
 
   const handleChangePicture = (e) => {
     e.preventDefault();
@@ -165,9 +170,7 @@ function EditListening() {
       if (apiRes.data.listen.Video.includes("youtube")) {
         setLinkVideo(apiRes.data.listen.Video);
       }
-      // else{
-      //   setVideo(apiRes.data.listen.Video);
-      // }
+     setScript(apiRes.data.listen.Script)
       setImage(apiRes.data.listen.Image);
     })();
     return () => {};
@@ -188,7 +191,14 @@ function EditListening() {
   const onSubmit = async () => {
     try {
       setSubmitting(true);
-      const { Name, Topic, Description, Script, Video } = listenValue;
+      const { Name, Topic, Description, Video } = listenValue;
+
+      if (video && linkVideo &&linkVideo.trim()!=""){
+        dispatch(setMessage("Chọn một trong hai tùy chọn để thêm video", "warning"));
+        setSubmitting(false);
+        return;
+      }
+      
       let dataSend = [];
       let videoUrl = null;
       if (video == null) {
@@ -209,7 +219,7 @@ function EditListening() {
           Name,
           Topic,
           Description,
-          Script,
+          Script: script,
           Image: image,
           Video: videoUrl,
         };
@@ -218,7 +228,7 @@ function EditListening() {
           Name,
           Topic,
           Description,
-          Script,
+          Script: script,
           Image: image,
           Video: video,
         };
@@ -371,30 +381,18 @@ function EditListening() {
                 </Grid>
               </TabPanel>
             </Box>
-
-            {/* examples */}
-            <Grid item xs={12} md={6} lg={4}>
-              <InputCustom
-                className="w-100"
-                label="Script"
-                value={listenValue.Script}
-                multiline
-                endAdornment={
-                  <InformationTooltip title="Thêm các câu ví dụ cho từ trên. Đảm bảo có sự xuất hiện của từ đó trong câu. Bạn có thể thêm nhiều câu bằng cách xuống dòng." />
-                }
-                error={Boolean(errors.Script)}
-                inputProps={{
-                  name: "Script",
-                  ...register("Script"),
-                }}
-                onChange={handleChange}
-              />
-
-              {errors.Script && (
-                <p className="text-error">{errors.Script?.message}</p>
-              )}
-            </Grid>
           </Grid>
+
+          {/* Script */}
+          <div className="row">
+          <div className="col-md-6" style={{ margin: "auto", marginTop: "50px" }}>
+            <div style={{ textAlign: "center" }}>
+              <h3>Rich Text Editor</h3>
+            </div>
+            <RichTextEditor initialValue={script} getValue={getScript} />
+           
+          </div>
+        </div> 
 
           <div className="dyno-break"></div>
           {/* button group */}

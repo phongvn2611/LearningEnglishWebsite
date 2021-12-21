@@ -35,6 +35,7 @@ export default makeStyles(() => ({
     fontWeight: 500,
     color: 'red',
     margin: '0.8rem 0rem 0rem 0',
+    
   },
 
   gcDesc: {
@@ -92,6 +93,10 @@ title: {
   fontWeight: 400,
   color: 'blue',
   margin: '0.8rem 0rem 0rem 0',
+  '&:hover, &:focus': {
+    color: "red",
+    fontSize:'2.3rem',
+  },
 },
 tldetail: {
   fontSize: '1.5rem',

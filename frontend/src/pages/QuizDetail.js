@@ -12,14 +12,17 @@ import { Button, Typography } from "@material-ui/core";
 import { useDispatch } from "react-redux";
 import { setMessage } from "redux/actions/messageAction";
 import CheckIcon from "@material-ui/icons/Check";
-import useTitle from 'hooks/useTitle';
+import useTitle from "hooks/useTitle";
+import EditIcon from "@material-ui/icons/Edit";
+import DeleteIcon from "@material-ui/icons/Delete";
+import { deleteQuestion } from "redux/actions/questionAction";
 
 const useStyle = makeStyles((theme) => ({
   ...dictionaryRoot(theme),
 }));
 
 export default function QuizDetailPage() {
-  useTitle('Quiz detail');
+  useTitle("Quiz detail");
   const classes = useStyle();
   const history = useHistory();
   const dispatch = useDispatch();
@@ -47,6 +50,18 @@ export default function QuizDetailPage() {
     return () => {};
   }, [quizID]);
 
+  const deleteHandler = (id) => {
+    try {
+      if (window.confirm("Bạn chắc chắn muốn xóa câu hỏi này?")) {
+        dispatch(deleteQuestion(id));
+        dispatch(setMessage("Delete successfully", "success"));
+        window.location.reload();
+      }
+    } catch {
+      dispatch(setMessage("Không thể xóa câu hỏi", "error"));
+    }
+  };
+
   const handleAddQuiz = async () => {
     try {
       const apiRes = await quizApi.postQuizByListen(id);
@@ -73,17 +88,37 @@ export default function QuizDetailPage() {
       {quiz ? (
         questions ? (
           questions.map((question, index) => (
-            <div key={index} className="mb-6">
-              <Typography variant="h5">{question.Content}</Typography>
-              {question.Answers.map((answer, index) => (
-                <div key={index} className="d-flex">
-                <Typography variant="body2" className="mb-2">
-                  {answer.content}
-                  </Typography>
-                  {answer.isCorrect && <CheckIcon className="ml-3" />}
+            <>
+              {" "}
+              <div className={`${classes.root} flex-center-between`}>
+                <div key={index} className="mb-6">
+                  <Typography variant="h5">{question.Content}</Typography>
+                  {question.Answers.map((answer, index) => (
+                    <div key={index} className="d-flex">
+                      <Typography variant="body2" className="mb-2">
+                        {answer.content}
+                      </Typography>
+                      {answer.isCorrect && <CheckIcon className="ml-3" />}
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
+
+                <div className="flex-center--ver">
+                  <div className="mr-5">
+                    <EditIcon
+                      className="dyno-setting-icon"
+                      onClick={() =>
+                        history.push(`/admin/quiz/edit/${id}/${question._id}`)
+                      }
+                    />
+                  </div>
+                  <DeleteIcon
+                    className="dyno-setting-icon"
+                    onClick={() => deleteHandler(question._id)}
+                  />
+                </div>
+              </div>
+            </>
           ))
         ) : (
           <Typography className="mt-5" variant="h5">
@@ -100,6 +135,10 @@ export default function QuizDetailPage() {
           </Button>
         </div>
       )}
+
+      <Button color="primary" onClick={() => history.push("/admin/quiz")}>
+        GO BACK
+      </Button>
     </div>
   );
 }

@@ -19,6 +19,7 @@ import Tab from "@material-ui/core/Tab";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setMessage } from "redux/actions/messageAction";
+import RichTextEditor from 'components/UI/RichTextEditor';
 
 const schema = yup.object().shape({
   Name: yup
@@ -89,6 +90,10 @@ function CreateListening({ onSubmitForm, submitting }) {
   "https://res.cloudinary.com/phongvn2611/image/upload/v1638368033/english/word/default-image_fbmbtn.png";
   const [image, setImage] = useState(defaultImg);
   const [video, setVideo] = useState(null);
+  const [script, setScript] = useState("");
+  const getScript = (spt) => {
+    setScript(spt);
+  };
 
   const convertImageToBase64 = (image) => {
     const reader = new FileReader();
@@ -140,7 +145,7 @@ function CreateListening({ onSubmitForm, submitting }) {
   };
 
   const onSubmit = (data) => {
-    onSubmitForm({ ...data, VidUpload: video, Image: image });
+    onSubmitForm({ ...data, VidUpload: video, Image: image, Script: script });
   };
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -274,27 +279,19 @@ function CreateListening({ onSubmitForm, submitting }) {
 
           </TabPanel>
         </Box>
-                
-              {/* {Script} */}
-              <Grid item xs={12}>
-            <InputCustom
-              className="w-100"
-              label="Script"
-              multiline
-              endAdornment={
-                <InformationTooltip title="Input script for listening" />
-              }
-              error={Boolean(errors.Script)}
-              inputProps={{
-                name: 'Script',
-                ...register('Script'),
-              }}
-            />
-               {errors.Script && (
-              <p className="text-error">{errors.Script?.message}</p>
-            )}
-          </Grid>
-        </Grid>
+      </Grid> 
+
+       {/* Script */}
+            <div className="row">
+          <div className="col-md-6" style={{ margin: "auto", marginTop: "50px" }}>
+            <div style={{ textAlign: "center" }}>
+              <h3>Rich Text Editor</h3>
+            </div>
+            <RichTextEditor initialValue="" getValue={getScript} />
+           
+          </div>
+        </div> 
+       
         <div className="dyno-break"></div>
         {/* button group */}
         <div className="d-flex flex-end jus-content-end pt-5 w-100">

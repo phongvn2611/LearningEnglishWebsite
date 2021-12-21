@@ -4,7 +4,11 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
-import { useHistory } from "react-router";
+import useTitle from "../hooks/useTitle";
+import { VideoCard } from "material-ui-player";
+import FormGroup from "@material-ui/core/FormGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
 import Container from "@material-ui/core/Container";
 import Button from '@material-ui/core/Button';
 import { useDispatch, useSelector } from "react-redux";
@@ -13,72 +17,85 @@ import { useParams } from 'react-router-dom';
 import { makeStyles } from "@material-ui/core";
 import { cloudinaryImgOptimize } from "helper";
 import { DEFAULTS } from '../constants/index';
+import { useHistory } from "react-router-dom";
 
-  
+
 const useStyle = makeStyles(() => ({
-    borderTopic: {
-        borderStyle: "solid",
-        borderColor: "initial",
-        borderWidth: "1px",
-        backgroundColor: "#ccff66",
-        width: "700px",
-        height: "auto",
-      },
-      grammarbox: {
-        backgroundColor: "#CF9",
-        padding: "10px 10px",
-        border: "1px solid #666",
-        marginBottom: "10px",	
-      },
-      picture: {
-        width: '50rem',
-        height: '30rem',
-        marginLeft: '15rem',
-      },
-   
-  }));
-  
+  borderTopic: {
+      borderStyle: "solid",
+      borderColor: "initial",
+      borderWidth: "1px",
+      backgroundColor: "#ccff66",
+      width: "700px",
+      height: "auto",
+    },
+    grammarbox: {
+      backgroundColor: "#CF9",
+      padding: "10px 10px",
+      border: "1px solid #666",
+      marginBottom: "10px",	
+    },
+    picture: {
+      width: '50rem',
+      height: '30rem',
+      marginLeft: '15rem',
+    },
+ 
+}));
+
 
 function TabPanel(props) {
-  const { children, value, index, ...other } = props;
+const { children, value, index, ...other } = props;
 
 
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </div>
-  );
+return (
+  <div
+    role="tabpanel"
+    hidden={value !== index}
+    id={`simple-tabpanel-${index}`}
+    aria-labelledby={`simple-tab-${index}`}
+    {...other}
+  >
+    {value === index && (
+      <Box sx={{ p: 3 }}>
+        <Typography>{children}</Typography>
+      </Box>
+    )}
+  </div>
+);
 }
 
 TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.number.isRequired,
-  value: PropTypes.number.isRequired,
+children: PropTypes.node,
+index: PropTypes.number.isRequired,
+value: PropTypes.number.isRequired,
 };
 
 function a11yProps(index) {
-  return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
-  };
+return {
+  id: `simple-tab-${index}`,
+  "aria-controls": `simple-tabpanel-${index}`,
+};
 }
 
 export default function GrammarDetailPage() {
-  const [value, setValue] = useState(0);
+  useTitle("Grammar Details");
   const classes= useStyle();
+  const [value, setValue] = useState(0);
   const grammarId = useParams().id;
   const {grammar} = useSelector((state) => state.grammarReducer);
  
+  const history = useHistory();
+
+  function handleClickEdit() {
+    history.push(`/admin/grammar/edit/${grammarId}`);
+  }
+
+  function handleClickGoBack() {
+    history.push("/admin/grammar");
+  }
+
+
   const dispatch = useDispatch();
   useEffect(() => 
   dispatch(getGrammar(grammarId)), [dispatch])
@@ -105,17 +122,7 @@ export default function GrammarDetailPage() {
   const handleChange = (_event, newValue) => {
     setValue(newValue);
   };
-
-  
-  const history = useHistory();
-
-  function handleClickEdit() {
-    history.push(`/admin/grammar/edit/${grammar._id}`);
-  }
-
-  function handleClickGoBack() {
-    history.push("/admin/grammar");
-  }
+ 
   return (
     <>
       <Container>
@@ -129,7 +136,7 @@ export default function GrammarDetailPage() {
         {grammar.Video ?  (
               <p align="center"><iframe src= {grammar.Video} width="500" height="300"></iframe></p>             
             ):(              
-                <img className={classes.picture} src={imgSrc} alt="" align="center" />
+                <img className={classes.picture} src={imgSrc} alt="photo" align="center" />
         )}
         
         {grammar.Audio && (
@@ -153,19 +160,17 @@ export default function GrammarDetailPage() {
             </Tabs>
           </Box>
           <TabPanel value={value} index={0}>
-          {getText(grammar.Script).length!=0 && (getText(grammar.Script).map((item) =>
-            <Typography variant="body2" align="justify">
-             {item}
-            </Typography>
-         ))}
+          <td dangerouslySetInnerHTML={{__html: grammar.Script}} />
           </TabPanel>
 
           <TabPanel value={value} index={1}>
           {grammar.Items && (
               grammar.Items.map((item, index) =>
-            <><Typography className={classes.grammarbox}>
+            <>
+            <Typography className={classes.grammarbox}>
               <p><strong>Point {index+1} :  </strong>{item.Point}</p>
             </Typography>
+           
             <div>
                 {getText(item.Examples).map((it) => 
                 <Typography variant="body2" align="justify">
@@ -175,9 +180,10 @@ export default function GrammarDetailPage() {
             </div></>
          ))}
           </TabPanel>
+    <Button color='primary' onClick={() => handleClickGoBack()}>GO BACK</Button>
+    <Button color='primary'onClick={() => handleClickEdit()}>Edit</Button>
+           
         </Box>
-        <Button color='primary' onClick={() => handleClickGoBack()}>GO BACK</Button>
-        <Button color='primary'onClick={() => handleClickEdit()}>Edit</Button>
       </Container>
     </>
   );

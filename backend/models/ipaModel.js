@@ -16,6 +16,11 @@ const IPAModel = new Schema({
     type: String,
     default: null,
   },
+  
+  Description: {
+    type: String,
+    required: true,
+  },
 
   Type: {
     type: String,

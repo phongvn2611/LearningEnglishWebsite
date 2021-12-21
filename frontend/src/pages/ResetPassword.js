@@ -36,7 +36,6 @@ const schema = yup.object().shape({
 function ResetPasswordPage() {
   useTitle("Reset password");
   useCloseNavigation();
-
   const classes = makeStyles(formStyle)();
   const { access_token } = useParams();
   const [visiblePw, setVisiblePw] = useState(false);

@@ -3,7 +3,8 @@ import USER_CONSTANT from "../constants/userConstant";
 const initialState = {
   user: [],
   isAuth: false,
-  role: ''
+  role: '',
+  coin:0,
 }
 
 const authReducer = (state = initialState, action) => {
@@ -13,7 +14,8 @@ const authReducer = (state = initialState, action) => {
         ...state,
         user: action.payload,
         isAuth: true,
-        role: action.payload.roleType
+        role: action.payload.roleType,
+        coin: action.payload.coin,
       }
     case USER_CONSTANT.LOGOUT:
       return {
@@ -22,6 +24,11 @@ const authReducer = (state = initialState, action) => {
         isAuth: false,
         role: ''
       }
+      case USER_CONSTANT.SET_USER_COIN:
+        return {
+          ...state,
+          coin: action.payload,
+        }
     default:
       return state;
   }

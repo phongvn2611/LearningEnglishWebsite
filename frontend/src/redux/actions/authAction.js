@@ -17,3 +17,10 @@ export const logout = (res) => {
     type: USER_CONSTANT.LOGOUT
   }
 }
+
+export const setUserCoin = (newCoin)  => {
+  return {
+    type: USER_CONSTANT.SET_USER_COIN,
+    payload: newCoin,
+  }
+}

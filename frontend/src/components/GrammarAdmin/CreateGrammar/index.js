@@ -27,6 +27,7 @@ import { DialogActions } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import InfiniteScroll from "components/UI/InfiniteScroll";
 import DeleteIcon from "@material-ui/icons/Delete";
+import RichTextEditor from 'components/UI/RichTextEditor';
 
 const schema = yup.object().shape({
   Title: yup.string().trim().required("Input value"),
@@ -77,6 +78,7 @@ function a11yProps(index) {
 
 function CreateGrammar({ onSubmitForm, submitting }) {
   const classes = useStyle();
+  const [resetFlag, setResetFlag] = useState(0);
   const [value, setValue] = useState(1);
   const {
     register,
@@ -87,6 +89,7 @@ function CreateGrammar({ onSubmitForm, submitting }) {
   });
   //grammar item
   const [loading, setLoading] = useState(true);
+  const [list, setList] = useState([]);
   const [more, setMore] = useState(true); // toggle infinite scrolling
   const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [openDialog, setOpenDialog] = useState(false);
@@ -158,6 +161,10 @@ function CreateGrammar({ onSubmitForm, submitting }) {
   const [image, setImage] = useState(defaultImg);
   const [video, setVideo] = useState(null);
   const [audio, setAudio] = useState(null);
+  const [script, setScript] = useState("");
+  const getScript = (spt) => {
+    setScript(spt);
+  };
 
   const handleChangePicture = (e) => {
     e.preventDefault();
@@ -219,6 +226,7 @@ function CreateGrammar({ onSubmitForm, submitting }) {
       VidUpload: video,
       Image: image,
       Audio: audio,
+      Script: script,
       Items: grammarItems,
     });
   };
@@ -290,6 +298,7 @@ function CreateGrammar({ onSubmitForm, submitting }) {
               label="Level (*)"
               options={GRAMMAR_LEVEL}
               error={Boolean(errors.Level)}
+              resetFlag={resetFlag}
               index={0}
               inputProps={{
                 name: "Level",
@@ -371,27 +380,19 @@ function CreateGrammar({ onSubmitForm, submitting }) {
               </Grid>
             </TabPanel>
           </Box>
-
-          {/* {Script} */}
-          <Grid item xs={12}>
-            <InputCustom
-              className="w-100"
-              label="Script"
-              multiline
-              endAdornment={
-                <InformationTooltip title="Input script for listening" />
-              }
-              error={Boolean(errors.Script)}
-              inputProps={{
-                name: "Script",
-                ...register("Script"),
-              }}
-            />
-            {errors.Script && (
-              <p className="text-error">{errors.Script?.message}</p>
-            )}
           </Grid>
-        </Grid>
+
+          {/* Script */}
+      <div className="row">
+          <div className="col-md-6" style={{ margin: "auto", marginTop: "50px" }}>
+            <div style={{ textAlign: "center" }}>
+              <h3>Rich Text Editor</h3>
+            </div>
+            <RichTextEditor initialValue="" getValue={getScript} />
+           
+          </div>
+        </div> 
+
 
         {/* Grammar Item */}
         <div className={`${classes.root2} dyno-container`}>

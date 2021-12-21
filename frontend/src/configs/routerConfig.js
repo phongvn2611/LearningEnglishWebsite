@@ -6,7 +6,6 @@ import ResetPasswordPage from "../pages/ResetPassword";
 import LogoutPage from "../pages/Logout";
 import WelcomePage from "../pages/Welcome";
 import NotFoundPage from "../pages/NotFound";
-import { GRAMMAR_LEVEL } from "constants/grammarLevels";
 const HomePage = React.lazy(() => import("../pages/Home"));
 const RegisterPage = React.lazy(() => import("../pages/Register"));
 const LoginPage = React.lazy(() => import("../pages/Login"));
@@ -28,8 +27,6 @@ const IPAPage = React.lazy(() => import("../pages/IPA"));
 const IPADetailPage = React.lazy(() => import("../components/IPA/DetailIPA"));
 const UserDetailPage = React.lazy(() => import("../pages/UserDetail"));
 const WordTopicPage = React.lazy(() => import("../pages/WordTopic"));
-const GamePage = React.lazy(() => import("../pages/Game"));
-//const WordListByTopicPage = React.lazy(() => import("../pages/WordListByTopic"));
 const VocabularyPage = React.lazy(() => import("../pages/Vocabulary"));
 const CreateListeningPage = React.lazy(() =>
   import("../pages/CreateListening")
@@ -51,6 +48,12 @@ const AddUserPage = React.lazy(() => import("../pages/AddUser"));
 const EditUserPage = React.lazy(() => import("../pages/EditUser"));
 const CreateQuestionPage = React.lazy(() => import("../pages/CreateQuestion"));
 const QuizDetailPage = React.lazy(() => import("../pages/QuizDetail"));
+const CorrectWordPage = React.lazy(() => import('pages/PlayGames/CorrectWord'));
+const WordMatchGamePage = React.lazy(() => import('pages/PlayGames/WordMatch'));
+const FastGamePage = React.lazy(() => import('pages/PlayGames/FastGame'));
+const PlayGamesPage = React.lazy(() => import('pages/PlayGames'));
+const LeaderBoardPage = React.lazy(() => import('pages/LeaderBoard'));
+const EditQuestionPage = React.lazy(() => import("../pages/EditQuestion"));
 
 const routes = [
   {
@@ -124,6 +127,107 @@ const routes = [
     role: ["user", "instructor", "admin"],
   },
   {
+    path: ROUTES.IPA_LIST,
+    exact: true,
+    isProtect: true,
+    component: () => <IPAPage />,
+    role: ["user", "instructor", "admin"],
+  },
+  {
+    path: ROUTES.IPA_DETAIL,
+    exact: true,
+    isProtect: true,
+    component: () => <IPADetailPage />,
+    role: ["user", "instructor", "admin"],
+  },
+  {
+    path: ROUTES.WORD_TOPIC,
+    exact: true,
+    isProtect: true,
+    component: () => <WordTopicPage />,
+    role: ["user", "instructor", "admin"],
+  },
+  {
+    path: ROUTES.VOCABULARY,
+    exact: true,
+    isProtect: true,
+    component: () => <VocabularyPage />,
+    role: ["user", "instructor", "admin"],
+  },
+  {
+    path: ROUTES.GRAMMAR,
+    exact: true,
+    isProtect: true,
+    component: () => <GrammarPage />,
+    role: ["user", "instructor", "admin"],
+  },
+  {
+    path: ROUTES.LISTENING_BY_TOPIC,
+    exact: true,
+    isProtect: true,
+    component: () => <ListeningByTopicPage />,
+    role: ["user", "instructor", "admin"],
+  },
+  {
+    path: ROUTES.LISTENING_TOPICS,
+    exact: true,
+    isProtect: true,
+    component: () => <ListeningTopicsPage />,
+    role: ["user", "instructor", "admin"],
+  },
+  {
+    path: ROUTES.GRAMMAR_BY_LEVEL,
+    exact: true,
+    isProtect: true,
+    component: () => <GrammarByLevelPage />,
+    role: ["user", "instructor", "admin"],
+  },
+  {
+    path: ROUTES.GRAMMAR_LEVELS,
+    exact: true,
+    isProtect: true,
+    component: () => <GrammarLevelsPage />,
+    role: ["user", "instructor", "admin"],
+  },
+  {
+    path: ROUTES.GAMES_HOME,
+    exact: true,
+    isProtect: false,
+    component: () => <PlayGamesPage />,
+    role: ["user", "instructor", "admin"]
+  },
+  {
+    path: ROUTES.GAMES_CORRECT_WORD,
+    exact: true,
+    isProtect: false,
+    component: () => <CorrectWordPage />,
+    role: ["user", "instructor", "admin"]
+  },
+  {
+    path: ROUTES.GAMES_WORD_MATCHING,
+    exact: true,
+    isProtect: false,
+    component: () => <WordMatchGamePage />,
+    role: ["user", "instructor", "admin"]
+  },
+  {
+    path: ROUTES.GAMES_FAST_GAME,
+    exact: true,
+    isProtect: false,
+    component: () => <FastGamePage />,
+    role: ["user", "instructor", "admin"]
+  },
+  {
+    path: ROUTES.LEADERBOARD,
+    exact: true,
+    isProtect: false,
+    component: () => <LeaderBoardPage />,
+    role: ["user", "instructor", "admin"]
+  },
+];
+
+const routesAdmin = [
+  {
     path: ROUTES.ADMIN,
     exact: true,
     isProtect: true,
@@ -180,20 +284,6 @@ const routes = [
     role: ["instructor", "admin"],
   },
   {
-    path: ROUTES.IPA_LIST,
-    exact: true,
-    isProtect: true,
-    component: () => <IPAPage />,
-    role: ["user", "instructor", "admin"],
-  },
-  {
-    path: ROUTES.IPA_DETAIL,
-    exact: true,
-    isProtect: true,
-    component: () => <IPADetailPage />,
-    role: ["user", "instructor", "admin"],
-  },
-  {
     path: ROUTES.USER_ADMIN,
     exact: true,
     isProtect: true,
@@ -208,67 +298,11 @@ const routes = [
     role: ["admin"],
   },
   {
-    path: ROUTES.WORD_TOPIC,
-    exact: true,
-    isProtect: true,
-    component: () => <WordTopicPage />,
-    role: ["user", "instructor", "admin"],
-  },
-  {
-    path: ROUTES.GAME,
-    exact: true,
-    isProtect: true,
-    component: () => <GamePage />,
-    role: ["user", "instructor", "admin"],
-  },
-  {
-    path: ROUTES.VOCABULARY,
-    exact: true,
-    isProtect: true,
-    component: () => <VocabularyPage />,
-    role: ["user", "instructor", "admin"],
-  },
-  {
     path: ROUTES.ADD_LISTEN,
     exact: true,
     isProtect: true,
     component: () => <CreateListeningPage />,
     role: ["instructor", "admin"],
-  },
-  {
-    path: ROUTES.GRAMMAR,
-    exact: true,
-    isProtect: true,
-    component: () => <GrammarPage />,
-    role: ["user", "instructor", "admin"],
-  },
-  {
-    path: ROUTES.LISTENING_BY_TOPIC,
-    exact: true,
-    isProtect: true,
-    component: () => <ListeningByTopicPage />,
-    role: ["user", "instructor", "admin"],
-  },
-  {
-    path: ROUTES.LISTENING_TOPICS,
-    exact: true,
-    isProtect: true,
-    component: () => <ListeningTopicsPage />,
-    role: ["user", "instructor", "admin"],
-  },
-  {
-    path: ROUTES.GRAMMAR_BY_LEVEL,
-    exact: true,
-    isProtect: true,
-    component: () => <GrammarByLevelPage />,
-    role: ["user", "instructor", "admin"],
-  },
-  {
-    path: ROUTES.GRAMMAR_LEVELS,
-    exact: true,
-    isProtect: true,
-    component: () => <GrammarLevelsPage />,
-    role: ["user", "instructor", "admin"],
   },
   {
     path: ROUTES.CREATE_GRAMMAR,
@@ -326,7 +360,14 @@ const routes = [
     component: () => <QuizDetailPage />,
     role: ["instructor", "admin"],
   },
-];
+  {
+    path: ROUTES.EDIT_QUESTION,
+    exact: true,
+    isProtect: true,
+    component: () => <EditQuestionPage />,
+    role: ["instructor", "admin"],
+  },
+]
 
 const renderRoutes = (routes, isAuth = false, roleType = "") => {
   return routes.map((route, index) => {
@@ -354,5 +395,6 @@ const renderRoutes = (routes, isAuth = false, roleType = "") => {
 
 export default {
   routes,
+  routesAdmin,
   renderRoutes,
 };

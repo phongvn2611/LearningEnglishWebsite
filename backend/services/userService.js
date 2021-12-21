@@ -6,8 +6,8 @@ exports.updateUserCoin = async (newCoin = 0, id = '') => {
       if (
         newCoin < 0 ||
         newCoin > MAX.USER_COIN ||
-        !username ||
-        username === ''
+        !id ||
+        id === ''
       ) {
         return false;
       }

@@ -5,7 +5,7 @@ const { uploadVideo, uploadImage } = require("../services/commonService");
 //create ipa
 exports.postIPA = async (req, res) => {
   try {
-    const { Audio, MouthShape, Type, Examples, Phonetic, Video, Image } =
+    const { Audio, MouthShape, Type, Examples,Description, Phonetic, Video, Image } =
       req.body;
 
     //video
@@ -46,6 +46,7 @@ exports.postIPA = async (req, res) => {
       Type,
       Examples,
       Phonetic,
+      Description,
       Video: videoUrl,
       Image: imgUrl,
     });

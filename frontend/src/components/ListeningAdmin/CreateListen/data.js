@@ -33,6 +33,13 @@ function CreateListeningData() {
     try {
       setSubmitting(true);
       const { VidUpload, LinkVideo, ...rest } = data;
+
+      if (VidUpload && LinkVideo && LinkVideo.trim()!=""){
+        dispatch(setMessage("Chọn một trong hai tùy chọn để thêm video", "warning"));
+        setSubmitting(false);
+        return;
+      }
+
       let dataSend = []
       console.log(data);
       if(VidUpload == null){

@@ -42,7 +42,6 @@ const schema = yup.object().shape({
 function RegisterPage() {
   useTitle("Register");
   useCloseNavigation();
-
   const classes = makeStyles(formStyle)();
 
   const [visiblePw, setVisiblePw] = useState(false);

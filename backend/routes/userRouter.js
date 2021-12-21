@@ -55,4 +55,10 @@ router.put(
   authentication,
   userController.putUpdateUserCoin,
 );
+router.get(
+  "/get-top-coin",
+  authentication,
+ 
+  userController.getTopCoin
+);
 module.exports = router;

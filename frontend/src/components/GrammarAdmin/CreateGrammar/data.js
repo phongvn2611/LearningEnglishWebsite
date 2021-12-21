@@ -31,19 +31,33 @@ function CreateGrammarData() {
     try {
       setSubmitting(true);
       const { VidUpload, LinkVideo, ...rest } = data;
+      
+      if (VidUpload && LinkVideo && LinkVideo.trim()!=""){
+        dispatch(setMessage("Chọn một trong hai tùy chọn để thêm video", "warning"));
+        setSubmitting(false);
+        return;
+      }
+
       let dataSend = []
       if(VidUpload == null){
-      //  console.log(data)
-        const videoUrl = analysisLinkVideo(LinkVideo);
-        if (videoUrl==null) {
-          dispatch(setMessage("Link video is invalid.", "warning"));
-          setSubmitting(false);
-          return;
+          if(LinkVideo || LinkVideo.trim()!='' ){
+        //  console.log(data)
+          const videoUrl = analysisLinkVideo(LinkVideo);
+          if (videoUrl==null) {
+            dispatch(setMessage("Link video is invalid.", "warning"));
+            setSubmitting(false);
+            return;
+          }
+          dataSend ={
+            ...rest,
+          Video: videoUrl,
+          };
         }
-        dataSend ={
-          ...rest,
-         Video: videoUrl,
-        };
+        else{
+          dataSend ={
+            ...rest,
+          };
+        }
       }
       else{
         dataSend ={

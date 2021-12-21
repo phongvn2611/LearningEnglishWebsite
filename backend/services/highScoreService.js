@@ -5,7 +5,7 @@ const HighscoreModel = require('../models/highScoreModel');
 exports.updateTop = async (accountId, name, score) => {
   try {
     let tops = await HighscoreModel.findOne({ name });
-
+console.log(tops)
     let unit = '';
     for (let key in HIGHSCORE_NAME) {
       if (HIGHSCORE_NAME[key].name === name) {
@@ -15,7 +15,7 @@ exports.updateTop = async (accountId, name, score) => {
     }
 
     let newTops = [];
-    if (!Boolean(tops)) {
+     if (!Boolean(tops)) {
       newTops.push({ accountId, score: Number(score) });
       HighscoreModel.create({
         name,
@@ -50,27 +50,65 @@ exports.updateTop = async (accountId, name, score) => {
 
 exports.getLeaderboardWithName = async (name = '') => {
   try {
-    const highscores = await HighscoreModel.findOne({ name });
-    if (!Boolean(highscores)) {
+    
+    let highscores = await HighscoreModel.find({ name: name }).sort( {coin : -1} );
+    if (highscores.length==0) {
       return [];
     }
-    const { top } = highscores;
-    const l = top.length;
-    let topList = [];
 
-    for (let i = 0; i < l; ++i) {
-      const { name, avt } = await UserModel.findOne({
-        accountId: top[i].accountId,
-      }).select('name avt -_id');
+    let topList=[];
+    for (let i = 0; i < highscores.length; i++) {
+      const user = await UserModel.findById(highscores[i].accountId);
 
+  
       topList.push({
-        name: name || 'Anonymous',
-        avt,
-        score: top[i].score,
+        _id: user._id,
+       name: user.name,
+        avatar:user.avatar,
+        coin: highscores[i].coin,
       });
     }
 
     return topList;
+  } catch (error) {
+    throw error;
+  }
+};
+
+exports.createScore = async (scoreInfo) => {
+  try {
+    const newScore = await HighscoreModel.create({ ...scoreInfo });
+
+    if (newScore) {
+      return newScore;
+    }
+    return null;
+  } catch (error) {
+    throw error;
+  }
+};
+
+exports.updateScore = async (coin, id) => {
+  try {
+    let newScore = await HighscoreModel.findByIdAndUpdate(id, {coin:coin})
+
+    if (newScore) {
+      return newScore;
+    }
+    return null;
+  } catch (error) {
+    throw error;
+  }
+};
+
+exports.getScore = async (name, accountId) => {
+  try {
+    let newScore = await HighscoreModel.findOne({name: name, accountId: accountId});
+    console.log(newScore)
+    if (newScore) {
+      return newScore;
+    }
+    return null;
   } catch (error) {
     throw error;
   }

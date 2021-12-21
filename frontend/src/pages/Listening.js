@@ -16,7 +16,16 @@ import {getListening}  from "../redux/actions/listeningAction";
 import { useParams } from 'react-router-dom';
 import incorrectIcon from 'assets/icons/checkAnswer/incorrect.gif';
 import correctIcon from 'assets/icons/checkAnswer/correct.gif'
+import { makeStyles } from "@material-ui/core/styles";
 
+const useStyle = makeStyles((theme) => ({
+  tabcontents: {
+    border: "1px solid #2eb8b8",
+    padding: "10px",
+    backgroundColor: "#FFF",
+    borderRadius: "0 3px 3px 3px",
+}
+}));
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -31,7 +40,7 @@ function TabPanel(props) {
     >
       {value === index && (
         <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
+          <Typography >{children}</Typography>
         </Box>
       )}
     </div>
@@ -53,6 +62,7 @@ function a11yProps(index) {
 
 export default function ListeningPage() {
   useTitle("Listening");
+  const classes = useStyle();
   const [value, setValue] = useState(1);
   const [checkAnswer, setCheckAnswer] = useState(false);
   const [showAnswer, setShowAnswer] = useState(false);
@@ -65,15 +75,10 @@ export default function ListeningPage() {
   useEffect(() =>
   dispatch(getListening(listenId),[dispatch]))
 
-  const [answers, setAnswers] = useState([]);
+  // window.localStorage.setItem(listenId, listen.Name);
+  // console.log(window.localStorage)
 
-  const getScript = (sct) =>{
-    let Script =[];
-    if(sct){
-    Script = sct.split("\n");
-    } 
-    return Script;
-  };
+  const [answers, setAnswers] = useState([]);
   const [isCorrect, setisCorrect] = useState([]);
   const handleClickShowAnswer = () =>{
      setShowAnswer(true)
@@ -110,15 +115,38 @@ export default function ListeningPage() {
   };
   
   const handleClickCheckAnswer = ()=>{
-  if(answers.length>0){
-      for(var i=0;i<answers.length;i++){
-        if(answers[i])
-        {
-          if(answers[i].length>0){
-            if(answers[i].length>1) {isCorrect[i]=false;}
+    if(answers.length>0){
+        for(var i=0;i<answers.length;i++){
+          if(answers[i])
+          {
+            if(answers[i].length>0){
+              let numberCorrect = 0;
+              for(let j=0; j< questions[i].Answers.length;j++)
+              {
+                if(questions[i].Answers[j].isCorrect==true) {
+                  numberCorrect += 1;
+                }
+                console.log(answers[i])
+              }
+              if(numberCorrect == answers[i].length)
+              {
+                isCorrect[i] = true;
+                for(let k=0; k < answers[i].length;k++)
+                {
+                  if(questions[i].Answers[answers[i][k]].isCorrect==false) {isCorrect[i]=false;} 
+                }
+              }
+              else {isCorrect[i] = false;}
+             
+              // if(answers[i].length>1) {isCorrect[i]=false;}
+              // else{
+              //   if(questions[i].Answers[answers[i][0]].isCorrect==true) {isCorrect[i]=true;}
+              //   if(questions[i].Answers[answers[i][0]].isCorrect==false) {isCorrect[i]=false;}
+            }
             else{
-              if(questions[i].Answers[answers[i][0]].isCorrect==true) {isCorrect[i]=true;}
-              if(questions[i].Answers[answers[i][0]].isCorrect==false) {isCorrect[i]=false;}
+              if (window.confirm('Chọn đáp án cho tất cả câu hỏi.')) {
+                window.close();
+              }
             }
           }
           else{
@@ -127,22 +155,17 @@ export default function ListeningPage() {
             }
           }
         }
-        else{
+      }
+      else{
           if (window.confirm('Chọn đáp án cho tất cả câu hỏi.')) {
             window.close();
           }
-        }
       }
+      setCheckAnswer(true);
+      setShowAnswer(true)
     }
-    else{
-        if (window.confirm('Chọn đáp án cho tất cả câu hỏi.')) {
-          window.close();
-        }
-    }
-    setCheckAnswer(true);
-    setShowAnswer(true)
-  }
 
+  
   return (
     <>
       <Container>
@@ -156,24 +179,24 @@ export default function ListeningPage() {
 
         <p align="center"><iframe src={listen.Video} width="500" height="300" ></iframe></p>
 
+        
+
         <Box sx={{ width: "100%" }}>
-          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+          <Box sx={{ borderBottom: 1, borderColor: "divider", backgroundColor:"#2eb8b8", color:"white" }} >
             <Tabs
               value={value}
               onChange={handleChange}
               aria-label="basic tabs example"
               indicatorColor="primary"
+              
             >
               <Tab label="Script" {...a11yProps(0)} />
               <Tab label="Quiz" {...a11yProps(1)} />
             </Tabs>
           </Box>
+          <div className={classes.tabcontents}>
           <TabPanel value={value} index={0}>
-          {getScript(listen.Script).length!=0 && (getScript(listen.Script).map((item) =>
-            <Typography variant="body2" align="justify">
-             {item}
-            </Typography>
-         ))}
+          <td dangerouslySetInnerHTML={{__html: listen.Script}} />
           </TabPanel>
 
           <TabPanel value={value} index={1}>
@@ -224,7 +247,7 @@ export default function ListeningPage() {
             <Button color='primary' onClick={()=> handleClickReset()}>Reset Quiz</Button>
             <Button color='primary' onClick={()=> handleClickShowAnswer()}>Show Answers</Button>
           </TabPanel>
-
+          </div>
         </Box>
       </Container>
     </>

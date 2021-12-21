@@ -1,5 +1,5 @@
 import React from 'react'
-import {GRAMMAR_LEVEL  } from 'constants/grammarLevels';
+import { GRAMMAR_LEVEL } from 'constants/grammarLevels';
 import { makeStyles } from "@material-ui/styles";
 import { dictionaryRoot } from "../components/UI/style";
 import { Grid } from '@material-ui/core';
@@ -25,7 +25,7 @@ export default function WordTopicPage() {
           <Grid item xs={12} md={4} key={index}>
             <Link
               to={`/grammar/level/${level.value}`}>
-              <img  src={level.image} alt="photo" align="center" />
+              <img  src={level.image} alt="" align="center" />
              
             </Link>
           </Grid>

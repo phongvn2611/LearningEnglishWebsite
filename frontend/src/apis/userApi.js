@@ -67,6 +67,14 @@ const userApi = {
       }
     );
   },
+  putUpdateUserCoin: (newCoin) => {
+    return axios.put(`${URL}/update-coin`, { newCoin });
+  },
+
+  getTopCoin: () => {
+    return axios.get(`${URL}/get-top-coin`);
+  },
+
 };
 
 export default userApi;

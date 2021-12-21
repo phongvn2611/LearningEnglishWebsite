@@ -21,10 +21,10 @@ import questionApi from "apis/questionApi";
 import { useParams } from "react-router";
 
 const schema = yup.object().shape({
-  content: yup.string().trim().required("Input value"),
-  answer1: yup.string().trim().required("Input value"),
-  answer2: yup.string().trim().required("Input value"),
-  answer3: yup.string().trim().required("Input value"),
+  content: yup.string().trim(),
+  answer1: yup.string().trim(),
+  answer2: yup.string().trim(),
+  answer3: yup.string().trim(),
 });
 
 const useStyle = makeStyles(() => ({
@@ -108,16 +108,9 @@ function CreateQuestionPage() {
   };
 
   const handleCheck = (e) => {
-    const isNotCheckAll = (arr) => arr.every((v) => v === false);
     const newArr = { ...question };
-    if (isNotCheckAll(question.check)) {
       newArr.check[indexCheck] = true;
       setQuestion(newArr);
-    } else {
-      newArr.check = newArr.check.fill(false);
-      newArr.check[indexCheck] = true;
-      setQuestion(newArr);
-    }
   };
   const handleUncheck = () => {
     const newArr = { ...question };
@@ -127,28 +120,50 @@ function CreateQuestionPage() {
   const onSubmit = async () => {
     try {
       setSubmitting(true);
+
+      let answerQuestion=[];
+      let isChecked=0;
+      if(question.answer1.trim()!== ""){
+        if(question.check[0]===true){isChecked += 1;}
+        answerQuestion.push({content:question.answer1, isCorrect: question.check[0]})}
+      if(question.answer2.trim()!== ""){
+        if(question.check[1]===true){isChecked += 1;}
+        answerQuestion.push({content:question.answer2, isCorrect: question.check[1]})}
+      if(question.answer3.trim()!== ""){
+        if(question.check[2]===true){isChecked += 1;}
+        answerQuestion.push({content:question.answer3, isCorrect: question.check[2]})}
+  
+      if(answerQuestion.length <2){
+        dispatch(setMessage("Question is invalid", 'error'));
+        setSubmitting(false);
+        console.log(1)
+        return;
+      }
+    
+      if(answerQuestion.length == 2 && isChecked ==2 ){
+        dispatch(setMessage("Question is invalid", 'error'));
+        setSubmitting(false);
+        return;
+      }
+     
       const isNotCheckAll = (arr) => arr.every((v) => v === false);
       if (isNotCheckAll(question.check)) {
         dispatch(setMessage("Please check the correct answer", 'error'));
         setSubmitting(false);
       }
       else {
+       // console.log(isCheckAll(question.check))
+        const isCheckAll = (arr) => arr.every((v) => v === true);
+        console.log(isCheckAll(question.check))
+        if(isCheckAll(question.check))
+        {
+          dispatch(setMessage("Question is invalid", 'error'));
+          setSubmitting(false);
+          return;
+        }
         const dataSend = {
           Content: question.content,
-          Answers: [
-            {
-              content: question.answer1,
-              isCorrect: question.check[0],
-            },
-            {
-              content: question.answer2,
-              isCorrect: question.check[1],
-            },
-            {
-              content: question.answer3,
-              isCorrect: question.check[2],
-            },
-          ],
+          Answers: answerQuestion,
         };
         const apiRes = await questionApi.postQuestion(quiz_id, dataSend);
         if (apiRes) {

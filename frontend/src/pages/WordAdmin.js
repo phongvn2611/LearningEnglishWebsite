@@ -14,8 +14,8 @@ import commonApi from "apis/commonApi";
 import wordApi from "apis/wordApi";
 import WordDetailModal from "components/UI/WordDetailModal";
 import { equalArray } from "helper";
-import { ROUTES } from 'constants/index';
 import { useHistory } from 'react-router-dom';
+import { ROUTES } from 'constants/index';
 
 const useStyle = makeStyles((theme) => ({
   ...dictionaryRoot(theme),

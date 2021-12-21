@@ -15,5 +15,7 @@ wordApi.get('/get-word-by-topic/:topic',authentication, wordController.getByTopi
 wordApi.get('/get-word-topics/:topic',authentication, wordController.getTopics);
 wordApi.get('/get-word-topic-slide',authentication, wordController.getWordTopicSlide);
 wordApi.get('/get-word-topic-gallery',authentication, wordController.getWordTopicGallery);
+wordApi.get('/get-word-by-word',authentication, wordController.getWordByWord);
+
 
 module.exports = wordApi;
