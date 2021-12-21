@@ -27,7 +27,7 @@ function WordMatchGame({ list }) {
   const [isDelay, setIsDelay] = useState(false);
   const [isDone, setIsDone] = useState(false);
   const { current, nRight, nWrong, resetFlag } = state;
-  const nRightConsecutive = useRef({ top: 0, n: 0 });
+ // const nRightConsecutive = useRef({ top: 0, n: 0 });
 
   const handleDone = () => {
     setIsDone(true);
@@ -36,10 +36,10 @@ function WordMatchGame({ list }) {
   const handleCorrect = () => {
     playSoundAnswer(list[current].word, true, voice, volume, speed);
     setIsDelay(true);
-    nRightConsecutive.current.n++;
-    if (nRightConsecutive.current.n > nRightConsecutive.current.top) {
-      nRightConsecutive.current.top = nRightConsecutive.current.n;
-    }
+    // nRightConsecutive.current.n++;
+    // if (nRightConsecutive.current.n > nRightConsecutive.current.top) {
+    //   nRightConsecutive.current.top = nRightConsecutive.current.n;
+    // }
     setTimeout(() => {
       if (current+1 >= nQuestion) {
        
@@ -63,9 +63,9 @@ function WordMatchGame({ list }) {
   };
 
   const handleWrong = () => {
-    nRightConsecutive.current.n = 0;
+   // nRightConsecutive.current.n = 0;
     onPlayAudio(incorrectAudio);
-    setState({ ...state, nWrong: nWrong + 1 });
+   // setState({ ...state, nWrong: nWrong + 1 });
   };
 
   const handleNext = () => {
@@ -92,10 +92,10 @@ function WordMatchGame({ list }) {
       nWrong: 0,
       resetFlag: -1,
     });
-    nRightConsecutive.current = { top: 0, n: 0 };
+   // nRightConsecutive.current = { top: 0, n: 0 };
   };
-console.log(current)
-console.log(nQuestion)
+console.log(nWrong)
+//console.log(nQuestion)
   return (
     <div className="flex-center-col h-100vh">
       <div className={`${classes.root} container dyno-game-box position-rel`}>
@@ -159,7 +159,7 @@ console.log(nQuestion)
             onReplay={handleReplay}
             nRight={nRight}
             nWrong={nWrong}
-            nRightConsecutive={nRightConsecutive.current.top}
+           // nRightConsecutive={nRightConsecutive.current.top}
             nameGame="word-match"
           />
         )}

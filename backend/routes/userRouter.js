@@ -22,10 +22,9 @@ router.post(
 router.post("/update-password", authentication, userController.updatePassword);
 router.get(
   "/get-all-users",
-  checkAdmin,
   authentication,
- 
-  userController.getAllUsers
+  checkAdmin,
+  userController.getAllUsers,
 );
 router.get(
   "/get-user-details/:user_id",

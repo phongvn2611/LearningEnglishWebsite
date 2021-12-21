@@ -100,9 +100,9 @@ function HomePage() {
               <div className="featured-box featured-box-primary featured-box-effect-2" style={{height: '264.8px'}}>
                 <div className="box-content box-content-border-bottom">
                   <a href={ROUTES.LISTENING_TOPICS}><i className="icon-featured" ><FaMicrosoft style={{ color:"black"}}/></i>
-                    <h1 className="font-weight-normal" style={{color:"#000066"}}>Listening</h1>
+                    <h1 className="font-weight-normal" style={{fontSize: "2.6em",lineHeight: "44px",margin: "0 0 32px 0", color: "#000066", fontWeight: "200", letterSpacing: "-.05em",margin: "0",webkitFontSmoothing: "antialiased"}}>Listening</h1>
                   </a>
-                  <p className="mb-2 mt-2 text-2">Listening videos and answer the questions.</p>
+                  <p className="mb-2 mt-2 text-2" style={{color: "#777", lineHeight: "26px",margin: "0 0 20px"}}>Listening videos and answer the questions.</p>
                 </div>
               </div>
             </div>
@@ -118,9 +118,9 @@ function HomePage() {
               <div className="featured-box featured-box-primary featured-box-effect-2" style={{height: '264.8px'}}>
                 <div className="box-content box-content-border-bottom">
                   <a href={ROUTES.GRAMMAR_LEVELS}><i className="icon-featured" ><FaCoffee style={{ color:"black"}}/></i>
-                    <h1 className="font-weight-normal" style={{color:"#0000CC"}}>Grammar</h1>
+                    <h1 className="font-weight-normal" style={{fontSize: "2.6em",lineHeight: "44px",margin: "0 0 32px 0", color: "#0000CC", fontWeight: "200", letterSpacing: "-.05em",margin: "0",webkitFontSmoothing: "antialiased"}}>Grammar</h1>
                   </a>
-                  <p className="mb-2 mt-2 text-2">Your guide to English grammar.</p>
+                  <p className="mb-2 mt-2 text-2" style={{color: "#777", lineHeight: "26px",margin: "0 0 20px"}}>Our guide to English grammar.</p>
                   <br></br>
                   <br></br>
                 </div>
@@ -138,9 +138,9 @@ function HomePage() {
               <div className="featured-box featured-box-primary featured-box-effect-2" style={{height: '264.8px'}}>
                 <div className="box-content box-content-border-bottom">
                   <a href={ROUTES.WORD_TOPIC}><i className="icon-featured" ><FaLaptopHouse style={{ color:"black"}}/></i>
-                    <h1 className="font-weight-normal" style={{color:"#3366FF"}}>Vocabulary</h1>
+                    <h1 className="font-weight-normal" style={{fontSize: "2.6em",lineHeight: "44px",margin: "0 0 32px 0", color: "#3366FF", fontWeight: "200", letterSpacing: "-.05em",margin: "0",webkitFontSmoothing: "antialiased"}}>Vocabulary</h1>
                   </a>
-                  <p className="mb-2 mt-2 text-2">Learn English vocabulary by topic.</p>
+                  <p className="mb-2 mt-2 text-2" style={{color: "#777", lineHeight: "26px",margin: "0 0 20px"}}>Learn English vocabulary by topic.</p>
                   <br></br>
                   <br></br>
                 </div>
@@ -158,9 +158,9 @@ function HomePage() {
               <div className="featured-box featured-box-primary featured-box-effect-2" style={{height: '264.8px'}}>
                 <div className="box-content box-content-border-bottom">
                   <a href={ROUTES.IPA_LIST}><i className="icon-featured" ><FaLayerGroup style={{ color:"black"}}/></i>
-                    <h1 className="font-weight-normal" style={{color:"#3399FF"}}>Pronunciation</h1>
+                    <h1 className="font-weight-normal" style={{fontSize: "2.6em",lineHeight: "44px",margin: "0 0 32px 0", color: "#3399FF", fontWeight: "200", letterSpacing: "-.05em",margin: "0",webkitFontSmoothing: "antialiased"}}>Pronunciation</h1>
                   </a>
-                  <p className="mb-2 mt-2 text-2">Tricky English pronunciation. With listening practice.</p>
+                  <p className="mb-2 mt-2 text-2"style={{color: "#777", lineHeight: "26px",margin: "0 0 20px"}}>Tricky English pronunciation. With listening practice.</p>
                   
                 </div>
               </div>
@@ -190,9 +190,9 @@ function HomePage() {
             <div className="featured-box featured-box-primary featured-box-effect-2" style={{height: '264.8px'}}>
               <div className="box-content box-content-border-bottom">
                 <a href={ROUTES.IPA_LIST}><i className="icon-featured" ><FaLanguage style={{ color:"black"}}/></i>
-                  <h1 className="font-weight-normal" style={{color:"#3199FF"}}>Dictionary</h1>
+                  <h1 className="font-weight-normal" style={{fontSize: "2.6em",lineHeight: "44px",margin: "0 0 32px 0", color: "#3199FF", fontWeight: "200", letterSpacing: "-.05em",margin: "0",webkitFontSmoothing: "antialiased"}}>Dictionary</h1>
                 </a>
-                <p className="mb-2 mt-2 text-2">Tricky English pronunciation. With listening practice.</p>
+                <p className="mb-2 mt-2 text-2" style={{color: "#777", lineHeight: "26px",margin: "0 0 20px"}}>Tricky English pronunciation. With listening practice.</p>
                 
               </div>
             </div>
@@ -208,9 +208,9 @@ function HomePage() {
             <div className="featured-box featured-box-primary featured-box-effect-2" style={{height: '264.8px'}}>
               <div className="box-content box-content-border-bottom">
                 <a href={ROUTES.GAMES_HOME}><i className="icon-featured" ><FaGrin style={{ color:"black"}}/></i>
-                  <h1 className="font-weight-normal" style={{color:"#3355FF"}}>Play Games</h1>
+                  <h1 className="font-weight-normal" style={{fontSize: "2.6em",lineHeight: "44px",margin: "0 0 32px 0", color: "#3355FF", fontWeight: "200", letterSpacing: "-.05em",margin: "0",webkitFontSmoothing: "antialiased"}}>Play Games</h1>
                 </a>
-                <p className="mb-2 mt-2 text-2">Play games to review.</p>
+                <p className="mb-2 mt-2 text-2" style={{color: "#777", lineHeight: "26px",margin: "0 0 20px"}}>Play games to review.</p>
                 <br></br>
                   <br></br>
               </div>

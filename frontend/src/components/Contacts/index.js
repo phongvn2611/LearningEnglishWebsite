@@ -51,13 +51,13 @@ function Contact() {
                 <img className="img-responsive" src={logo}/>
                 </a>
                 </div>
-                <div className="col-md-7">
+                {/* <div className="col-md-7">
                     <span style={{fonSize:"30px", color:"#fffff5"}}>© Copyright Learn English Network - All Rights Reserved</span>
                     <br/>
                     <span style={{fonSize:"30px", color:"#fffff5"}}>  These pages are best viewed using the latest version of Chrome, Firefox, or IE.</span>
                     <br/>
                     <span style={{fonSize:"30px", color:"#fffff5"}}>  If you have any problems, please let us know.</span>
-                </div>
+                </div> */}
                 <div className="col-md-4">
                     <nav id="sub-menu">
                     <ul>

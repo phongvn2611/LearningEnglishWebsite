@@ -233,6 +233,7 @@ exports.logout = async (req, res) => {
 exports.getAllUsers = async (req, res) => {
   try {
     const users = await Users.find();
+    console.log(users)
     return res.status(200).json(users);
   }
   catch (err) {
@@ -242,7 +243,7 @@ exports.getAllUsers = async (req, res) => {
 
 exports.getTopCoin = async (req, res) => {
   try {
-    const users = await Users.find().sort( {coin : -1} );
+    const users = await Users.find({roleType:"user"}).sort( {coin : -1} );
     return res.status(200).json(users);
   }
   catch (err) {

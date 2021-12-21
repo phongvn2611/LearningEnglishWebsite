@@ -30,7 +30,7 @@ export default makeStyles((theme) => ({
     fontSize: '1.6rem',
     fontWeight: 600,
      marginLeft: '0.5rem',
-     paddingTop:'17px'
+    // paddingTop:'17px'
   },
 
   logo: {
