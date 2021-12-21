@@ -61,7 +61,6 @@ exports.getLeaderboardWithName = async (name = '') => {
       const user = await UserModel.findById(highscores[i].accountId);
 
   if(user.roleType === "user"){
-
       topList.push({
         _id: user._id,
        name: user.name,
@@ -69,9 +68,7 @@ exports.getLeaderboardWithName = async (name = '') => {
         coin: highscores[i].coin,
       });
     }
-
     }
-
 
     return topList;
   } catch (error) {

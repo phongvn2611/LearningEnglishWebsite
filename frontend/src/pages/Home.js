@@ -1,4 +1,3 @@
-
 import Grid from '@material-ui/core/Grid';
 import communicateIcon from '../assets/icons/communicate.png';
 import dictionaryIcon from '../assets/icons/dictionary.png';
@@ -36,7 +35,6 @@ const FEATURE_LIST = [
     title: 'Từ vựng',
     subTitle:
       'Danh sách từ vựng được phân loại theo cấp độ, loại từ, ...',
-
     imgUrl: flashcardIcon,
     to: ROUTES.WORD_TOPIC,
   },
@@ -227,7 +225,6 @@ function HomePage() {
  </section>
 </div>
        
-
   );
 }
 

@@ -21,20 +21,21 @@ export default makeStyles((theme) => ({
   },
 
   auth: {
-    display: "flex",
-    alignItems: "center",
-    cursor: "pointer",
+    display: 'flex',
+    alignItems: 'center',
+    cursor: 'pointer'
   },
-
+  
   name: {
-    fontSize: "1.6rem",
+    fontSize: '1.6rem',
     fontWeight: 600,
-    marginLeft: "0.5rem",
+     marginLeft: '0.5rem',
+    // paddingTop:'17px'
   },
 
   logo: {
-    marginRight: "0.8rem",
-    width: "auto !important",
+    marginRight: '0.8rem',
+    width: 'auto !important',
   },
 
   imgSize: {
@@ -44,47 +45,47 @@ export default makeStyles((theme) => ({
 
   iconSize: {
     fontSize: `${iconSize} !important`,
-    color: "var(--label-color)",
+    color: 'var(--label-color)',
   },
 
   control: {
-    marginLeft: "auto",
+    marginLeft: 'auto',
   },
 
   avt: {
     transition: theme.transitions.easing.easeIn,
-    "&:hover, &:active": {
+    '&:hover, &:active': {
       opacity: 0.85,
     },
   },
 
   searchIcon: {
     fontSize: iconSize,
-    color: "var(--label-color)",
+    color: 'var(--label-color)',
   },
 
   loginBtn: {
-    height: "3.7rem",
-    minWidth: "12rem",
+    height: '3.7rem',
+    minWidth: '12rem',
   },
 
   loginLabel: {
-    fontSize: "1.4rem",
+    fontSize: '1.4rem',
   },
 
   registerBtn: {
-    height: "3.7rem",
-    minWidth: "12rem",
-    marginRight: "1.4rem",
+    height: '3.7rem',
+    minWidth: '12rem',
+    marginRight: '1.4rem'
   },
 
   registerLabel: {
-    fontSize: "1.4rem",
+    fontSize: '1.4rem',
   },
 
-  bbcleNavButton: {
+  bbcleNavButton: { 
     cursor: "pointer",
-    fontSize: "16px",
+    fontSize:"16px",
     textTransform: "capitalize",
     fontWeight: "bold",
     color: "#68C2E8",
@@ -121,4 +122,6 @@ bbcleHeaderMasthead: {
   whiteSpace: "nowrap",
 }
 
+
+ 
 }));

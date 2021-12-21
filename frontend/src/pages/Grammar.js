@@ -34,7 +34,6 @@ const useStyle = makeStyles(() => ({
         padding: "10px 10px",
         border: "1px solid #666",
         color:"black",
-
         marginBottom: "10px",	
       },
       picture: {

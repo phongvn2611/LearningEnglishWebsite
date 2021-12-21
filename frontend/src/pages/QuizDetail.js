@@ -15,7 +15,6 @@ import CheckIcon from "@material-ui/icons/Check";
 import useTitle from 'hooks/useTitle';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete'
-
 import { deleteQuestion } from "redux/actions/questionAction";
 
 const useStyle = makeStyles((theme) => ({
@@ -23,9 +22,7 @@ const useStyle = makeStyles((theme) => ({
 }));
 
 export default function QuizDetailPage() {
-
   useTitle('Quiz detail');
-
   const classes = useStyle();
   const history = useHistory();
   const dispatch = useDispatch();
@@ -62,7 +59,6 @@ export default function QuizDetailPage() {
       }
     }
     catch {
-
       dispatch(setMessage("Không thể xóa câu hỏi", "error"));
     }
   };
@@ -138,6 +134,7 @@ export default function QuizDetailPage() {
 
 <Button color='primary' onClick={() => history.push("/admin/quiz")}>GO BACK</Button>
     </div>
+
 
   );
 }

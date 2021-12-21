@@ -4,13 +4,10 @@ import useTitle from 'hooks/useTitle';
 import React from 'react';
 import useCloseContact from 'hooks/useCloseContact';
 
-
 function FastGamePage() {
   useTitle('Game tay nhanh hơn não');
    useCloseNavigation();
-
    useCloseContact();
-
   return <FastGameData />;
 }
 

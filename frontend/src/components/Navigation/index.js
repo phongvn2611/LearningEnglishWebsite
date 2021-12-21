@@ -10,13 +10,13 @@ import { Link } from "react-router-dom";
 import SettingMenu from "./SettingMenu";
 import useStyle from "./style";
 import { cloudinaryImgOptimize } from 'helper';
-
 import { useHistory } from "react-router-dom";
 
 function Navigation() {
   const classes = useStyle();
   const theme = useTheme();
   const isXsDevice = useMediaQuery(theme.breakpoints.up("xs"));
+  
   const { isAuth, user } = useSelector((state) => state.authReducer);
   const avtSrc = cloudinaryImgOptimize(user.avatar, 48, 48);
   const [showInput, setShowInput] = useState(isXsDevice);
@@ -38,7 +38,17 @@ function Navigation() {
             </Link>
 
             <div className={classes.bgp}>
-            { user && user.roleType !=="admin" || user.roleType !=="instructor" && (
+            { user && user.roleType ==="admin" || user.roleType ==="instructor" ? (
+             
+                 
+              <><Button className={classes.bbcleNavButton} onClick={() => history.push(ROUTES.LISTENING_ADMIN)}>Listening</Button><Button className={classes.bbcleNavButton} onClick={() => history.push(ROUTES.GRAMMAR_ADMIN)}>Grammar</Button><Button className={classes.bbcleNavButton} onClick={() => history.push(ROUTES.WORD_ADMIN)}>Vocabulary</Button><Button className={classes.bbcleNavButton} onClick={() => history.push(ROUTES.QUIZ_ADMIN)}>Quizzes</Button><Button className={classes.bbcleNavButton} onClick={() => history.push(ROUTES.USER_ADMIN)}>User</Button></>
+            
+             
+              
+            ):
+
+         (
+             
             
           <><Button className={classes.bbcleNavButton} onClick={() => history.push(ROUTES.LISTENING_TOPICS)}>Listening</Button><Button className={classes.bbcleNavButton} onClick={() => history.push(ROUTES.GRAMMAR_LEVELS)}>Grammar</Button><Button className={classes.bbcleNavButton} onClick={() => history.push(ROUTES.WORD_TOPIC)}>Vocabulary</Button><Button className={classes.bbcleNavButton} onClick={() => history.push(ROUTES.IPA_LIST)}>Pronunciation</Button><Button className={classes.bbcleNavButton} onClick={() => history.push(ROUTES.IPA_LIST)}>Dictionary</Button><Button className={classes.bbcleNavButton} onClick={() => history.push(ROUTES.GAMES_HOME)}>Games</Button></>
          
@@ -55,6 +65,7 @@ function Navigation() {
                 onClick={() => setShowInput(!showInput)}
               />
             )}
+            
 
             {isAuth ? (
               <div className={classes.auth} onClick={onOpenMenu}>

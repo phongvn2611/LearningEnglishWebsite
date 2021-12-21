@@ -19,7 +19,6 @@ import userApi from "./../apis/userApi";
 import { setMessage } from "./../redux/actions/messageAction";
 import useCloseContact from 'hooks/useCloseContact';
 
-
 const nameRegex = /^[^\d~`!@#$%^&*\(\)\\\|\.,\?\/\-\+\=\_]+$/gi;
 const schema = yup.object().shape({
   email: yup.string().trim().required("Nhập email").email("Email không hợp lệ"),
@@ -45,7 +44,6 @@ function RegisterPage() {
   useTitle("Register");
   useCloseNavigation();
   useCloseContact();
-
   const classes = makeStyles(formStyle)();
 
   const [visiblePw, setVisiblePw] = useState(false);

@@ -31,7 +31,6 @@ const useStyle = makeStyles(() => ({
     },
     grammarbox: {
       backgroundColor: "#99ffff",
-
       padding: "10px 10px",
       border: "1px solid #666",
       marginBottom: "10px",	
