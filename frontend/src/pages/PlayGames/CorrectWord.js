@@ -1,3 +1,4 @@
+
 import CorrectWordData from 'components/PlayGames/CorrectWord/data';
 import useCloseNavigation from 'hooks/useCloseNavigation';
 import useTitle from 'hooks/useTitle';
@@ -8,6 +9,7 @@ function CorrectWordPage() {
   useTitle("Game hãy chọn từ đúng (Let's choose the correct word)");
    useCloseNavigation();
    useCloseContact();
+
   return <CorrectWordData />;
 }
 

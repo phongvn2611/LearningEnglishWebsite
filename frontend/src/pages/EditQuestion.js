@@ -130,14 +130,9 @@ function EditQuestionPage() {
 
   const handleCheck = (e) => {
     const newArr = { ...question };
-    // if (isNotCheckAll(question.check)) {
-    //   newArr.check[indexCheck] = true;
-    //   setQuestion(newArr);
-    // } else {
-    //   newArr.check = newArr.check.fill(false);
+
       newArr.check[indexCheck] = true;
       setQuestion(newArr);
-  //  }
   };
   const handleUncheck = () => {
     const newArr = { ...question };
@@ -152,6 +147,7 @@ function EditQuestionPage() {
       let answerQuestion=[];
       let isChecked=0;
       if(question.answer1.trim()!== ""){
+
         if(question.check[0]==true){isChecked += 1;}
         answerQuestion.push({content:question.answer1, isCorrect: question.check[0]})}
       if(question.answer2.trim()!== ""){
@@ -159,6 +155,7 @@ function EditQuestionPage() {
         answerQuestion.push({content:question.answer2, isCorrect: question.check[1]})}
       if(question.answer3.trim()!== ""){
         if(question.check[2]==true){isChecked += 1;}
+
         answerQuestion.push({content:question.answer3, isCorrect: question.check[2]})}
   
       if(answerQuestion.length <2){

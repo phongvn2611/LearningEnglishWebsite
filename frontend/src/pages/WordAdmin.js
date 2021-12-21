@@ -17,6 +17,7 @@ import { equalArray } from "helper";
 import { ROUTES } from 'constants/index';
 import { useHistory } from 'react-router-dom';
 
+
 const useStyle = makeStyles((theme) => ({
   ...dictionaryRoot(theme),
 }));

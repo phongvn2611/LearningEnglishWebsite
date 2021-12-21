@@ -5,7 +5,7 @@ import LoopIcon from "@material-ui/icons/Loop";
 import SaveIcon from "@material-ui/icons/Save";
 import InputCustom from "components/UI/InputCustom";
 import SelectCustom from "components/UI/SelectCustom";
-import { ROUTES, ROLE_TYPE } from "constants/index";
+import { ROLE_TYPE } from "constants/index";
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";

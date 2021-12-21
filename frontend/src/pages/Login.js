@@ -33,7 +33,9 @@ const schema = yup.object().shape({
 function LoginPage() {
   useTitle("Login");
   useCloseNavigation();
+
   useCloseContact();
+
   const { isAuth, role } = useSelector((state) => state.authReducer);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
@@ -62,16 +64,10 @@ function LoginPage() {
       setLoading(true);
       const res = await userApi.login(user.email, user.password);
       dispatch(setMessage(res.data.message, "success"));
-        if(res.data.user.roleType =="user"){
-        setTimeout(() => {
-          window.location.replace('/home');
-        }, UX.DELAY_TIME);
-        }
-    else{
       setTimeout(() => {
-        window.location.replace('/admin');
+        window.location.replace("/home");
       }, UX.DELAY_TIME);
-      }
+
     } catch (error) {
       dispatch(setMessage(error.response?.data?.message, "error"));
       setLoading(false);
