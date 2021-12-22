@@ -60,6 +60,7 @@ function IPAGroupCollapse() {
              <Typography>
                   {ipa.Description}
               </Typography>
+
              
                       <AccordionDetails>
                           <Grid container spacing={3}>

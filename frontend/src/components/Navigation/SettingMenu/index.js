@@ -39,12 +39,14 @@ function SettingMenu({ anchorEl, onClose }) {
             </MenuItem>
           </a>
           {role !== "user" ? (
-            <Link to={ROUTES.HOME}>
+           <a href={ROUTES.HOME}>
               <MenuItem className={classes.menuItem}>
                 <FaceIcon className={classes.icon} fontSize="small" />
                 <p className={classes.text}>User</p>
               </MenuItem>
-            </Link>
+            </a>
+
+
           ) : (
             ""
           )}
@@ -52,12 +54,13 @@ function SettingMenu({ anchorEl, onClose }) {
             <SettingsIcon className={classes.icon} fontSize="small" />
             <p className={classes.text}>Cài đặt</p>
           </MenuItem>
-          <Link to={ROUTES.LOGOUT}>
+          
+          <a href={ROUTES.LOGOUT}>
             <MenuItem className={classes.menuItem}>
               <ExitToAppIcon className={classes.icon} fontSize="small" />
               <p className={classes.text}>Đăng xuất</p>
             </MenuItem>
-          </Link>
+          </a>
           {open && <SettingModal open={open} onClose={() => setOpen(false)} />}
         </Menu>
       ) : (

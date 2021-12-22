@@ -253,7 +253,7 @@ function EditListening() {
   }
 
   return (
-    <div className={classes.root}>
+    <div>
       <h1 className={classes.title}>Edit Listening</h1>
       <div className="dyno-break"></div>
 

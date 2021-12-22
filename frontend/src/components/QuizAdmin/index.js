@@ -5,7 +5,8 @@ import SortTypeModal from 'components/UI/SortType';
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 import useStyle from './style';
-import WordItem from './ListeningItem/index';
+import ListenItem from './ListeningItem/index';
+import GrammarItem from './GrammarItem/index';
 import WordPackSetting from './WordPackSetting';
 import WordSkeleton from './WordSkeleton';
 import AddIcon from '@material-ui/icons/Add';
@@ -13,13 +14,14 @@ import { ROUTES } from 'constants/index';
 import { useHistory } from 'react-router-dom';
 
 function QuizAdmin({
-  list,
+  listen,
+  grammar,
   loading,
   onLoadData,
   more,
   isFirstLoad,
   onSettingWordPack,
-  onSortTypeChange,
+  // onSortTypeChange,
   onSearchWord,
 }) {
   const classes = useStyle();
@@ -32,11 +34,6 @@ function QuizAdmin({
         <h1 className="dyno-title">Quản lý quiz</h1>
         <div>
           
-  
-          <SortTypeModal
-            onSelect={onSortTypeChange}
-            classNameIcon="dyno-setting-icon mr-5"
-          />
           <WordPackSetting
               onChoose={onSettingWordPack}
               classNameIcon="dyno-setting-icon"
@@ -47,7 +44,7 @@ function QuizAdmin({
 
       {/* list content */}
       <div className={classes.contentWrap}>
-        <AutoSearchInput disabled={loading} onSearch={onSearchWord} />
+        {/* <AutoSearchInput disabled={loading} onSearch={onSearchWord} /> */}
 
         <div className={`${classes.listWrap} w-100`}>
           <ul id="dictionaryId" className={`${classes.list} flex-col w-100`}>
@@ -56,12 +53,18 @@ function QuizAdmin({
                 <WordSkeleton className={classes.skeleton} />
               ) : (
                 <>
-                  {list && list.length > 0 ? (
+                  {listen && grammar ? (
                     <>
                       {/* render list */}
-                      {list.map((item, index) => (
+                      {listen.length >0 && listen.map((item, index) => (
                         <li className={classes.listItem} key={index}>
-                          <WordItem {...item} />
+                          <ListenItem {...item} />
+                        </li>
+                      ))}
+
+                      {grammar.length >0 && grammar.map((item, index) => (
+                        <li className={classes.listItem} key={index}>
+                          <GrammarItem {...item} />
                         </li>
                       ))}
 
@@ -94,7 +97,8 @@ function QuizAdmin({
 
 QuizAdmin.propTypes = {
   isFirstLoad: PropTypes.bool,
-  list: PropTypes.array,
+  listen: PropTypes.array,
+  grammar: PropTypes.array,
   loading: PropTypes.bool,
   more: PropTypes.bool,
   onLoadData: PropTypes.func,
@@ -104,7 +108,8 @@ QuizAdmin.propTypes = {
 };
 
 QuizAdmin.defaultProps = {
-  list: [],
+  listen: [],
+  grammar: [],
   loading: false,
   more: true,
   isFirstLoad: true,

@@ -29,6 +29,7 @@ function WordMatchGame({ list }) {
   const { current, nRight, nWrong, resetFlag } = state;
  // const nRightConsecutive = useRef({ top: 0, n: 0 });
 
+
   const handleDone = () => {
     setIsDone(true);
   };
@@ -40,6 +41,7 @@ function WordMatchGame({ list }) {
     // if (nRightConsecutive.current.n > nRightConsecutive.current.top) {
     //   nRightConsecutive.current.top = nRightConsecutive.current.n;
     // }
+
     setTimeout(() => {
       if (current+1 >= nQuestion) {
        
@@ -96,6 +98,7 @@ function WordMatchGame({ list }) {
   };
 console.log(nWrong)
 //console.log(nQuestion)
+
   return (
     <div className="flex-center-col h-100vh">
       <div className={`${classes.root} container dyno-game-box position-rel`}>
@@ -159,7 +162,6 @@ console.log(nWrong)
             onReplay={handleReplay}
             nRight={nRight}
             nWrong={nWrong}
-           // nRightConsecutive={nRightConsecutive.current.top}
             nameGame="word-match"
           />
         )}

@@ -21,21 +21,20 @@ export default makeStyles((theme) => ({
   },
 
   auth: {
-    display: 'flex',
-    alignItems: 'center',
-    cursor: 'pointer'
+    display: "flex",
+    alignItems: "center",
+    cursor: "pointer",
   },
-  
+
   name: {
-    fontSize: '1.6rem',
+    fontSize: "1.6rem",
     fontWeight: 600,
-     marginLeft: '0.5rem',
-    // paddingTop:'17px'
+    marginLeft: "0.5rem",
   },
 
   logo: {
-    marginRight: '0.8rem',
-    width: 'auto !important',
+    marginRight: "0.8rem",
+    width: "auto !important",
   },
 
   imgSize: {
@@ -45,47 +44,47 @@ export default makeStyles((theme) => ({
 
   iconSize: {
     fontSize: `${iconSize} !important`,
-    color: 'var(--label-color)',
+    color: "var(--label-color)",
   },
 
   control: {
-    marginLeft: 'auto',
+    marginLeft: "auto",
   },
 
   avt: {
     transition: theme.transitions.easing.easeIn,
-    '&:hover, &:active': {
+    "&:hover, &:active": {
       opacity: 0.85,
     },
   },
 
   searchIcon: {
     fontSize: iconSize,
-    color: 'var(--label-color)',
+    color: "var(--label-color)",
   },
 
   loginBtn: {
-    height: '3.7rem',
-    minWidth: '12rem',
+    height: "3.7rem",
+    minWidth: "12rem",
   },
 
   loginLabel: {
-    fontSize: '1.4rem',
+    fontSize: "1.4rem",
   },
 
   registerBtn: {
-    height: '3.7rem',
-    minWidth: '12rem',
-    marginRight: '1.4rem'
+    height: "3.7rem",
+    minWidth: "12rem",
+    marginRight: "1.4rem",
   },
 
   registerLabel: {
-    fontSize: '1.4rem',
+    fontSize: "1.4rem",
   },
 
-  bbcleNavButton: { 
+  bbcleNavButton: {
     cursor: "pointer",
-    fontSize:"16px",
+    fontSize: "16px",
     textTransform: "capitalize",
     fontWeight: "bold",
     color: "#68C2E8",
@@ -120,8 +119,21 @@ bbcleHeaderMasthead: {
   paddingTop: "200px",
   zIndex: "99", 
   whiteSpace: "nowrap",
-}
+},
 
+// headerMenuContent: {
+//   float: "left",
+//   height: "100%",
+//   alignItems: "center",
+//   display: "flex",
+//   flexDirection: "row",
+// },
 
- 
+// menuItemLeftMenu:{
+//   display: "block",
+//   width: "24.816px",
+//   height: "19.95px",
+//   background: url("https://www.voca.vn/assets/images/menu.svg?n=21") 0px -1230px;
+// }
+
 }));

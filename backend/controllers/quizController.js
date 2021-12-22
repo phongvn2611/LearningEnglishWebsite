@@ -5,7 +5,8 @@ const {
   deleteQuizById,
   deleteQuizByListenId,
 } = require("../services/quizService");
-const { getListenById } = require("../services/listeningService");
+const { getListenById, getAllListen, } = require("../services/listeningService");
+const { getAllGrammars } = require("../services/grammarService");
 
 //create quiz
 exports.postQuiz = async (req, res) => {
@@ -93,5 +94,18 @@ exports.getAllQuizzes = async (req, res) => {
   } catch (error) {
     console.error("ERROR: ", error);
     return res.status(503).json({ message: "Lỗi dịch vụ, thử lại sau" });
+  }
+};
+
+//get all
+exports.getAllListenAndGrammar = async (req, res) => {
+  try { 
+   // const {type} = req.query; 
+    const listens = await getAllListen('Newest');
+    const grammars = await getAllGrammars();
+    return res.status(200).json({listens, grammars });
+  } catch (error) {
+    console.error('ERROR: ', error);
+    return res.status(503).json({ message: 'Lỗi dịch vụ, thử lại sau' });
   }
 };

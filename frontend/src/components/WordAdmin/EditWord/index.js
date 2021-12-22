@@ -216,7 +216,7 @@ function EditWord() {
   }
 
   return (
-    <div className={classes.root}>
+     <div >
       <h1 className={classes.title}>Sửa từ</h1>
       <div className="dyno-break"></div>
 

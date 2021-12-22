@@ -5,6 +5,7 @@ import GlobalLoading from '../components/UI/GlobalLoading';
 import { setMessage } from './../redux/actions/messageAction';
 import userApi from './../apis/userApi';
 import { logout } from './../redux/actions/authAction';
+import { UX } from "../constants";
 
 function LogoutPage() {
   const history = useHistory();
@@ -15,19 +16,22 @@ function LogoutPage() {
 
     (async function () {
       try {
-        const apiRes = await userApi.logout();
-        if (apiRes) {
-          dispatch(logout(apiRes));
-          dispatch(setMessage(apiRes.data.message, 'success'))
-          history.replace('/home');
-        }
+        // const apiRes = await userApi.logout();
+        // if (apiRes.status === 200) {
+          dispatch(logout());
+          dispatch(setMessage('Logout successfully.', 'success'))
+          window.location.replace('/home');
+          // setTimeout(() => {
+          
+          // }, UX.DELAY_TIME);
+      //  }
       } catch (error) {
         dispatch(setMessage(error.response.data.message, 'error'));
       }
     })();
 
     return () => {};
-  }, [dispatch, history, isAuth]);
+  }, []);
 
   return <>{isAuth && <GlobalLoading title="Logging out ..." />}</>;
 }

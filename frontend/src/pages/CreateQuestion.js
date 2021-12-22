@@ -117,6 +117,7 @@ function CreateQuestionPage() {
       newArr.check[indexCheck] = true;
       setQuestion(newArr);
   //  }
+
   };
   const handleUncheck = () => {
     const newArr = { ...question };
@@ -137,6 +138,7 @@ function CreateQuestionPage() {
         answerQuestion.push({content:question.answer2, isCorrect: question.check[1]})}
       if(question.answer3.trim()!== ""){
         if(question.check[2]==true){isChecked += 1;}
+
         answerQuestion.push({content:question.answer3, isCorrect: question.check[2]})}
   
       if(answerQuestion.length <2){
@@ -170,20 +172,7 @@ function CreateQuestionPage() {
         const dataSend = {
           Content: question.content,
           Answers: answerQuestion,
-          // Answers: [
-          //   {
-          //     content: question.answer1,
-          //     isCorrect: question.check[0],
-          //   },
-          //   {
-          //     content: question.answer2,
-          //     isCorrect: question.check[1],
-          //   },
-          //   {
-          //     content: question.answer3,
-          //     isCorrect: question.check[2],
-          //   },
-          // ],
+
         };
         const apiRes = await questionApi.postQuestion(quiz_id, dataSend);
         if (apiRes) {

@@ -1,5 +1,5 @@
 import SettingsIcon from '@material-ui/icons/Settings';
-import ListeningTopic from '../UI/ListeningTopic';
+import QuizType from '../UI/QuizType';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 
@@ -20,7 +20,7 @@ function ListeningTopicSetting({ classNameIcon, onChoose }) {
 
       {/* setting modal */}
       {openWordPack && (
-        <ListeningTopic
+        <QuizType
           open={openWordPack}
           onCancel={() => setOpenWordPack(false)}
           onChoose={onSelect}

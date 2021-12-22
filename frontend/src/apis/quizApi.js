@@ -32,6 +32,10 @@ const quizApi = {
       headers: { Authorization: token },
     });
   },
+
+  getAllListenAndGrammar: () => {
+    return axios.get(`${URL}/get-all-listen-grammar`);
+  },
 };
 
 export default quizApi;

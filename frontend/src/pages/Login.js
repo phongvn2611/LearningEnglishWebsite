@@ -19,7 +19,7 @@ import { UX } from "../constants";
 import LoopIcon from "@material-ui/icons/Loop";
 import { setMessage } from "./../redux/actions/messageAction";
 import {useSelector } from "react-redux";
-import useCloseContact from 'hooks/useCloseContact';
+//import useCloseContact from 'hooks/useCloseContact';
 
 
 const schema = yup.object().shape({
@@ -33,7 +33,9 @@ const schema = yup.object().shape({
 function LoginPage() {
   useTitle("Login");
   useCloseNavigation();
-  useCloseContact();
+
+ // useCloseContact();
+
   const { isAuth, role } = useSelector((state) => state.authReducer);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
@@ -72,6 +74,7 @@ function LoginPage() {
         window.location.replace('/admin');
       }, UX.DELAY_TIME);
       }
+
     } catch (error) {
       dispatch(setMessage(error.response?.data?.message, "error"));
       setLoading(false);

@@ -112,7 +112,7 @@ ListeningTopic.defaultProps = {
   onChoose: function () {},
   open: true,
  // topicMultiples: true,
-  title: 'Gói từ vựng',
+  title: 'Topic',
   okBtnText: 'Ok',
   cancelBtnText: 'Đóng',
   okBtnProps: {},
