@@ -1,11 +1,13 @@
-import CorrectWordData from "components/PlayGames/CorrectWord/data";
-import useCloseNavigation from "hooks/useCloseNavigation";
-import useTitle from "hooks/useTitle";
-import React from "react";
+
+import CorrectWordData from 'components/PlayGames/CorrectWord/data';
+import useCloseNavigation from 'hooks/useCloseNavigation';
+import useTitle from 'hooks/useTitle';
+import React from 'react';
 
 function CorrectWordPage() {
   useTitle("Game hãy chọn từ đúng (Let's choose the correct word)");
-  useCloseNavigation();
+   useCloseNavigation();
+
   return <CorrectWordData />;
 }
 

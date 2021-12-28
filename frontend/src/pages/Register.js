@@ -18,6 +18,7 @@ import { useDispatch } from "react-redux";
 import userApi from "./../apis/userApi";
 import { setMessage } from "./../redux/actions/messageAction";
 
+
 const nameRegex = /^[^\d~`!@#$%^&*\(\)\\\|\.,\?\/\-\+\=\_]+$/gi;
 const schema = yup.object().shape({
   email: yup.string().trim().required("Nhập email").email("Email không hợp lệ"),
@@ -42,6 +43,7 @@ const schema = yup.object().shape({
 function RegisterPage() {
   useTitle("Register");
   useCloseNavigation();
+
   const classes = makeStyles(formStyle)();
 
   const [visiblePw, setVisiblePw] = useState(false);

@@ -50,7 +50,7 @@ function GrammarDetailModal(props) {
         />
       </div>
 
-      <div className="dyno-break"></div>
+      <div className="english-break"></div>
 
       {loading ? (
         <Skeleton

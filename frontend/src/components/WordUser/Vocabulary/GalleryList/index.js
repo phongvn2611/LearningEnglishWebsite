@@ -24,7 +24,7 @@ function GalleryList({ list, total}) {
   };
 
   return (
-    <div className={`${classes.root} dyno-container`}>
+    <div className={`${classes.root} english-container`}>
       {list && list.length > 0 &&(
         <>
           {/* gallery */}

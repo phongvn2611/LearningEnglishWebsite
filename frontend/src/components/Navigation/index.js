@@ -10,13 +10,13 @@ import { Link } from "react-router-dom";
 import SettingMenu from "./SettingMenu";
 import useStyle from "./style";
 import { cloudinaryImgOptimize } from "helper";
+
 import { useHistory } from "react-router-dom";
 
 function Navigation() {
   const classes = useStyle();
   const theme = useTheme();
   const isXsDevice = useMediaQuery(theme.breakpoints.up("xs"));
-
   const { isAuth, user } = useSelector((state) => state.authReducer);
   const avtSrc = cloudinaryImgOptimize(user.avatar, 48, 48);
   const [showInput, setShowInput] = useState(isXsDevice);
@@ -26,7 +26,7 @@ function Navigation() {
   const onCloseMenu = () => setAnchorMenu(null);
 
   return (
-    <div className={`${classes.navWrapper} w-100vw`} id="dynoNav">
+    <div className={`${classes.navWrapper} w-100vw`} id="englishNav">
       <div className={`${classes.nav} w-100`}>
         <div className="container h-100 flex-center--ver">
           {(isXsDevice || !showInput) && (
@@ -41,40 +41,48 @@ function Navigation() {
                 />
               </a>
 
-              {!window.location.pathname.includes("admin") && (
-                <div className={classes.bgp}>
-                  <a
-                    className={classes.bbcleNavButton}
-                    href={ROUTES.LISTENING_TOPICS}
-                  >
-                    Listening
-                  </a>
-                  <a
-                    className={classes.bbcleNavButton}
-                    href={ROUTES.GRAMMAR_LEVELS}
-                  >
-                    Grammar
-                  </a>
-                  <a
-                    className={classes.bbcleNavButton}
-                    href={ROUTES.WORD_TOPIC}
-                  >
-                    Vocabulary
-                  </a>
-                  <a className={classes.bbcleNavButton} href={ROUTES.IPA_LIST}>
-                    Pronunciation
-                  </a>
-                  <a className={classes.bbcleNavButton} href={ROUTES.IPA_LIST}>
-                    Dictionary
-                  </a>
-                  <a
-                    className={classes.bbcleNavButton}
-                    href={ROUTES.GAMES_HOME}
-                  >
-                    Games
-                  </a>
-                </div>
-              )}
+              <div className={classes.bgp}>
+                {!window.location.href.includes("admin") && (
+                  <div>
+                    <Button
+                      className={classes.bbcleNavButton}
+                      onClick={() => history.push(ROUTES.LISTENING_TOPICS)}
+                    >
+                      Listening
+                    </Button>
+                    <Button
+                      className={classes.bbcleNavButton}
+                      onClick={() => history.push(ROUTES.GRAMMAR_LEVELS)}
+                    >
+                      Grammar
+                    </Button>
+                    <Button
+                      className={classes.bbcleNavButton}
+                      onClick={() => history.push(ROUTES.WORD_TOPIC)}
+                    >
+                      Vocabulary
+                    </Button>
+                    <Button
+                      className={classes.bbcleNavButton}
+                      onClick={() => history.push(ROUTES.IPA_LIST)}
+                    >
+                      Pronunciation
+                    </Button>
+                    {/* <Button
+                      className={classes.bbcleNavButton}
+                      onClick={() => history.push(ROUTES.IPA_LIST)}
+                    >
+                      Dictionary
+                    </Button> */}
+                    <Button
+                      className={classes.bbcleNavButton}
+                      onClick={() => history.push(ROUTES.GAMES_HOME)}
+                    >
+                      Games
+                    </Button>
+                  </div>
+                )}
+              </div>
             </>
           )}
 

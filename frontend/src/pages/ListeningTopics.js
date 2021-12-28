@@ -15,17 +15,17 @@ export default function WordTopicPage() {
   useTitle("Listen Topic")
   const classes = useStyle();
   return (
-    <div className={`${classes.root} dyno-container`}>
+    <div className={`${classes.root} english-container`}>
       <div className="flex-center-between">
-        <h1 className="dyno-title">Topics</h1>
+        <h1 className="english-title">Listening Topics</h1>
       </div>
-      <div className="dyno-break"></div>
+      <div className="english-break"></div>
       <Grid container spacing={3}>
         {LISTEN_TOPIC.map((topic, index) => (
           <Grid item xs={12} md={4} key={index}>
             <Link
                to={`/listening/topic/${topic.value}`}>
-              <img src={topic.image} width="250px" height="150px" align="center" />
+              <img src={topic.image} width="250px" height="150px" align="center" alt="" />
               <Typography variant="h6" align="center"> {topic.label} </Typography>
             </Link>
            

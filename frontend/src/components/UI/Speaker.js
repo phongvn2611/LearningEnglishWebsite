@@ -23,7 +23,7 @@ function Speaker(props) {
         <div onClick={handleClick}>{props.children}</div>
       ) : (
         <SpeakerIcon
-          className={`dyno-speaker ${className}`}
+          className={`english-speaker ${className}`}
           onClick={handleClick}
         />
       )}

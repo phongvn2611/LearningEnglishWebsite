@@ -29,12 +29,12 @@ export default function UserAdminPage() {
 
 
   return (
-    <div className={`${classes.root} dyno-container`}>
+    <div className={`${classes.root} english-container`}>
       <div className="flex-center-between">
-        <h1 className="dyno-title">Quản lý người dùng</h1>
-        <AddIcon className="dyno-setting-icon mr-5" onClick={() => history.push(ROUTES.ADD_USER)} />
+        <h1 className="english-title">Quản lý người dùng</h1>
+        <AddIcon className="english-setting-icon mr-5" onClick={() => history.push(ROUTES.ADD_USER)} />
       </div>
-      <div className="dyno-break"></div>
+      <div className="english-break"></div>
       <Grid container spacing={3}>
         {users.map((user, index) => (
           <Grid item xs={12} md={6} key={index}>

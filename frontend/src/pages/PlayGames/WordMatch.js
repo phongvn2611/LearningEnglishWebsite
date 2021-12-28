@@ -5,7 +5,8 @@ import React from 'react';
 
 function WordMatchGamePage() {
   useTitle('Game ghép từ (Word matching game)');
-   useCloseNavigation();
+  useCloseNavigation();
+
   return <WordMatchGameData />;
 }
 

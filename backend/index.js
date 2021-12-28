@@ -25,6 +25,7 @@ app.use(`${BASE_URL}/common`, require('./routes/commonRouter'));
 app.use(`${BASE_URL}/ipa`, require('./routes/ipaRouter'));
 app.use(`${BASE_URL}/games`, require('./routes/gameRouter'));
 app.use(`${BASE_URL}/highscore`, require('./routes/highScoreRouter'));
+app.use(`${BASE_URL}/statistics`, require('./routes/statisticsRouter'));
 
 const URI = process.env.MONGODB_URL;
 mongoose.connect(URI, {
@@ -35,16 +36,29 @@ mongoose.connect(URI, {
   console.log("Connected to mongodb");
 })
 
-// if (process.env.NODE_ENV === "production") {
-//   app.use(express.static("public"));
-//   app.get("*", (req, res) => {
-//     res.sendFile(path.join(__dirname + "/public/index.html"));
-//   });
-// } else {
-//   app.get("/", (req, res) => {
-//     res.send("API is running...");
-//   });
-// }
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("public"));
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname + "/public/index.html"));
+  });
+} else {
+  app.get("/", (req, res) => {
+    res.send("API is running...");
+  });
+}
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("public"));
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname + "/public/index.html"));
+  });
+} else {
+  app.get("/", (req, res) => {
+    res.send("API is running...");
+  });
+}
+
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

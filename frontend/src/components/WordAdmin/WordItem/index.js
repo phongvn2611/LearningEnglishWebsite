@@ -81,11 +81,11 @@ function WordItem({ _id, word, type, phonetic, picture, mean }) {
 
         <div className="flex-center--ver">
         <div className="mr-5">
-          <EditIcon className="dyno-setting-icon"
+          <EditIcon className="english-setting-icon"
           onClick={() => history.push(`/admin/word/edit/${_id}`)}
           />
         </div>
-        <DeleteIcon className="dyno-setting-icon" 
+        <DeleteIcon className="english-setting-icon" 
          onClick={() => deleteHandler()}
          />     
       </div>

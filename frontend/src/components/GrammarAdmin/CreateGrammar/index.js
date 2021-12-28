@@ -237,7 +237,7 @@ function CreateGrammar({ onSubmitForm, submitting }) {
   return (
     <div>
       <h1 className={classes.title}>Thêm ngữ pháp</h1>
-      <div className="dyno-break"></div>
+      <div className="english-break"></div>
 
       <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
         <Grid container alignContent="center">
@@ -395,12 +395,12 @@ function CreateGrammar({ onSubmitForm, submitting }) {
 
 
         {/* Grammar Item */}
-        <div className={`${classes.root2} dyno-container`}>
+        <div className={`${classes.root2} english-container`}>
           <div className="flex-center-between">
-            <h1 className="dyno-title">Add Content for grammar</h1>
+            <h1 className="english-title">Add Content for grammar</h1>
             <div>
               <AddIcon
-                className="dyno-setting-icon mr-5"
+                className="english-setting-icon mr-5"
                 onClick={() => handleOpenDialog()}
               />
               {/* Dialog */}
@@ -466,7 +466,7 @@ function CreateGrammar({ onSubmitForm, submitting }) {
               {/* Dialog */}
             </div>
           </div>
-          <div className="dyno-break"></div>
+          <div className="english-break"></div>
 
           {/* list content */}
           <div className={classes.contentWrap}>
@@ -499,7 +499,7 @@ function CreateGrammar({ onSubmitForm, submitting }) {
                                 <div className="flex-center--ver">
                                   <div className="mr-5"></div>
                                   <DeleteIcon
-                                    className="dyno-setting-icon"
+                                    className="english-setting-icon"
                                     onClick={() => deleleGrammarItems(index)}
                                   />
                                 </div>
@@ -528,7 +528,7 @@ function CreateGrammar({ onSubmitForm, submitting }) {
           </div>
         </div>
 
-        <div className="dyno-break"></div>
+        <div className="english-break"></div>
         {/* button group */}
         <div className="d-flex flex-end jus-content-end pt-5 w-100">
           <Button

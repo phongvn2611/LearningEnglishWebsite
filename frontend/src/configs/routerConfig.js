@@ -6,6 +6,7 @@ import ResetPasswordPage from "../pages/ResetPassword";
 import LogoutPage from "../pages/Logout";
 import WelcomePage from "../pages/Welcome";
 import NotFoundPage from "../pages/NotFound";
+
 const HomePage = React.lazy(() => import("../pages/Home"));
 const RegisterPage = React.lazy(() => import("../pages/Register"));
 const LoginPage = React.lazy(() => import("../pages/Login"));
@@ -192,35 +193,35 @@ const routes = [
   {
     path: ROUTES.GAMES_HOME,
     exact: true,
-    isProtect: false,
+    isProtect: true,
     component: () => <PlayGamesPage />,
     role: ["user", "instructor", "admin"]
   },
   {
     path: ROUTES.GAMES_CORRECT_WORD,
     exact: true,
-    isProtect: false,
+    isProtect: true,
     component: () => <CorrectWordPage />,
     role: ["user", "instructor", "admin"]
   },
   {
     path: ROUTES.GAMES_WORD_MATCHING,
     exact: true,
-    isProtect: false,
+    isProtect: true,
     component: () => <WordMatchGamePage />,
     role: ["user", "instructor", "admin"]
   },
   {
     path: ROUTES.GAMES_FAST_GAME,
     exact: true,
-    isProtect: false,
+    isProtect: true,
     component: () => <FastGamePage />,
     role: ["user", "instructor", "admin"]
   },
   {
     path: ROUTES.LEADERBOARD,
     exact: true,
-    isProtect: false,
+    isProtect: true,
     component: () => <LeaderBoardPage />,
     role: ["user", "instructor", "admin"]
   },
@@ -368,6 +369,7 @@ const routesAdmin = [
     role: ["instructor", "admin"],
   },
 ]
+
 
 const renderRoutes = (routes, isAuth = false, roleType = "") => {
   return routes.map((route, index) => {

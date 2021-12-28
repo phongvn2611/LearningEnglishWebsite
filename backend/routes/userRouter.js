@@ -25,6 +25,7 @@ router.get(
   authentication,
   checkAdmin,
   userController.getAllUsers
+
 );
 router.get(
   "/get-user-details/:user_id",

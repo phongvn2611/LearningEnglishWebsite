@@ -2,9 +2,9 @@ import { useEffect } from 'react';
 
 function useCloseNavigation() {
   useEffect(() => {
-    document.getElementById('dynoNav').style.display = 'none';
+    document.getElementById('englishNav').style.display = 'none';
     return () => {
-      document.getElementById('dynoNav')?.removeAttribute('style');
+      document.getElementById('englishNav')?.removeAttribute('style');
     };
   }, []);
 

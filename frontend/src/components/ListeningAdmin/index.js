@@ -26,24 +26,24 @@ function ListeningAdmin({
   const history = useHistory();
   
   return (
-    <div className={`${classes.root} dyno-container`}>
+    <div className={`${classes.root} english-container`}>
       {/* title - menu */}
       <div className="flex-center-between">
-        <h1 className="dyno-title">Manage Listening</h1>
+        <h1 className="english-title">Quản lý bài nghe</h1>
         <div>
-          <AddIcon className="dyno-setting-icon mr-5" onClick={() => history.push(ROUTES.ADD_LISTEN)}/>
+          <AddIcon className="english-setting-icon mr-5" onClick={() => history.push(ROUTES.ADD_LISTEN)}/>
   
           <SortTypeModal
             onSelect={onSortTypeChange}
-            classNameIcon="dyno-setting-icon mr-5"
+            classNameIcon="english-setting-icon mr-5"
           />
           <WordPackSetting
               onChoose={onSettingWordPack}
-              classNameIcon="dyno-setting-icon"
+              classNameIcon="english-setting-icon"
           />
         </div>
       </div>
-      <div className="dyno-break"></div>
+      <div className="english-break"></div>
 
       {/* list content */}
       <div className={classes.contentWrap}>

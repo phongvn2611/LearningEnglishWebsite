@@ -130,6 +130,7 @@ function EditQuestionPage() {
 
   const handleCheck = (e) => {
     const newArr = { ...question };
+
       newArr.check[indexCheck] = true;
       setQuestion(newArr);
   };
@@ -146,13 +147,15 @@ function EditQuestionPage() {
       let answerQuestion=[];
       let isChecked=0;
       if(question.answer1.trim()!== ""){
-        if(question.check[0]===true){isChecked += 1;}
+
+        if(question.check[0]==true){isChecked += 1;}
         answerQuestion.push({content:question.answer1, isCorrect: question.check[0]})}
       if(question.answer2.trim()!== ""){
-        if(question.check[1]===true){isChecked += 1;}
+        if(question.check[1]==true){isChecked += 1;}
         answerQuestion.push({content:question.answer2, isCorrect: question.check[1]})}
       if(question.answer3.trim()!== ""){
-        if(question.check[2]===true){isChecked += 1;}
+        if(question.check[2]==true){isChecked += 1;}
+
         answerQuestion.push({content:question.answer3, isCorrect: question.check[2]})}
   
       if(answerQuestion.length <2){
@@ -207,8 +210,8 @@ function EditQuestionPage() {
       <div className={classes.container}>
         <div className="ani-fade">
           <div>
-            <h1 className={classes.title}>Thêm câu hỏi</h1>
-            <div className="dyno-break"></div>
+            <h1 className={classes.title}>Sửa câu hỏi</h1>
+            <div className="english-break"></div>
 
             <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
               <Grid className={classes.grid} container spacing={3}>
@@ -243,13 +246,13 @@ function EditQuestionPage() {
                       question.check[0] === false ? (
                         <CheckIcon
                         value= {question.check[0]}
-                          className="dyno-setting-icon"
+                          className="english-setting-icon"
                           onMouseOver={() => setIndexCheck(0)}
                           onClick={handleCheck}
                         />
                       ) : (
                         <CheckCircleIcon
-                          className="dyno-setting-icon"
+                          className="english-setting-icon"
                           onMouseOver={() => setIndexCheck(0)}
                           onClick={handleUncheck}
                         />
@@ -276,13 +279,13 @@ function EditQuestionPage() {
                       question.check[1] === false ? (
                         <CheckIcon
                             value={question.check[1]}
-                          className="dyno-setting-icon"
+                          className="english-setting-icon"
                           onMouseOver={() => setIndexCheck(1)}
                           onClick={handleCheck}
                         />
                       ) : (
                         <CheckCircleIcon
-                          className="dyno-setting-icon"
+                          className="english-setting-icon"
                           onMouseOver={() => setIndexCheck(1)}
                           onClick={handleUncheck}
                         />
@@ -308,13 +311,13 @@ function EditQuestionPage() {
                       question.check[2] === false ? (
                         <CheckIcon
                         value={question.check[2]}
-                          className="dyno-setting-icon"
+                          className="english-setting-icon"
                           onMouseOver={() => setIndexCheck(2)}
                           onClick={handleCheck}
                         />
                       ) : (
                         <CheckCircleIcon
-                          className="dyno-setting-icon"
+                          className="english-setting-icon"
                           onMouseOver={() => setIndexCheck(2)}
                           onClick={handleUncheck}
                         />
@@ -326,7 +329,7 @@ function EditQuestionPage() {
                   )}
                 </Grid>
               </Grid>
-              <div className="dyno-break"></div>
+              <div className="english-break"></div>
               {/* button group */}
               <div className="d-flex flex-end jus-content-end pt-5 w-100">
                 <Button

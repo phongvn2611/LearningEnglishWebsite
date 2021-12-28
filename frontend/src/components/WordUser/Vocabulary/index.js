@@ -29,7 +29,7 @@ function Vocabulary({
   return (
     <div className="container my-10">
       <div className="flex-center-between">
-        <h1 className="dyno-title">Vocabulary</h1>
+        <h1 className="english-title">Vocabulary</h1>
         <div className={classes.iconWrap}>
           <Tooltip title="Collection" placement="bottom">
             <CollectionsIcon
@@ -73,7 +73,7 @@ function Vocabulary({
              */}
         </div>
       </div>
-      <div className="dyno-break" />
+      <div className="english-break" />
 {/* 
       {openWordPack && (
         <WordPack

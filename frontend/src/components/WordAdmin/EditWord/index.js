@@ -216,9 +216,9 @@ function EditWord() {
   }
 
   return (
-    <div className={classes.root}>
+     <div >
       <h1 className={classes.title}>Sửa từ</h1>
-      <div className="dyno-break"></div>
+      <div className="english-break"></div>
 
       {wordValue && (
         <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
@@ -429,7 +429,7 @@ function EditWord() {
             />
           </Grid>
 
-          <div className="dyno-break"></div>
+          <div className="english-break"></div>
           {/* button group */}
           <div className="d-flex flex-end jus-content-end pt-5 w-100">
             <Button

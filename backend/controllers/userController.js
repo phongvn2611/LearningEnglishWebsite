@@ -8,9 +8,7 @@ const fs = require("fs");
 
 const { CLIENT_URL } = process.env;
 
-const {
-  updateUserCoin,
-} = require('../services/userService');
+const { updateUserCoin } = require("../services/userService");
 
 exports.register = async (req, res) => {
   try {
@@ -163,11 +161,10 @@ exports.updatePassword = async (req, res) => {
       }
     );
     return res.status(200).json({ message: "Password changed successfully" });
-  }
-  catch (err) {
+  } catch (err) {
     return res.status(500).json({ message: err.message });
   }
-}
+};
 
 exports.getUserInfo = async (req, res) => {
   try {
@@ -208,7 +205,7 @@ exports.updateAvatar = async (req, res) => {
         resource_type: "image",
         width: 150,
         height: 150,
-        crop: "fill"
+        crop: "fill",
       },
       async (err, result) => {
         if (err) throw err;
@@ -234,31 +231,29 @@ exports.getAllUsers = async (req, res) => {
   try {
     const users = await Users.find();
     return res.status(200).json(users);
-  }
-  catch (err) {
+  } catch (err) {
     return res.status(500).json({ message: err.message });
   }
-}
+};
 
 exports.getTopCoin = async (req, res) => {
   try {
-    const users = await Users.find().sort( {coin : -1} );
+    const users = await Users.find().sort({ coin: -1 });
+
     return res.status(200).json(users);
-  }
-  catch (err) {
+  } catch (err) {
     return res.status(500).json({ message: err.message });
   }
-}
+};
 
 exports.getUserDetails = async (req, res) => {
   try {
     const user = await Users.findById(req.params.user_id);
     return res.status(200).json({ user });
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
   }
-  catch (err) {
-    return res.status(500).json({message: err.message})
-  }
-}
+};
 
 exports.lockUser = async (req, res) => {
   try {
@@ -266,31 +261,35 @@ exports.lockUser = async (req, res) => {
     const user = jwt.verify(token, process.env.REFRESH_TOKEN_SECRET);
     const id = req.params.user_id;
     if (user.id === id) {
-      return res.status(400).json({message: `Can't lock account that logged in the system`})
+      return res
+        .status(400)
+        .json({ message: `Can't lock account that logged in the system` });
     }
-    await Users.findOneAndUpdate({ _id: id },
+    await Users.findOneAndUpdate(
+      { _id: id },
       {
-        isLocked: 1
-      });
-    return res.status(200).json({message: 'Account has been locked'})
-  }
-  catch (err) {
+        isLocked: 1,
+      }
+    );
+    return res.status(200).json({ message: "Account has been locked" });
+  } catch (err) {
     return res.status(500).json({ message: err.message });
   }
-}
+};
 
 exports.unlockUser = async (req, res) => {
   try {
-    await Users.findOneAndUpdate({ _id: req.params.user_id },
+    await Users.findOneAndUpdate(
+      { _id: req.params.user_id },
       {
-        isLocked: 0
-      });
-    return res.status(200).json({message: 'Account has been unlocked'})
-  }
-  catch (err) {
+        isLocked: 0,
+      }
+    );
+    return res.status(200).json({ message: "Account has been unlocked" });
+  } catch (err) {
     return res.status(500).json({ message: err.message });
   }
-}
+};
 
 exports.addUser = async (req, res) => {
   try {
@@ -364,22 +363,20 @@ exports.putUpdateUserCoin = async (req, res) => {
     const { newCoin } = req.body;
     const _id = req.user?.id;
     if (!_id) {
-      return res.status(406).json({ message: 'Not Accept' });
+      return res.status(406).json({ message: "Not Accept" });
     }
 
     const update = await updateUserCoin(newCoin, _id);
-
     if (update) {
-      return res.status(200).json({ message: 'success' });
+      return res.status(200).json({ message: "success" });
     }
 
-    return res.status(406).json({ message: 'Not Accept' });
+    return res.status(406).json({ message: "Not Accept" });
   } catch (error) {
-    console.error('PUT UPDATE USER COIN ERROR: ', error);
-    return res.status(503).json({ message: 'Lỗi dịch vụ, thử lại sau' });
+    console.error("PUT UPDATE USER COIN ERROR: ", error);
+    return res.status(503).json({ message: "Lỗi dịch vụ, thử lại sau" });
   }
 };
-
 
 function validateEmail(email) {
   const re =

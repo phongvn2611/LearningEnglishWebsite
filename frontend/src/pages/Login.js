@@ -31,6 +31,7 @@ const schema = yup.object().shape({
 function LoginPage() {
   useTitle("Login");
   useCloseNavigation();
+
   const { isAuth, role } = useSelector((state) => state.authReducer);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();

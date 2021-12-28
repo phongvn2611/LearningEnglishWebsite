@@ -1,4 +1,5 @@
 import USER_CONSTANT from "../constants/userConstant";
+import userApi from "./../../apis/userApi";
 export const login = () => {
   return {
       type: USER_CONSTANT.LOGIN
@@ -12,11 +13,15 @@ export const getUserInfo = (res) => {
   }
 }
 
-export const logout = (res) => {
-  return {
-    type: USER_CONSTANT.LOGOUT
+export const logout = () => {
+  return async (dispatch) => {
+     await userApi.logout();
+      
+        dispatch({
+          type: USER_CONSTANT.LOGOUT,
+        })
   }
-}
+};
 
 export const setUserCoin = (newCoin)  => {
   return {

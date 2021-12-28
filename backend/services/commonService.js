@@ -128,7 +128,6 @@ exports.getWordTopicGallery = async (
 exports.countWordPack = async (packInfo = {}) => {
   try {
     let query = convertPackInfoToQueryStr(packInfo);
-    console.log(query)
     return await WordModel.countDocuments(query);
   } catch (error) {
     throw error;
@@ -138,7 +137,6 @@ exports.countWordPack = async (packInfo = {}) => {
   exports.countWordPackTopic = async (packInfo = {}) => {
     try {
       let query = convertTopicsToQueryStr(packInfo);
-    //  console.log(query)
       return await WordModel.countDocuments(query);
     } catch (error) {
       throw error;

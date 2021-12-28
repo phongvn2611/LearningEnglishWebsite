@@ -1,12 +1,12 @@
-const { MAX_TOP, HIGHSCORE_NAME } = require('../constants/highScore');
-const UserModel = require('../models/userModel');
-const HighscoreModel = require('../models/highScoreModel');
+const { MAX_TOP, HIGHSCORE_NAME } = require("../constants/highScore");
+const UserModel = require("../models/userModel");
+const HighscoreModel = require("../models/highScoreModel");
 
 exports.updateTop = async (accountId, name, score) => {
   try {
     let tops = await HighscoreModel.findOne({ name });
-console.log(tops)
-    let unit = '';
+    console.log(tops);
+    let unit = "";
     for (let key in HIGHSCORE_NAME) {
       if (HIGHSCORE_NAME[key].name === name) {
         unit = HIGHSCORE_NAME[key].unit;
@@ -15,7 +15,7 @@ console.log(tops)
     }
 
     let newTops = [];
-     if (!Boolean(tops)) {
+    if (!Boolean(tops)) {
       newTops.push({ accountId, score: Number(score) });
       HighscoreModel.create({
         name,
@@ -24,7 +24,7 @@ console.log(tops)
       });
     } else {
       const index = tops.top.findIndex(
-        (i) => i.accountId.toString() === accountId.toString(),
+        (i) => i.accountId.toString() === accountId.toString()
       );
 
       if (index === -1) {
@@ -48,23 +48,23 @@ console.log(tops)
   }
 };
 
-exports.getLeaderboardWithName = async (name = '') => {
+exports.getLeaderboardWithName = async (name = "") => {
   try {
-    
-    let highscores = await HighscoreModel.find({ name: name }).sort( {coin : -1} );
-    if (highscores.length==0) {
+    let highscores = await HighscoreModel.find({ name: name }).sort({
+      coin: -1,
+    });
+    if (highscores.length == 0) {
       return [];
     }
 
-    let topList=[];
+    let topList = [];
     for (let i = 0; i < highscores.length; i++) {
       const user = await UserModel.findById(highscores[i].accountId);
 
-  
       topList.push({
         _id: user._id,
-       name: user.name,
-        avatar:user.avatar,
+        name: user.name,
+        avatar: user.avatar,
         coin: highscores[i].coin,
       });
     }
@@ -90,7 +90,7 @@ exports.createScore = async (scoreInfo) => {
 
 exports.updateScore = async (coin, id) => {
   try {
-    let newScore = await HighscoreModel.findByIdAndUpdate(id, {coin:coin})
+    let newScore = await HighscoreModel.findByIdAndUpdate(id, { coin: coin });
 
     if (newScore) {
       return newScore;
@@ -103,8 +103,11 @@ exports.updateScore = async (coin, id) => {
 
 exports.getScore = async (name, accountId) => {
   try {
-    let newScore = await HighscoreModel.findOne({name: name, accountId: accountId});
-    console.log(newScore)
+    let newScore = await HighscoreModel.findOne({
+      name: name,
+      accountId: accountId,
+    });
+    console.log(newScore);
     if (newScore) {
       return newScore;
     }

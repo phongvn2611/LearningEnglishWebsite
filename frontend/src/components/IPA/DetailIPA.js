@@ -57,6 +57,10 @@ function IPAGroupCollapse() {
             ):(
                 <img className={classes.picture} src={imgSrc} alt="photo" align="center" />
             )}
+             <Typography>
+                  {ipa.Description}
+              </Typography>
+
              
                       <AccordionDetails>
                           <Grid container spacing={3}>

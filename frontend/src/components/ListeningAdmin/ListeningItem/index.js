@@ -61,11 +61,11 @@ function ListeningItem({ _id, Name, Image, Topic, CreateDate }) {
         </div>
         <div className="flex-center--ver">
         <div className="mr-5">
-          <EditIcon className="dyno-setting-icon"
+          <EditIcon className="english-setting-icon"
            onClick={() => handleEditClick(_id)}
            />
         </div>
-        <DeleteIcon className="dyno-setting-icon" 
+        <DeleteIcon className="english-setting-icon" 
          onClick={() => deleteHandler(_id)}
          />
 

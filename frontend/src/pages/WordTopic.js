@@ -15,11 +15,11 @@ export default function WordTopicPage() {
   useTitle("Word Topic")
   const classes = useStyle();
   return (
-    <div className={`${classes.root} dyno-container`}>
+    <div className={`${classes.root} english-container`}>
       <div className="flex-center-between">
-        <h1 className="dyno-title">Từ vựng</h1>
+        <h1 className="english-title">Vocabulary Topics</h1>
       </div>
-      <div className="dyno-break"></div>
+      <div className="english-break"></div>
       <Grid container spacing={3}>
         {TOPICS.map((topic, index) => (
           <Grid item xs={12} md={4} key={index}>
