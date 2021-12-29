@@ -361,12 +361,13 @@ exports.editUser = async (req, res) => {
 exports.putUpdateUserCoin = async (req, res) => {
   try {
     const { newCoin } = req.body;
-    const _id = req.user?.id;
-    if (!_id) {
+    
+    const id = req.user?.id;
+    if (!id) {
       return res.status(406).json({ message: "Not Accept" });
     }
 
-    const update = await updateUserCoin(newCoin, _id);
+    const update = await updateUserCoin(newCoin, id);
     if (update) {
       return res.status(200).json({ message: "success" });
     }

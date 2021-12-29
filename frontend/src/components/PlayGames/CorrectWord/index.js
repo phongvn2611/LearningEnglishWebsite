@@ -120,7 +120,7 @@ function CorrectWord({ list }) {
     });
     //nRightConsecutive.current = { top: 0, n: 0 };
   };
-
+console.log(nRight)
   return (
     <div className="flex-center-col h-100vh container">
       <div className={`${classes.root} container english-game-box`}>

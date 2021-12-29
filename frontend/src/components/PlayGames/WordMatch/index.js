@@ -43,15 +43,15 @@ function WordMatchGame({ list }) {
     // }
 
     setTimeout(() => {
-      if (current+1 >= nQuestion) {
+      if (current+1 >= nQuestion) {       
        
-        handleDone();
         setState({
        //   current: current + 1,
           nRight: nRight + 1,
          // resetFlag: current,
           nWrong,
         });
+        handleDone();
       } else {
         setIsDelay(false);
         setState({
@@ -82,6 +82,7 @@ function WordMatchGame({ list }) {
         nWrong: nWrong + 1,
         resetFlag: current,
       });
+      console.log(current)
     }
   };
 
@@ -96,7 +97,8 @@ function WordMatchGame({ list }) {
     });
    // nRightConsecutive.current = { top: 0, n: 0 };
   };
-
+  console.log(current)
+  console.log(nQuestion)
   return (
     <div className="flex-center-col h-100vh">
       <div className={`${classes.root} container english-game-box position-rel`}>
@@ -130,7 +132,7 @@ function WordMatchGame({ list }) {
               </div>
             </div>
 
-            {list && list.length > 0? (
+            {list && list.length > 0 && current+1 <= nQuestion? (
               <SplitWord
                 mean={list[current].mean}
                 word={list[current].word}

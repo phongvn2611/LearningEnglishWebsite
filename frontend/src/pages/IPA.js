@@ -18,15 +18,23 @@ function IPAPage() {
   useTitle("IPA");
   const classes = useStyle();
   return (
-    <div className={`${classes.root} english-container`}>
-      <div className="flex-center-between">
-        <h1 className="english-title">IPA</h1>
-      </div>
-      <div className="english-break"></div>
+     <div className={`${classes.root} english-container`}>
+       <Typography variant="h4" align="center" style={{color: "#CA3600"}}>
+                 Pronunciation
+            </Typography>
+            <Typography variant="h6" align="center">
+            Introduction to The Sounds of English
+            </Typography>      
+
+      <p align="center"><iframe src= "https://www.youtube.com/embed/fdRmGvmeY1U?enablejsapi=1" width="500" height="300"></iframe></p>
+      <Typography align="center" >
+      This is the introductory video to our The sounds of English series
+      </Typography> 
+       
       <Vowels />
       <Diphthongs />
       <Consonants />
-    </div>
+     </div>
   );
 }
 

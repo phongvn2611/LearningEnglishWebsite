@@ -25,13 +25,15 @@ const {
   exports.postScore = async (req, res, next) => {
     try {
       const { name, coin } = req.body;
-    
+   // req.user
       const accountId = req.user?.id;
+    //  console.log(accountId)
       if (!accountId) {
         return res.status(500).json({ message: 'Lỗi dịch vụ, thử lại sau' });
       }
   
       const checkExisted = await getScore(name, accountId);
+    //  console.log(accountId)
       if(checkExisted == null){
       await createScore({accountId, name, coin});
       }

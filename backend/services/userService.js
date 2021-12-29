@@ -17,7 +17,7 @@ exports.updateUserCoin = async (newCoin = 0, id = '') => {
         { coin: newCoin },
       );
   
-      if (updateRes.ok) {
+      if (updateRes) {
         return true;
       }
     } catch (error) {

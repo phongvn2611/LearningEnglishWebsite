@@ -107,7 +107,7 @@ exports.getScore = async (name, accountId) => {
       name: name,
       accountId: accountId,
     });
-    console.log(newScore);
+   // console.log(newScore);
     if (newScore) {
       return newScore;
     }

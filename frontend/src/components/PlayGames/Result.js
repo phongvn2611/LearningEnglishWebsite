@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { setUserCoin } from 'redux/actions/authAction';
 import { cwResultStyle } from './CorrectWord/style';
+import { string } from 'yup/lib/locale';
 
 function convertQuesToCoin(nRight = 0, nWrong = 0, currentCoin = 0) {
   const newCoin =
@@ -31,7 +32,7 @@ function convertQuesToCoin(nRight = 0, nWrong = 0, currentCoin = 0) {
   return newCoin;
 }
 
-function CorrectWordResult({ nRight, nWrong, onReplay, nameGame, nRightConsecutive}) {
+function CorrectWordResult({ nRight, nWrong, onReplay, nameGame}) {
   const classes = cwResultStyle();
   const history = useHistory();
   const dispatch = useDispatch();
@@ -50,15 +51,23 @@ function CorrectWordResult({ nRight, nWrong, onReplay, nameGame, nRightConsecuti
       try {
         const newCoin = convertQuesToCoin(nRight, nWrong, coin);
 
-        // if(nameGame == HIGHSCORE_NAME.TOP_COIN){
-          const apiRes = await userApi.putUpdateUserCoin(newCoin);
+      
+        console.log(nRight)
+        console.log(nWrong)
+      //   // if(nameGame == HIGHSCORE_NAME.TOP_COIN){
+        highScoreApi.postScore(nameGame, nRight);
+          const apiRes =  userApi.putUpdateUserCoin(newCoin);
+          console.log(apiRes)
           if (apiRes.status === 200) {
             dispatch(setUserCoin(newCoin));
            }  
         // }
-        if(nameGame !== HIGHSCORE_NAME.TOP_COIN){
-         await highScoreApi.postScore(nameGame, nRight);
-        }
+       
+       // if(nameGame !== HIGHSCORE_NAME.TOP_COIN){
+         
+       
+      //  console.log(resApi)
+      //  }
       //  const gameCoin =  nRight * COINS.CORRECT_GAME_PER_QUES -
       //  nWrong * COINS.CORRECT_GAME_PER_QUES ;
       //   highScoreApi.putUpdateHighscore(HIGHSCORE_NAME.TOP_COIN, newCoin);
@@ -124,14 +133,14 @@ function CorrectWordResult({ nRight, nWrong, onReplay, nameGame, nRightConsecuti
 CorrectWordResult.propTypes = {
   nRight: PropTypes.number,
   nWrong: PropTypes.number,
- // nRightConsecutive: PropTypes.number,
+ nameGame: PropTypes.string,
   onReplay: PropTypes.func,
 };
 
 CorrectWordResult.defaultProps = {
   nRight: 0,
   nWrong: 0,
- // nRightConsecutive: 0,
+  nameGame:'',
   onReplay: function () {},
 };
 
