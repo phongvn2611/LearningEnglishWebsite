@@ -100,7 +100,7 @@ function TimeBar({ correctFlag, wrongFlag, onSaveTime, onTimeout }) {
 function Result({ score }) {
   const classes = useStyle();
   const history = useHistory();
-  const { isAuth, coin } = useSelector((state) => state.authReducer);
+  const { isAuth } = useSelector((state) => state.authReducer);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -108,7 +108,9 @@ function Result({ score }) {
 
     (async function () {
       try {
-        const newCoin = coin + score;
+        const userInfo = await userApi.getUserInfo();
+        const userCoin = userInfo.data.user.coin;
+        const newCoin = userCoin + score;
 
          highscoreApi.postScore(HIGHSCORE_NAME.FAST_GAME, score);
 
