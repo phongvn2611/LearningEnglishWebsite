@@ -10,7 +10,7 @@ import { COINS, MAX, ROUTES } from 'constants/index';
 import { HIGHSCORE_NAME } from 'constants/game';
 import { onPlayAudio } from 'helper/speakerHelper';
 import PropTypes from 'prop-types';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { setUserCoin } from 'redux/actions/authAction';
@@ -35,7 +35,7 @@ function convertQuesToCoin(nRight = 0, nWrong = 0, currentCoin = 0) {
 function CorrectWordResult({ nRight, nWrong, onReplay, nameGame}) {
   const classes = cwResultStyle();
   const history = useHistory();
-  const dispatch = useDispatch();
+  const [coinCurrent, setCoinCurrent]=useState(null);
   const { isAuth, coin } = useSelector((state) => state.authReducer);
 
   // play win audio
@@ -49,18 +49,14 @@ function CorrectWordResult({ nRight, nWrong, onReplay, nameGame}) {
 
     (async function () {
       try {
-        const newCoin = convertQuesToCoin(nRight, nWrong, coin);
+        const userInfo = await userApi.getUserInfo();
+        const newCoin = convertQuesToCoin(nRight, nWrong, userInfo.data.user.coin);
 
-      
-        console.log(nRight)
-        console.log(nWrong)
-      //   // if(nameGame == HIGHSCORE_NAME.TOP_COIN){
-        highScoreApi.postScore(nameGame, nRight);
-          const apiRes =  userApi.putUpdateUserCoin(newCoin);
-          console.log(apiRes)
-          if (apiRes.status === 200) {
-            dispatch(setUserCoin(newCoin));
-           }  
+      console.log(userInfo.data.user.coin)
+        
+        setCoinCurrent(newCoin)
+        const apiRes = await userApi.putUpdateUserCoin(newCoin);
+           highScoreApi.postScore(nameGame, nRight);
         // }
        
        // if(nameGame !== HIGHSCORE_NAME.TOP_COIN){
@@ -105,13 +101,13 @@ function CorrectWordResult({ nRight, nWrong, onReplay, nameGame}) {
         <WrongIcon className={`${classes.icon} wrong`} />
       </div>
 
-      {isAuth && (
+      {isAuth && coinCurrent && (
         <div className={`${classes.result} flex-center--ver mt-4`}>
           <CoinIcon
             className={classes.icon}
             style={{ color: '#C3AD1A', marginLeft: 0 }}
           />
-          Số coin hiện tại:&nbsp;<b>{convertQuesToCoin(nRight, nWrong, coin)}</b>
+          Số coin hiện tại:&nbsp;<b>{coinCurrent}</b>
         </div>
       )}
 

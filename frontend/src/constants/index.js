@@ -80,6 +80,7 @@ export const ROUTES = {
   GAMES_GRAMMARLY: '/games/grammarly',
   GAMES_VIP: '/games/vip',
   LEADERBOARD: '/leaderboard',
+  DICTIONARY: '/dictionary',
 
   ADMIN: '/admin',
   GRAMMAR_ADMIN: '/admin/grammar',

@@ -55,6 +55,7 @@ const FastGamePage = React.lazy(() => import('pages/PlayGames/FastGame'));
 const PlayGamesPage = React.lazy(() => import('pages/PlayGames'));
 const LeaderBoardPage = React.lazy(() => import('pages/LeaderBoard'));
 const EditQuestionPage = React.lazy(() => import("../pages/EditQuestion"));
+const DictionaryPage = React.lazy(() => import("../pages/Dictionary"));
 
 const routes = [
   {
@@ -225,6 +226,13 @@ const routes = [
     component: () => <LeaderBoardPage />,
     role: ["user", "instructor", "admin"]
   },
+  // {
+  //   path: ROUTES.DICTIONARY,
+  //   exact: true,
+  //   isProtect: true,
+  //   component: () => <DictionaryPage />,
+  //   role: ["user", "instructor", "admin"]
+  // },
 ];
 
 const routesAdmin = [

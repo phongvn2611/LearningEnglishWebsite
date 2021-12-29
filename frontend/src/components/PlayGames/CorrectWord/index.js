@@ -11,6 +11,9 @@ import useStyle from "./style";
 import TooltipCustom from "components/UI/TooltipCustom";
 import HelpIcon from "@material-ui/icons/Help";
 
+
+
+
 function shuffleAnswers(word, phonetic, wrongList) {
   let mergeList = [...wrongList, { word, phonetic }];
   return mergeList.sort(() => Math.random() - 0.5);
@@ -27,7 +30,8 @@ function addClassAnswerItem(status, answerIndex, index, word, answer) {
 function CorrectWord({ list }) {
   const classes = useStyle();
   const { voice, speed, volume } = useSpeaker();
-
+ 
+  
   // fix Can't perform a React state update on an unmounted component
   const isSubscribe = useRef(true);
 
@@ -53,9 +57,10 @@ function CorrectWord({ list }) {
 
   // fix Can't perform a React state update on an unmounted component
   useEffect(() => {
+   
     return () => (isSubscribe.current = false);
   }, []);
-
+ 
   const onAnswer = (answer, answerIndex) => {
     if (answer === word) {
       playSoundAnswer(word, true, voice, volume, speed);
@@ -99,6 +104,7 @@ function CorrectWord({ list }) {
     } else {
       setTimeout(() => {
         isSubscribe.current && setIsDone(true);
+       
       }, UX.DELAY_ANSWER);
     }
   };
@@ -120,7 +126,7 @@ function CorrectWord({ list }) {
     });
     //nRightConsecutive.current = { top: 0, n: 0 };
   };
-console.log(nRight)
+
   return (
     <div className="flex-center-col h-100vh container">
       <div className={`${classes.root} container english-game-box`}>

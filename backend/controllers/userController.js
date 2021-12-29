@@ -363,6 +363,7 @@ exports.putUpdateUserCoin = async (req, res) => {
     const { newCoin } = req.body;
     
     const id = req.user?.id;
+    console.log(id)
     if (!id) {
       return res.status(406).json({ message: "Not Accept" });
     }
