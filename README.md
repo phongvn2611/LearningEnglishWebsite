@@ -1,16 +1,16 @@
-# KHOA ĐÀO TẠO CHẤT LƯỢNG CAO
+## TIỂU LUẬN CHUYÊN NGÀNH 
 
-# TIỂU LUẬN CHUYÊN NGÀNH 
+### 📝 Đề tài: Xây dựng website học tiếng Anh sử dụng MERN Stack
 
-**📝 Đề tài**: Xây dựng website học tiếng Anh sử dụng MERN Stack
+### Thành viên:
 
-**Thành viên **:
++ Trần Phương Linh - 18110146
 
-Trần Phương Linh - 18110146
++ Võ Ngọc Phong - 18110174
 
-Võ Ngọc Phong - 18110174
+### GVHD: TS. Lê Văn Vinh
 
-**GVHD**: TS. Lê Văn Vinh
+-----------------------------------------------
 
 **💻 Công nghệ xây dựng**
 + Frontend: ReactJS, Material UI, Redux, Axios, React Hook Form, Yup
@@ -20,7 +20,7 @@ Võ Ngọc Phong - 18110174
 + Deploy: Heroku
 
 **✨ Các chức năng chính**:
-- Đăng ký, đăng nhập..
+- Đăng ký, đăng nhập.
 - Click nghe một từ, câu trực tiếp trên ứng dụng.
 - Các cài đặt chung như voice, custom theme.
 - Học bảng IPA (International Phonetic Alphabet).
