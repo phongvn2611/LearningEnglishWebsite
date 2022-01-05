@@ -20,7 +20,6 @@ Võ Ngọc Phong - 18110174
 + Deploy: Heroku
 
 **✨ Các chức năng chính**:
-
 - Đăng ký, đăng nhập..
 - Click nghe một từ, câu trực tiếp trên ứng dụng.
 - Các cài đặt chung như voice, custom theme.
