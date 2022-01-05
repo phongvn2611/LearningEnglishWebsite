@@ -42,7 +42,7 @@
 1. Clone project này
 
 ```
-git clone https://github.com/phongvn2611/LearningEnglishWebsite.git
+  git clone https://github.com/phongvn2611/LearningEnglishWebsite.git
 ```
 
 2. Cài đặt thư viện ở Frontend và Backend
