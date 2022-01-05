@@ -27,8 +27,8 @@
 **✨ Các chức năng chính**:
 - Đăng ký, đăng nhập
 - Xác thực bằng email, quên mật khẩu
-- Click nghe một từ, câu trực tiếp trên ứng dụng
-- Các cài đặt chung như voice, custom theme
+- Nghe phát âm, từ vựng bằng biểu tượng Speaker
+- Các cài đặt chung như voice, speed, custom theme
 - Học bảng IPA (International Phonetic Alphabet)
 - Học từ vựng theo chủ đề (Collection & Item)
 - Học ngữ pháp theo cấp độ (Xem video, các điểm ngữ pháp & làm quiz)
