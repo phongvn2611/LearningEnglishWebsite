@@ -10,25 +10,29 @@
 
 ### GVHD: TS. Lê Văn Vinh
 
+### Demo: http://englishwebsite-mern.herokuapp.com
+
 -----------------------------------------------
+### Giới thiệu
 
 **💻 Công nghệ xây dựng**
 + Frontend: ReactJS, Material UI, Redux, Axios, React Hook Form, Yup
-+ Backend: NodeJS, ExpressJS. JWT, Nodemailer
-+ Database: MongoDB, Mongoose
++ Backend: NodeJS, ExpressJS, JWT, Nodemailer, Mongoose
++ Database: MongoDB
 + Storage: Cloudinary
 + Deploy: Heroku
 
 **✨ Các chức năng chính**:
-- Đăng ký, đăng nhập.
-- Click nghe một từ, câu trực tiếp trên ứng dụng.
-- Các cài đặt chung như voice, custom theme.
-- Học bảng IPA (International Phonetic Alphabet).
-- Học từ vựng theo chủ đề (Collection & Item).
+- Đăng ký, đăng nhập
+- Xác thực bằng email, quên mật khẩu
+- Click nghe một từ, câu trực tiếp trên ứng dụng
+- Các cài đặt chung như voice, custom theme
+- Học bảng IPA (International Phonetic Alphabet)
+- Học từ vựng theo chủ đề (Collection & Item)
 - Học ngữ pháp theo cấp độ (Xem video, các điểm ngữ pháp & làm quiz)
 - Học nghe theo chủ đề (Xem video & làm quiz)
-- Chơi game ôn tập từ vựng.
-- Bảng xếp hạng so sánh kết quả với các người chơi khác.
+- Chơi game ôn tập từ vựng
+- Bảng xếp hạng so sánh kết quả với các người chơi khác
 - Thay đổi thông tin người dùng
 - Quản trị (Từ vựng, bài nghe, quiz, ngữ pháp & người dùng)
 - Thống kê
