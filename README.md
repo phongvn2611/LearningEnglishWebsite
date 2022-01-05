@@ -55,8 +55,8 @@ git clone https://github.com/phongvn2611/LearningEnglishWebsite.git
   ACCESS_TOKEN_SECRET = Your Access Token Secret
   REFRESH_TOKEN_SECRET = Your Refresh Token Secret
   CLIENT_URL = Your Client URL
-  NODE_MAILER_USER = Your email
-  NODE_MAILER_PASSWORD = Your email password
+  NODE_MAILER_USER = Your Email
+  NODE_MAILER_PASSWORD = Your Email Password
   CLOUD_NAME = Your Cloudinary Name
   CLOUD_API_KEY = Your Cloudinary API Key
   CLOUD_API_SECRET = Your Cloudinary API Secret
