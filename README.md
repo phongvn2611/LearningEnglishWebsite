@@ -15,7 +15,7 @@
 -----------------------------------------------
 ### Giới thiệu
 
-**💻 Công nghệ xây dựng**
+**💻 Công nghệ sử dụng**
 + Frontend: ReactJS, Material UI, Redux, Axios, React Hook Form, Yup
 + Backend: NodeJS, ExpressJS, JWT, Nodemailer, Mongoose
 + Database: MongoDB
