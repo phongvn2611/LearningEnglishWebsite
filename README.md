@@ -24,7 +24,7 @@
 + Storage: Cloudinary
 + Deploy: Heroku
 
-**✨ Các chức năng chính**:
+**✨ Các chức năng chính**
 - Đăng ký, đăng nhập
 - Xác thực bằng email, quên mật khẩu
 - Nghe phát âm, từ vựng bằng biểu tượng Speaker
