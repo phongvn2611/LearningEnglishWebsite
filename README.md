@@ -12,7 +12,7 @@
   TS. Lê Văn Vinh
 
 ### Demo: 
-  https://englishwebsite-mern.herokuapp.com
+  https://englishwebsite.herokuapp.com
 
 -----------------------------------------------
 ### Giới thiệu
