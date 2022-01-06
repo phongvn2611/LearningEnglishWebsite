@@ -2,16 +2,16 @@
 
 ### 📝 Đề tài: Xây dựng website học tiếng Anh sử dụng MERN Stack
 
-### Thành viên:
+### Thành viên
 
 + Trần Phương Linh - 18110146
 
 + Võ Ngọc Phong - 18110174
 
-### GVHD: 
+### GVHD
   TS. Lê Văn Vinh
 
-### Demo: 
+### Demo
   https://englishwebsite.herokuapp.com
 
 -----------------------------------------------
