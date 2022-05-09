@@ -1,4 +1,4 @@
-## TIỂU LUẬN CHUYÊN NGÀNH 
+## KHOÁ LUẬN TỐT NGHIỆP 
 
 ### 📝 Đề tài: Xây dựng website học tiếng Anh sử dụng MERN Stack
 
