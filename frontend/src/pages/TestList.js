@@ -1,9 +1,9 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/styles';
 import { dictionaryRoot } from "../components/UI/style";
-import useTitle from "./../hooks/useTitle";
+import useTitle from "../hooks/useTitle";
 import { Grid } from '@material-ui/core';
-import TopicBox from './../components/TopicBox/index';
+import TopicBox from '../components/TopicBox/index';
 import { ROUTES } from '../constants';
 import toeicIcon from '../assets/icons/topics/toeic.png'
 
@@ -11,7 +11,7 @@ const useStyle = makeStyles((theme) => ({
   ...dictionaryRoot(theme),
 }));
 
-export default function TestPage() {
+export default function TestListPage() {
   useTitle('Test');
   const classes = useStyle();
   const testList = [

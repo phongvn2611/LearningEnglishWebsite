@@ -94,9 +94,6 @@ function CorrectWordResult({ nRight, nWrong, onReplay, nameGame}) {
         <b>{nRight}</b>&nbsp;Đúng
         <RightIcon className={`${classes.icon} right`} />
         &nbsp;-&nbsp;
-        {/* <b>{nRightConsecutive}</b>&nbsp;Đúng liên tiếp
-        <RightIcon className={`${classes.icon} right`} />
-        &nbsp;-&nbsp; */}
         <b>{nWrong}</b>&nbsp;Sai
         <WrongIcon className={`${classes.icon} wrong`} />
       </div>

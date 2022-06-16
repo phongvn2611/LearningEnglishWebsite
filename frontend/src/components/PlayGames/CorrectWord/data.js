@@ -70,7 +70,6 @@ function CorrectWordData() {
       setState(0);
     }
   };
-console.log(state)
   return (
     <>
       {state === 0 ? (

@@ -41,7 +41,7 @@ const ListeningTopicsPage = React.lazy(() =>
 );
 const GrammarByLevelPage = React.lazy(() => import("../pages/GrammarByLevel"));
 const GrammarLevelsPage = React.lazy(() => import("../pages/GrammarLevels"));
-const TestPage = React.lazy(() => import("../pages/Test"));
+const TestListPage = React.lazy(() => import("../pages/TestList"));
 const StartTestPage = React.lazy(() => import("../pages/StartTest"));
 const EditListeningPage = React.lazy(() => import("../pages/EditListening"));
 const CreateGrammarPage = React.lazy(() => import("../pages/CreateGrammar"));
@@ -231,7 +231,7 @@ const routes = [
     path: ROUTES.TEST,
     exact: true,
     isProtect: true,
-    component: () => <TestPage />,
+    component: () => <TestListPage />,
     role: ["user", "instructor", "admin"]
   },
   {
