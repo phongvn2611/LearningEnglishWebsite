@@ -68,7 +68,8 @@ export const ROUTES = {
   LISTENING_TOPICS: '/listening/topic',
   GRAMMAR_LEVELS: '/grammar/level',
   GRAMMAR_BY_LEVEL: '/grammar/level/:level',
-
+  TEST: '/test',
+  START_TEST: '/test/:id',
 
   GAMES_HOME: '/games',
   GAMES_CORRECT_WORD: '/games/correct-word',

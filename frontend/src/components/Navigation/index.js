@@ -68,12 +68,12 @@ function Navigation() {
                     >
                       Pronunciation
                     </Button>
-                    {/* <Button
+                    <Button
                       className={classes.bbcleNavButton}
-                      onClick={() => history.push(ROUTES.IPA_LIST)}
+                      onClick={() => history.push(ROUTES.TEST)}
                     >
-                      Dictionary
-                    </Button> */}
+                      Test
+                    </Button>
                     <Button
                       className={classes.bbcleNavButton}
                       onClick={() => history.push(ROUTES.GAMES_HOME)}

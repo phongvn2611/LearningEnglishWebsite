@@ -3,7 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import useStyle from './style';
 
-function FeatureBox({ to, imgUrl, title, subTitle }) {
+function FeatureBox({ to = '', imgUrl = '', title = '', subTitle= '' }) {
   const classes = useStyle();
   return (
     <Link to={to} className={`${classes.root} flex-center--ver w-100`}>

@@ -41,6 +41,8 @@ const ListeningTopicsPage = React.lazy(() =>
 );
 const GrammarByLevelPage = React.lazy(() => import("../pages/GrammarByLevel"));
 const GrammarLevelsPage = React.lazy(() => import("../pages/GrammarLevels"));
+const TestPage = React.lazy(() => import("../pages/Test"));
+const StartTestPage = React.lazy(() => import("../pages/StartTest"));
 const EditListeningPage = React.lazy(() => import("../pages/EditListening"));
 const CreateGrammarPage = React.lazy(() => import("../pages/CreateGrammar"));
 const EditGrammarPage = React.lazy(() => import("../pages/EditGrammar"));
@@ -55,7 +57,6 @@ const FastGamePage = React.lazy(() => import('pages/PlayGames/FastGame'));
 const PlayGamesPage = React.lazy(() => import('pages/PlayGames'));
 const LeaderBoardPage = React.lazy(() => import('pages/LeaderBoard'));
 const EditQuestionPage = React.lazy(() => import("../pages/EditQuestion"));
-const DictionaryPage = React.lazy(() => import("../pages/Dictionary"));
 
 const routes = [
   {
@@ -226,13 +227,20 @@ const routes = [
     component: () => <LeaderBoardPage />,
     role: ["user", "instructor", "admin"]
   },
-  // {
-  //   path: ROUTES.DICTIONARY,
-  //   exact: true,
-  //   isProtect: true,
-  //   component: () => <DictionaryPage />,
-  //   role: ["user", "instructor", "admin"]
-  // },
+  {
+    path: ROUTES.TEST,
+    exact: true,
+    isProtect: true,
+    component: () => <TestPage />,
+    role: ["user", "instructor", "admin"]
+  },
+  {
+    path: ROUTES.START_TEST,
+    exact: true,
+    isProtect: true,
+    component: () => <StartTestPage />,
+    role: ["user", "instructor", "admin"]
+  },
 ];
 
 const routesAdmin = [
