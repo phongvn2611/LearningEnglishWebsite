@@ -25,6 +25,11 @@ app.use(`${BASE_URL}/common`, require('./routes/commonRouter'));
 app.use(`${BASE_URL}/ipa`, require('./routes/ipaRouter'));
 app.use(`${BASE_URL}/games`, require('./routes/gameRouter'));
 app.use(`${BASE_URL}/highscore`, require('./routes/highScoreRouter'));
+app.use(`${BASE_URL}/test`, require('./routes/testRouter'));
+app.use(`${BASE_URL}/fileTest`, require('./routes/fileTestRouter'));
+app.use(`${BASE_URL}/questionTest`, require('./routes/questionTestRouter'));
+app.use(`${BASE_URL}/answerTest`, require('./routes/answerTestRouter'));
+app.use(`${BASE_URL}/submitTest`, require('./routes/submitTestRouter'));
 
 const URI = process.env.MONGODB_URL;
 mongoose.connect(URI, {
