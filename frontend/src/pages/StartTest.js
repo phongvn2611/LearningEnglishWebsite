@@ -4,6 +4,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import QuestionBoard from "components/Test/QuestionBoard";
 import { useHistory } from "react-router-dom";
 import { ROUTES } from "../constants";
+import Part from "components/Test/Part";
+import useTitle from "hooks/useTitle";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -21,7 +23,7 @@ const useStyles = makeStyles(() => ({
     transform: "translate(-50%, -50%)",
   },
   button: {
-    padding: "10px 35px",
+    padding: "10px 25px",
     fontWeight: "600",
     backgroundColor: "#68c2e8",
     color: "#fff",
@@ -43,7 +45,7 @@ const useStyles = makeStyles(() => ({
     marginBottom: "20px",
   },
   control: {
-    margin: "10px 0",
+    margin: "5px 0",
     justifyContent: "center",
   },
 }));
@@ -51,7 +53,19 @@ const useStyles = makeStyles(() => ({
 export default function StartTestPage() {
   const classes = useStyles();
   const [state, setState] = useState(0);
+  const [selectedPart, setSelectedPart] = useState(1);
   const history = useHistory();
+  useTitle('Test');
+  const handleNextPart = () => {
+    setSelectedPart((prev) => {
+      return prev + 1;
+    });
+  };
+  const handlePrevPart = () => {
+    setSelectedPart((prev) => {
+      return prev - 1;
+    });
+  };
   return (
     <>
       {state === 0 ? (
@@ -77,20 +91,40 @@ export default function StartTestPage() {
       ) : state === 1 ? (
         <Grid container>
           <Grid item lg={8} md={6} xs={12}>
-            <h1>Question</h1>
+            <Container>
+              <div className="d-flex jus-content-between my-5">
+                {selectedPart > 1 ? (
+                  <Button className={classes.button} onClick={handlePrevPart}>
+                    Prev
+                  </Button>
+                ) : (
+                  <span></span>
+                )}
+                {selectedPart < 7 ? (
+                  <Button className={classes.button} onClick={handleNextPart}>
+                    Next
+                  </Button>
+                ) : (
+                  <span></span>
+                )}
+              </div>
+              <Part part={selectedPart} />
+            </Container>
           </Grid>
           <Grid item lg={4} md={6} xs={12}>
-            <Grid container spacing={3} className={classes.control}>
-              <Grid item lg={6} xs={12}>
-                <Typography variant="h6">120m00s</Typography>
-              </Grid>
-              <Grid item lg={6} xs={12}>
-                <Button className={classes.button} onClick={() => setState(2)}>
-                  Submit
-                </Button>
-              </Grid>
-            </Grid>
-            <QuestionBoard />
+            <div className="my-5 d-flex jus-content-around">
+              <Typography variant="h6">120:00</Typography>
+              <Button className={classes.button} onClick={() => setState(2)}>
+                Submit
+              </Button>
+            </div>
+            <QuestionBoard part={1} />
+            <QuestionBoard part={2} />
+            <QuestionBoard part={3} />
+            <QuestionBoard part={4} />
+            <QuestionBoard part={5} />
+            <QuestionBoard part={6} />
+            <QuestionBoard part={7} />
           </Grid>
         </Grid>
       ) : (

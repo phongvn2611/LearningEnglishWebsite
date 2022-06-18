@@ -164,3 +164,8 @@ export const formatDate = (date = new Date()) => {
     return date;
   }
 };
+
+// Random number array between start and end
+export const randomNumberArray = (start, end) => {
+  return Array(end - start + 1).fill().map((_, idx) => start + idx)
+}
