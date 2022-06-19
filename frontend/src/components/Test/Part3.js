@@ -1,17 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   FormControl,
   Typography,
-  FormLabel,
   RadioGroup,
   FormControlLabel,
   Radio,
 } from "@material-ui/core";
+import Pagination from "./Pagination";
 
 export default function Part3() {
+  const [currentPage, setCurrentPage] = useState(1);
   return (
     <div>
-       <Typography variant="h5">Part 3</Typography>
+      <Typography variant="h5">Part 3</Typography>
       <div>
         <audio controls>
           <source src="horse.mp3" type="audio/mpeg" />
@@ -62,6 +63,7 @@ export default function Part3() {
           </div>
         </FormControl>
       </div>
+      <Pagination pages={13} setCurrentPage={setCurrentPage}></Pagination>
     </div>
   );
 }

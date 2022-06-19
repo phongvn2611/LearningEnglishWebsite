@@ -1,17 +1,18 @@
-import React from "react";
+import React, {useState} from "react";
 import {
   FormControl,
   Typography,
-  FormLabel,
   RadioGroup,
   FormControlLabel,
   Radio,
 } from "@material-ui/core";
+import Pagination from "./Pagination";
 
 export default function Part6() {
+  const [currentPage, setCurrentPage] = useState(1);
   return (
     <div>
-       <Typography variant="h5">Part 6</Typography>
+      <Typography variant="h5">Part 6</Typography>
       <div>
         <img
           src="https://images.unsplash.com/photo-1655387446055-13b6968d9150?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80"
@@ -63,6 +64,7 @@ export default function Part6() {
           </div>
         </FormControl>
       </div>
+      <Pagination pages={4} setCurrentPage={setCurrentPage}></Pagination>
     </div>
   );
 }

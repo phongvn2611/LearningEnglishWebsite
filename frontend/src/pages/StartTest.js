@@ -6,6 +6,7 @@ import { useHistory } from "react-router-dom";
 import { ROUTES } from "../constants";
 import Part from "components/Test/Part";
 import useTitle from "hooks/useTitle";
+import Pagination from "components/Test/Pagination";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -54,18 +55,9 @@ export default function StartTestPage() {
   const classes = useStyles();
   const [state, setState] = useState(0);
   const [selectedPart, setSelectedPart] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
   const history = useHistory();
-  useTitle('Test');
-  const handleNextPart = () => {
-    setSelectedPart((prev) => {
-      return prev + 1;
-    });
-  };
-  const handlePrevPart = () => {
-    setSelectedPart((prev) => {
-      return prev - 1;
-    });
-  };
+  useTitle("Test");
   return (
     <>
       {state === 0 ? (
@@ -92,23 +84,12 @@ export default function StartTestPage() {
         <Grid container>
           <Grid item lg={8} md={6} xs={12}>
             <Container>
-              <div className="d-flex jus-content-between my-5">
-                {selectedPart > 1 ? (
-                  <Button className={classes.button} onClick={handlePrevPart}>
-                    Prev
-                  </Button>
-                ) : (
-                  <span></span>
-                )}
-                {selectedPart < 7 ? (
-                  <Button className={classes.button} onClick={handleNextPart}>
-                    Next
-                  </Button>
-                ) : (
-                  <span></span>
-                )}
-              </div>
-              <Part part={selectedPart} />
+              <Pagination
+                type={"part"}
+                pages={7}
+                setCurrentPage={setCurrentPage}
+              ></Pagination>
+              <Part part={currentPage} />
             </Container>
           </Grid>
           <Grid item lg={4} md={6} xs={12}>
