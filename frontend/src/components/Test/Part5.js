@@ -1,14 +1,15 @@
-import React from "react";
+import React, {useState} from "react";
 import {
   FormControl,
   Typography,
-  FormLabel,
   RadioGroup,
   FormControlLabel,
   Radio,
 } from "@material-ui/core";
+import Pagination from "./Pagination";
 
 export default function Part5() {
+  const [currentPage, setCurrentPage] = useState(1);
   return (
     <div>
       <Typography variant="h5">Part 5</Typography>
@@ -27,6 +28,7 @@ export default function Part5() {
           </RadioGroup>
         </FormControl>
       </div>
+      <Pagination pages={30} setCurrentPage={setCurrentPage}></Pagination>
     </div>
   );
 }
