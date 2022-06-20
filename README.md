@@ -35,6 +35,7 @@
 - Học nghe theo chủ đề (Xem video & làm quiz)
 - Chơi game ôn tập từ vựng
 - Bảng xếp hạng so sánh kết quả với các người chơi khác
+- Làm bài test
 - Thay đổi thông tin người dùng
 - Quản trị (Từ vựng, bài nghe, quiz, ngữ pháp & người dùng)
 - Thống kê
