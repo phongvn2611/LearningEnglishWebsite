@@ -1,12 +1,14 @@
 import { Button, Container, Grid, Typography } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import QuestionBoard from "components/Test/QuestionBoard";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { ROUTES } from "../constants";
 import Part from "components/Test/Part";
 import useTitle from "hooks/useTitle";
 import Pagination from "components/Test/Pagination";
+import Timer from "components/Test/Timer";
+import testApi from "apis/testApi";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -54,9 +56,18 @@ const useStyles = makeStyles(() => ({
 export default function StartTestPage() {
   const classes = useStyles();
   const [state, setState] = useState(0);
-  const [selectedPart, setSelectedPart] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
+  const [test, setTest] = useState('');
   const history = useHistory();
+  const { id } = useParams();
+  useEffect(() => {
+    (async function () {
+      const res = await testApi.getTestById(id);
+      setTest(res.data);
+    })();
+    return () => {};
+  }, [id]);
+  
   useTitle("Test");
   return (
     <>
@@ -64,16 +75,10 @@ export default function StartTestPage() {
         <div className={classes.root}>
           <Container className={classes.container}>
             <Typography className={classes.title} variant="h2">
-              Test 01
+              {test.Name}
             </Typography>
             <Typography className={classes.timeTotal} variant="h5">
-              Total time: 120 minutes
-            </Typography>
-            <Typography className={classes.timeDetail} variant="body2">
-              Listening: 45 minutes
-            </Typography>
-            <Typography className={classes.timeDetail} variant="body2">
-              Reading: 75 minutes
+              Total time: {test.Duration} minutes
             </Typography>
             <Button onClick={() => setState(1)} className={classes.button}>
               Start
@@ -94,7 +99,7 @@ export default function StartTestPage() {
           </Grid>
           <Grid item lg={4} md={6} xs={12}>
             <div className="my-5 d-flex jus-content-around">
-              <Typography variant="h6">120:00</Typography>
+              <Timer value={test.Duration * 60} setState={setState}></Timer>
               <Button className={classes.button} onClick={() => setState(2)}>
                 Submit
               </Button>

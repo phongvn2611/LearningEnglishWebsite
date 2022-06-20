@@ -2,17 +2,17 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const AnswerModel = new Schema({
-  content: {
+  Content: {
     type: String,
     required: true,
   },
 
-  questionId: {
+  QuestionId: {
     type: Schema.Types.ObjectId,
     ref: 'question',
   },
 
-  isCorrect: {
+  IsCorrect: {
     type: Boolean,
     default:false,
   },
@@ -20,4 +20,4 @@ const AnswerModel = new Schema({
   submitQuiz: [{ type: Schema.Types.ObjectId, ref: 'submitquiz' }]
 });
 
-module.exports = mongoose.model('answer', AnswerModel);
+module.exports = mongoose.model('Answer', AnswerModel);

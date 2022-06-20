@@ -4,7 +4,6 @@ import { makeStyles } from "@material-ui/styles";
 import { dictionaryRoot } from "../components/UI/style";
 import { Grid } from '@material-ui/core';
 import TopicBox from './../components/TopicBox/index';
-import { ROUTES } from 'constants/index';
 import useTitle from "./../hooks/useTitle";
 
 const useStyle = makeStyles((theme) => ({

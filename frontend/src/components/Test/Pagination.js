@@ -20,7 +20,6 @@ export default function Pagination({ type = 'question', pages, setCurrentPage })
   const [selected, setSelected] = useState(1);
 
   useEffect(() => {
-    console.log(selected);
     setCurrentPage(selected);
   }, [selected]);
   return (
