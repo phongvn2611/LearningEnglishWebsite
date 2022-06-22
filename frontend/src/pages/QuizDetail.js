@@ -79,17 +79,17 @@ export default function QuizDetailPage() {
     }
   };
   return (
-    <div className={`${classes.root} dyno-container`}>
+    <div className={`${classes.root} english-container`}>
       <div className="flex-center-between">
-        <h1 className="dyno-title">Quiz</h1>
+        <h1 className="english-title">Quiz</h1>
         {quiz && (
           <AddIcon
-            className="dyno-setting-icon mr-5"
+            className="english-setting-icon mr-5"
             onClick={() => history.push(`/admin/quiz/add/${id}/${quizID}`)}
           />
         )}
       </div>
-      <div className="dyno-break"></div>
+      <div className="english-break"></div>
       {quiz ? (
         questions ? (
           questions.map((question, index) => (
@@ -108,11 +108,11 @@ export default function QuizDetailPage() {
            
             <div className="flex-center--ver">
                 <div className="mr-5">
-                  <EditIcon className="dyno-setting-icon"
+                  <EditIcon className="english-setting-icon"
                     onClick={() => history.push(`/admin/quiz/edit/${id}/${question._id}`)} 
                   />
                 </div>
-                <DeleteIcon className="dyno-setting-icon"
+                <DeleteIcon className="english-setting-icon"
                   onClick={() => deleteHandler(question._id)} 
                   />
 

@@ -17,7 +17,6 @@ import { formStyle } from "../components/UI/style";
 import { useDispatch } from "react-redux";
 import userApi from "./../apis/userApi";
 import { setMessage } from "./../redux/actions/messageAction";
-import useCloseContact from 'hooks/useCloseContact';
 
 
 const nameRegex = /^[^\d~`!@#$%^&*\(\)\\\|\.,\?\/\-\+\=\_]+$/gi;
@@ -44,7 +43,6 @@ const schema = yup.object().shape({
 function RegisterPage() {
   useTitle("Register");
   useCloseNavigation();
-  useCloseContact();
 
   const classes = makeStyles(formStyle)();
 

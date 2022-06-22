@@ -18,7 +18,6 @@ import userApi from "../apis/userApi";
 import { UX } from "../constants";
 import LoopIcon from "@material-ui/icons/Loop";
 import { setMessage } from "./../redux/actions/messageAction";
-import useCloseContact from 'hooks/useCloseContact';
 
 
 const schema = yup.object().shape({
@@ -28,7 +27,6 @@ const schema = yup.object().shape({
 function ForgotPasswordPage() {
   useTitle("Forgot password");
   useCloseNavigation();
-  useCloseContact();
   
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();

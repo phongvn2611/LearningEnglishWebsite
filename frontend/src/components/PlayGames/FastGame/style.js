@@ -10,8 +10,6 @@ export default makeStyles((theme) => ({
   bg: {
     zIndex: -1,
     position: 'absolute',
-    // backgroundImage:
-    //   'url(https://res.cloudinary.com/dynonary/image/upload/v1628497463/dynonary/games/fast-game-bg_huk7ii.jpg)',
     backgroundSize: 'cover',
     backgroundPosition: 'center center',
     backgroundRepeat: 'no-repeat',
@@ -19,19 +17,22 @@ export default makeStyles((theme) => ({
   },
 
   root: {
-    height: '90vh',
+    height: '95vh',
     width: '100%',
     margin: 'auto',
     backgroundColor: 'var(--bg-color-sec)',
     borderRadius: '16px',
-    border: 'solid 10px rgba(127,127,127,0.5)',
+    boxShadow: 'var(--box-shadow)',
     overflow: 'hidden',
+    padding: "24px 36px"
   },
 
   nTotal: {
-    padding: '12px 0',
-    fontSize: '1.6rem',
+    paddingTop: '20px',
+    fontSize: '2rem',
     letterSpacing: '1.5px',
+    fontWeight: 400,
+    color: 'var(--label-color)'
   },
 
   title: {
@@ -40,12 +41,9 @@ export default makeStyles((theme) => ({
     position: 'relative',
 
     '& h1': {
-      border: 'solid 5px rgba(127,127,127,0.5)',
       width: 'max-content',
-      padding: '2.4rem',
       margin: 'auto',
       fontWeight: 500,
-      borderRadius: '16px',
       color: 'var(--title-color)',
       fontSize: '2.4rem',
     },
@@ -107,7 +105,6 @@ export default makeStyles((theme) => ({
     flexWrap: 'wrap',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: '3.2rem',
   },
 
   answerItem: {
@@ -169,7 +166,7 @@ export default makeStyles((theme) => ({
     left: '50%',
     transform: 'translate(-50%,-50%)',
     fontSize: '1.6rem',
-    color: '#fff',
+    color: '#000',
     fontWeight: 500,
     letterSpacing: '1px',
   },

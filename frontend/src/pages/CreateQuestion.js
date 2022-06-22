@@ -193,7 +193,7 @@ function CreateQuestionPage() {
         <div className="ani-fade">
           <div>
             <h1 className={classes.title}>Thêm câu hỏi</h1>
-            <div className="dyno-break"></div>
+            <div className="english-break"></div>
 
             <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
               <Grid className={classes.grid} container spacing={3}>
@@ -225,13 +225,13 @@ function CreateQuestionPage() {
                     endAdornment={
                       question.check[0] === false ? (
                         <CheckIcon
-                          className="dyno-setting-icon"
+                          className="english-setting-icon"
                           onMouseOver={() => setIndexCheck(0)}
                           onClick={handleCheck}
                         />
                       ) : (
                         <CheckCircleIcon
-                          className="dyno-setting-icon"
+                          className="english-setting-icon"
                           onMouseOver={() => setIndexCheck(0)}
                           onClick={handleUncheck}
                         />
@@ -256,13 +256,13 @@ function CreateQuestionPage() {
                     endAdornment={
                       question.check[1] === false ? (
                         <CheckIcon
-                          className="dyno-setting-icon"
+                          className="english-setting-icon"
                           onMouseOver={() => setIndexCheck(1)}
                           onClick={handleCheck}
                         />
                       ) : (
                         <CheckCircleIcon
-                          className="dyno-setting-icon"
+                          className="english-setting-icon"
                           onMouseOver={() => setIndexCheck(1)}
                           onClick={handleUncheck}
                         />
@@ -286,13 +286,13 @@ function CreateQuestionPage() {
                     endAdornment={
                       question.check[2] === false ? (
                         <CheckIcon
-                          className="dyno-setting-icon"
+                          className="english-setting-icon"
                           onMouseOver={() => setIndexCheck(2)}
                           onClick={handleCheck}
                         />
                       ) : (
                         <CheckCircleIcon
-                          className="dyno-setting-icon"
+                          className="english-setting-icon"
                           onMouseOver={() => setIndexCheck(2)}
                           onClick={handleUncheck}
                         />
@@ -304,7 +304,7 @@ function CreateQuestionPage() {
                   )}
                 </Grid>
               </Grid>
-              <div className="dyno-break"></div>
+              <div className="english-break"></div>
               {/* button group */}
               <div className="d-flex flex-end jus-content-end pt-5 w-100">
                 <Button

@@ -12,6 +12,7 @@ import WordSkeleton from './WordSkeleton';
 import AddIcon from '@material-ui/icons/Add';
 import { ROUTES } from 'constants/index';
 import { useHistory } from 'react-router-dom';
+import useTitle from 'hooks/useTitle'
 
 function QuizAdmin({
   listen,
@@ -24,23 +25,24 @@ function QuizAdmin({
   // onSortTypeChange,
   onSearchWord,
 }) {
+  useTitle('Quiz Admin')
   const classes = useStyle();
   const history = useHistory();
   
   return (
-    <div className={`${classes.root} dyno-container`}>
+    <div className={`${classes.root} english-container`}>
       {/* title - menu */}
       <div className="flex-center-between">
-        <h1 className="dyno-title">Quản lý quiz</h1>
+        <h1 className="english-title">Quản lý quiz</h1>
         <div>
           
           <WordPackSetting
               onChoose={onSettingWordPack}
-              classNameIcon="dyno-setting-icon"
+              classNameIcon="english-setting-icon"
           />
         </div>
       </div>
-      <div className="dyno-break"></div>
+      <div className="english-break"></div>
 
       {/* list content */}
       <div className={classes.contentWrap}>

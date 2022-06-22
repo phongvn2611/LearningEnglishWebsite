@@ -11,7 +11,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import useStyle from "./style";
 import { useSelector } from "react-redux";
-
+import HomeIcon from '@material-ui/icons/Home'
 function SettingMenu({ anchorEl, onClose }) {
   const classes = useStyle();
   const { isAuth, role } = useSelector((state) => state.authReducer);
@@ -38,17 +38,20 @@ function SettingMenu({ anchorEl, onClose }) {
               <p className={classes.text}>Thông tin cá nhân</p>
             </MenuItem>
           </a>
-          {role !== "user" ? (
+          {window.location.href.includes('admin') ? (
            <a href={ROUTES.HOME}>
               <MenuItem className={classes.menuItem}>
-                <FaceIcon className={classes.icon} fontSize="small" />
-                <p className={classes.text}>User</p>
+                <HomeIcon className={classes.icon} fontSize="small" />
+                <p className={classes.text}>Trang chủ</p>
               </MenuItem>
             </a>
-
-
           ) : (
-            ""
+            <a href={ROUTES.ADMIN}>
+              <MenuItem className={classes.menuItem}>
+                <FaceIcon className={classes.icon} fontSize="small" />
+                <p className={classes.text}>Admin</p>
+              </MenuItem>
+            </a>
           )}
           <MenuItem onClick={() => setOpen(true)} className={classes.menuItem}>
             <SettingsIcon className={classes.icon} fontSize="small" />

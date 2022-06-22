@@ -144,23 +144,23 @@ export default function WordAdminPage() {
 
   return (
     <div className="container">
-      <div className={`${classes.root} dyno-container`}>
+      <div className={`${classes.root} english-container`}>
         {/* title - menu */}
         <div className="flex-center-between">
-          <h1 className="dyno-title">Quản lý từ vựng</h1>
+          <h1 className="english-title">Quản lý từ vựng</h1>
           <div>
-            <AddIcon className="dyno-setting-icon mr-5" onClick={() => history.push(ROUTES.ADD_WORD)} />
+            <AddIcon className="english-setting-icon mr-5" onClick={() => history.push(ROUTES.ADD_WORD)} />
             <WordSortModal
               onSelect={onSortTypeChange}
-              classNameIcon="dyno-setting-icon mr-5"
+              classNameIcon="english-setting-icon mr-5"
             />
             <WordPackSetting
               onChoose={onSettingWordPack}
-              classNameIcon="dyno-setting-icon"
+              classNameIcon="english-setting-icon"
             />
           </div>
         </div>
-        <div className="dyno-break"></div>
+        <div className="english-break"></div>
 
         {/* list content */}
         <div className={classes.contentWrap}>

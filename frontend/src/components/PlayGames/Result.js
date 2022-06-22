@@ -10,11 +10,12 @@ import { COINS, MAX, ROUTES } from 'constants/index';
 import { HIGHSCORE_NAME } from 'constants/game';
 import { onPlayAudio } from 'helper/speakerHelper';
 import PropTypes from 'prop-types';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { setUserCoin } from 'redux/actions/authAction';
 import { cwResultStyle } from './CorrectWord/style';
+import { string } from 'yup/lib/locale';
 
 function convertQuesToCoin(nRight = 0, nWrong = 0, currentCoin = 0) {
   const newCoin =
@@ -31,10 +32,10 @@ function convertQuesToCoin(nRight = 0, nWrong = 0, currentCoin = 0) {
   return newCoin;
 }
 
-function CorrectWordResult({ nRight, nWrong, onReplay, nameGame, nRightConsecutive}) {
+function CorrectWordResult({ nRight, nWrong, onReplay, nameGame}) {
   const classes = cwResultStyle();
   const history = useHistory();
-  const dispatch = useDispatch();
+  const [coinCurrent, setCoinCurrent]=useState(null);
   const { isAuth, coin } = useSelector((state) => state.authReducer);
 
   // play win audio
@@ -48,17 +49,21 @@ function CorrectWordResult({ nRight, nWrong, onReplay, nameGame, nRightConsecuti
 
     (async function () {
       try {
-        const newCoin = convertQuesToCoin(nRight, nWrong, coin);
+        const userInfo = await userApi.getUserInfo();
+        const newCoin = convertQuesToCoin(nRight, nWrong, userInfo.data.user.coin);
 
-        // if(nameGame == HIGHSCORE_NAME.TOP_COIN){
-          const apiRes = await userApi.putUpdateUserCoin(newCoin);
-          if (apiRes.status === 200) {
-            dispatch(setUserCoin(newCoin));
-           }  
+      console.log(userInfo.data.user.coin)
+        
+        setCoinCurrent(newCoin)
+        const apiRes = await userApi.putUpdateUserCoin(newCoin);
+           highScoreApi.postScore(nameGame, nRight);
         // }
-        if(nameGame !== HIGHSCORE_NAME.TOP_COIN){
-         await highScoreApi.postScore(nameGame, nRight);
-        }
+       
+       // if(nameGame !== HIGHSCORE_NAME.TOP_COIN){
+         
+       
+      //  console.log(resApi)
+      //  }
       //  const gameCoin =  nRight * COINS.CORRECT_GAME_PER_QUES -
       //  nWrong * COINS.CORRECT_GAME_PER_QUES ;
       //   highScoreApi.putUpdateHighscore(HIGHSCORE_NAME.TOP_COIN, newCoin);
@@ -89,20 +94,17 @@ function CorrectWordResult({ nRight, nWrong, onReplay, nameGame, nRightConsecuti
         <b>{nRight}</b>&nbsp;Đúng
         <RightIcon className={`${classes.icon} right`} />
         &nbsp;-&nbsp;
-        {/* <b>{nRightConsecutive}</b>&nbsp;Đúng liên tiếp
-        <RightIcon className={`${classes.icon} right`} />
-        &nbsp;-&nbsp; */}
         <b>{nWrong}</b>&nbsp;Sai
         <WrongIcon className={`${classes.icon} wrong`} />
       </div>
 
-      {isAuth && (
+      {isAuth && coinCurrent && (
         <div className={`${classes.result} flex-center--ver mt-4`}>
           <CoinIcon
             className={classes.icon}
             style={{ color: '#C3AD1A', marginLeft: 0 }}
           />
-          Số coin hiện tại:&nbsp;<b>{convertQuesToCoin(nRight, nWrong, coin)}</b>
+          Số coin hiện tại:&nbsp;<b>{coinCurrent}</b>
         </div>
       )}
 
@@ -124,14 +126,14 @@ function CorrectWordResult({ nRight, nWrong, onReplay, nameGame, nRightConsecuti
 CorrectWordResult.propTypes = {
   nRight: PropTypes.number,
   nWrong: PropTypes.number,
- // nRightConsecutive: PropTypes.number,
+ nameGame: PropTypes.string,
   onReplay: PropTypes.func,
 };
 
 CorrectWordResult.defaultProps = {
   nRight: 0,
   nWrong: 0,
- // nRightConsecutive: 0,
+  nameGame:'',
   onReplay: function () {},
 };
 

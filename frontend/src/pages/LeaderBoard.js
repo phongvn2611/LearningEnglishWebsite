@@ -18,7 +18,7 @@ function LeaderBoardPage() {
           BẢNG XẾP HẠNG
         </h1>
 
-        <div className="dyno-break"></div>
+        <div className="english-break"></div>
 
         <div className="leaderboard-grid">
           <LeaderBoardData

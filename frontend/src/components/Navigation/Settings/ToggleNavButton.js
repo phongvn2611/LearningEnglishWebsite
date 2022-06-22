@@ -5,14 +5,14 @@ function ToggleNavButton() {
 
   // get status navigation
   useEffect(() => {
-    const nav = document.getElementById('dynoNav');
+    const nav = document.getElementById('englishNav');
     nav && nav.style?.display === 'none'
       ? setIsActive(true)
       : setIsActive(false);
   }, []);
 
   useEffect(() => {
-    const nav = document.getElementById('dynoNav');
+    const nav = document.getElementById('englishNav');
     if (nav) {
       if (isActive) {
         nav.style.display = 'none';
@@ -24,7 +24,7 @@ function ToggleNavButton() {
 
   return (
     <div
-      className={`dyno-switch ${isActive ? 'active' : ''}`}
+      className={`english-switch ${isActive ? 'active' : ''}`}
       onClick={() => setIsActive(!isActive)}
     />
   );

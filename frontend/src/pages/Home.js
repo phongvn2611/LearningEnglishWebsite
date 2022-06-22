@@ -1,77 +1,11 @@
-
-import Grid from '@material-ui/core/Grid';
-import communicateIcon from '../assets/icons/communicate.png';
-import dictionaryIcon from '../assets/icons/dictionary.png';
-import flashcardIcon from '../assets/icons/flashcard.png';
-import friendsIcon from '../assets/icons/friends.png';
-import gameIcon from '../assets/icons/game.png';
-import grammarIcon from '../assets/icons/grammar.png';
-import ipaIcon from '../assets/icons/ipa.png';
-import toeicIcon from '../assets/icons/toeic.png';
-import verbIcon from '../assets/icons/verb.png';
-import medalIcon from '../assets/icons/medal.png';
-import FeatureBox from '../components/FeatureBox';
-import { ROUTES } from '../constants';
-import useScrollTop from '../hooks/useScrollTop';
-import useTitle from '../hooks/useTitle';
-import React from 'react';
-import { Link } from 'react-router-dom';
-import './style/home.scss';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faAddressBook, faArchive, faAtom,faBook, faBookReader, faCoffee, faLanguage } from '@fortawesome/free-solid-svg-icons'
-import { faBookOpen } from '@fortawesome/free-solid-svg-icons';
+import Grid from "@material-ui/core/Grid";
+import { ROUTES } from "../constants";
+import useTitle from "../hooks/useTitle";
+import React from "react";
+import "./style/home.scss";
+import Banner from "components/Banner";
+import Contact from "components/Contacts";
 import {FaMicrosoft, FaCoffee, FaLanguage,FaLaptopHouse, FaLayerGroup, FaGrin} from 'react-icons/fa';
-
-
-
-const FEATURE_LIST = [
-  {
-    title: 'Bảng phiên âm (IPA)',
-    subTitle:
-      'Luyện nghe, phát âm chuẩn với 44 âm trong bảng phiên âm quốc tế IPA',
-    imgUrl: ipaIcon,
-    to: ROUTES.IPA_LIST,
-  },
-  {
-    title: 'Từ vựng',
-    subTitle:
-      'Danh sách từ vựng được phân loại theo cấp độ, loại từ, ...',
-
-    imgUrl: flashcardIcon,
-    to: ROUTES.WORD_TOPIC,
-  },
-  {
-    title: "Luyện nghe",
-    subTitle: 'Rèn luyện kỹ năng nghe thông qua các video và các bài quiz rèn luyện',
-    imgUrl: communicateIcon,
-    to: ROUTES.LISTENING_TOPICS,
-  },
-  {
-    title: 'Từ điển',
-    subTitle: 'Tra cứu từ điển để tìm kiếm nghĩa của từ',
-    imgUrl: dictionaryIcon,
-    to: ROUTES.HOME,
-  },
-  {
-    title: 'Ngữ pháp',
-    imgUrl: grammarIcon,
-    subTitle: 'Danh sách tổng hợp những cấu trúc câu trong tiếng Anh',
-    to: ROUTES.GRAMMAR_LEVELS,
-  },
-  {
-    title: 'Play Games',
-    imgUrl: gameIcon,
-    subTitle:
-      'Ôn luyện kiến thức hiệu quả và đỡ nhàm chán hơn qua việc chơi game',
-    to: ROUTES.GAME,
-  },
-  {
-    title: 'Bảng xếp hạng',
-    imgUrl: medalIcon,
-    subTitle: 'Cùng xem thành tích của bạn bè và những người khác nhé',
-    to: ROUTES.HOME,
-  },
-];
 
 
 function HomePage() {
@@ -79,6 +13,7 @@ function HomePage() {
 //const classes= useStyle();
   return (
     <div>
+      <Banner/>
     <section className="section section-height-2 border-0 mt-5 mb-0 pt-5">
       <div className="row text-capitalize pt-3" align="center">
 						<div className="col-md-10 mx-md-auto">
@@ -225,6 +160,7 @@ function HomePage() {
   </Grid>
  </div>
  </section>
+ <Contact/>
 </div>
        
 

@@ -23,11 +23,6 @@ export const DEFAULTS = {
     'https://res.cloudinary.com/dynonary/image/upload/v1625136714/dynonary/default-image.png',
 };
 
-export const LINKS = {
-  FB: 'https://fb.com/TuanNguyen250400',
-  WEBSITE: 'https://dynonguyen.com',
-};
-
 export const MAX = {
   EMAIL_LEN: 100,
   PASSWORD_LEN: 40,
@@ -73,7 +68,8 @@ export const ROUTES = {
   LISTENING_TOPICS: '/listening/topic',
   GRAMMAR_LEVELS: '/grammar/level',
   GRAMMAR_BY_LEVEL: '/grammar/level/:level',
-
+  TEST: '/test',
+  START_TEST: '/test/:id',
 
   GAMES_HOME: '/games',
   GAMES_CORRECT_WORD: '/games/correct-word',
@@ -85,6 +81,7 @@ export const ROUTES = {
   GAMES_GRAMMARLY: '/games/grammarly',
   GAMES_VIP: '/games/vip',
   LEADERBOARD: '/leaderboard',
+  DICTIONARY: '/dictionary',
 
   ADMIN: '/admin',
   GRAMMAR_ADMIN: '/admin/grammar',
@@ -237,3 +234,4 @@ export const QUIZ_TYPE = [
   { value: 'Grammar', label: 'Grammar' },
   { value: 'Listen', label: 'Listen' },
 ];
+

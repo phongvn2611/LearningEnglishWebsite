@@ -164,3 +164,20 @@ export const formatDate = (date = new Date()) => {
     return date;
   }
 };
+
+// Random number array between start and end
+export const randomNumberArray = (start, end) => {
+  return Array(end - start + 1).fill().map((_, idx) => start + idx)
+}
+
+// Convert time
+export const convertTime = (value) => {
+  let hours = Math.floor(value / 3600);
+  let minutes = Math.floor((value - (hours * 3600)) / 60);
+  let seconds = value - (hours * 3600) - (minutes * 60);
+  return {
+    hours,
+    minutes,
+    seconds
+  }
+}

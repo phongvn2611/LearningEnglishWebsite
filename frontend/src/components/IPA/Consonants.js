@@ -74,8 +74,8 @@ const getImage = (image) =>{
 
 
   return (
-      <><h2 className="dyno-title">3. Consonants</h2>
-      <h3 className="dyno-sub-title" />
+      <><h2 className="english-title">3. Consonants</h2>
+      <h3 className="english-sub-title" />
       <div className="container" style={{ position: "relative", left: "50px" }}>
       {list && (
         list.map((item) => <div className={classes.mobilelist}>

@@ -25,20 +25,20 @@ function GrammarAdmin({
   const history = useHistory();
   
   return (
-    <div className={`${classes.root} dyno-container`}>
+    <div className={`${classes.root} english-container`}>
       {/* title - menu */}
       <div className="flex-center-between">
-        <h1 className="dyno-title">Manage Grammar</h1>
+        <h1 className="english-title">Quản lý ngữ pháp</h1>
         <div>
-          <AddIcon className="dyno-setting-icon mr-5" onClick={() => history.push(ROUTES.CREATE_GRAMMAR)}/>
+          <AddIcon className="english-setting-icon mr-5" onClick={() => history.push(ROUTES.CREATE_GRAMMAR)}/>
   
           <WordPackSetting
               onChoose={onSettingWordPack}
-              classNameIcon="dyno-setting-icon"
+              classNameIcon="english-setting-icon"
           />
         </div>
       </div>
-      <div className="dyno-break"></div>
+      <div className="english-break"></div>
 
       {/* list content */}
       <div className={classes.contentWrap}>

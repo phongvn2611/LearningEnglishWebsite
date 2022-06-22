@@ -38,7 +38,7 @@ function AutoSearchInput(props) {
   return (
     <div className={`${classes.root} w-100 position-rel`}>
       <input
-        placeholder="Tìm Từ ..."
+        placeholder="Tìm kiếm ..."
         className="w-100 h-100"
         onChange={onChange}
         ref={inputRef}

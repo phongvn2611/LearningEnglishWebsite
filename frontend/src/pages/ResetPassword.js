@@ -18,7 +18,6 @@ import { useDispatch } from "react-redux";
 import userApi from "./../apis/userApi";
 import { setMessage } from "./../redux/actions/messageAction";
 import { useParams } from "react-router";
-import useCloseContact from "../hooks/useCloseContact";
 
 const schema = yup.object().shape({
   password: yup
@@ -37,7 +36,6 @@ const schema = yup.object().shape({
 function ResetPasswordPage() {
   useTitle("Reset password");
   useCloseNavigation();
-  useCloseContact();
   const classes = makeStyles(formStyle)();
   const { access_token } = useParams();
   const [visiblePw, setVisiblePw] = useState(false);

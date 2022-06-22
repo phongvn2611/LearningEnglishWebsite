@@ -102,18 +102,18 @@ export default function WordListByTopicPage() {
   }, [page, packInfo, sortType]);
   return (
     <div className="container">
-      <div className={`${classes.root} dyno-container`}>
+      <div className={`${classes.root} english-container`}>
         {/* title - menu */}
         <div className="flex-center-between">
-          <h1 className="dyno-title">Từ vựng</h1>
+          <h1 className="english-title">Từ vựng</h1>
           <div>
             <WordSortModal
               onSelect={onSortTypeChange}
-              classNameIcon="dyno-setting-icon mr-5"
+              classNameIcon="english-setting-icon mr-5"
             />
           </div>
         </div>
-        <div className="dyno-break"></div>
+        <div className="english-break"></div>
 
         {/* list content */}
         <div className={classes.contentWrap}>

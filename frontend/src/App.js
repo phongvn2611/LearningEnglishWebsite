@@ -10,9 +10,13 @@ import useVoice from "hooks/useVoice";
 import NotFoundPage from "./pages/NotFound";
 import React, { Suspense, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Redirect,
+  Route,
+  Switch,
+} from "react-router-dom";
 import { Element } from "react-scroll";
-import Contact from "./components/Contacts";
 import userApi from "./apis/userApi";
 import Sidebar from "components/Sidebar";
 import { getUserInfo } from "./redux/actions/authAction";
@@ -22,7 +26,6 @@ function App() {
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
   const { isAuth, role } = useSelector((state) => state.authReducer);
- // const [userCurrent, setUserCurrent] = useState(user)
   useTheme();
   useVoice();
 
@@ -30,9 +33,7 @@ function App() {
     const getUser = async () => {
       const res = await userApi.getUserInfo();
       dispatch(getUserInfo(res));
-      console.log(res.data.user)
-     // setUserCurrent(res.data.user)
-    }
+    };
     getUser();
     setLoading(false);
     return () => {};
@@ -42,18 +43,18 @@ function App() {
     return (
       <ThemeProvider theme={theme}>
         <Router>
-          <div className="dynonary-app">
+          <div className="english-app">
             <Element name="scrollTop" />
             <Navigation />
             <Suspense fallback={<GlobalLoading />}>
               <Switch>
                 {renderRoutes(routes, isAuth, role)}
-                <Route>
+                <Route path="/not-found">
                   <NotFoundPage />
                 </Route>
+                <Redirect to="/not-found" />
               </Switch>
             </Suspense>
-            <Contact/>
             <div id="_overlay"></div>
             <Message />
           </div>
@@ -65,20 +66,25 @@ function App() {
     return (
       <ThemeProvider theme={theme}>
         <Router>
-          <div className="dynonary-app">
+          <div className="englishnary-app">
             <Element name="scrollTop" />
             <Navigation />
-            <div style={{ position: "relative", left: "170px" }}>
-              <Sidebar />   
-              <Suspense fallback={<GlobalLoading />}>
-                <Switch>
-                  {renderRoutes(routesAdmin, isAuth, role)}
-                  <Route>
-                    <NotFoundPage />
-                  </Route>
-                </Switch>
-              </Suspense>
+            <div style={{ display: "flex" }}>
+              <div style={{ width: "22%" }}>
+                <Sidebar />
               </div>
+              <div style={{ width: "78%" }}>
+                <Suspense fallback={<GlobalLoading />}>
+                  <Switch>
+                    {renderRoutes(routesAdmin, isAuth, role)}
+                    <Route path="/not-found">
+                      <NotFoundPage />
+                    </Route>
+                    <Redirect to="/not-found" />
+                  </Switch>
+                </Suspense>
+              </div>
+            </div>
             <div id="_overlay"></div>
             <Message />
           </div>
@@ -91,7 +97,7 @@ function App() {
     <>
       {loading ? (
         <GlobalLoading />
-      )  : !window.location.href.includes("admin") ? (
+      ) : !window.location.href.includes("admin") ? (
         <LayoutUser />
       ) : (
         <LayoutAdmin />

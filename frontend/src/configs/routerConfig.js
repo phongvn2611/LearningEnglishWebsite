@@ -41,6 +41,8 @@ const ListeningTopicsPage = React.lazy(() =>
 );
 const GrammarByLevelPage = React.lazy(() => import("../pages/GrammarByLevel"));
 const GrammarLevelsPage = React.lazy(() => import("../pages/GrammarLevels"));
+const TestListPage = React.lazy(() => import("../pages/TestList"));
+const StartTestPage = React.lazy(() => import("../pages/StartTest"));
 const EditListeningPage = React.lazy(() => import("../pages/EditListening"));
 const CreateGrammarPage = React.lazy(() => import("../pages/CreateGrammar"));
 const EditGrammarPage = React.lazy(() => import("../pages/EditGrammar"));
@@ -193,36 +195,50 @@ const routes = [
   {
     path: ROUTES.GAMES_HOME,
     exact: true,
-    isProtect: false,
+    isProtect: true,
     component: () => <PlayGamesPage />,
     role: ["user", "instructor", "admin"]
   },
   {
     path: ROUTES.GAMES_CORRECT_WORD,
     exact: true,
-    isProtect: false,
+    isProtect: true,
     component: () => <CorrectWordPage />,
     role: ["user", "instructor", "admin"]
   },
   {
     path: ROUTES.GAMES_WORD_MATCHING,
     exact: true,
-    isProtect: false,
+    isProtect: true,
     component: () => <WordMatchGamePage />,
     role: ["user", "instructor", "admin"]
   },
   {
     path: ROUTES.GAMES_FAST_GAME,
     exact: true,
-    isProtect: false,
+    isProtect: true,
     component: () => <FastGamePage />,
     role: ["user", "instructor", "admin"]
   },
   {
     path: ROUTES.LEADERBOARD,
     exact: true,
-    isProtect: false,
+    isProtect: true,
     component: () => <LeaderBoardPage />,
+    role: ["user", "instructor", "admin"]
+  },
+  {
+    path: ROUTES.TEST,
+    exact: true,
+    isProtect: true,
+    component: () => <TestListPage />,
+    role: ["user", "instructor", "admin"]
+  },
+  {
+    path: ROUTES.START_TEST,
+    exact: true,
+    isProtect: true,
+    component: () => <StartTestPage />,
     role: ["user", "instructor", "admin"]
   },
 ];

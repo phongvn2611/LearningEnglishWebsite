@@ -42,7 +42,7 @@ function SettingModal({ open, onClose }) {
         <div className={classes.contentItem}>
           <h2 className={classes.contentLabel}>Cài đặt khác</h2>
           <div>
-            <h3 className="dyno-label my-5">Hiện/Ẩn thanh điều hướng</h3>
+            <h3 className="english-label my-5">Hiện/Ẩn thanh điều hướng</h3>
             <ToggleNavButton />
           </div>
         </div>

@@ -154,8 +154,8 @@ function CreateListening({ onSubmitForm, submitting }) {
 
   return (
     <div >
-      <h1 className={classes.title}>Creat new listening in system</h1>
-      <div className="dyno-break"></div>
+      <h1 className={classes.title}>Thêm bài nghe</h1>
+      <div className="english-break"></div>
 
       <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
       <Grid container alignContent="center">
@@ -292,7 +292,7 @@ function CreateListening({ onSubmitForm, submitting }) {
           </div>
         </div> 
        
-        <div className="dyno-break"></div>
+        <div className="english-break"></div>
         {/* button group */}
         <div className="d-flex flex-end jus-content-end pt-5 w-100">
           <Button

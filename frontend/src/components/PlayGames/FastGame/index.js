@@ -1,17 +1,18 @@
-import InfoIcon from '@material-ui/icons/Info';
-import Speaker from 'components/UI/Speaker';
-import TooltipCustom from 'components/UI/TooltipCustom';
-import React, { useEffect, useRef, useState } from 'react';
-import useStyle from './style';
-import winAudioSrc from 'assets/audios/win.mp3';
-import { onPlayAudio } from 'helper/speakerHelper';
-import { Button } from '@material-ui/core';
-import { useHistory } from 'react-router-dom';
-import highscoreApi from 'apis/highScoreApi';
-import userApi from 'apis/userApi';
-import { setUserCoin } from 'redux/actions/authAction';
-import { HIGHSCORE_NAME } from 'constants/game';
-import { useDispatch, useSelector } from 'react-redux';
+import HelpIcon from "@material-ui/icons/Help";
+import Speaker from "components/UI/Speaker";
+import TooltipCustom from "components/UI/TooltipCustom";
+import React, { useEffect, useRef, useState } from "react";
+import useStyle from "./style";
+import winAudioSrc from "assets/audios/win.mp3";
+import { onPlayAudio } from "helper/speakerHelper";
+import { Button } from "@material-ui/core";
+import { useHistory } from "react-router-dom";
+import highscoreApi from "apis/highScoreApi";
+import userApi from "apis/userApi";
+import { setUserCoin } from "redux/actions/authAction";
+import { HIGHSCORE_NAME } from "constants/game";
+import { useDispatch, useSelector } from "react-redux";
+import logoGame from "assets/icons/games/brain.png";
 
 const TOTAL_TIME = 60_000;
 const RESET_TIME = 250;
@@ -21,9 +22,9 @@ const CORRECT_SCORE = 10;
 const WRONG_SCORE = 5;
 const SCORE_PER_SEC = 5;
 
-function generateAnswerList(list = [], word = '') {
+function generateAnswerList(list = [], word = "") {
   const index = list.findIndex(
-    (i) => i?.word.toLowerCase() === word.toLowerCase(),
+    (i) => i?.word.toLowerCase() === word.toLowerCase()
   );
   let seedList = [...list.slice(0, index), ...list.slice(index + 1)];
   seedList = seedList.sort(() => Math.random() - 0.5).slice(0, 8);
@@ -65,12 +66,12 @@ function TimeBar({ correctFlag, wrongFlag, onSaveTime, onTimeout }) {
   //     return;
   //   }
 
-  //   // const newRestTime = restTime + ADD_TIME;
-  //   // if (newRestTime < TOTAL_TIME) {
-  //   //   setRestTime(newRestTime);
-  //   // } else {
-  //   //   setRestTime(TOTAL_TIME);
-  //   // }
+  //   const newRestTime = restTime + ADD_TIME;
+  //   if (newRestTime < TOTAL_TIME) {
+  //     setRestTime(newRestTime);
+  //   } else {
+  //     setRestTime(TOTAL_TIME);
+  //   }
   // }, [correctFlag]);
 
   // // When wrong
@@ -99,7 +100,7 @@ function TimeBar({ correctFlag, wrongFlag, onSaveTime, onTimeout }) {
 function Result({ score }) {
   const classes = useStyle();
   const history = useHistory();
-  const { isAuth, coin } = useSelector((state) => state.authReducer);
+  const { isAuth } = useSelector((state) => state.authReducer);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -107,11 +108,13 @@ function Result({ score }) {
 
     (async function () {
       try {
-        const newCoin = coin + score;
+        const userInfo = await userApi.getUserInfo();
+        const userCoin = userInfo.data.user.coin;
+        const newCoin = userCoin + score;
 
-       await highscoreApi.postScore(HIGHSCORE_NAME.FAST_GAME, score);
+         highscoreApi.postScore(HIGHSCORE_NAME.FAST_GAME, score);
 
-        const apiRes = await userApi.putUpdateUserCoin(newCoin);
+        const apiRes = userApi.putUpdateUserCoin(newCoin);
         if (apiRes.status === 200) {
           dispatch(setUserCoin(newCoin));
         }
@@ -126,11 +129,11 @@ function Result({ score }) {
   }, []);
 
   const onGoBack = () => {
-    history.push('/home');
+    history.push("/games");
   };
 
   const onReplay = () => {
-   window.location.reload();
+    window.location.reload();
   };
 
   return (
@@ -141,7 +144,8 @@ function Result({ score }) {
         <Button
           className="_btn _btn-outlined-stand mr-5"
           variant="outlined"
-          onClick={onGoBack}>
+          onClick={onGoBack}
+        >
           Quay về
         </Button>
         <Button className="_btn _btn-primary" onClick={onReplay}>
@@ -211,20 +215,29 @@ function FastGame({ list }) {
     <div className="d-flex flex-dir-col h-100">
       {!isDone ? (
         <>
-          <div className={classes.title}>
+          <div>
+            <div className="english-game-title">
+              <img src={logoGame} alt="game photo" />
+              <h1>
+                <span>Tay nhanh hơn não</span>
+                <TooltipCustom
+                  className="ml-5 cur-pointer"
+                  title={`Chọn hình ảnh đúng với nghĩa của từ. Chọn sai -${WRONG_SCORE}đ, đúng +${CORRECT_SCORE}đ. Điểm sẽ được cộng thêm với thời gian còn lại của bạn.`}
+                >
+                  <HelpIcon />
+                </TooltipCustom>
+              </h1>
+            </div>
             <p className={`${classes.nTotal} flex-center`}>
-              Câu&nbsp;<span>{currentIndex.current + 1}</span>&nbsp;/&nbsp;
-              <span>{list.length}</span>
-              <span>{` - Điểm: ${score}`}</span>
-              <TooltipCustom
-                className="ml-5 cur-pointer"
-                title={`Chọn hình ảnh đúng với nghĩa của từ. Chọn sai -${WRONG_SCORE}đ, đúng +${CORRECT_SCORE}đ. Điểm sẽ được cộng thêm với thời gian còn lại của bạn.`}>
-                <InfoIcon />
-              </TooltipCustom>
+              Câu&nbsp;<b>{currentIndex.current + 1}</b>&nbsp;/&nbsp;
+              <b>{list.length}</b>
+              &nbsp;- Điểm:&nbsp;<b>{score}</b>
             </p>
+            <div className={classes.title}>
             <h1 className="flex-center">
               <span className="mr-8">{word}</span> <Speaker text={word} />
             </h1>
+            </div>
           </div>
           <div className={`flex-grow-1 ${classes.answerList}`}>
             {answerList.map((item, index) => {
@@ -233,7 +246,8 @@ function FastGame({ list }) {
                   <div
                     key={index}
                     className={classes.answerItem}
-                    onClick={() => handleAnswer(item.word, index)}>
+                    onClick={() => handleAnswer(item.word, index)}
+                  >
                     {item.picture && <img src={item.picture} />}
                   </div>
                 );
@@ -250,7 +264,7 @@ function FastGame({ list }) {
           />
         </>
       ) : (
-        <Result score={score}/>
+        <Result score={score} />
       )}
     </div>
   );
