@@ -9,6 +9,7 @@ import useTitle from "hooks/useTitle";
 import Pagination from "components/Test/Pagination";
 import Timer from "components/Test/Timer";
 import testApi from "apis/testApi";
+import fileTestApi from "apis/fileTestApi";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -64,6 +65,13 @@ export default function StartTestPage() {
     (async function () {
       const res = await testApi.getTestById(id);
       setTest(res.data);
+    })();
+    return () => {};
+  }, [id]);
+  useEffect(() => {
+    (async function () {
+      const res = await fileTestApi.getAllQuestionsOfPart(id, 1);
+      console.log(res.data);
     })();
     return () => {};
   }, [id]);

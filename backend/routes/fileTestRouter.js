@@ -6,5 +6,6 @@ router.get('/get-fileTest-by-test/:id', authentication, fileTestController.getBy
 router.get('/get-fileTest-by-id/:id',authentication, fileTestController.getById);
 router.get('/get-fileTest-by-part',authentication, fileTestController.getByTestIdAndPart);
 router.post('/post-fileTest/:id', authentication, fileTestController.postFileTest);
+router.get('/get-questions-of-part', authentication, fileTestController.getQuestionsOfPart);
 
 module.exports = router;
