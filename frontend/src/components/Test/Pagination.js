@@ -15,7 +15,11 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export default function Pagination({ type = 'question', pages, setCurrentPage }) {
+export default function Pagination({
+  type = "question",
+  pages,
+  setCurrentPage,
+}) {
   const classes = useStyles();
   const [selected, setSelected] = useState(1);
 
@@ -23,21 +27,31 @@ export default function Pagination({ type = 'question', pages, setCurrentPage })
     setCurrentPage(selected);
   }, [selected]);
   return (
-    <div className={`d-flex jus-content-${type === 'part' ? 'between' : 'around'} align-items-center my-5`}>
-      <Button
-        className={classes.button}
-        disabled={selected === 1 ? true : false}
-        onClick={() => setSelected((prev) => (prev <= 1 ? prev : prev - 1))}
-      >
-        {type === 'part' ? 'Prev Part' : 'Prev'}
-      </Button>
-      <Button
-        className={classes.button}
-        disabled={selected === pages ? true : false}
-        onClick={() => setSelected((prev) => (prev >= pages ? prev : prev + 1))}
-      >
-        {type === 'part' ? 'Next Part' : 'Next'}
-      </Button>
+    <div>
+      {pages > 1 && (
+        <div
+          className={`d-flex jus-content-${
+            type === "part" ? "between" : "around"
+          } align-items-center my-5`}
+        >
+          <Button
+            className={classes.button}
+            disabled={selected === 1 ? true : false}
+            onClick={() => setSelected((prev) => (prev <= 1 ? prev : prev - 1))}
+          >
+            {type === "part" ? "Prev Part" : "Prev"}
+          </Button>
+          <Button
+            className={classes.button}
+            disabled={selected === pages ? true : false}
+            onClick={() =>
+              setSelected((prev) => (prev >= pages ? prev : prev + 1))
+            }
+          >
+            {type === "part" ? "Next Part" : "Next"}
+          </Button>
+        </div>
+      )}
     </div>
   );
 }

@@ -16,7 +16,6 @@ export default function Part1({ part, testId }) {
   useEffect(() => {
     (async function () {
       const res = await fileTestApi.getAllQuestionsOfPart(testId, part);
-      console.log(res.data.Files[0]);
       setPartQuestions(res.data.Files[0]);
     })();
     return () => {};
@@ -24,10 +23,10 @@ export default function Part1({ part, testId }) {
   return (
     <div>
       <Typography variant="h5">Part 1</Typography>
-      {partQuestions.audio && (
+      {partQuestions.Audio && (
         <div>
           <audio controls>
-            <source src={partQuestions.audio} type="audio/mpeg" />
+            <source src={partQuestions.Audio} type="audio/mpeg" />
             Your browser does not support the audio element.
           </audio>
         </div>
