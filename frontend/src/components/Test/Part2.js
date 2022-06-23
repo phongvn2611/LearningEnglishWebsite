@@ -9,7 +9,7 @@ import {
 } from "@material-ui/core";
 import Pagination from "./Pagination";
 
-export default function Part2() {
+export default function Part2({questions}) {
   const [currentPage, setCurrentPage] = useState(1);
   return (
     <div>

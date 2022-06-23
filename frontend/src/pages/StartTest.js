@@ -68,13 +68,7 @@ export default function StartTestPage() {
     })();
     return () => {};
   }, [id]);
-  useEffect(() => {
-    (async function () {
-      const res = await fileTestApi.getAllQuestionsOfPart(id, 1);
-      console.log(res.data);
-    })();
-    return () => {};
-  }, [id]);
+
   
   useTitle("Test");
   return (
@@ -102,7 +96,7 @@ export default function StartTestPage() {
                 pages={7}
                 setCurrentPage={setCurrentPage}
               ></Pagination>
-              <Part part={currentPage} />
+              <Part testId={id} part={currentPage} />
             </Container>
           </Grid>
           <Grid item lg={4} md={6} xs={12}>
