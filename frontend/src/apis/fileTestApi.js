@@ -3,7 +3,7 @@ const URL = `/api/fileTest`;
 
 const fileTestApi = {
   getAllQuestionsOfPart: (testId = '', part = '') => {
-    return axios.get(`${URL}/get-all-test`, { params: { testId, part }})
+    return axios.get(`${URL}/get-questions-of-part`, { params: { testId, part }})
   }
 }
 export default fileTestApi;

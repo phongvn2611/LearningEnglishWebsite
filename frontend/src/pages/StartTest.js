@@ -9,6 +9,7 @@ import useTitle from "hooks/useTitle";
 import Pagination from "components/Test/Pagination";
 import Timer from "components/Test/Timer";
 import testApi from "apis/testApi";
+import submitTestApi from "apis/submitTestApi";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -60,6 +61,15 @@ export default function StartTestPage() {
   const [test, setTest] = useState('');
   const history = useHistory();
   const { id } = useParams();
+  const [submitAnswers1, setSubmitAnswers1] = useState([]);
+  const [submitAnswers2, setSubmitAnswers2] = useState([]);
+  const [submitAnswers3, setSubmitAnswers3] = useState([]);
+  const [submitAnswers4, setSubmitAnswers4] = useState([]);
+  const [submitAnswers5, setSubmitAnswers5] = useState([]);
+  const [submitAnswers6, setSubmitAnswers6] = useState([]);
+  const [submitAnswers7, setSubmitAnswers7] = useState([]);
+  const [submitId, setSubmitId] = useState('');
+
   useEffect(() => {
     (async function () {
       const res = await testApi.getTestById(id);
@@ -67,7 +77,23 @@ export default function StartTestPage() {
     })();
     return () => {};
   }, [id]);
-  
+
+  const createSubmit = async () =>{   
+    const resCheck = await submitTestApi.getSubmitByTest(id);
+    console.log(resCheck.data)
+    if(resCheck.data === null){
+      const resSubmit = await submitTestApi.postSubmit(id);
+      console.log(resSubmit.data)
+      setSubmitId(resSubmit.data._id);
+    }
+    else{
+      console.log(resCheck.data)
+      setSubmitId(resCheck.data._id);
+    }
+    setState(1); 
+  };
+
+  console.log(submitAnswers1)
   useTitle("Test");
   return (
     <>
@@ -80,7 +106,7 @@ export default function StartTestPage() {
             <Typography className={classes.timeTotal} variant="h5">
               Total time: {test.Duration} minutes
             </Typography>
-            <Button onClick={() => setState(1)} className={classes.button}>
+            <Button onClick={() => createSubmit()} className={classes.button}>
               Start
             </Button>
           </Container>
@@ -93,8 +119,21 @@ export default function StartTestPage() {
                 type={"part"}
                 pages={7}
                 setCurrentPage={setCurrentPage}
+                submitId={submitId}
+                submitAnswers1 ={submitAnswers1}
               ></Pagination>
-              <Part part={currentPage} />
+              <Part 
+              part={currentPage}
+              testId={id} 
+              submitId={submitId}
+              setSubmitAnswers1={setSubmitAnswers1} 
+              setSubmitAnswers2={setSubmitAnswers2}
+              setSubmitAnswers3={setSubmitAnswers3}
+              setSubmitAnswers4={setSubmitAnswers4}
+              setSubmitAnswers5={setSubmitAnswers5}
+              setSubmitAnswers6={setSubmitAnswers6}
+              setSubmitAnswers7={setSubmitAnswers7}
+              />
             </Container>
           </Grid>
           <Grid item lg={4} md={6} xs={12}>

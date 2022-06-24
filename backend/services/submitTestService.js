@@ -16,6 +16,61 @@ exports.createSubmitTest = async (body) => {
   }
 };
 
+exports.updateAnswerSubmitTest = async (id, part, body) => {
+  try {
+    let submitTest;
+    console.log(body)
+    if(part === 1) {
+      submitTest = await SubmitTestModel.findByIdAndUpdate(id, 
+        { 
+            AnswerTests1 : body
+        });
+    }
+    if(part === 2) {
+      submitTest = await SubmitTestModel.findByIdAndUpdate(id, 
+        { 
+              AnswerTests2 : body
+        });
+    }
+    if(part === 3) {
+      submitTest = await SubmitTestModel.findByIdAndUpdate(id, 
+        { 
+            AnswerTests3 : body
+        });
+    }
+    if(part === 4) {
+      submitTest = await SubmitTestModel.findByIdAndUpdate(id, 
+        { 
+            AnswerTests4 : body
+        });
+    }
+    if(part === 5) {
+      submitTest = await SubmitTestModel.findByIdAndUpdate(id, 
+        { 
+            AnswerTests5 : body
+        });
+    }
+    if(part === 6) {
+      submitTest = await SubmitTestModel.findByIdAndUpdate(id, 
+        { 
+            AnswerTests6 : body
+        });
+    }
+    if(part === 7) {
+      submitTest = await SubmitTestModel.findByIdAndUpdate(id, 
+        { 
+            AnswerTests7 : body
+        });
+    }
+
+    if (submitTest) {
+      return submitTest;
+    }
+    return null;
+  } catch (error) {
+    throw error;
+  }
+};
 exports.updateSubmitTest = async (id, body) => {
     try {
       let submitTest = await SubmitTestModel.findByIdAndUpdate(id, { ...body });
@@ -72,7 +127,17 @@ exports.updateSubmitTest = async (id, body) => {
 
   exports.getSubmitTestByTestId = async (testId, userId) => {
     try {
-        const res = await SubmitTestModel.find({TestId: testId, UserId: userId} );
+        const res = await SubmitTestModel.findOne({TestId: testId, UserId: userId} );
+    
+        return res;
+      } catch (error) {
+        throw error;
+      }
+  };
+
+  exports.checkSubmitExisted = async (testId, userId) => {
+    try {
+        const res = await SubmitTestModel.exists({TestId: testId, UserId: userId} );
     
         return res;
       } catch (error) {

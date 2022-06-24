@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/styles";
 import { Button } from "@material-ui/core";
+import submitTestApi from "apis/submitTestApi";
 
 const useStyles = makeStyles(() => ({
   button: {
@@ -15,29 +16,72 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export default function Pagination({ type = 'question', pages, setCurrentPage }) {
+export default function Pagination({
+  type = "question",
+  pages,
+  setCurrentPage,
+  submitId,
+  submitAnswers1
+}) {
+
   const classes = useStyles();
   const [selected, setSelected] = useState(1);
+
+  // useEffect(() => {
+  //   setSelected(JSON.parse(window.sessionStorage.getItem("page")));
+  // }, []);
+
+  // useEffect(() => {
+  //   window.sessionStorage.setItem("page", selected);
+  // }, [selected]);
 
   useEffect(() => {
     setCurrentPage(selected);
   }, [selected]);
+ 
+  console.log(submitId)
+  const updateAnswerSubmitPrev = async (value) =>{  
+    if(selected === 1){ 
+      const resUpdate = await submitTestApi.putAnswerSubmit(submitId, {Part : selected, AnswerTests: submitAnswers1});   
+      console.log(resUpdate.data);
+    }
+   setSelected(value);
+  };
+
+  const updateAnswerSubmitNext = async (value) =>{
+    if(selected === 1){    
+      const resUpdate = await submitTestApi.putAnswerSubmit(submitId, {Part : selected, AnswerTests: submitAnswers1});   
+      console.log(resUpdate.data);
+    }
+   setSelected(value);
+  };
+
   return (
-    <div className={`d-flex jus-content-${type === 'part' ? 'between' : 'around'} align-items-center my-5`}>
-      <Button
-        className={classes.button}
-        disabled={selected === 1 ? true : false}
-        onClick={() => setSelected((prev) => (prev <= 1 ? prev : prev - 1))}
-      >
-        {type === 'part' ? 'Prev Part' : 'Prev'}
-      </Button>
-      <Button
-        className={classes.button}
-        disabled={selected === pages ? true : false}
-        onClick={() => setSelected((prev) => (prev >= pages ? prev : prev + 1))}
-      >
-        {type === 'part' ? 'Next Part' : 'Next'}
-      </Button>
+    <div>
+      {pages > 1 && (
+        <div
+          className={`d-flex jus-content-${
+            type === "part" ? "between" : "around"
+          } align-items-center my-5`}
+        >
+          <Button
+            className={classes.button}
+            disabled={selected === 1 ? true : false}
+            onClick={() => updateAnswerSubmitPrev((prev) => (prev <= 1 ? prev : prev - 1))}
+          >
+            {type === "part" ? "Prev Part" : "Prev"}
+          </Button>
+          <Button
+            className={classes.button}
+            disabled={selected === pages ? true : false}
+            onClick={() =>
+              updateAnswerSubmitNext((prev) => (prev >= pages ? prev : prev + 1))
+            }
+          >
+            {type === "part" ? "Next Part" : "Next"}
+          </Button>
+        </div>
+      )}
     </div>
   );
 }

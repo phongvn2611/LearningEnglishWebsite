@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState, useEffect } from "react";
 import {
   FormControl,
   Typography,
@@ -7,9 +7,19 @@ import {
   Radio,
 } from "@material-ui/core";
 import Pagination from "./Pagination";
+import fileTestApi from "apis/fileTestApi";
 
-export default function Part6() {
+export default function Part6({testId, part}) {
   const [currentPage, setCurrentPage] = useState(1);
+  const [partQuestions, setPartQuestions] = useState([]);
+
+  useEffect(() => {
+    (async function () {
+      const res = await fileTestApi.getAllQuestionsOfPart(testId, part);
+      setPartQuestions(res.data.Files);
+    })();
+    return () => {};
+  }, [testId, part]);
   return (
     <div>
       <Typography variant="h5">Part 6</Typography>

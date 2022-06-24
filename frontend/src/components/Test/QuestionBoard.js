@@ -6,11 +6,10 @@ import {
   Grid,
   Typography,
 } from "@material-ui/core";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { randomNumberArray } from "helper";
-import fileTestApi from "apis/fileTestApi";
 
 const useStyles = makeStyles(() => ({
   button: {
@@ -24,17 +23,6 @@ const useStyles = makeStyles(() => ({
 
 export default function QuestionBoard({ part }) {
   const classes = useStyles();
-
-  // const [files, setFiles] = useState([]);
-  // useEffect(() => {
-  //   (async function () {
-  //     const res = await fileTestApi.getAllQuestionsOfPart(part);
-  //     setFiles(res.data.Files);
-  //   })();
-  //   return () => {};
-  // }, []);
-
-
   const randomQuestionList = (part) => {
     let list = "";
     if (part === 1) list = randomNumberArray(1, 6);

@@ -45,9 +45,33 @@ const SubmitTestModel = new Schema({
     ref: 'user',
   },
 
-  AnswerTests: [{
+  AnswerTests1: [{
     type: Schema.Types.Map
-  }]
+  }],
+
+  AnswerTests2: [{
+    type: Schema.Types.Map
+  }],
+
+  AnswerTests3: [{
+    type: Schema.Types.Map
+  }],
+  AnswerTests4: [{
+    type: Schema.Types.Map
+  }],
+  
+  AnswerTests5: [{
+    type: Schema.Types.Map
+  }],
+  
+  AnswerTests6: [{
+    type: Schema.Types.Map
+  }],
+  
+  AnswerTests7: [{
+    type: Schema.Types.Map
+  }],
+  
 });
 
 module.exports = mongoose.model('submitTest', SubmitTestModel);
