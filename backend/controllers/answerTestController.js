@@ -43,10 +43,10 @@ exports.postManyAnswers = async (req, res) => {
 
     // create 
     for (let answer of req.body) {
-      let { Content, Sentence, IsCorrect, IsListening, SubmitTests} = answer;
-      await createAnswerTest({QuestionTestId: QuestionId, Content, Sentence, IsCorrect, IsListening, SubmitTests});     
+      let { Content, Sentence, IsCorrect, IsListening} = answer;
+      await createAnswerTest({QuestionTestId: QuestionId, Content, Sentence, IsCorrect, IsListening});     
     }       
-    return res.status(200).json({ data: answerTest });
+    return res.status(200).json({message: "Successfully." });
   } catch (error) {
     return res.status(503).json(error.message);
   }

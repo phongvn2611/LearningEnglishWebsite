@@ -28,7 +28,7 @@ exports.postFileTest = async (req, res) => {
     }
 
     for (let file of req.body) {
-      let { Content, Part, Image, Audio} = file;
+      let { Content, Part, Image, Image2, Image3, Audio} = file;
       // let imgUrl = null;
       // if (Image) {      
       //     imgUrl = await uploadImage(Image, 'english/test');
@@ -38,7 +38,7 @@ exports.postFileTest = async (req, res) => {
       // if (Audio) {      
       //     audUrl = await uploadAudio(Image, 'english/test');
       // }
-      await createFileTest({TestId, Content, Part, Image, Audio});     
+      await createFileTest({TestId, Content, Part, Image, Image2, Image3, Audio});     
      
     }     
     return res.status(200).json({message: "Successfully."});
