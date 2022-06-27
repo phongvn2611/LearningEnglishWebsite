@@ -48,6 +48,9 @@ const userApi = {
   unlockUser: (user_id) => {
     return axios.patch(`${URL}/unlock-user/${user_id}`);
   },
+  deleteUser: (user_id) => {
+    return axios.patch(`${URL}/delete-user/${user_id}`);
+  },
   addUser: (user) => {
     return axios.post(
       `${URL}/add-user`,

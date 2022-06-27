@@ -38,9 +38,7 @@ const resetPasswordMail = (url) => {
 
 const sendEmail = (to, content) => {
   const smtpTransport = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 587,
-    secure: false,
+    service: "Gmail",
     auth: {
       user: process.env.NODE_MAILER_USER,
       pass: process.env.NODE_MAILER_PASSWORD,

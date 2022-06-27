@@ -15,7 +15,9 @@ import { useParams } from "react-router";
 import LockIcon from "@material-ui/icons/Lock";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
 import EditIcon from "@material-ui/icons/Edit";
-import { useHistory } from 'react-router-dom';
+import DeleteIcon from "@material-ui/icons/Delete";
+import { useHistory } from "react-router-dom";
+import { ROUTES } from "../constants";
 
 const useStyle = makeStyles(() => ({
   wrap: {
@@ -145,32 +147,49 @@ export default function UserDetailPage() {
     })();
     return () => {};
   }, [user_id]);
-  
+
   const handleLockUser = async () => {
-    try {
-      const res = await userApi.lockUser(user_id);
-      if (res) {
-        dispatch(setMessage(res.data.message, 'success'));
-        window.location.reload();
+    if (user._id === user_id) {
+      dispatch(setMessage("This account is logging", "error"));
+    } else {
+      try {
+        const res = await userApi.lockUser(user_id);
+        if (res) {
+          dispatch(setMessage(res.data.message, "success"));
+          window.location.reload();
+        }
+      } catch (err) {
+        dispatch(setMessage(err.response.data.message, "error"));
       }
     }
-    catch (err) {
-      dispatch(setMessage(err.response.data.message, 'error'));
-    }
-  }
+  };
 
   const handleUnlockUser = async () => {
     try {
       const res = await userApi.unlockUser(user_id);
       if (res) {
-        dispatch(setMessage(res.data.message, 'success'));
+        dispatch(setMessage(res.data.message, "success"));
         window.location.reload();
       }
+    } catch (err) {
+      dispatch(setMessage(err.response.data.message, "error"));
     }
-    catch (err) {
-      dispatch(setMessage(err.response.data.message, 'error'));
+  };
+  const handleDeleteUser = async () => {
+    if (user._id === user_id) {
+      dispatch(setMessage("This account is logging", "error"));
+    } else {
+      try {
+        const res = await userApi.deleteUser(user_id);
+        if (res) {
+          dispatch(setMessage(res.data.message, "success"));
+          history.replace(ROUTES.USER_ADMIN);
+        }
+      } catch (err) {
+        dispatch(setMessage(err.response.data.message, "error"));
+      }
     }
-  }
+  };
 
   return (
     <div className={`${classes.wrap} container flex-center`}>
@@ -208,7 +227,7 @@ export default function UserDetailPage() {
           </Button>
           {userDetail.isLocked !== 0 ? (
             <Button
-              className={`${classes.editBtn} _btn _btn-primary`}
+              className={`${classes.editBtn} _btn _btn-primary mb-5`}
               startIcon={<LockOpenIcon />}
               onClick={handleUnlockUser}
             >
@@ -216,13 +235,20 @@ export default function UserDetailPage() {
             </Button>
           ) : (
             <Button
-              className={`${classes.editBtn} _btn _btn-primary`}
-                startIcon={<LockIcon />}
-                onClick={handleLockUser}
+              className={`${classes.editBtn} _btn _btn-primary mb-5`}
+              startIcon={<LockIcon />}
+              onClick={handleLockUser}
             >
               Khóa tài khoản
             </Button>
           )}
+          <Button
+            className={`${classes.editBtn} _btn _btn-primary`}
+            startIcon={<DeleteIcon />}
+            onClick={handleDeleteUser}
+          >
+            Xoá tài khoản
+          </Button>
         </div>
       </div>
     </div>

@@ -17,6 +17,14 @@ const FileTestModel = new Schema({
     type: String
   },
 
+  Image2: {
+    type: String
+  },
+
+  Image3: {
+    type: String
+  },
+
   Audio: {
     type: String
   },

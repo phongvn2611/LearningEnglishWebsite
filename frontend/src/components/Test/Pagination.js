@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/styles";
 import { Button } from "@material-ui/core";
+import submitTestApi from "apis/submitTestApi";
 
 const useStyles = makeStyles(() => ({
   button: {
@@ -19,13 +20,33 @@ export default function Pagination({
   type = "question",
   pages,
   setCurrentPage,
+  submitId,
+  submitAnswers1
 }) {
+
   const classes = useStyles();
   const [selected, setSelected] = useState(1);
+
 
   useEffect(() => {
     setCurrentPage(selected);
   }, [selected]);
+ 
+  console.log(submitId)
+  const updateAnswerSubmitPrev = async (value) =>{  
+    if(selected === 1){ 
+      const resUpdate = await submitTestApi.putAnswerSubmit(submitId, {Part : selected, AnswerTests: submitAnswers1});   
+    }
+   setSelected(value);
+  };
+
+  const updateAnswerSubmitNext = async (value) =>{
+    if(selected === 1){    
+      const resUpdate = await submitTestApi.putAnswerSubmit(submitId, {Part : selected, AnswerTests: submitAnswers1});   
+    }
+   setSelected(value);
+  };
+
   return (
     <div>
       {pages > 1 && (
@@ -37,7 +58,7 @@ export default function Pagination({
           <Button
             className={classes.button}
             disabled={selected === 1 ? true : false}
-            onClick={() => setSelected((prev) => (prev <= 1 ? prev : prev - 1))}
+            onClick={() => updateAnswerSubmitPrev((prev) => (prev <= 1 ? prev : prev - 1))}
           >
             {type === "part" ? "Prev Part" : "Prev"}
           </Button>
@@ -45,7 +66,7 @@ export default function Pagination({
             className={classes.button}
             disabled={selected === pages ? true : false}
             onClick={() =>
-              setSelected((prev) => (prev >= pages ? prev : prev + 1))
+              updateAnswerSubmitNext((prev) => (prev >= pages ? prev : prev + 1))
             }
           >
             {type === "part" ? "Next Part" : "Next"}

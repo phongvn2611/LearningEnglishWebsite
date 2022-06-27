@@ -4,7 +4,7 @@ const { uploadImage } = require("../services/commonService");
 const {
     getQuestionByFileTestId,
     getQuestionTestById,
-    createQuestionTest
+    createQuestionTest,
 } = require("../services/questionTestService");
 
 //create question
@@ -36,7 +36,34 @@ exports.postQuestion = async (req, res) => {
   }
 };
 
-// //update question
+//create many question
+exports.postManyQuestion = async (req, res) => {
+  try {
+    const FileTestId = req.params.id;
+    //check if file existed
+    const file = await getFileTestById(FileTestId);
+    if (!file) {
+      return res.status(400).json({ message: "Error, Not found listen." });
+    }
+
+    //upload image, if it exists
+    // let imgUrl = null;
+    // if (Image) {      
+    //     imgUrl = await uploadImage(Image, 'english/test');
+    // }
+
+    // create question
+    for (let question of req.body) {
+    const { Content, Sentence, Image} = question;
+    await createQuestionTest({ FileTestId, Content, Sentence, Image});
+    }
+    return res.status(200).json({message: "Successfully."});
+  } catch (error) {
+    return res.status(503).json(error.message);
+  }
+};
+
+
 // exports.putQuestion = async (req, res) => {
 //   try {
 //     //check if question
@@ -95,8 +122,3 @@ exports.getByFileTestId = async (req, res) => {
     return res.status(503).json({ message: "Lỗi dịch vụ, thử lại sau" });
   }
 };
-
-//delete by questionid
-
-//delete by listenid
-

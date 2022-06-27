@@ -9,7 +9,7 @@ const AnswerTestModel = new Schema({
 
   Content: {
     type: String,
-    required: true,
+    default: null,
   },
 
   QuestionTestId: {

@@ -44,6 +44,12 @@ router.patch(
   checkAdmin,
   userController.unlockUser
 );
+router.patch(
+  "/delete-user/:user_id",
+  authentication,
+  checkAdmin,
+  userController.deleteUser
+);
 router.post("/add-user", authentication, checkAdmin, userController.addUser);
 router.post(
   "/edit-user/:user_id",

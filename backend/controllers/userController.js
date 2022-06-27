@@ -75,12 +75,12 @@ exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
     const user = await Users.findOne({ email });
-    if (!user)
+    if (!user || user.isLocked === -1)
       return res.status(400).json({ message: "This email does not exist" });
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch)
       return res.status(400).json({ message: "Password is incorrect" });
-    if (user.isLocked !== 0)
+    if (user.isLocked === 1)
       return res.status(400).json({ message: "Account is locked" });
 
     const refresh_token = createRefreshToken({ id: user._id });
@@ -286,6 +286,20 @@ exports.unlockUser = async (req, res) => {
       }
     );
     return res.status(200).json({ message: "Account has been unlocked" });
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
+};
+
+exports.deleteUser = async (req, res) => {
+  try {
+    await Users.findOneAndUpdate(
+      { _id: req.params.user_id },
+      {
+        isLocked: -1,
+      }
+    );
+    return res.status(200).json({ message: "Account has been deleted" });
   } catch (err) {
     return res.status(500).json({ message: err.message });
   }

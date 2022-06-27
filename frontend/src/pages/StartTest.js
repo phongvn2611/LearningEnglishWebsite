@@ -1,4 +1,14 @@
-import { Button, Container, Grid, Typography } from "@material-ui/core";
+import {
+  Button,
+  Container,
+  Grid,
+  Typography,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+} from "@material-ui/core";
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import QuestionBoard from "components/Test/QuestionBoard";
@@ -9,7 +19,7 @@ import useTitle from "hooks/useTitle";
 import Pagination from "components/Test/Pagination";
 import Timer from "components/Test/Timer";
 import testApi from "apis/testApi";
-import fileTestApi from "apis/fileTestApi";
+import submitTestApi from "apis/submitTestApi";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -57,10 +67,20 @@ const useStyles = makeStyles(() => ({
 export default function StartTestPage() {
   const classes = useStyles();
   const [state, setState] = useState(0);
+  const [openDialog, setOpenDialog] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [test, setTest] = useState('');
+  const [test, setTest] = useState("");
   const history = useHistory();
   const { id } = useParams();
+  const [submitAnswers1, setSubmitAnswers1] = useState([]);
+  const [submitAnswers2, setSubmitAnswers2] = useState([]);
+  const [submitAnswers3, setSubmitAnswers3] = useState([]);
+  const [submitAnswers4, setSubmitAnswers4] = useState([]);
+  const [submitAnswers5, setSubmitAnswers5] = useState([]);
+  const [submitAnswers6, setSubmitAnswers6] = useState([]);
+  const [submitAnswers7, setSubmitAnswers7] = useState([]);
+  const [submitId, setSubmitId] = useState("");
+
   useEffect(() => {
     (async function () {
       const res = await testApi.getTestById(id);
@@ -69,7 +89,30 @@ export default function StartTestPage() {
     return () => {};
   }, [id]);
 
-  
+  const createSubmit = async () => {
+    const resCheck = await submitTestApi.getSubmitByTest(id);
+    if (resCheck.data === null) {
+      const resSubmit = await submitTestApi.postSubmit(id);
+      setSubmitId(resSubmit.data._id);
+    } else {
+      setSubmitId(resCheck.data._id);
+    }
+    setState(1);
+  };
+
+  const handleOpenDialog = () => {
+    setOpenDialog(true);
+  };
+
+  const handleSubmitDialog = () => {
+    setOpenDialog(false);
+    setState(2);
+  };
+
+  const handleCancelDialog = () => {
+    setOpenDialog(false);
+  };
+
   useTitle("Test");
   return (
     <>
@@ -82,39 +125,66 @@ export default function StartTestPage() {
             <Typography className={classes.timeTotal} variant="h5">
               Total time: {test.Duration} minutes
             </Typography>
-            <Button onClick={() => setState(1)} className={classes.button}>
+            <Button onClick={() => createSubmit()} className={classes.button}>
               Start
             </Button>
           </Container>
         </div>
       ) : state === 1 ? (
-        <Grid container>
-          <Grid item lg={8} md={6} xs={12}>
-            <Container>
-              <Pagination
-                type={"part"}
-                pages={7}
-                setCurrentPage={setCurrentPage}
-              ></Pagination>
-              <Part testId={id} part={currentPage} />
-            </Container>
+        <div>
+          <Grid container>
+            <Grid item lg={8} md={6} xs={12}>
+              <Container>
+                <Pagination
+                  type={"part"}
+                  pages={7}
+                  setCurrentPage={setCurrentPage}
+                  submitId={submitId}
+                  submitAnswers1={submitAnswers1}
+                ></Pagination>
+                <Part
+                  part={currentPage}
+                  testId={id}
+                  submitId={submitId}
+                  setSubmitAnswers1={setSubmitAnswers1}
+                  setSubmitAnswers2={setSubmitAnswers2}
+                  setSubmitAnswers3={setSubmitAnswers3}
+                  setSubmitAnswers4={setSubmitAnswers4}
+                  setSubmitAnswers5={setSubmitAnswers5}
+                  setSubmitAnswers6={setSubmitAnswers6}
+                  setSubmitAnswers7={setSubmitAnswers7}
+                />
+              </Container>
+            </Grid>
+            <Grid item lg={4} md={6} xs={12}>
+              <div className="my-5 d-flex jus-content-around">
+                <Timer value={test.Duration * 60} setState={setState}></Timer>
+                <Button className={classes.button} onClick={handleOpenDialog}>
+                  Submit
+                </Button>
+              </div>
+              <QuestionBoard part={1} />
+              <QuestionBoard part={2} />
+              <QuestionBoard part={3} />
+              <QuestionBoard part={4} />
+              <QuestionBoard part={5} />
+              <QuestionBoard part={6} />
+              <QuestionBoard part={7} />
+            </Grid>
           </Grid>
-          <Grid item lg={4} md={6} xs={12}>
-            <div className="my-5 d-flex jus-content-around">
-              <Timer value={test.Duration * 60} setState={setState}></Timer>
-              <Button className={classes.button} onClick={() => setState(2)}>
-                Submit
-              </Button>
-            </div>
-            <QuestionBoard part={1} />
-            <QuestionBoard part={2} />
-            <QuestionBoard part={3} />
-            <QuestionBoard part={4} />
-            <QuestionBoard part={5} />
-            <QuestionBoard part={6} />
-            <QuestionBoard part={7} />
-          </Grid>
-        </Grid>
+          <Dialog open={openDialog} onClose={handleCancelDialog}>
+            <DialogTitle>Quit?</DialogTitle>
+            <DialogContent>
+              <DialogContentText>
+                Do you really want to quit this test?
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleCancelDialog}>Cancel</Button>
+              <Button onClick={handleSubmitDialog}>OK</Button>
+            </DialogActions>
+          </Dialog>
+        </div>
       ) : (
         <div className={classes.root}>
           <Container className={classes.container}>

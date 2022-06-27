@@ -6,5 +6,6 @@ const { authentication, authRole } = require('../middlewares/authenticationMiddl
 router.get('/get-questionTest-by-id/:id',authentication, questionTestController.getById);
 router.get('/get-questionTest-by-file/:id',authentication, questionTestController.getByFileTestId);
 router.post('/post-questionTest/:id', authentication, questionTestController.postQuestion);
+router.post('/post-many-questionTest/:id', authentication, questionTestController.postManyQuestion);
 
 module.exports = router;
