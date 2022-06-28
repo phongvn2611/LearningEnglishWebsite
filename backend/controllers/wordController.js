@@ -145,6 +145,7 @@ exports.getWordDetails = async (req, res, next) => {
   try {
     const { id } = req.query;
     const wordDetail = await getWordDetail(id);
+    //console.log(wordDetail)
     if (wordDetail) {
       return res.status(200).json(wordDetail);
     }

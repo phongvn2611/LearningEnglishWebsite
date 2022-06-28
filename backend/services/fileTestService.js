@@ -40,3 +40,12 @@ exports.getFileTestById = async (_id = '') => {
       throw error;
     }
   };
+
+  exports.getFileTestByFile = async (testId = '', part = '', file ='') => {
+    try {
+      const res = await FileTestModel.findOne({TestId: testId, Part: part, File: file});  
+      return res;
+    } catch (error) {
+      throw error;
+    }
+  };

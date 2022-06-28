@@ -10,7 +10,7 @@ import Pagination from "./Pagination";
 import fileTestApi from "apis/fileTestApi";
 import submitTestApi from "apis/submitTestApi";
 
-export default function Part2({ part, testId, submitId, setSubmitAnswers2 }) {
+export default function Part2({ part, testId, submitId, setSubmitAnswers2, list }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [partQuestions, setPartQuestions] = useState([]);
   const [submitList, setSubmitList] = useState([]);
@@ -42,8 +42,9 @@ const IsCheckedAnswer = (answerId) =>{
 
   useEffect(() => {
     (async function () {
-      const res = await fileTestApi.getAllQuestionsOfPart(testId, part);
-      setPartQuestions(res.data.Files[0]);
+      const res = await fileTestApi.getAllQuestionsOfFile(testId, part, currentPage);
+      setPartQuestions(res.data);
+      
     })();
     return () => {};
   }, [testId, part]);
@@ -72,7 +73,7 @@ const IsCheckedAnswer = (answerId) =>{
         partQuestions.Questions.map((question, index) => {
           return (
             <div key={index}>
-              <Typography>Question {question.Sentence}</Typography>
+              <Typography>{question.Sentence}.</Typography>
               <div>
                 <FormControl>
                   <RadioGroup

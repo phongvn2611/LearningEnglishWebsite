@@ -7,74 +7,131 @@ import {
   Radio,
 } from "@material-ui/core";
 import Pagination from "./Pagination";
+import submitTestApi from "apis/submitTestApi";
 import fileTestApi from "apis/fileTestApi";
 
-export default function Part7({testId, part}) {
+export default function Part7({part, testId, submitId, setSubmitAnswers7}) {
   const [currentPage, setCurrentPage] = useState(1);
   const [partQuestions, setPartQuestions] = useState([]);
+  const [submitList, setSubmitList] = useState([]);
+ 
+  const addAnswers = (answer) =>{
+    let checkExisted = submitList.some(item =>
+      answer.QuestionTestId === item.QuestionTestId
+    );
+
+    let newList = [];
+    if(checkExisted === true){
+      newList = submitList.filter(item => item.QuestionTestId !== answer.QuestionTestId);     
+    }
+    else{
+      newList = submitList;      
+    }
+    
+    newList.push(answer);
+    setSubmitList(newList);
+    setSubmitAnswers7(newList);    
+}
+
+const IsCheckedAnswer = (answerId) =>{
+  let checkedAnswer = submitList.some(item =>
+    answerId === item._id
+  );
+  return checkedAnswer;    
+}
 
   useEffect(() => {
     (async function () {
-      const res = await fileTestApi.getAllQuestionsOfPart(testId, part);
-      setPartQuestions(res.data.Files);
+      const res = await fileTestApi.getAllQuestionsOfFile(testId, part, currentPage);
+      // const indexOfLast = currentPage;
+      // const indexOfFirst = indexOfLast - 1;
+      setPartQuestions(res.data);
+    })();
+    return () => {};
+  }, [testId, part, currentPage]);
+
+  useEffect(() => {
+    (async function () {
+      const res = await submitTestApi.getSubmitById(submitId);
+      setSubmitList(res.data.AnswerTests7);
+      setSubmitAnswers7(res.data.AnswerTests7);
     })();
     return () => {};
   }, [testId, part]);
+
   return (
     <div>
       <Typography variant="h5">Part 7</Typography>
       <div>
+      {partQuestions?.Image && (
+     
         <img
-          src="https://images.unsplash.com/photo-1655387446055-13b6968d9150?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80"
-          alt="Girl in a jacket"
+          src={partQuestions.Image}          
+          alt=""
           width="500"
           height="300"
         />
+      
+      )}
+       {partQuestions?.Image2 && (
+     
+        <img
+          src={partQuestions.Image2}
+          alt=""
+          width="500"
+          height="300"
+        />
+    
+      )}
+       {partQuestions?.Image3 && (
+     
+        <img
+          src={partQuestions.Image3}
+          alt=""
+          width="500"
+          height="300"
+        />
+      
+      )}
       </div>
-      <div>
+        <div>
         <FormControl>
-          <div>
-            <Typography>Question 1</Typography>
-            <RadioGroup
-              aria-labelledby="demo-radio-buttons-group-label"
-              defaultValue="female"
-              name="radio-buttons-group"
-            >
-              <FormControlLabel value="a" control={<Radio />} label="A" />
-              <FormControlLabel value="b" control={<Radio />} label="B" />
-              <FormControlLabel value="c" control={<Radio />} label="C" />
-              <FormControlLabel value="d" control={<Radio />} label="D" />
-            </RadioGroup>
-          </div>
-          <div>
-            <Typography>Question 1</Typography>
-            <RadioGroup
-              aria-labelledby="demo-radio-buttons-group-label"
-              defaultValue="female"
-              name="radio-buttons-group"
-            >
-              <FormControlLabel value="a" control={<Radio />} label="A" />
-              <FormControlLabel value="b" control={<Radio />} label="B" />
-              <FormControlLabel value="c" control={<Radio />} label="C" />
-              <FormControlLabel value="d" control={<Radio />} label="D" />
-            </RadioGroup>
-          </div>
-          <div>
-            <Typography>Question 1</Typography>
-            <RadioGroup
-              aria-labelledby="demo-radio-buttons-group-label"
-              defaultValue="female"
-              name="radio-buttons-group"
-            >
-              <FormControlLabel value="a" control={<Radio />} label="A" />
-              <FormControlLabel value="b" control={<Radio />} label="B" />
-              <FormControlLabel value="c" control={<Radio />} label="C" />
-              <FormControlLabel value="d" control={<Radio />} label="D" />
-            </RadioGroup>
-          </div>
+          {partQuestions?.Questions &&
+            partQuestions?.Questions.map((question, index) => {
+              return (
+                <div key={index}>
+                  <Typography>{question.Sentence}. {question.Content}</Typography>
+                  <RadioGroup
+                    aria-labelledby="demo-radio-buttons-group-label"
+                    defaultValue="female"
+                    name="radio-buttons-group"
+                  >
+                    {question.Answers &&
+                      question.Answers.map((answer, index) => {
+                        return (
+                          <FormControlLabel
+                            key={index}
+                            value={answer.Sentence}
+                            control={<Radio
+                              onClick={()=>addAnswers(answer)}
+                              checked = {IsCheckedAnswer(answer._id)}
+                               />}
+                            label={answer.Content}
+                          />
+                        );
+                      })}
+                  </RadioGroup>
+                </div>
+              );
+            })}
         </FormControl>
       </div>
-      <Pagination pages={15} setCurrentPage={setCurrentPage}></Pagination>
+      <Pagination 
+        pages={15} 
+        setCurrentPage={setCurrentPage}
+        submitAnswers7={submitList}
+        submitId={submitId}>
+      </Pagination>
     </div>
   );
 }

@@ -123,6 +123,7 @@ exports.postIPA = async (req, res) => {
 exports.getById = async (req, res) => {
   try {
     const ipa = await IPAModel.findById(req.params.id);
+    //console.log(ipa)
     if (ipa) {
       return res.status(200).json(ipa);
     }

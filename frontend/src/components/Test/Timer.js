@@ -12,6 +12,22 @@ export default function Timer({ value, setState }) {
   });
   const [timer, setTimer] = useState(null);
 
+  // useEffect(() => {
+  //   window.sessionStorage.setItem("hours", time.hours);
+  //   window.sessionStorage.setItem("minutes", time.minutes);
+  //   window.sessionStorage.setItem("seconds", time.seconds);
+  // }, [time]);
+
+
+  // useEffect(() => {
+  //   const hours = JSON.parse(window.sessionStorage.getItem("hour", time.hours));
+  //   const minutes = JSON.parse(window.sessionStorage.getItem("minutes", time.minutes));
+  //   const seconds = JSON.parse(window.sessionStorage.getItem("seconds", time.seconds));
+  //   setTime({hours, minutes, seconds});
+  
+  // }, []);
+
+
   useEffect(() => {
     let myInterval = setInterval(() => {
       setTime((time) => {

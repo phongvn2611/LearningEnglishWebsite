@@ -11,7 +11,7 @@ const submitTestApi = {
     },
 
     putSubmit: (id, part, answer) => {
-        return axios.put(`${URL}/put-submitTest/${id}`, {part, answer})
+        return axios.put(`${URL}/put-submitTest/${id}`, {Part: part, AnswerTests: answer})
     },
 
     getSubmitById: (id) => {

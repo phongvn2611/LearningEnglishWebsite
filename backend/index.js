@@ -30,6 +30,7 @@ app.use(`${BASE_URL}/fileTest`, require('./routes/fileTestRouter'));
 app.use(`${BASE_URL}/questionTest`, require('./routes/questionTestRouter'));
 app.use(`${BASE_URL}/answerTest`, require('./routes/answerTestRouter'));
 app.use(`${BASE_URL}/submitTest`, require('./routes/submitTestRouter'));
+app.use(`${BASE_URL}/score`, require('./routes/scoreRouter'));
 
 const URI = process.env.MONGODB_URL;
 mongoose.connect(URI, {

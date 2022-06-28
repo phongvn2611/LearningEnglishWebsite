@@ -69,13 +69,6 @@ exports.getById = async (req, res, next) => {
 exports.getByQuestionTestId = async (req, res) => {
   try {
     const questionId = req.params.id;
-
-    // //check if question existed
-    // const question = await getQuestionTestById(fileId);
-    // if (!question) {
-    //   return res.status(400).json({ message: "Error, Not found quiz." });
-    // }
-
     //get answer of
     const answers = await getAnswerByQuestionTestId(questionId);
     // console.log(question)

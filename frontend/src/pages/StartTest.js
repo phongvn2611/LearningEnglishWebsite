@@ -69,6 +69,7 @@ export default function StartTestPage() {
   const [submitAnswers6, setSubmitAnswers6] = useState([]);
   const [submitAnswers7, setSubmitAnswers7] = useState([]);
   const [submitId, setSubmitId] = useState('');
+  const [submitItem, setSubmitItem] = useState(null);
 
   useEffect(() => {
     (async function () {
@@ -78,22 +79,85 @@ export default function StartTestPage() {
     return () => {};
   }, [id]);
 
+  useEffect(() => {
+    (async function () {
+      if(state === 2) {
+        const res = await submitTestApi.getSubmitByTest(id);
+        console.log(res.data)
+        setSubmitItem(res.data)
+      }
+    })();
+    return () => {};
+  }, [id]);
+
+ 
+
   const createSubmit = async () =>{   
     const resCheck = await submitTestApi.getSubmitByTest(id);
-    console.log(resCheck.data)
+    
     if(resCheck.data === null){
       const resSubmit = await submitTestApi.postSubmit(id);
-      console.log(resSubmit.data)
       setSubmitId(resSubmit.data._id);
+      setState(1);
+      return;
     }
-    else{
-      console.log(resCheck.data)
+    else{     
       setSubmitId(resCheck.data._id);
     }
-    setState(1); 
+    if(resCheck.data.IsFinish === true){
+      setSubmitItem(resCheck.data)
+      setState(2); 
+    }
+    else{
+      setState(1); 
+    }
   };
 
-  console.log(submitAnswers1)
+  const onSubmitTest = async () =>{  
+    if(currentPage === 1) {
+      const res =await submitTestApi.putSubmit(submitId, currentPage, submitAnswers1);
+      setSubmitItem(res.data)
+     
+    }
+
+    if(currentPage === 2) {
+      const res = await submitTestApi.putSubmit(submitId, currentPage, submitAnswers2);
+      setSubmitItem(res.data)
+     
+    }
+
+    if(currentPage === 3) {
+      const res = await submitTestApi.putSubmit(submitId, currentPage, submitAnswers3);
+     setSubmitItem(res.data)
+     
+    }
+
+    if(currentPage === 4) {
+      const res = await submitTestApi.putSubmit(submitId, currentPage, submitAnswers4);
+      setSubmitItem(res.data)
+      
+    }
+
+    if(currentPage === 5) {
+      const res = await submitTestApi.putSubmit(submitId, currentPage, submitAnswers5);
+      setSubmitItem(res.data)
+    }
+
+    if(currentPage === 6) {
+      const res = await submitTestApi.putSubmit(submitId, currentPage, submitAnswers6);
+       setSubmitItem(res.data)
+    }
+
+    if(currentPage === 7) {
+     const res = await submitTestApi.putSubmit(submitId, currentPage, submitAnswers7);
+     setSubmitItem(res.data)
+    }
+    
+    setState(2); 
+  };
+
+ 
+
   useTitle("Test");
   return (
     <>
@@ -121,6 +185,12 @@ export default function StartTestPage() {
                 setCurrentPage={setCurrentPage}
                 submitId={submitId}
                 submitAnswers1 ={submitAnswers1}
+                submitAnswers2 ={submitAnswers2}
+                submitAnswers3 ={submitAnswers3}
+                submitAnswers4 ={submitAnswers4}
+                submitAnswers5 ={submitAnswers5}
+                submitAnswers6 ={submitAnswers6}
+                submitAnswers7 ={submitAnswers7}
               ></Pagination>
               <Part 
               part={currentPage}
@@ -134,22 +204,24 @@ export default function StartTestPage() {
               setSubmitAnswers6={setSubmitAnswers6}
               setSubmitAnswers7={setSubmitAnswers7}
               />
+              
+              
             </Container>
           </Grid>
           <Grid item lg={4} md={6} xs={12}>
             <div className="my-5 d-flex jus-content-around">
               <Timer value={test.Duration * 60} setState={setState}></Timer>
-              <Button className={classes.button} onClick={() => setState(2)}>
+              <Button className={classes.button} onClick={() => onSubmitTest()}>
                 Submit
               </Button>
             </div>
-            <QuestionBoard part={1} />
+            {/* <QuestionBoard part={1} />
             <QuestionBoard part={2} />
             <QuestionBoard part={3} />
             <QuestionBoard part={4} />
             <QuestionBoard part={5} />
             <QuestionBoard part={6} />
-            <QuestionBoard part={7} />
+            <QuestionBoard part={7} /> */}
           </Grid>
         </Grid>
       ) : (
@@ -159,16 +231,16 @@ export default function StartTestPage() {
               Congrats
             </Typography>
             <Typography className={classes.timeTotal} variant="h5">
-              Total point: 990 points
+              Total point: {submitItem?.Score} points
             </Typography>
             <Typography className={classes.timeDetail} variant="body2">
-              Listening: 495 points
+              Listening: {submitItem?.ListenScore} points ({submitItem?.ListenSentences} sentences are correct)
             </Typography>
             <Typography className={classes.timeDetail} variant="body2">
-              Reading: 495 points
+              Reading: {submitItem?.ReadScore} points ({submitItem?.ReadSentences} sentences are correct)
             </Typography>
             <Button
-              onClick={() => history.replace(ROUTES.TEST)}
+              onClick={() =>history.replace(ROUTES.TEST)}
               className={classes.button}
             >
               Quay về

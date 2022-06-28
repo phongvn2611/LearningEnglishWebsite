@@ -34,9 +34,10 @@ const FileTestModel = new Schema({
     ref: 'test'
   },
 
-  // QuestionTests:[{
-  //   type: Schema.Types.Map
-  // }]
+  File: {
+    type: Number
+  },
+
 });
 
 module.exports = mongoose.model('fileTest', FileTestModel);

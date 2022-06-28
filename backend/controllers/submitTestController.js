@@ -14,13 +14,10 @@ exports.postSubmitTest = async (req, res) => {
     const UserId = req.user?.id;
 
     const StartTime = Date.now();
-
+    //console.log(TestId, StartTime,UserId )
     // create 
     const submitTest = await createSubmitTest({UserId, TestId, StartTime});
-    if (submitTest != null) {
       return res.status(200).json(submitTest);
-    }
-    return res.status(503).json({ message: "Error, can not create question." });
   } catch (error) {
     return res.status(503).json(error.message);
   }
@@ -31,7 +28,7 @@ exports.putAnswerSubmitTest = async (req, res) => {
   try {
     const SubmitTestId = req.params.id;
     const {Part, AnswerTests} = req.body
-    console.log({Part, AnswerTests})
+  
     // update 
     const submitTest = await updateAnswerSubmitTest(SubmitTestId, Part, AnswerTests);
 
@@ -44,19 +41,64 @@ exports.putAnswerSubmitTest = async (req, res) => {
   }
 };
 
+// //Add Answers in submitTest
+// exports.putAddAnswerSubmitTest = async (req, res) => {
+//   try {
+//     const SubmitTestId = req.params.id;
+//     const {Part, Answers, QuestionTestId} = req.body
+  
+//     //get submit test
+//     const getSubmit = await getSubmitTestById(SubmitTestId);
+//     //get answers of part
+//     let answers = [];
+//     if(Part === 3){
+//       const AnswerTests3 = getSubmit.body;
+//       answers = AnswerTests3.filter(item => item.QuestionTestId !== QuestionTestId);;
+//     }
+//     if(Part === 4){
+//       const AnswerTests4 = getSubmit.body;
+//       answers = AnswerTests4.filter(item => item.QuestionTestId !== QuestionTestId);;
+//     }
+//     if(Part === 6){
+//       const AnswerTests6 = getSubmit.body;
+//       answers = AnswerTests6.filter(item => item.QuestionTestId !== QuestionTestId);;
+//     }
+//     if(Part === 7){
+//       const AnswerTests7 = getSubmit.body;
+//       answers = AnswerTests7.filter(item => item.QuestionTestId !== QuestionTestId);
+//     }
+
+//     //update answers of part
+
+//     // update 
+//     const submitTest = await updateAnswerSubmitTest(SubmitTestId, Part, AnswerTests);
+
+//     if (submitTest != null) {
+//       return res.status(200).json({ data: submitTest });
+//     }
+
+//   } catch (error) {
+//     return res.status(503).json(error.message);
+//   }
+// };
+
 
 //update submitTest
 exports.putSubmitTest = async (req, res) => {
     try {
       const SubmitTestId = req.params.id;
-      const FinishTime = Date.UTC();
-      const AnswerTests = req.body;
-
-      // update 
-      const submitTest = await updateSubmitTest(SubmitTestId, {FinishTime, AnswerTests });
+      const FinishTime = Date.now();
+      const IsFinish = true;
+      const {Part, AnswerTests} = req.body
+     
+      // update answers of part
+      await updateAnswerSubmitTest(SubmitTestId, Part, AnswerTests);
+     
+      //update score of submit
+      const submitTest = await updateSubmitTest(SubmitTestId, {FinishTime, IsFinish });
   
       if (submitTest != null) {
-        return res.status(200).json({ data: submitTest });
+        return res.status(200).json(submitTest);
       }
       return res.status(503).json({ message: "Error, can not create question." });
     } catch (error) {
@@ -95,7 +137,7 @@ exports.checkSubmitExist = async (req, res, next) => {
     const userId = req.user?.id;
 
     const data = await checkSubmitExisted(testId, userId);
-    console.log(data);
+
     return res.status(200).json(data);
   } catch (error) {
     return res.status(503).json(error.message);

@@ -42,8 +42,8 @@ const IsCheckedAnswer = (answerId) =>{
 
   useEffect(() => {
     (async function () {
-      const res = await fileTestApi.getAllQuestionsOfPart(testId, part);
-      setPartQuestions(res.data.Files[0]);
+      const res = await fileTestApi.getAllQuestionsOfFile(testId, part, currentPage);
+      setPartQuestions(res.data);
     })();
     return () => {};
   }, [testId, part]);
@@ -69,11 +69,19 @@ const IsCheckedAnswer = (answerId) =>{
           </audio>
         </div>
       )}
+
+      {partQuestions?.Image && (
+            <div>
+              <img src={partQuestions.Image} alt="" width="500" height="300" />         
+            </div>
+      
+      )}
+
       {partQuestions.Questions &&
         partQuestions.Questions.map((question, index) => {
           return (
             <div key={index}>
-              <Typography>Question {question.Sentence}</Typography>
+              <Typography>{question.Sentence}.</Typography>
               <div>
                 <img src={question.Image} alt="" width="500" height="300" />
               </div>

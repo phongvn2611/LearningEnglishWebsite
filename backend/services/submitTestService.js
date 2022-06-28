@@ -1,11 +1,11 @@
 const SubmitTestModel = require("../models/Test/submitTestModel");
 const AnswerTestModel = require("../models/Test/answerTestModel");
-const ScoreModel = require("../models/Test/scoreModel");
-const submitTestModel = require("../models/Test/submitTestModel");
+const ScoreListenModel = require("../models/Test/scoreListenModel");
+const ScoreReadModel = require("../models/Test/scoreReadModel");
 
 exports.createSubmitTest = async (body) => {
   try {
-    const newSubmit = await submitTestModel.create({ ...body });
+    const newSubmit = await SubmitTestModel.create({ ...body });
 
     if (newSubmit) {
       return newSubmit;
@@ -19,7 +19,7 @@ exports.createSubmitTest = async (body) => {
 exports.updateAnswerSubmitTest = async (id, part, body) => {
   try {
     let submitTest;
-    console.log(body)
+   
     if(part === 1) {
       submitTest = await SubmitTestModel.findByIdAndUpdate(id, 
         { 
@@ -74,35 +74,65 @@ exports.updateAnswerSubmitTest = async (id, part, body) => {
 exports.updateSubmitTest = async (id, body) => {
     try {
       let submitTest = await SubmitTestModel.findByIdAndUpdate(id, { ...body });
-
-      //get sentences of listening and reading
-      const listenSentences= await AnswerTestModel.find({
-        SubmitTest: id, IsListening: true
-      })
-      const readSentences= await AnswerTestModel.find({
-        SubmitTest: id, IsListening: false
-      })
-
-      const sentencesListen = listenSentences.length + 1;
-      const sentencesRead = readSentences.length + 1;
-
-
-      const listenScore = await ScoreModel.findOne({
-       Score: sentencesListen
+    
+      let lstAnswerListenCorrect = [];
+      submitTest.AnswerTests1.map((item, index) => {
+      
+        lstAnswerListenCorrect.push(item.toJSON());
+    
       });
-      //calculate score of listening and reading
-      const readScore = await ScoretModel.findOne({
-        Score: sentencesRead
+   
+      for(let item of submitTest.AnswerTests2){
+        lstAnswerListenCorrect.push(item.toJSON());
+       
+      }
+     
+      for(let item of submitTest.AnswerTests3){
+        lstAnswerListenCorrect.push(item.toJSON());
+      }
+     
+      for(let item of submitTest.AnswerTests4){
+        lstAnswerListenCorrect.push(item.toJSON());
+      }
+     
+      let lstAnswerReadCorrect = [];
+      for(let item of submitTest.AnswerTests5){
+        lstAnswerReadCorrect.push(item.toJSON());
+      }
+     
+      for(let item of submitTest.AnswerTests6){
+        lstAnswerReadCorrect.push(item.toJSON());
+      }
+     
+      for(let item of submitTest.AnswerTests7){
+        lstAnswerReadCorrect.push(item.toJSON());
+      }
+   
+      //get sentences are correct
+      const sentencesListen = lstAnswerListenCorrect.filter(item =>
+        item.IsCorrect === true);
+      const sentencesRead = lstAnswerReadCorrect.filter(item =>
+                                      item.IsCorrect === true);
+
+    //calculate score of listening and reading
+      const listenScore = await ScoreListenModel.findOne({
+        Sentences: sentencesListen.length
+      });
+     
+      const readScore = await ScoreReadModel.findOne({
+        Sentences: sentencesRead.length
       });
 
       //calculate score
-      const Score = listenScore + readScore;
+      const Score = listenScore.Score + readScore.Score;
 
       //update SubmitTest
       submitTest = await SubmitTestModel.findByIdAndUpdate(id, 
         { 
-            ListenScore: listenScore,
-            ReadScore: readScore,
+            ListenSentences: sentencesListen.length,
+            ReadSentences: sentencesRead.length,
+            ListenScore: listenScore.Score,
+            ReadScore: readScore.Score,
             Score: Score 
         });
 
