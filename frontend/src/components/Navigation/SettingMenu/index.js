@@ -8,10 +8,10 @@ import SettingModal from "../Settings/Modal";
 import { ROUTES } from "../../../constants";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import useStyle from "./style";
 import { useSelector } from "react-redux";
 import HomeIcon from '@material-ui/icons/Home'
+import { Link } from "react-router-dom";
 function SettingMenu({ anchorEl, onClose }) {
   const classes = useStyle();
   const { isAuth, role } = useSelector((state) => state.authReducer);
@@ -32,12 +32,12 @@ function SettingMenu({ anchorEl, onClose }) {
             vertical: "bottom",
           }}
         >
-          <a href={ROUTES.PROFILE}>
+          <Link to={ROUTES.PROFILE}>
             <MenuItem className={classes.menuItem}>
               <AccountCircleIcon className={classes.icon} fontSize="small" />
               <p className={classes.text}>Thông tin cá nhân</p>
             </MenuItem>
-          </a>
+          </Link>
           {window.location.href.includes('admin') ? (
            <a href={ROUTES.HOME}>
               <MenuItem className={classes.menuItem}>

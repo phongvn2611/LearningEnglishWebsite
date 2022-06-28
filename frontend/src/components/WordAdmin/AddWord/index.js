@@ -350,7 +350,7 @@ function WordContribution({ onSubmitForm, submitting }) {
             color="secondary"
             endIcon={<ResetIcon />}
             variant="outlined"
-            onClick={() => history.push("/admin/word")}
+            onClick={() => history.replace("/admin/word")}
           >
             Quay lại
           </Button>

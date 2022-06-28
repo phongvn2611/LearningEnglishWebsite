@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-//const QuestionTest = require('./test/questionTestModel.model');
 
 const FileTestModel = new Schema({
   Content: {
@@ -34,9 +33,10 @@ const FileTestModel = new Schema({
     ref: 'test'
   },
 
-  // QuestionTests:[{
-  //   type: Schema.Types.Map
-  // }]
+  File: {
+    type: Number
+  },
+
 });
 
 module.exports = mongoose.model('fileTest', FileTestModel);

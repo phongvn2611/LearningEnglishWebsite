@@ -8,7 +8,7 @@ listenApi.get('/get-listening/:id',authentication, listenController.getListening
 listenApi.get('/get-all-listen',authentication, listenController.getAll);
 listenApi.post('/post-listen', authentication, listenController.postListening);
 listenApi.put('/put-listen/:id', authentication, listenController.putListen);
-listenApi.delete('/delete-listen/:id', authentication, listenController.deleteListen);
+listenApi.patch('/delete-listen/:id', authentication, listenController.deleteListen);
 listenApi.get('/get-listen-topics', authentication, listenController.getByTopic);
 listenApi.get('/get-listen-by-id/:id',authentication, listenController.getDetails);
 listenApi.get('/search-listen', authentication, listenController.getSearchListen);

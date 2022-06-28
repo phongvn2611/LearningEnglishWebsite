@@ -42,7 +42,7 @@ const listeningApi = {
   },
 
   deleteListen: (id) => {
-    return axios.delete(`${URL}/delete-listen/${id}`)
+    return axios.patch(`${URL}/delete-listen/${id}`)
   },
 }
 

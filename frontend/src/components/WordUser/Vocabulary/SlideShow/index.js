@@ -26,6 +26,7 @@ function SlideShow({
       setCurrent(current + 1);
   };
 
+
   return (
     <div className={`${classes.wrapper} flex-center--ver position-rel`}>
       {list && list.length > 0 ? (

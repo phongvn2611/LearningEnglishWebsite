@@ -84,6 +84,10 @@ const WordModel = new Schema({
     type: Boolean,
     default: false,
   },
+  isLocked: {
+    type: Number,
+    default: 0,
+  }
 });
 
 module.exports = mongoose.model('Word', WordModel);

@@ -44,7 +44,7 @@ const grammarApi = {
   },
 
   deleteGrammar: (id) => {
-    return axios.delete(`${URL}/delete-grammar/${id}`)
+    return axios.patch(`${URL}/delete-grammar/${id}`)
   },
 
   searchGrammar: (title) => {

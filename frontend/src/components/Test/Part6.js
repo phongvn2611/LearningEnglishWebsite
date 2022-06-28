@@ -13,9 +13,8 @@ import submitTestApi from "apis/submitTestApi";
 export default function Part6({part, testId, submitId, setSubmitAnswers6}) {
   const [currentPage, setCurrentPage] = useState(1);
   const [partQuestions, setPartQuestions] = useState([]);
-
   const [submitList, setSubmitList] = useState([]);
- 
+
   const addAnswers = (answer) =>{
     let checkExisted = submitList.some(item =>
       answer.QuestionTestId === item.QuestionTestId
@@ -43,10 +42,10 @@ const IsCheckedAnswer = (answerId) =>{
 
   useEffect(() => {
     (async function () {
-      const res = await fileTestApi.getAllQuestionsOfPart(testId, part);
-      const indexOfLast = currentPage;
-      const indexOfFirst = indexOfLast - 1;
-      setPartQuestions(res.data.Files.slice(indexOfFirst, indexOfLast));
+      const res = await fileTestApi.getAllQuestionsOfFile(testId, part, currentPage);
+      // const indexOfLast = currentPage;
+      // const indexOfFirst = indexOfLast - 1;
+      setPartQuestions(res.data);
     })();
     return () => {};
   }, [testId, part, currentPage]);
@@ -54,31 +53,31 @@ const IsCheckedAnswer = (answerId) =>{
   useEffect(() => {
     (async function () {
       const res = await submitTestApi.getSubmitById(submitId);
-      setSubmitList(res.data.AnswerTests3);
-      setSubmitAnswers6(res.data.AnswerTests3);
+      setSubmitList(res.data.AnswerTests6);
+      setSubmitAnswers6(res.data.AnswerTests6);
     })();
     return () => {};
   }, [testId, part]);
+
+  console.log(currentPage)
   return (
     <div>
       <Typography variant="h5">Part 6</Typography>
-      {partQuestions[0]?.Image && (
-        <div>
+      <div>
         <img
-          src={partQuestions[0]?.Image}
+          src= {partQuestions?.Image}
           alt="Girl in a jacket"
           width="500"
           height="300"
         />
       </div>
-      )}
       <div>
         <FormControl>
-          {partQuestions[0]?.Questions &&
-            partQuestions[0]?.Questions.map((question, index) => {
+          {partQuestions?.Questions &&
+            partQuestions?.Questions.map((question, index) => {
               return (
                 <div key={index}>
-                  <Typography>Question {question.Sentence}</Typography>
+                  <Typography>{question.Sentence}</Typography>
                   <RadioGroup
                     aria-labelledby="demo-radio-buttons-group-label"
                     defaultValue="female"
@@ -90,10 +89,10 @@ const IsCheckedAnswer = (answerId) =>{
                           <FormControlLabel
                             key={index}
                             value={answer.Sentence}
-                            control={<Radio 
+                            control={<Radio
                               onClick={()=>addAnswers(answer)}
                               checked = {IsCheckedAnswer(answer._id)}
-                            />}
+                               />}
                             label={answer.Content}
                           />
                         );
@@ -104,7 +103,12 @@ const IsCheckedAnswer = (answerId) =>{
             })}
         </FormControl>
       </div>
-      <Pagination pages={4} setCurrentPage={setCurrentPage}></Pagination>
+      <Pagination 
+        pages={4} 
+        setCurrentPage={setCurrentPage}
+        submitAnswers6={submitList}
+        submitId={submitId}>
+      </Pagination>
     </div>
   );
 }

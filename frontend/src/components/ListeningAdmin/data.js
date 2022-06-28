@@ -1,15 +1,14 @@
-import listeningApi from 'apis/listeningApi';
-import ListeningDetailModal from 'components/UI/ListeningDetailModal';
-import { equalArray } from 'helper';
-import React, { useEffect, useRef, useState } from 'react';
-import ListeningAdmin from './index';
-
+import listeningApi from "apis/listeningApi";
+import ListeningDetailModal from "components/UI/ListeningDetailModal";
+import { equalArray } from "helper";
+import React, { useEffect, useRef, useState } from "react";
+import ListeningAdmin from "./index";
 
 function ListeningAdminData() {
   const [page, setPage] = useState(1);
-  const [sortType, setSortType] = useState('Newest');
+  const [sortType, setSortType] = useState("Newest");
   const [packInfo, setPackInfo] = useState(() => ({
-    topic: 'All',
+    topic: "All",
   }));
   const [loading, setLoading] = useState(true);
   const [list, setList] = useState([]);
@@ -29,7 +28,7 @@ function ListeningAdminData() {
   const settingWordPack = (info) => {
     // check old pack vs new pack
     let isEqual = true;
-    if (packInfo!== 'topic' && packInfo.topic !== info.topic) {
+    if (packInfo !== "topic" && packInfo.topic !== info.topic) {
       isEqual = false;
     }
     if (isEqual) isEqual = equalArray(packInfo.topic, info.topic);
@@ -42,8 +41,7 @@ function ListeningAdminData() {
     setPage(1);
   };
 
-
-  const onSortTypeChange = (type = 'Newest') => {
+  const onSortTypeChange = (type = "Newest") => {
     if (type === sortType) return;
     preSearchList.current = [];
     setSortType(type);
@@ -53,20 +51,19 @@ function ListeningAdminData() {
 
   const onSearchWord = async (name) => {
     try {
-      if (name === '') {
+      if (name === "") {
         setList(preSearchList.current);
         setMore(true);
         return;
       }
       const apiRes = await listeningApi.searchListen(name);
       if (apiRes.status === 200) {
-       // const { packList = [] } = apiRes.data.listens;
+        // const { packList = [] } = apiRes.data.listens;
         setList(apiRes.data.listens);
         setMore(false);
       }
     } catch (error) {}
   };
-
 
   // get word pack
   useEffect(() => {
@@ -74,16 +71,19 @@ function ListeningAdminData() {
     (async function () {
       try {
         setLoading(true);
-       let apiRes = null
-         if(packInfo.topic ==='All'){
-           apiRes = await listeningApi.getAllListen(sortType);
-         }
-         else{
-          apiRes = await listeningApi.getListenByTopic(packInfo.topic, sortType);
-       }
+        let apiRes = null;
+        if (packInfo.topic === "All") {
+          apiRes = await listeningApi.getAllListen(sortType);
+        } else {
+          apiRes = await listeningApi.getListenByTopic(
+            packInfo.topic,
+            sortType
+          );
+        }
         if (apiRes && isSub) {
-         // const { packList = [] } = apiRes.data.listens;
-          const newList = apiRes.data.listens;
+          const newList = apiRes.data.listens.filter((item) => {
+            return item.isLocked === 0
+          })
           preSearchList.current = newList;
           setList(newList);
         }
@@ -108,8 +108,8 @@ function ListeningAdminData() {
         more={more}
         isFirstLoad={isFirstLoad}
         onSettingWordPack={settingWordPack}
-         onSortTypeChange={onSortTypeChange}
-         onSearchWord={onSearchWord}
+        onSortTypeChange={onSortTypeChange}
+        onSearchWord={onSearchWord}
       />
       <ListeningDetailModal />
     </>

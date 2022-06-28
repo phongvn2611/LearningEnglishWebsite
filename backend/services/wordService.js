@@ -1,5 +1,5 @@
-const WordModel = require('../models/wordModel');
-const { convertPackInfoToQueryStr } = require('../helpers/wordpackHelper');
+const WordModel = require("../models/wordModel");
+const { convertPackInfoToQueryStr } = require("../helpers/wordpackHelper");
 
 exports.createNewWord = async (wordInfo) => {
   try {
@@ -14,34 +14,32 @@ exports.createNewWord = async (wordInfo) => {
   }
 };
 
-exports.updateWord = async (_id='', wordInfo) => {
+exports.updateWord = async (_id = "", wordInfo) => {
   try {
-    const updateWord= await WordModel.findByIdAndUpdate(_id, wordInfo);
-  
-  if (updateWord) {
-    return updateWord;
-  }
-  return null;
-}
-  catch (error) {
+    const updateWord = await WordModel.findByIdAndUpdate(_id, wordInfo);
+
+    if (updateWord) {
+      return updateWord;
+    }
+    return null;
+  } catch (error) {
     throw error;
   }
 };
 
-exports.getIdByWord = async (word = '') => {
+exports.getIdByWord = async (word = "") => {
   try {
-    var query = new RegExp( `^${word}.*`,'gi');
-    const id = await WordModel.findOne({Word: query})
-                  .select('-_id');   
+    var query = new RegExp(`^${word}.*`, "gi");
+    const id = await WordModel.findOne({ Word: query }).select("-_id");
     return id;
   } catch (error) {
     throw error;
   }
 };
 
-exports.searchWord = async (word = '', limit = 50, select = '') => {
+exports.searchWord = async (word = "", limit = 50, select = "") => {
   try {
-    const regex = new RegExp(`^${word}.*`, 'gi');
+    const regex = new RegExp(`^${word}.*`, "gi");
     const list = await WordModel.find({ word: regex })
       .limit(limit)
       .select(select);
@@ -53,8 +51,9 @@ exports.searchWord = async (word = '', limit = 50, select = '') => {
 
 exports.getAllWords = async () => {
   try {
-    const list = await WordModel.find({})
-                  .select('-_id Type Word Mean Phonetic Picture');   
+    const list = await WordModel.find({}).select(
+      "-_id Type Word Mean Phonetic Picture"
+    );
     return list;
   } catch (error) {
     throw error;
@@ -73,7 +72,7 @@ exports.getWordDetail = async (id) => {
 
 exports.getWordByWord = async (word) => {
   try {
-    const res = await WordModel.findOne({word: word});
+    const res = await WordModel.findOne({ word: word });
 
     return res;
   } catch (error) {
@@ -81,9 +80,7 @@ exports.getWordByWord = async (word) => {
   }
 };
 
-
-
-exports.deleteWord = async (word = '', type='') => {
+exports.deleteWord = async (word = "", type = "") => {
   try {
     const isExist = await WordModel.findOne({ word, type });
     const res = await WordModel.findByIdAndDelete(isExist._id);
@@ -96,7 +93,6 @@ exports.deleteWord = async (word = '', type='') => {
   }
 };
 
-
 exports.getFavoriteList = async (rawFavorites = []) => {
   try {
     if (!Array.isArray(rawFavorites) || rawFavorites.length === 0) {
@@ -105,9 +101,9 @@ exports.getFavoriteList = async (rawFavorites = []) => {
 
     let list = [];
     for (let word of rawFavorites) {
-      const regex = new RegExp(`^${word}.*`, 'gi');
-      const wordDetails = await WordModel.findOne({ Word: regex })
-      .select('-_id type word mean phonetic picture',
+      const regex = new RegExp(`^${word}.*`, "gi");
+      const wordDetails = await WordModel.findOne({ Word: regex }).select(
+        "-_id type word mean phonetic picture"
       );
       if (wordDetails) {
         list.push(wordDetails);
@@ -122,11 +118,11 @@ exports.getFavoriteList = async (rawFavorites = []) => {
 
 exports.getWordByTopic = async (topic) => {
   try {
-     // var query = new RegExp( `^${topic}.*`,'gi');
-      const list = await WordModel.find({Topics: topic}); 
-      if(list.length == 0){
-        return null;
-      } 
+    // var query = new RegExp( `^${topic}.*`,'gi');
+    const list = await WordModel.find({ Topics: topic });
+    if (list.length == 0) {
+      return null;
+    }
     return list;
   } catch (error) {
     throw error;
@@ -135,10 +131,10 @@ exports.getWordByTopic = async (topic) => {
 
 exports.getWordTopics = async () => {
   try {
-      const list = await WordModel.distinct('Topics');
-      if(list.length == 0){
-        return null;
-      }
+    const list = await WordModel.distinct("Topics");
+    if (list.length == 0) {
+      return null;
+    }
     return list;
   } catch (error) {
     throw error;
@@ -146,14 +142,14 @@ exports.getWordTopics = async () => {
 };
 
 exports.getWordTopicByPage = async (
-  topic = '',
+  topic = "",
   skip = 0,
   limit = 1000,
-  select = '',
+  select = ""
 ) => {
   try {
-   // let query = convertPackInfoToQueryStr(packInfo);
-    const packList = await WordModel.find({topics: topic})
+    // let query = convertPackInfoToQueryStr(packInfo);
+    const packList = await WordModel.find({ topics: topic })
       .skip(skip)
       .limit(limit)
       .select(select);
@@ -164,4 +160,3 @@ exports.getWordTopicByPage = async (
     throw error;
   }
 };
-

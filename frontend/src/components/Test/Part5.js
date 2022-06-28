@@ -39,13 +39,16 @@ const IsCheckedAnswer = (answerId) =>{
   );
   return checkedAnswer;    
 }
-  useEffect(() => {
-    (async function () {
-      const res = await fileTestApi.getAllQuestionsOfPart(testId, part);
-      setPartQuestions(res.data.Files[0]);
-    })();
-    return () => {};
-  }, [testId, part]);
+useEffect(() => {
+  (async function () {
+    const res = await fileTestApi.getAllQuestionsOfFile(testId, part, currentPage);
+    // const indexOfLast = currentPage;
+    // const indexOfFirst = indexOfLast - 1;
+    setPartQuestions(res.data);
+  })();
+  return () => {};
+}, [testId, part, currentPage]);
+
 
   useEffect(() => {
     (async function () {
@@ -59,26 +62,45 @@ const IsCheckedAnswer = (answerId) =>{
   return (
     <div>
       <Typography variant="h5">Part 5</Typography>
-      <Typography>Question 1</Typography>
+      <Typography>{}</Typography>
       <div>
         <FormControl>
-          <RadioGroup
-            aria-labelledby="demo-radio-buttons-group-label"
-            defaultValue="female"
-            name="radio-buttons-group"
-          >
-            <FormControlLabel value="a" control={<Radio  
-                             />} label="A" />
-            <FormControlLabel value="b" control={<Radio 
-                               />} label="B" />
-            <FormControlLabel value="c" control={<Radio 
-                               />} label="C" />
-            <FormControlLabel value="d" control={<Radio 
-                              />} label="D" />
-          </RadioGroup>
+          {partQuestions?.Questions &&
+            partQuestions?.Questions.map((question, index) => {
+              return (
+                <div key={index}>
+                  <Typography>{question.Sentence}. {question.Content}</Typography>
+                  <RadioGroup
+                    aria-labelledby="demo-radio-buttons-group-label"
+                    defaultValue="female"
+                    name="radio-buttons-group"
+                  >
+                    {question.Answers &&
+                      question.Answers.map((answer, index) => {
+                        return (
+                          <FormControlLabel
+                            key={index}
+                            value={answer.Sentence}
+                            control={<Radio
+                              onClick={()=>addAnswers(answer)}
+                              checked = {IsCheckedAnswer(answer._id)}
+                               />}
+                            label={answer.Content}
+                          />
+                        );
+                      })}
+                  </RadioGroup>
+                </div>
+              );
+            })}
         </FormControl>
       </div>
-      <Pagination pages={30} setCurrentPage={setCurrentPage}></Pagination>
+      <Pagination 
+        pages={30} 
+        setCurrentPage={setCurrentPage}
+        submitAnswers5={submitList}
+        submitId={submitId}>
+      </Pagination>
     </div>
   );
 }

@@ -41,10 +41,12 @@ const IsCheckedAnswer = (answerId) =>{
 }
   useEffect(() => {
     (async function () {
-      const res = await fileTestApi.getAllQuestionsOfPart(testId, part);
-      const indexOfLast = currentPage;
-      const indexOfFirst = indexOfLast - 1;
-      setPartQuestions(res.data.Files.slice(indexOfFirst, indexOfLast));
+      const res = await fileTestApi.getAllQuestionsOfFile(testId, part, currentPage);
+      // const indexOfLast = currentPage;
+      // const indexOfFirst = indexOfLast - 1;
+      setPartQuestions(res.data);
+    
+      console.log(res.data)
     })();
     return () => {};
   }, [testId, part, currentPage]);
@@ -58,24 +60,32 @@ const IsCheckedAnswer = (answerId) =>{
     return () => {};
   }, [testId, part]);
 
+  console.log(submitList)
   return (
     <div>
       <Typography variant="h5">Part 3</Typography>
-      {partQuestions[0]?.Audio && (
+      {partQuestions?.Audio && (
         <div>
           <audio controls>
-            <source src={partQuestions[0]?.Audio} type="audio/mpeg" />
+            <source src={partQuestions?.Audio} type="audio/mpeg" />
             Your browser does not support the audio element.
           </audio>
         </div>
-      )}
+   )}
+   
+    {partQuestions?.Image && (
+      <div>
+        <img src={partQuestions.Image} alt="" width="500" height="300" />         
+      </div>
+    )}
+   
       <div>
         <FormControl>
-          {partQuestions[0]?.Questions &&
-            partQuestions[0]?.Questions.map((question, index) => {
+          {partQuestions?.Questions &&
+            partQuestions?.Questions.map((question, index) => {
               return (
                 <div key={index}>
-                  <Typography>Question {question.Sentence}</Typography>
+                  <Typography>{question.Sentence}. {question.Content}</Typography>
                   <RadioGroup
                     aria-labelledby="demo-radio-buttons-group-label"
                     defaultValue="female"
@@ -101,7 +111,13 @@ const IsCheckedAnswer = (answerId) =>{
             })}
         </FormControl>
       </div>
-      <Pagination pages={13} setCurrentPage={setCurrentPage}></Pagination>
+      <Pagination 
+        pages={13} 
+        setCurrentPage={setCurrentPage}
+        submitAnswers3={submitList}
+        submitId={submitId}>
+
+        </Pagination>
     </div>
   );
 }

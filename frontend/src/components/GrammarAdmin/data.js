@@ -1,14 +1,13 @@
-import grammarApi from 'apis/grammarApi';
-import GrammarDetailModal from 'components/UI/GrammarDetailModal';
-import { equalArray } from 'helper';
-import React, { useEffect, useRef, useState } from 'react';
-import GrammarAdmin from './index';
-
+import grammarApi from "apis/grammarApi";
+import GrammarDetailModal from "components/UI/GrammarDetailModal";
+import { equalArray } from "helper";
+import React, { useEffect, useRef, useState } from "react";
+import GrammarAdmin from "./index";
 
 function ListeningAdminData() {
   const [page, setPage] = useState(1);
   const [packInfo, setPackInfo] = useState(() => ({
-    level: 'All',
+    level: "All",
   }));
   const [loading, setLoading] = useState(true);
   const [list, setList] = useState([]);
@@ -16,7 +15,6 @@ function ListeningAdminData() {
   const [isFirstLoad, setIsFirstLoad] = useState(true);
   const totalPage = useRef(0);
   const preSearchList = useRef([]);
-
 
   const nextPage = () => {
     if (page < totalPage.current) {
@@ -29,7 +27,7 @@ function ListeningAdminData() {
   const settingWordPack = (info) => {
     // check old pack vs new pack
     let isEqual = true;
-    if (packInfo!== 'level' && packInfo.level !== info.level) {
+    if (packInfo !== "level" && packInfo.level !== info.level) {
       isEqual = false;
     }
     if (isEqual) isEqual = equalArray(packInfo.level, info.level);
@@ -44,7 +42,7 @@ function ListeningAdminData() {
 
   const onSearchWord = async (title) => {
     try {
-      if (title === '') {
+      if (title === "") {
         setList(preSearchList.current);
         setMore(true);
         return;
@@ -58,25 +56,23 @@ function ListeningAdminData() {
     } catch (error) {}
   };
 
-
   // get word pack
   useEffect(() => {
     let isSub = true;
     (async function () {
       try {
-
         console.log(packInfo);
         setLoading(true);
-       let apiRes = null
-         if(packInfo.level ==='All'){
-           apiRes = await grammarApi.getAllGrammar();
-         }
-         else{
+        let apiRes = null;
+        if (packInfo.level === "All") {
+          apiRes = await grammarApi.getAllGrammar();
+        } else {
           apiRes = await grammarApi.getGrammarByLevel(packInfo.level);
-       }
+        }
         if (apiRes && isSub) {
-          const newList = apiRes.data.grammars;
-          console.log(apiRes.data.grammars)
+          const newList = apiRes.data.grammars.filter((item) => {
+            return item.isLocked === 0
+          })
           preSearchList.current = newList;
           setList(newList);
         }
@@ -101,7 +97,7 @@ function ListeningAdminData() {
         more={more}
         isFirstLoad={isFirstLoad}
         onSettingWordPack={settingWordPack}
-         onSearchWord={onSearchWord}
+        onSearchWord={onSearchWord}
       />
       <GrammarDetailModal />
     </>

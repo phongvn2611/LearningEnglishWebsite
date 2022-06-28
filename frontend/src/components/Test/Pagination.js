@@ -21,30 +21,108 @@ export default function Pagination({
   pages,
   setCurrentPage,
   submitId,
-  submitAnswers1
+  submitAnswers1,
+  submitAnswers2,
+  submitAnswers3,
+  submitAnswers4,
+  submitAnswers5,
+  submitAnswers6,
+  submitAnswers7
 }) {
 
   const classes = useStyles();
   const [selected, setSelected] = useState(1);
-
+ 
 
   useEffect(() => {
     setCurrentPage(selected);
   }, [selected]);
  
-  console.log(submitId)
+
   const updateAnswerSubmitPrev = async (value) =>{  
     if(selected === 1){ 
-      const resUpdate = await submitTestApi.putAnswerSubmit(submitId, {Part : selected, AnswerTests: submitAnswers1});   
+      await submitTestApi.putAnswerSubmit(submitId, {Part : selected, AnswerTests: submitAnswers1});   
+      setSelected(value);
+      return;
     }
+    if(selected === 2){ 
+      await submitTestApi.putAnswerSubmit(submitId, {Part : selected, AnswerTests: submitAnswers2});   
+      setSelected(value);
+      return;
+    }
+    if(selected === 3 ){ 
+      await submitTestApi.putAnswerSubmit(submitId, {Part : selected, AnswerTests: submitAnswers3});   
+      setSelected(value);
+      return;
+    }
+   
+    if(selected === 4 ){ 
+      await submitTestApi.putAnswerSubmit(submitId, {Part : selected, AnswerTests: submitAnswers4});   
+      setSelected(value);
+      return;
+    }
+   
+    if(selected === 5){ 
+      await submitTestApi.putAnswerSubmit(submitId, {Part : selected, AnswerTests: submitAnswers5});   
+      setSelected(value);
+      return;
+    }
+    if(selected === 6){ 
+      await submitTestApi.putAnswerSubmit(submitId, {Part : selected, AnswerTests: submitAnswers6});   
+      setSelected(value);
+      return;
+    }
+   
+    if(selected === 7 ){ 
+      await submitTestApi.putAnswerSubmit(submitId, {Part : selected, AnswerTests: submitAnswers7});   
+      setSelected(value);
+      return;
+    }
+  
    setSelected(value);
   };
 
   const updateAnswerSubmitNext = async (value) =>{
-    if(selected === 1){    
-      const resUpdate = await submitTestApi.putAnswerSubmit(submitId, {Part : selected, AnswerTests: submitAnswers1});   
+
+    if(selected === 1){ 
+      await submitTestApi.putAnswerSubmit(submitId, {Part : selected, AnswerTests: submitAnswers1});   
+      setSelected(value);
+      return;
     }
-   setSelected(value);
+    if(selected === 2){ 
+      await submitTestApi.putAnswerSubmit(submitId, {Part : selected, AnswerTests: submitAnswers2});   
+      setSelected(value);
+      return;
+    }
+    if(selected === 3){ 
+      await submitTestApi.putAnswerSubmit(submitId, {Part : selected, AnswerTests: submitAnswers3});   
+      setSelected(value);
+      return;
+    }
+    if(selected === 4){ 
+      await submitTestApi.putAnswerSubmit(submitId, {Part : selected, AnswerTests: submitAnswers4});   
+      setSelected(value);
+      return;
+    }
+    if(selected === 5){ 
+      await submitTestApi.putAnswerSubmit(submitId, {Part : selected, AnswerTests: submitAnswers5});   
+      setSelected(value);
+      return;
+    }
+    if(selected === 6){ 
+      await submitTestApi.putAnswerSubmit(submitId, {Part : selected, AnswerTests: submitAnswers6});   
+      setSelected(value);
+      return;
+    }
+  
+    if(selected === 7 ){ 
+      await submitTestApi.putAnswerSubmit(submitId, {Part : selected, AnswerTests: submitAnswers7});   
+      setSelected(value);
+      return;
+    }
+ 
+    setSelected(value);
+
   };
 
   return (

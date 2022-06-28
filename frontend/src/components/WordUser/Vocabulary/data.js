@@ -64,8 +64,11 @@ function VocabularyData() {
         const apiRes = await wordApi.getWordTopic(pageInfo.packInfo);
 
         if (apiRes.status === 200 && isSubscribe) {
-          setCurrentList(apiRes.data);
-          list.current = [...list.current, apiRes.data];
+          const filterList = apiRes.data.filter((item) => {
+            return item.isLocked === 0
+          })
+          setCurrentList(filterList);
+          list.current = [...list.current, filterList];
         }
       } catch (error) {}
     }
@@ -74,6 +77,7 @@ function VocabularyData() {
 
     return () => (isSubscribe = false);
   }, [pageInfo]);
+
 
   return (
     <Vocabulary

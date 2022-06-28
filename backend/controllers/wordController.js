@@ -214,7 +214,7 @@ exports.getUserFavoriteList = async (req, res, next) => {
 //delete word
 exports.deleteWord = async (req, res, next) => {
   try {
-    const {word, type}  = req.query;
+    const { word, type } = req.query;
     //delete word
     const isDeleteWord = await deleteWord(word, type);
     if (isDeleteWord) {
@@ -222,7 +222,7 @@ exports.deleteWord = async (req, res, next) => {
     }
   } catch (error) {
     console.error('ERROR: ', error);
-    return res.status(503).json({ message: 'Eror, can not delete this word' });
+    return res.status(503).json({ message: 'Error, can not delete this word' });
   }
 };
 

@@ -17,6 +17,16 @@ const SubmitTestModel = new Schema({
     default: 0,
   },
 
+  ListenSentences: {
+    type: Number,
+    default: 0,
+  },
+
+  ReadSentences: {
+    type: Number,
+    default: 0,
+  },
+
   Comment: {
     type: String   
   },

@@ -1,4 +1,3 @@
-
 import { cloudinaryImgOptimize } from "helper";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
@@ -6,9 +5,9 @@ import useStyle from "./style";
 import WordDetailModal from "components/UI/WordDetailModal";
 import { useDispatch } from "react-redux";
 import { setMessage } from "redux/actions/messageAction";
-import { DEFAULTS } from '../../../constants/index';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete'
+import { DEFAULTS, ROUTES } from "../../../constants";
+import EditIcon from "@material-ui/icons/Edit";
+import DeleteIcon from "@material-ui/icons/Delete";
 import { deleteListen } from "redux/actions/listeningAction";
 import { useHistory } from "react-router-dom";
 
@@ -33,43 +32,41 @@ function ListeningItem({ _id, Name, Image, Topic, CreateDate }) {
   const dispatch = useDispatch();
 
   const deleteHandler = (id) => {
-    if (window.confirm('Bạn chắc chắn muốn xóa bài viết này?')) {
-       dispatch(deleteListen(id));
-       dispatch(setMessage("Delete successfully", "success"));
-     window.location.reload();
+    if (window.confirm("Bạn chắc chắn muốn xóa bài viết này?")) {
+      dispatch(deleteListen(id));
+      dispatch(setMessage("Delete successfully", "success"));
+      history.replace(ROUTES.LISTENING_ADMIN);
     }
   };
 
   return (
     <>
       <div className={`${classes.root} flex-center-between`}>
-        <div 
+        <div
           className="w-100 flex-center--ver"
           onClick={() => handleClick(_id)}
         >
-          <img className={classes.picture} src={imgSrc} alt="photo" />
+          <img className={classes.picture} src={imgSrc} alt="" />
           <div className="ml-8 flex-grow-1">
-            <h3 className={classes.word}>
-              {Name}
-              
-            </h3>
-          
-              <p className={`${classes.phonetic} phonetic`}> Topic: {Topic} </p>
-           
+            <h3 className={classes.word}>{Name}</h3>
+
+            <p className={`${classes.phonetic} phonetic`}> Topic: {Topic} </p>
+
             <p className={classes.mean}>Create Date: {CreateDate}</p>
           </div>
         </div>
         <div className="flex-center--ver">
-        <div className="mr-5">
-          <EditIcon className="english-setting-icon"
-           onClick={() => handleEditClick(_id)}
-           />
+          <div className="mr-5">
+            <EditIcon
+              className="english-setting-icon"
+              onClick={() => handleEditClick(_id)}
+            />
+          </div>
+          <DeleteIcon
+            className="english-setting-icon"
+            onClick={() => deleteHandler(_id)}
+          />
         </div>
-        <DeleteIcon className="english-setting-icon" 
-         onClick={() => deleteHandler(_id)}
-         />
-
-      </div>
       </div>
       {modal.open && (
         <WordDetailModal

@@ -9,7 +9,7 @@ router.get('/get-grammar-by-level/:level',authentication, grammarController.getB
 router.get('/get-grammar-levels',authentication, grammarController.getLevels);
 router.post('/post-grammar',authentication, grammarController.postGrammar);
 router.put('/put-grammar/:id',authentication, grammarController.putGrammar);
-router.delete('/delete-grammar/:id',authentication, grammarController.deleteById);
+router.patch('/delete-grammar/:id',authentication, grammarController.deleteById);
 router.get('/search-grammar',authentication, grammarController.getSearchGrammar);
 
 

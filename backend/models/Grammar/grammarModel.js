@@ -1,6 +1,5 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-
 
 const GrammarModel = new Schema({
   Title: {
@@ -18,7 +17,7 @@ const GrammarModel = new Schema({
     trim: true,
     default: null,
   },
-  
+
   Audio: {
     type: String,
     trim: true,
@@ -38,11 +37,15 @@ const GrammarModel = new Schema({
 
   Level: {
     type: String,
-    enum: ['4','1','2', '3'],
-    default: '0',
+    enum: ["4", "1", "2", "3"],
+    default: "0",
   },
 
-  Items:[{ type: Schema.Types.Map}]
+  Items: [{ type: Schema.Types.Map }],
+  isLocked: {
+    type: Number,
+    default: 0,
+  },
 });
 
-module.exports = mongoose.model('Grammar', GrammarModel);
+module.exports = mongoose.model("Grammar", GrammarModel);

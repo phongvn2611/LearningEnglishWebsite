@@ -7,7 +7,7 @@ import wordApi from "apis/wordApi";
 import WordDetailModal from "components/UI/WordDetailModal";
 import { useDispatch } from "react-redux";
 import { setMessage } from "redux/actions/messageAction";
-import { DEFAULTS } from './../../../constants/index';
+import { DEFAULTS, ROUTES } from '../../../constants';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete'
 import { deleteWord } from "redux/actions/wordAction";
@@ -31,10 +31,10 @@ function WordItem({ _id, word, type, phonetic, picture, mean }) {
   const history = useHistory();
 
   const deleteHandler = () => {
-    if (window.confirm('Bạn chắc chắn muốn xóa bài viết này?')) {
+    if (window.confirm('Bạn chắc chắn muốn xóa từ này?')) {
       dispatch(deleteWord(word, type));
       dispatch(setMessage("Delete successfully", "success"));
-     window.location.reload();
+      history.replace(ROUTES.WORD_ADMIN)
     }
   };
 

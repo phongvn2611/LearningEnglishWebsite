@@ -1,12 +1,6 @@
 import Tooltip from '@material-ui/core/Tooltip';
-import HelpIcon from '@material-ui/icons/Help';
-import SettingsIcon from '@material-ui/icons/Settings';
 import CarouselIcon from '@material-ui/icons/ViewCarousel';
 import CollectionsIcon from '@material-ui/icons/ViewQuilt';
-import VisibilityIcon from '@material-ui/icons/Visibility';
-import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
-import TooltipCustom from 'components/UI/TooltipCustom';
-import WordPack from 'components/UI/WordPack';
 import PropTypes from 'prop-types';
 import React, { useRef, useState } from 'react';
 import GalleryList from './GalleryList';

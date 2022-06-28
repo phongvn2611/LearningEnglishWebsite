@@ -208,13 +208,13 @@ exports.getTopics = async (req, res) => {
 exports.deleteListen = async (req, res) => {
   try {
     const listenId = req.params.id;
-    const isDeleteWord = await deleteListen(listenId);
-    if (isDeleteWord) {
+    const isDelete = await deleteListen(listenId);
+    if (isDelete) {
       return res.status(200).json({ message: 'Delete successfully.' });
     }
   } catch (error) {
     console.error('GET WORD DETAILS ERROR: ', error);
-    return res.status(503).json({ message: 'Eror, can not delete this listening' });
+    return res.status(503).json({ message: 'Error, can not delete this listening' });
   }
 };
 
