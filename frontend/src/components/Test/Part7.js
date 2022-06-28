@@ -46,8 +46,6 @@ export default function Part7({ part, testId, submitId, setSubmitAnswers7 }) {
         part,
         currentPage
       );
-      // const indexOfLast = currentPage;
-      // const indexOfFirst = indexOfLast - 1;
       setPartQuestions(res.data);
     })();
     return () => {};

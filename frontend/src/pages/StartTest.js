@@ -110,68 +110,62 @@ export default function StartTestPage() {
 
   const onSubmitTest = async () => {
     if (currentPage === 1) {
-      const res = await submitTestApi.putSubmit(
+      await submitTestApi.putSubmit(
         submitId,
         currentPage,
         submitAnswers1
       );
-      setSubmitItem(res.data);
     }
 
     if (currentPage === 2) {
-      const res = await submitTestApi.putSubmit(
+      await submitTestApi.putSubmit(
         submitId,
         currentPage,
         submitAnswers2
       );
-      setSubmitItem(res.data);
     }
 
     if (currentPage === 3) {
-      const res = await submitTestApi.putSubmit(
+      await submitTestApi.putSubmit(
         submitId,
         currentPage,
         submitAnswers3
       );
-      setSubmitItem(res.data);
     }
 
     if (currentPage === 4) {
-      const res = await submitTestApi.putSubmit(
+      await submitTestApi.putSubmit(
         submitId,
         currentPage,
         submitAnswers4
       );
-      setSubmitItem(res.data);
     }
 
     if (currentPage === 5) {
-      const res = await submitTestApi.putSubmit(
+      await submitTestApi.putSubmit(
         submitId,
         currentPage,
         submitAnswers5
       );
-      setSubmitItem(res.data);
     }
 
     if (currentPage === 6) {
-      const res = await submitTestApi.putSubmit(
+      await submitTestApi.putSubmit(
         submitId,
         currentPage,
         submitAnswers6
       );
-      setSubmitItem(res.data);
     }
 
     if (currentPage === 7) {
-      const res = await submitTestApi.putSubmit(
+      await submitTestApi.putSubmit(
         submitId,
         currentPage,
         submitAnswers7
       );
-      setSubmitItem(res.data);
     }
-
+    const res = await submitTestApi.getSubmitByTest(id);
+    setSubmitItem(res.data);
     setState(2);
   };
 
@@ -225,7 +219,11 @@ export default function StartTestPage() {
           </Grid>
           <Grid item lg={4} md={6} xs={12}>
             <div className="my-5 d-flex jus-content-around">
-              <Timer value={1 * 60} setState={setState}></Timer>
+              <Timer
+                value={0.5 * 60}
+                setState={setState}
+                onSubmitTest={onSubmitTest}
+              ></Timer>
               <Button className={classes.button} onClick={() => onSubmitTest()}>
                 Submit
               </Button>

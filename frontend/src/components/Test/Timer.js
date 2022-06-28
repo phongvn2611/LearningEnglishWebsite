@@ -2,15 +2,13 @@ import { Typography } from "@material-ui/core";
 import { convertTime } from "helper";
 import React, { useState } from "react";
 import { useEffect } from "react";
-
-export default function Timer({ value, setState }) {
+function Timer({ value, setState, onSubmitTest }) {
   let initTime = convertTime(value);
   const [time, setTime] = useState({
     hours: initTime.hours,
     minutes: initTime.minutes,
     seconds: initTime.seconds,
   });
-  const [timer, setTimer] = useState(null);
 
   useEffect(() => {
     let myInterval = setInterval(() => {
@@ -22,6 +20,7 @@ export default function Timer({ value, setState }) {
         if (time.seconds === 0) {
           if (time.hours === 0 && time.minutes === 0) {
             clearInterval(myInterval);
+            onSubmitTest();
             setState(2);
           } else if (time.minutes > 0) {
             updatedTime.minutes--;
@@ -35,8 +34,10 @@ export default function Timer({ value, setState }) {
         return updatedTime;
       });
     }, 1000);
-    setTimer(myInterval);
-  }, []);
+    return () => {
+      if (myInterval) clearInterval(myInterval);
+    };
+  }, [setState, onSubmitTest]);
 
   return (
     <Typography variant="h6">
@@ -48,3 +49,5 @@ export default function Timer({ value, setState }) {
     </Typography>
   );
 }
+
+export default React.memo(Timer);

@@ -60,7 +60,6 @@ const IsCheckedAnswer = (answerId) =>{
     return () => {};
   }, [testId, part]);
 
-  console.log(submitList)
   return (
     <div>
       <Typography variant="h5">Part 3</Typography>
