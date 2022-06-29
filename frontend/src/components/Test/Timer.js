@@ -1,14 +1,30 @@
-import { Typography } from "@material-ui/core";
+import { Fade, Typography } from "@material-ui/core";
 import { convertTime } from "helper";
 import React, { useState } from "react";
 import { useEffect } from "react";
-function Timer({ value, setState, onSubmitTest }) {
+import submitTestApi from "apis/submitTestApi";
+
+export default function Timer({ 
+  value,  
+  onSubmitTest
+}) {
   let initTime = convertTime(value);
   const [time, setTime] = useState({
     hours: initTime.hours,
     minutes: initTime.minutes,
     seconds: initTime.seconds,
   });
+  const [timer, setTimer] = useState(null);
+
+ 
+  useEffect(() => {
+  const items = JSON.parse(localStorage.getItem('time'));
+  console.log(items)
+  if (items) {
+   setTime(items);
+  }
+}, []);
+
 
   useEffect(() => {
     let myInterval = setInterval(() => {
@@ -21,7 +37,6 @@ function Timer({ value, setState, onSubmitTest }) {
           if (time.hours === 0 && time.minutes === 0) {
             clearInterval(myInterval);
             onSubmitTest();
-            setState(2);
           } else if (time.minutes > 0) {
             updatedTime.minutes--;
             updatedTime.seconds = 59;
@@ -31,13 +46,16 @@ function Timer({ value, setState, onSubmitTest }) {
             updatedTime.seconds = 59;
           }
         }
+        localStorage.setItem('time', JSON.stringify(updatedTime));
         return updatedTime;
       });
     }, 1000);
+
+    
     return () => {
       if (myInterval) clearInterval(myInterval);
     };
-  }, [setState, onSubmitTest]);
+  }, [onSubmitTest]);
 
   return (
     <Typography variant="h6">
@@ -49,5 +67,3 @@ function Timer({ value, setState, onSubmitTest }) {
     </Typography>
   );
 }
-
-export default React.memo(Timer);

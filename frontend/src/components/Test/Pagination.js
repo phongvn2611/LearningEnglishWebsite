@@ -37,7 +37,6 @@ export default function Pagination({
   useEffect(() => {
     setCurrentPage(selected);
   }, [selected]);
- 
 
   const updateAnswerSubmitPrev = async (value) =>{  
     if(selected === 1){ 
@@ -125,6 +124,7 @@ export default function Pagination({
 
   };
 
+  console.log(selected)
   return (
     <div>
       {pages > 1 && (

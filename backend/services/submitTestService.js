@@ -66,7 +66,7 @@ exports.updateAnswerSubmitTest = async (id, part, body) => {
 };
 exports.updateSubmitTest = async (id, body) => {
   try {
-    let submitTest = await SubmitTestModel.findByIdAndUpdate(id, { ...body });
+    const submitTest = await SubmitTestModel.findByIdAndUpdate(id, { ...body });
 
     let lstAnswerListenCorrect = [];
     submitTest.AnswerTests1.map((item, index) => {
@@ -119,18 +119,15 @@ exports.updateSubmitTest = async (id, body) => {
     const Score = listenScore.Score + readScore.Score;
 
     //update SubmitTest
-    submitTest = await SubmitTestModel.findByIdAndUpdate(id, {
+    const submitResult = await SubmitTestModel.findByIdAndUpdate(id, {
       ListenSentences: sentencesListen.length,
       ReadSentences: sentencesRead.length,
       ListenScore: listenScore.Score,
       ReadScore: readScore.Score,
       Score: Score,
     });
-
-    if (submitTest) {
-      return submitTest;
-    }
-    return null;
+    //console.log(submitResult)
+    return submitResult;
   } catch (error) {
     throw error;
   }
@@ -167,6 +164,19 @@ exports.checkSubmitExisted = async (testId, userId) => {
     });
 
     return res;
+  } catch (error) {
+    throw error;
+  }
+};
+
+//delete by id
+exports.deleteSubmitById = async (id = "") => {
+  try {
+    const res = await SubmitTestModel.findByIdAndDelete(id);
+    if (res) {
+      return true;
+    }
+    return false;
   } catch (error) {
     throw error;
   }

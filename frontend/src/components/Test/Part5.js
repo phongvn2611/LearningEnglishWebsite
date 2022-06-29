@@ -85,7 +85,7 @@ useEffect(() => {
                               onClick={()=>addAnswers(answer)}
                               checked = {IsCheckedAnswer(answer._id)}
                                />}
-                            label={answer.Content}
+                            label={`(${answer.Sentence}) ${answer.Content}`}
                           />
                         );
                       })}

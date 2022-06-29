@@ -46,6 +46,8 @@ export default function Part7({ part, testId, submitId, setSubmitAnswers7 }) {
         part,
         currentPage
       );
+      // const indexOfLast = currentPage;
+      // const indexOfFirst = indexOfLast - 1;
       setPartQuestions(res.data);
     })();
     return () => {};
@@ -59,7 +61,7 @@ export default function Part7({ part, testId, submitId, setSubmitAnswers7 }) {
     })();
     return () => {};
   }, [testId, part]);
-
+  console.log(currentPage);
   return (
     <div>
       <Typography variant="h5">Part 7</Typography>
@@ -100,7 +102,7 @@ export default function Part7({ part, testId, submitId, setSubmitAnswers7 }) {
                                 checked={IsCheckedAnswer(answer._id)}
                               />
                             }
-                            label={answer.Content}
+                            label={`(${answer.Sentence}) ${answer.Content}`}
                           />
                         );
                       })}

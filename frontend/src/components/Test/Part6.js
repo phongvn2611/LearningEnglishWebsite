@@ -10,39 +10,42 @@ import Pagination from "./Pagination";
 import fileTestApi from "apis/fileTestApi";
 import submitTestApi from "apis/submitTestApi";
 
-export default function Part6({part, testId, submitId, setSubmitAnswers6}) {
+export default function Part6({ part, testId, submitId, setSubmitAnswers6 }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [partQuestions, setPartQuestions] = useState([]);
   const [submitList, setSubmitList] = useState([]);
 
-  const addAnswers = (answer) =>{
-    let checkExisted = submitList.some(item =>
-      answer.QuestionTestId === item.QuestionTestId
+  const addAnswers = (answer) => {
+    let checkExisted = submitList.some(
+      (item) => answer.QuestionTestId === item.QuestionTestId
     );
 
     let newList = [];
-    if(checkExisted === true){
-      newList = submitList.filter(item => item.QuestionTestId !== answer.QuestionTestId);     
+    if (checkExisted === true) {
+      newList = submitList.filter(
+        (item) => item.QuestionTestId !== answer.QuestionTestId
+      );
+    } else {
+      newList = submitList;
     }
-    else{
-      newList = submitList;      
-    }
-    
+
     newList.push(answer);
     setSubmitList(newList);
-    setSubmitAnswers6(newList);    
-}
+    setSubmitAnswers6(newList);
+  };
 
-const IsCheckedAnswer = (answerId) =>{
-  let checkedAnswer = submitList.some(item =>
-    answerId === item._id
-  );
-  return checkedAnswer;    
-}
+  const IsCheckedAnswer = (answerId) => {
+    let checkedAnswer = submitList.some((item) => answerId === item._id);
+    return checkedAnswer;
+  };
 
   useEffect(() => {
     (async function () {
-      const res = await fileTestApi.getAllQuestionsOfFile(testId, part, currentPage);
+      const res = await fileTestApi.getAllQuestionsOfFile(
+        testId,
+        part,
+        currentPage
+      );
       // const indexOfLast = currentPage;
       // const indexOfFirst = indexOfLast - 1;
       setPartQuestions(res.data);
@@ -59,13 +62,13 @@ const IsCheckedAnswer = (answerId) =>{
     return () => {};
   }, [testId, part]);
 
-  console.log(currentPage)
+  console.log(currentPage);
   return (
     <div>
       <Typography variant="h5">Part 6</Typography>
       <div>
         <img
-          src= {partQuestions?.Image}
+          src={partQuestions?.Image}
           alt="Girl in a jacket"
           width="500"
           height="300"
@@ -77,7 +80,9 @@ const IsCheckedAnswer = (answerId) =>{
             partQuestions?.Questions.map((question, index) => {
               return (
                 <div key={index}>
-                  <Typography>{question.Sentence}</Typography>
+                  <Typography>
+                    {question.Sentence}. {question.Content}{" "}
+                  </Typography>
                   <RadioGroup
                     aria-labelledby="demo-radio-buttons-group-label"
                     defaultValue="female"
@@ -89,11 +94,13 @@ const IsCheckedAnswer = (answerId) =>{
                           <FormControlLabel
                             key={index}
                             value={answer.Sentence}
-                            control={<Radio
-                              onClick={()=>addAnswers(answer)}
-                              checked = {IsCheckedAnswer(answer._id)}
-                               />}
-                            label={answer.Content}
+                            control={
+                              <Radio
+                                onClick={() => addAnswers(answer)}
+                                checked={IsCheckedAnswer(answer._id)}
+                              />
+                            }
+                            label={`(${answer.Sentence}) ${answer.Content}`}
                           />
                         );
                       })}
@@ -103,12 +110,12 @@ const IsCheckedAnswer = (answerId) =>{
             })}
         </FormControl>
       </div>
-      <Pagination 
-        pages={4} 
+      <Pagination
+        pages={4}
         setCurrentPage={setCurrentPage}
         submitAnswers6={submitList}
-        submitId={submitId}>
-      </Pagination>
+        submitId={submitId}
+      ></Pagination>
     </div>
   );
 }

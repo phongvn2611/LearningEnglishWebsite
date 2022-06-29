@@ -14,35 +14,38 @@ export default function Part1({ part, testId, submitId, setSubmitAnswers1 }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [partQuestions, setPartQuestions] = useState([]);
   const [submitList, setSubmitList] = useState([]);
- 
-  const addAnswers = (answer) =>{
-    let checkExisted = submitList.some(item =>
-      answer.QuestionTestId === item.QuestionTestId
+
+  const addAnswers = (answer) => {
+    let checkExisted = submitList.some(
+      (item) => answer.QuestionTestId === item.QuestionTestId
     );
 
     let newList = [];
-    if(checkExisted === true){
-      newList = submitList.filter(item => item.QuestionTestId !== answer.QuestionTestId);     
+    if (checkExisted === true) {
+      newList = submitList.filter(
+        (item) => item.QuestionTestId !== answer.QuestionTestId
+      );
+    } else {
+      newList = submitList;
     }
-    else{
-      newList = submitList;      
-    }
-    
+
     newList.push(answer);
     setSubmitList(newList);
-    setSubmitAnswers1(newList);    
-}
+    setSubmitAnswers1(newList);
+  };
 
-const IsCheckedAnswer = (answerId) =>{
-  let checkedAnswer = submitList.some(item =>
-    answerId === item._id
-  );
-  return checkedAnswer;    
-}
+  const IsCheckedAnswer = (answerId) => {
+    let checkedAnswer = submitList.some((item) => answerId === item._id);
+    return checkedAnswer;
+  };
 
   useEffect(() => {
     (async function () {
-      const res = await fileTestApi.getAllQuestionsOfFile(testId, part, currentPage);
+      const res = await fileTestApi.getAllQuestionsOfFile(
+        testId,
+        part,
+        currentPage
+      );
       setPartQuestions(res.data);
     })();
     return () => {};
@@ -57,6 +60,7 @@ const IsCheckedAnswer = (answerId) =>{
     return () => {};
   }, [testId, part]);
 
+  console.log(submitList);
   return (
     <div>
       <Typography variant="h5">Part 1</Typography>
@@ -70,10 +74,9 @@ const IsCheckedAnswer = (answerId) =>{
       )}
 
       {partQuestions?.Image && (
-            <div>
-              <img src={partQuestions.Image} alt="" width="500" height="300" />         
-            </div>
-      
+        <div>
+          <img src={partQuestions.Image} alt="" width="500" height="300" />
+        </div>
       )}
 
       {partQuestions.Questions &&
@@ -97,11 +100,13 @@ const IsCheckedAnswer = (answerId) =>{
                           <FormControlLabel
                             key={index}
                             value={answer.Sentence}
-                            control={<Radio 
-                              onClick={()=>addAnswers(answer)}
-                              checked = {IsCheckedAnswer(answer._id)}
-                              />}
-                            label={answer.Sentence}
+                            control={
+                              <Radio
+                                onClick={() => addAnswers(answer)}
+                                checked={IsCheckedAnswer(answer._id)}
+                              />
+                            }
+                            label={`(${answer.Sentence})`}
                           />
                         );
                       })}

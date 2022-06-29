@@ -5,6 +5,7 @@ const {
   getSubmitTestByTestId,
   updateAnswerSubmitTest,
   checkSubmitExisted,
+  deleteSubmitById
 } = require("../services/submitTestService");
 
 //create submitTest
@@ -141,5 +142,24 @@ try {
   return res.status(200).json(data);
 } catch (error) {
   return res.status(503).json(error.message);
+}
+};
+
+
+//delete
+exports.deleteById = async (req, res) => {
+try {
+  const  id  = req.params.id;
+  const isDelete = await deleteSubmitById(id);
+  if (isDelete) {
+    return res.status(200).json({ message: 'Delete successfully.' });
+  }
+  else
+  {
+    return res.status(503).json({ message: 'Eror, can not delete' });
+  }
+} catch (error) {
+  console.error('ERROR: ', error);
+  return res.status(503).json({ message: 'Eror, can not delete this grammar' });
 }
 };

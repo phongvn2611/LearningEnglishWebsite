@@ -8,5 +8,6 @@ router.post('/post-submitTest/:id', authentication, submitTestController.postSub
 router.put('/put-submitTest/:id', authentication, submitTestController.putSubmitTest);
 router.put('/put-answer-submitTest/:id', authentication, submitTestController.putAnswerSubmitTest);
 router.get('/check-submitTest/:id', authentication, submitTestController.checkSubmitExist);
+router.delete('/delete-submitTest/:id', authentication, submitTestController.deleteById);
 
 module.exports = router;

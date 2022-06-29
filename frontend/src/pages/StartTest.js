@@ -9,6 +9,8 @@ import Pagination from "components/Test/Pagination";
 import Timer from "components/Test/Timer";
 import testApi from "apis/testApi";
 import submitTestApi from "apis/submitTestApi";
+import { green } from "@material-ui/core/colors";
+import { text } from "@fortawesome/fontawesome-svg-core";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -57,7 +59,7 @@ export default function StartTestPage() {
   const classes = useStyles();
   const [state, setState] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const [test, setTest] = useState("");
+  const [test, setTest] = useState('');
   const history = useHistory();
   const { id } = useParams();
   const [submitAnswers1, setSubmitAnswers1] = useState([]);
@@ -67,8 +69,9 @@ export default function StartTestPage() {
   const [submitAnswers5, setSubmitAnswers5] = useState([]);
   const [submitAnswers6, setSubmitAnswers6] = useState([]);
   const [submitAnswers7, setSubmitAnswers7] = useState([]);
-  const [submitId, setSubmitId] = useState("");
+  const [submitId, setSubmitId] = useState('');
   const [submitItem, setSubmitItem] = useState(null);
+  //const [isFinish, setIsFinish] = useState(false);
 
   useEffect(() => {
     (async function () {
@@ -79,96 +82,83 @@ export default function StartTestPage() {
   }, [id]);
 
   useEffect(() => {
-    (async function () {
-      if (state === 2) {
-        const res = await submitTestApi.getSubmitByTest(id);
-        console.log(res.data);
-        setSubmitItem(res.data);
-      }
-    })();
-    return () => {};
-  }, [id]);
+    localStorage.setItem('page', JSON.stringify(currentPage));
+  }, [currentPage]);
 
-  const createSubmit = async () => {
+  useEffect(() => {
+  const items = JSON.parse(localStorage.getItem('page'));
+  console.log(items)
+  if (items) {
+   setCurrentPage(items);
+  }
+}, []);
+
+console.log(currentPage)
+
+  const createSubmit = async () =>{   
     const resCheck = await submitTestApi.getSubmitByTest(id);
-
-    if (resCheck.data === null) {
+    
+    if(resCheck.data === null){
       const resSubmit = await submitTestApi.postSubmit(id);
       setSubmitId(resSubmit.data._id);
       setState(1);
       return;
-    } else {
+    }
+    else{     
       setSubmitId(resCheck.data._id);
     }
-    if (resCheck.data.IsFinish === true) {
+    if(resCheck.data.IsFinish === true){
       setSubmitItem(resCheck.data);
-      setState(2);
-    } else {
-      setState(1);
+      localStorage.clear();
+      setState(2); 
+    }
+    else{
+      setState(1); 
     }
   };
 
-  const onSubmitTest = async () => {
-    if (currentPage === 1) {
-      await submitTestApi.putSubmit(
-        submitId,
-        currentPage,
-        submitAnswers1
-      );
+  const onSubmitTest = async () =>{  
+    if(currentPage === 1) {
+      await submitTestApi.putSubmit(submitId, currentPage, submitAnswers1);
     }
 
-    if (currentPage === 2) {
-      await submitTestApi.putSubmit(
-        submitId,
-        currentPage,
-        submitAnswers2
-      );
+    if(currentPage === 2) {
+      await submitTestApi.putSubmit(submitId, currentPage, submitAnswers2);
     }
 
-    if (currentPage === 3) {
-      await submitTestApi.putSubmit(
-        submitId,
-        currentPage,
-        submitAnswers3
-      );
+    if(currentPage === 3) {
+      await submitTestApi.putSubmit(submitId, currentPage, submitAnswers3);
     }
 
-    if (currentPage === 4) {
-      await submitTestApi.putSubmit(
-        submitId,
-        currentPage,
-        submitAnswers4
-      );
+    if(currentPage === 4) {
+    await submitTestApi.putSubmit(submitId, currentPage, submitAnswers4);      
     }
 
-    if (currentPage === 5) {
-      await submitTestApi.putSubmit(
-        submitId,
-        currentPage,
-        submitAnswers5
-      );
+    if(currentPage === 5) {
+     await submitTestApi.putSubmit(submitId, currentPage, submitAnswers5);
     }
 
-    if (currentPage === 6) {
-      await submitTestApi.putSubmit(
-        submitId,
-        currentPage,
-        submitAnswers6
-      );
+    if(currentPage === 6) {
+      await submitTestApi.putSubmit(submitId, currentPage, submitAnswers6);
     }
 
-    if (currentPage === 7) {
-      await submitTestApi.putSubmit(
-        submitId,
-        currentPage,
-        submitAnswers7
-      );
+    if(currentPage === 7) {
+     await submitTestApi.putSubmit(submitId, currentPage, submitAnswers7);
     }
+
     const res = await submitTestApi.getSubmitByTest(id);
     setSubmitItem(res.data);
-    setState(2);
+    localStorage.clear();
+    setState(2); 
+
   };
 
+  const onPlayAgain = async () =>{  
+   await submitTestApi.deleteSubmit(submitId);
+   window.location.reload();
+  };
+
+  
   useTitle("Test");
   return (
     <>
@@ -195,39 +185,45 @@ export default function StartTestPage() {
                 pages={7}
                 setCurrentPage={setCurrentPage}
                 submitId={submitId}
-                submitAnswers1={submitAnswers1}
-                submitAnswers2={submitAnswers2}
-                submitAnswers3={submitAnswers3}
-                submitAnswers4={submitAnswers4}
-                submitAnswers5={submitAnswers5}
-                submitAnswers6={submitAnswers6}
-                submitAnswers7={submitAnswers7}
+                submitAnswers1 ={submitAnswers1}
+                submitAnswers2 ={submitAnswers2}
+                submitAnswers3 ={submitAnswers3}
+                submitAnswers4 ={submitAnswers4}
+                submitAnswers5 ={submitAnswers5}
+                submitAnswers6 ={submitAnswers6}
+                submitAnswers7 ={submitAnswers7}
+             
               ></Pagination>
-              <Part
-                part={currentPage}
-                testId={id}
-                submitId={submitId}
-                setSubmitAnswers1={setSubmitAnswers1}
-                setSubmitAnswers2={setSubmitAnswers2}
-                setSubmitAnswers3={setSubmitAnswers3}
-                setSubmitAnswers4={setSubmitAnswers4}
-                setSubmitAnswers5={setSubmitAnswers5}
-                setSubmitAnswers6={setSubmitAnswers6}
-                setSubmitAnswers7={setSubmitAnswers7}
+              <Part 
+              part={currentPage}
+              testId={id} 
+              submitId={submitId}
+              setSubmitAnswers1={setSubmitAnswers1} 
+              setSubmitAnswers2={setSubmitAnswers2}
+              setSubmitAnswers3={setSubmitAnswers3}
+              setSubmitAnswers4={setSubmitAnswers4}
+              setSubmitAnswers5={setSubmitAnswers5}
+              setSubmitAnswers6={setSubmitAnswers6}
+              setSubmitAnswers7={setSubmitAnswers7}
+             
               />
+              
+              
             </Container>
           </Grid>
           <Grid item lg={4} md={6} xs={12}>
             <div className="my-5 d-flex jus-content-around">
-              <Timer
-                value={0.5 * 60}
-                setState={setState}
-                onSubmitTest={onSubmitTest}
+              <Timer 
+              value={test.Duration * 60} 
+              onSubmitTest = {onSubmitTest }
+          
+              
               ></Timer>
               <Button className={classes.button} onClick={() => onSubmitTest()}>
                 Submit
               </Button>
             </div>
+         
           </Grid>
         </Grid>
       ) : (
@@ -240,18 +236,23 @@ export default function StartTestPage() {
               Total point: {submitItem?.Score} points
             </Typography>
             <Typography className={classes.timeDetail} variant="body2">
-              Listening: {submitItem?.ListenScore} points (
-              {submitItem?.ListenSentences} sentences are correct)
+              Listening: {submitItem?.ListenScore} points ({submitItem?.ListenSentences} sentences are correct)
             </Typography>
             <Typography className={classes.timeDetail} variant="body2">
-              Reading: {submitItem?.ReadScore} points (
-              {submitItem?.ReadSentences} sentences are correct)
+              Reading: {submitItem?.ReadScore} points ({submitItem?.ReadSentences} sentences are correct)
             </Typography>
             <Button
-              onClick={() => history.replace(ROUTES.TEST)}
-              className={classes.button}
+              onClick={() =>history.replace(ROUTES.TEST)}
+              className={`${classes.button} mb-5`}
             >
               Quay về
+            </Button>
+            <Button
+              onClick={() =>onPlayAgain()}
+              className={classes.button}
+             
+            >
+              Chơi lại
             </Button>
           </Container>
         </div>
