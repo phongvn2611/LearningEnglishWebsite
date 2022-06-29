@@ -102,7 +102,7 @@ const IsCheckedAnswer = (answerId) =>{
                               onClick={()=>addAnswers(answer)}
                               checked = {IsCheckedAnswer(answer._id)}
                               />}
-                            label={answer.Sentence}
+                            label={`(${answer.Sentence})`}
                           />
                         );
                       })}
@@ -112,7 +112,7 @@ const IsCheckedAnswer = (answerId) =>{
             </div>
           );
         })}
-      <Pagination pages={1} setCurrentPage={setCurrentPage}></Pagination>
+      <Pagination pages={1} setCurrentPage={setCurrentPage} ></Pagination>
     </div>
   );
 }

@@ -58,7 +58,7 @@ const IsCheckedAnswer = (answerId) =>{
     })();
     return () => {};
   }, [testId, part]);
-
+console.log(currentPage)
   return (
     <div>
       <Typography variant="h5">Part 7</Typography>
@@ -116,7 +116,7 @@ const IsCheckedAnswer = (answerId) =>{
                               onClick={()=>addAnswers(answer)}
                               checked = {IsCheckedAnswer(answer._id)}
                                />}
-                            label={answer.Content}
+                            label={`(${answer.Sentence}) ${answer.Content}`}
                           />
                         );
                       })}

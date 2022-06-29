@@ -37,7 +37,6 @@ export default function Pagination({
   useEffect(() => {
     setCurrentPage(selected);
   }, [selected]);
- 
 
   const updateAnswerSubmitPrev = async (value) =>{  
     if(selected === 1){ 
@@ -125,6 +124,7 @@ export default function Pagination({
 
   };
 
+  console.log(selected)
   return (
     <div>
       {pages > 1 && (
@@ -138,7 +138,7 @@ export default function Pagination({
             disabled={selected === 1 ? true : false}
             onClick={() => updateAnswerSubmitPrev((prev) => (prev <= 1 ? prev : prev - 1))}
           >
-            {type === "part" ? "Prev" : "hello"}
+            {type === "part" ? "Prev Part" : "Prev"}
           </Button>
           <Button
             className={classes.button}

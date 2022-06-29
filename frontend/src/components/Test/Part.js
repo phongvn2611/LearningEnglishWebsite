@@ -23,7 +23,7 @@ function Part({
   const renderPart = (part) => {
     if (part === 1) return <Part1 part={part} testId={testId} submitId={submitId} setSubmitAnswers1={setSubmitAnswers1} />;
     else if (part === 2) return <Part2 part={part} testId={testId} submitId={submitId} setSubmitAnswers2={setSubmitAnswers2} />;
-    else if (part === 3) return <Part3 part={part} testId={testId} submitId={submitId} setSubmitAnswers3={setSubmitAnswers3}/>;
+    else if (part === 3) return <Part3 part={part} testId={testId} submitId={submitId} setSubmitAnswers3={setSubmitAnswers3} />;
     else if (part === 4) return <Part4 part={part} testId={testId} submitId={submitId} setSubmitAnswers4={setSubmitAnswers4} />;
     else if (part === 5) return <Part5 part={part} testId={testId} submitId={submitId} setSubmitAnswers5={setSubmitAnswers5}/>;
     else if (part === 6) return <Part6 part={part} testId={testId} submitId={submitId} setSubmitAnswers6={setSubmitAnswers6} />;

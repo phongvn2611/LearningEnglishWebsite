@@ -10,7 +10,7 @@ import Pagination from "./Pagination";
 import fileTestApi from "apis/fileTestApi";
 import submitTestApi from "apis/submitTestApi";
 
-export default function Part3({ part, testId, submitId, setSubmitAnswers3 }) {
+export default function Part3({ part, testId, submitId, setSubmitAnswers3}) {
   const [currentPage, setCurrentPage] = useState(1);
   const [partQuestions, setPartQuestions] = useState([]);
   const [submitList, setSubmitList] = useState([]);
@@ -72,7 +72,7 @@ const IsCheckedAnswer = (answerId) =>{
           </audio>
         </div>
    )}
-   
+
     {partQuestions?.Image && (
       <div>
         <img src={partQuestions.Image} alt="" width="500" height="300" />         
@@ -101,7 +101,7 @@ const IsCheckedAnswer = (answerId) =>{
                               onClick={()=>addAnswers(answer)}
                               checked = {IsCheckedAnswer(answer._id)}
                             />}
-                            label={answer.Content}
+                            label={`(${answer.Sentence}) ${answer.Content}`}
                           />
                         );
                       })}
@@ -115,7 +115,8 @@ const IsCheckedAnswer = (answerId) =>{
         pages={13} 
         setCurrentPage={setCurrentPage}
         submitAnswers3={submitList}
-        submitId={submitId}>
+        submitId={submitId}
+        >
 
         </Pagination>
     </div>

@@ -110,8 +110,8 @@ exports.getQuestionsOfFile = async (req, res) => {
       }      
       
       //add file to list
-      let {TestId, Content, Part, Image, Audio} = fileItem;
-      fileReturn= {TestId, Content, Part, Image, Audio, Questions};     
+      let {TestId, Content, Part, Image, Image2, Image3, Audio} = fileItem;
+      fileReturn= {TestId, Content, Part, Image, Image2, Image3, Audio, Questions};     
     
 
     return res.status(200).json(fileReturn);

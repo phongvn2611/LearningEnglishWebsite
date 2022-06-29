@@ -1,9 +1,23 @@
-import { Typography } from "@material-ui/core";
+import { Fade, Typography } from "@material-ui/core";
 import { convertTime } from "helper";
 import React, { useState } from "react";
 import { useEffect } from "react";
+import submitTestApi from "apis/submitTestApi";
 
-export default function Timer({ value, setState }) {
+export default function Timer({ 
+  value,  
+  onSubmitTest
+  // currentPage,
+  // submitId,
+  // submitAnswers1,
+  // submitAnswers2,
+  // submitAnswers3,
+  // submitAnswers4,
+  // submitAnswers5,
+  // submitAnswers6,
+  // submitAnswers7,
+  // setSubmitItem
+}) {
   let initTime = convertTime(value);
   const [time, setTime] = useState({
     hours: initTime.hours,
@@ -12,20 +26,14 @@ export default function Timer({ value, setState }) {
   });
   const [timer, setTimer] = useState(null);
 
-  // useEffect(() => {
-  //   window.sessionStorage.setItem("hours", time.hours);
-  //   window.sessionStorage.setItem("minutes", time.minutes);
-  //   window.sessionStorage.setItem("seconds", time.seconds);
-  // }, [time]);
-
-
-  // useEffect(() => {
-  //   const hours = JSON.parse(window.sessionStorage.getItem("hour", time.hours));
-  //   const minutes = JSON.parse(window.sessionStorage.getItem("minutes", time.minutes));
-  //   const seconds = JSON.parse(window.sessionStorage.getItem("seconds", time.seconds));
-  //   setTime({hours, minutes, seconds});
-  
-  // }, []);
+ 
+  useEffect(() => {
+  const items = JSON.parse(localStorage.getItem('time'));
+  console.log(items)
+  if (items) {
+   setTime(items);
+  }
+}, []);
 
 
   useEffect(() => {
@@ -38,7 +46,7 @@ export default function Timer({ value, setState }) {
         if (time.seconds === 0) {
           if (time.hours === 0 && time.minutes === 0) {
             clearInterval(myInterval);
-            setState(2);
+            onSubmitTest();
           } else if (time.minutes > 0) {
             updatedTime.minutes--;
             updatedTime.seconds = 59;
@@ -48,11 +56,16 @@ export default function Timer({ value, setState }) {
             updatedTime.seconds = 59;
           }
         }
+        localStorage.setItem('time', JSON.stringify(updatedTime));
         return updatedTime;
       });
     }, 1000);
-    setTimer(myInterval);
-  }, []);
+
+    
+    return () => {
+      if (myInterval) clearInterval(myInterval);
+    };
+  }, [onSubmitTest]);
 
   return (
     <Typography variant="h6">

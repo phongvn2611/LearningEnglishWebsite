@@ -10,7 +10,7 @@ import Pagination from "./Pagination";
 import fileTestApi from "apis/fileTestApi";
 import submitTestApi from "apis/submitTestApi";
 
-export default function Part2({ part, testId, submitId, setSubmitAnswers2, list }) {
+export default function Part2({ part, testId, submitId, setSubmitAnswers2}) {
   const [currentPage, setCurrentPage] = useState(1);
   const [partQuestions, setPartQuestions] = useState([]);
   const [submitList, setSubmitList] = useState([]);
@@ -88,10 +88,11 @@ const IsCheckedAnswer = (answerId) =>{
                             key={index}
                             value={answer.Sentence}
                             control={<Radio 
-                              onClick={()=>addAnswers(answer)}
                               checked = {IsCheckedAnswer(answer._id)}
+                              onClick={()=>addAnswers(answer)}
+                             
                               />}
-                            label={answer.Sentence}
+                            label={`(${answer.Sentence})`}
                           />
                         );
                       })}
@@ -101,7 +102,7 @@ const IsCheckedAnswer = (answerId) =>{
             </div>
           );
         })}
-      <Pagination pages={1} setCurrentPage={setCurrentPage}></Pagination>
+      <Pagination pages={1} setCurrentPage={setCurrentPage} ></Pagination>
     </div>
   );
 }

@@ -25,5 +25,9 @@ const submitTestApi = {
     checkSubmitExisted: (id) => {
         return axios.get(`${URL}/check-submitTest/${id}`)
     },
+
+    deleteSubmit: (id) => {
+        return axios.delete(`${URL}/delete-submitTest/${id}`)
+    },
 }
 export default submitTestApi;

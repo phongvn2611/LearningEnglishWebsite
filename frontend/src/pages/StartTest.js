@@ -10,6 +10,8 @@ import Pagination from "components/Test/Pagination";
 import Timer from "components/Test/Timer";
 import testApi from "apis/testApi";
 import submitTestApi from "apis/submitTestApi";
+import { green } from "@material-ui/core/colors";
+import { text } from "@fortawesome/fontawesome-svg-core";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -70,6 +72,7 @@ export default function StartTestPage() {
   const [submitAnswers7, setSubmitAnswers7] = useState([]);
   const [submitId, setSubmitId] = useState('');
   const [submitItem, setSubmitItem] = useState(null);
+  //const [isFinish, setIsFinish] = useState(false);
 
   useEffect(() => {
     (async function () {
@@ -80,17 +83,18 @@ export default function StartTestPage() {
   }, [id]);
 
   useEffect(() => {
-    (async function () {
-      if(state === 2) {
-        const res = await submitTestApi.getSubmitByTest(id);
-        console.log(res.data)
-        setSubmitItem(res.data)
-      }
-    })();
-    return () => {};
-  }, [id]);
+    localStorage.setItem('page', JSON.stringify(currentPage));
+  }, [currentPage]);
 
- 
+  useEffect(() => {
+  const items = JSON.parse(localStorage.getItem('page'));
+  console.log(items)
+  if (items) {
+   setCurrentPage(items);
+  }
+}, []);
+
+console.log(currentPage)
 
   const createSubmit = async () =>{   
     const resCheck = await submitTestApi.getSubmitByTest(id);
@@ -105,7 +109,8 @@ export default function StartTestPage() {
       setSubmitId(resCheck.data._id);
     }
     if(resCheck.data.IsFinish === true){
-      setSubmitItem(resCheck.data)
+      setSubmitItem(resCheck.data);
+      localStorage.clear();
       setState(2); 
     }
     else{
@@ -115,49 +120,46 @@ export default function StartTestPage() {
 
   const onSubmitTest = async () =>{  
     if(currentPage === 1) {
-      const res =await submitTestApi.putSubmit(submitId, currentPage, submitAnswers1);
-      setSubmitItem(res.data)
-     
+      await submitTestApi.putSubmit(submitId, currentPage, submitAnswers1);
     }
 
     if(currentPage === 2) {
-      const res = await submitTestApi.putSubmit(submitId, currentPage, submitAnswers2);
-      setSubmitItem(res.data)
-     
+      await submitTestApi.putSubmit(submitId, currentPage, submitAnswers2);
     }
 
     if(currentPage === 3) {
-      const res = await submitTestApi.putSubmit(submitId, currentPage, submitAnswers3);
-     setSubmitItem(res.data)
-     
+      await submitTestApi.putSubmit(submitId, currentPage, submitAnswers3);
     }
 
     if(currentPage === 4) {
-      const res = await submitTestApi.putSubmit(submitId, currentPage, submitAnswers4);
-      setSubmitItem(res.data)
-      
+    await submitTestApi.putSubmit(submitId, currentPage, submitAnswers4);      
     }
 
     if(currentPage === 5) {
-      const res = await submitTestApi.putSubmit(submitId, currentPage, submitAnswers5);
-      setSubmitItem(res.data)
+     await submitTestApi.putSubmit(submitId, currentPage, submitAnswers5);
     }
 
     if(currentPage === 6) {
-      const res = await submitTestApi.putSubmit(submitId, currentPage, submitAnswers6);
-       setSubmitItem(res.data)
+      await submitTestApi.putSubmit(submitId, currentPage, submitAnswers6);
     }
 
     if(currentPage === 7) {
-     const res = await submitTestApi.putSubmit(submitId, currentPage, submitAnswers7);
-     setSubmitItem(res.data)
+     await submitTestApi.putSubmit(submitId, currentPage, submitAnswers7);
     }
-    
+
+    const res = await submitTestApi.getSubmitByTest(id);
+    setSubmitItem(res.data);
+    localStorage.clear();
     setState(2); 
+
   };
 
- 
+  const onPlayAgain = async () =>{  
+   await submitTestApi.deleteSubmit(submitId);
+   window.location.reload();
+  };
 
+  
   useTitle("Test");
   return (
     <>
@@ -191,6 +193,7 @@ export default function StartTestPage() {
                 submitAnswers5 ={submitAnswers5}
                 submitAnswers6 ={submitAnswers6}
                 submitAnswers7 ={submitAnswers7}
+             
               ></Pagination>
               <Part 
               part={currentPage}
@@ -203,6 +206,7 @@ export default function StartTestPage() {
               setSubmitAnswers5={setSubmitAnswers5}
               setSubmitAnswers6={setSubmitAnswers6}
               setSubmitAnswers7={setSubmitAnswers7}
+             
               />
               
               
@@ -210,18 +214,27 @@ export default function StartTestPage() {
           </Grid>
           <Grid item lg={4} md={6} xs={12}>
             <div className="my-5 d-flex jus-content-around">
-              <Timer value={test.Duration * 60} setState={setState}></Timer>
+              <Timer 
+              value={test.Duration * 60} 
+              onSubmitTest = {onSubmitTest }
+            
+              // currentPage = {currentPage}
+              // setSubmitItem={setSubmitItem}
+              // submitId={submitId}
+              // submitAnswers1 ={submitAnswers1}
+              // submitAnswers2 ={submitAnswers2}
+              // submitAnswers3 ={submitAnswers3}
+              // submitAnswers4 ={submitAnswers4}
+              // submitAnswers5 ={submitAnswers5}
+              // submitAnswers6 ={submitAnswers6}
+              // submitAnswers7 ={submitAnswers7}
+              
+              ></Timer>
               <Button className={classes.button} onClick={() => onSubmitTest()}>
                 Submit
               </Button>
             </div>
-            {/* <QuestionBoard part={1} />
-            <QuestionBoard part={2} />
-            <QuestionBoard part={3} />
-            <QuestionBoard part={4} />
-            <QuestionBoard part={5} />
-            <QuestionBoard part={6} />
-            <QuestionBoard part={7} /> */}
+         
           </Grid>
         </Grid>
       ) : (
@@ -244,6 +257,13 @@ export default function StartTestPage() {
               className={classes.button}
             >
               Quay về
+            </Button>
+            <Button
+              onClick={() =>onPlayAgain()}
+              className={classes.button}
+             
+            >
+              Chơi lại
             </Button>
           </Container>
         </div>

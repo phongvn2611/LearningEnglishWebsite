@@ -77,7 +77,7 @@ const IsCheckedAnswer = (answerId) =>{
             partQuestions?.Questions.map((question, index) => {
               return (
                 <div key={index}>
-                  <Typography>{question.Sentence}</Typography>
+                  <Typography>{question.Sentence}. {question.Content} </Typography>
                   <RadioGroup
                     aria-labelledby="demo-radio-buttons-group-label"
                     defaultValue="female"
@@ -93,7 +93,7 @@ const IsCheckedAnswer = (answerId) =>{
                               onClick={()=>addAnswers(answer)}
                               checked = {IsCheckedAnswer(answer._id)}
                                />}
-                            label={answer.Content}
+                            label={`(${answer.Sentence}) ${answer.Content}`}
                           />
                         );
                       })}
