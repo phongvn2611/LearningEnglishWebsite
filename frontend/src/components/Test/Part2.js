@@ -73,7 +73,7 @@ const IsCheckedAnswer = (answerId) =>{
         partQuestions.Questions.map((question, index) => {
           return (
             <div key={index}>
-              <Typography>{question.Sentence}.</Typography>
+              <Typography>{question.Sentence}. Mark your answer on your answer sheet.</Typography>
               <div>
                 <FormControl>
                   <RadioGroup

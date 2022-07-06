@@ -49,7 +49,14 @@ export default function Part3({ part, testId, submitId, setSubmitAnswers3 }) {
       // const indexOfFirst = indexOfLast - 1;
       setPartQuestions(res.data);
 
-      console.log(res.data);
+      var audio = document.getElementById('audio');
+
+      var source = document.getElementById('audioSource');
+      source.src = res.data.Audio;
+    
+      audio.load(); //call this to just preload the audio without playing
+      audio.play(); //call this to play the song right away
+
     })();
     return () => {};
   }, [testId, part, currentPage]);
@@ -63,16 +70,23 @@ export default function Part3({ part, testId, submitId, setSubmitAnswers3 }) {
     return () => {};
   }, [testId, part]);
 
-  console.log(submitList);
+ 
+
+console.log(partQuestions)
+  console.log(currentPage);
   return (
     <div>
       <Typography variant="h5">Part 3</Typography>
+     
+
+      <div>
+
       {partQuestions?.Audio && (
         <div>
-          <audio controls>
-            <source src={partQuestions?.Audio} type="audio/mpeg" />
-            Your browser does not support the audio element.
-          </audio>
+         <audio id="audio" controls="controls">
+        <source id="audioSource" src=""></source>
+        Your browser does not support the audio format.
+      </audio>
         </div>
       )}
 
@@ -81,8 +95,6 @@ export default function Part3({ part, testId, submitId, setSubmitAnswers3 }) {
           <img src={partQuestions.Image} alt="" width="500" height="300" />
         </div>
       )}
-
-      <div>
         <FormControl>
           {partQuestions?.Questions &&
             partQuestions?.Questions.map((question, index) => {

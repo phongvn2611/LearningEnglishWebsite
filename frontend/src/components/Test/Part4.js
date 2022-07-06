@@ -46,6 +46,15 @@ const IsCheckedAnswer = (answerId) =>{
       // const indexOfLast = currentPage;
       // const indexOfFirst = indexOfLast - 1;
       setPartQuestions(res.data);
+
+      var audio = document.getElementById('audio');
+
+      var source = document.getElementById('audioSource');
+      source.src = res.data.Audio;
+    
+      audio.load(); //call this to just preload the audio without playing
+      audio.play(); //call this to play the song right away
+
     })();
     return () => {};
   }, [testId, part, currentPage]);
@@ -64,10 +73,10 @@ const IsCheckedAnswer = (answerId) =>{
       <Typography variant="h5">Part 4</Typography>
       {partQuestions?.Audio && (
         <div>
-          <audio controls>
-            <source src={partQuestions?.Audio} type="audio/mpeg" />
-            Your browser does not support the audio element.
-          </audio>          
+           <audio id="audio" controls="controls">
+        <source id="audioSource" src=""></source>
+        Your browser does not support the audio format.
+      </audio>          
         </div>
       )}
 
