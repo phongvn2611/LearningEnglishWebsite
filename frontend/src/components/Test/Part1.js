@@ -9,11 +9,13 @@ import {
 import Pagination from "./Pagination";
 import fileTestApi from "apis/fileTestApi";
 import submitTestApi from "apis/submitTestApi";
+import { AudioCard } from "material-ui-player";
 
 export default function Part1({ part, testId, submitId, setSubmitAnswers1 }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [partQuestions, setPartQuestions] = useState([]);
   const [submitList, setSubmitList] = useState([]);
+  const [isPlaying, setIsPlaying] = useState(true);
 
   const addAnswers = (answer) => {
     let checkExisted = submitList.some(
@@ -66,10 +68,7 @@ export default function Part1({ part, testId, submitId, setSubmitAnswers1 }) {
       <Typography variant="h5">Part 1</Typography>
       {partQuestions.Audio && (
         <div>
-          <audio controls>
-            <source src={partQuestions.Audio} type="audio/mpeg" />
-            Your browser does not support the audio element.
-          </audio>
+          <AudioCard src={isPlaying === true && partQuestions.Audio} onEnded={() => setIsPlaying(false)}></AudioCard>
         </div>
       )}
 

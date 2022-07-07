@@ -9,51 +9,48 @@ import {
 import Pagination from "./Pagination";
 import fileTestApi from "apis/fileTestApi";
 import submitTestApi from "apis/submitTestApi";
+import { AudioCard } from "material-ui-player";
 
-export default function Part4({ part, testId, submitId, setSubmitAnswers4}) {
+export default function Part4({ part, testId, submitId, setSubmitAnswers4 }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [partQuestions, setPartQuestions] = useState([]);
   const [submitList, setSubmitList] = useState([]);
- 
-  const addAnswers = (answer) =>{
-    let checkExisted = submitList.some(item =>
-      answer.QuestionTestId === item.QuestionTestId
+  const [isPlaying, setIsPlaying] = useState(true);
+
+  const addAnswers = (answer) => {
+    let checkExisted = submitList.some(
+      (item) => answer.QuestionTestId === item.QuestionTestId
     );
 
     let newList = [];
-    if(checkExisted === true){
-      newList = submitList.filter(item => item.QuestionTestId !== answer.QuestionTestId);     
+    if (checkExisted === true) {
+      newList = submitList.filter(
+        (item) => item.QuestionTestId !== answer.QuestionTestId
+      );
+    } else {
+      newList = submitList;
     }
-    else{
-      newList = submitList;      
-    }
-    
+
     newList.push(answer);
     setSubmitList(newList);
-    setSubmitAnswers4(newList);    
-}
+    setSubmitAnswers4(newList);
+  };
 
-const IsCheckedAnswer = (answerId) =>{
-  let checkedAnswer = submitList.some(item =>
-    answerId === item._id
-  );
-  return checkedAnswer;    
-}
+  const IsCheckedAnswer = (answerId) => {
+    let checkedAnswer = submitList.some((item) => answerId === item._id);
+    return checkedAnswer;
+  };
 
   useEffect(() => {
     (async function () {
-      const res = await fileTestApi.getAllQuestionsOfFile(testId, part, currentPage);
+      const res = await fileTestApi.getAllQuestionsOfFile(
+        testId,
+        part,
+        currentPage
+      );
       // const indexOfLast = currentPage;
       // const indexOfFirst = indexOfLast - 1;
       setPartQuestions(res.data);
-
-      var audio = document.getElementById('audio');
-
-      var source = document.getElementById('audioSource');
-      source.src = res.data.Audio;
-    
-      audio.load(); //call this to just preload the audio without playing
-      audio.play(); //call this to play the song right away
 
     })();
     return () => {};
@@ -73,17 +70,14 @@ const IsCheckedAnswer = (answerId) =>{
       <Typography variant="h5">Part 4</Typography>
       {partQuestions?.Audio && (
         <div>
-           <audio id="audio" controls="controls">
-        <source id="audioSource" src=""></source>
-        Your browser does not support the audio format.
-      </audio>          
+          <AudioCard src={isPlaying === true && partQuestions?.Audio} onEnded={() => setIsPlaying(false)}></AudioCard>
         </div>
       )}
 
-    {partQuestions?.Image && (
-            <div>
-              <img src={partQuestions.Image} alt="" width="500" height="300" />         
-            </div>
+      {partQuestions?.Image && (
+        <div>
+          <img src={partQuestions.Image} alt="" width="500" height="300" />
+        </div>
       )}
 
       <div>
@@ -92,7 +86,9 @@ const IsCheckedAnswer = (answerId) =>{
             partQuestions?.Questions.map((question, index) => {
               return (
                 <div key={index}>
-                  <Typography>{question.Sentence}. {question.Content}</Typography>
+                  <Typography>
+                    {question.Sentence}. {question.Content}
+                  </Typography>
                   <RadioGroup
                     aria-labelledby="demo-radio-buttons-group-label"
                     defaultValue="female"
@@ -104,10 +100,12 @@ const IsCheckedAnswer = (answerId) =>{
                           <FormControlLabel
                             key={index}
                             value={answer.Sentence}
-                            control={<Radio
-                              onClick={()=>addAnswers(answer)}
-                              checked = {IsCheckedAnswer(answer._id)}
-                               />}
+                            control={
+                              <Radio
+                                onClick={() => addAnswers(answer)}
+                                checked={IsCheckedAnswer(answer._id)}
+                              />
+                            }
                             label={`(${answer.Sentence}) ${answer.Content}`}
                           />
                         );
@@ -118,12 +116,12 @@ const IsCheckedAnswer = (answerId) =>{
             })}
         </FormControl>
       </div>
-      <Pagination 
-        pages={10} 
+      <Pagination
+        pages={10}
         setCurrentPage={setCurrentPage}
         submitAnswers4={submitList}
-        submitId={submitId}>
-      </Pagination>
+        submitId={submitId}
+      ></Pagination>
     </div>
   );
 }

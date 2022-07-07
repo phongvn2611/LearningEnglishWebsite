@@ -9,11 +9,13 @@ import {
 import Pagination from "./Pagination";
 import fileTestApi from "apis/fileTestApi";
 import submitTestApi from "apis/submitTestApi";
+import { AudioCard } from "material-ui-player";
 
 export default function Part3({ part, testId, submitId, setSubmitAnswers3 }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [partQuestions, setPartQuestions] = useState([]);
   const [submitList, setSubmitList] = useState([]);
+  const [isPlaying, setIsPlaying] = useState(true);
 
   const addAnswers = (answer) => {
     let checkExisted = submitList.some(
@@ -49,14 +51,6 @@ export default function Part3({ part, testId, submitId, setSubmitAnswers3 }) {
       // const indexOfFirst = indexOfLast - 1;
       setPartQuestions(res.data);
 
-      var audio = document.getElementById('audio');
-
-      var source = document.getElementById('audioSource');
-      source.src = res.data.Audio;
-    
-      audio.load(); //call this to just preload the audio without playing
-      audio.play(); //call this to play the song right away
-
     })();
     return () => {};
   }, [testId, part, currentPage]);
@@ -70,31 +64,24 @@ export default function Part3({ part, testId, submitId, setSubmitAnswers3 }) {
     return () => {};
   }, [testId, part]);
 
- 
-
-console.log(partQuestions)
+  console.log(partQuestions);
   console.log(currentPage);
   return (
     <div>
       <Typography variant="h5">Part 3</Typography>
-     
 
       <div>
+        {partQuestions?.Audio && (
+          <div>
+            <AudioCard src={isPlaying === true && partQuestions?.Audio} onEnded={() => setIsPlaying(false)}></AudioCard>
+          </div>
+        )}
 
-      {partQuestions?.Audio && (
-        <div>
-         <audio id="audio" controls="controls">
-        <source id="audioSource" src=""></source>
-        Your browser does not support the audio format.
-      </audio>
-        </div>
-      )}
-
-      {partQuestions?.Image && (
-        <div>
-          <img src={partQuestions.Image} alt="" width="500" height="300" />
-        </div>
-      )}
+        {partQuestions?.Image && (
+          <div>
+            <img src={partQuestions.Image} alt="" width="500" height="300" />
+          </div>
+        )}
         <FormControl>
           {partQuestions?.Questions &&
             partQuestions?.Questions.map((question, index) => {
